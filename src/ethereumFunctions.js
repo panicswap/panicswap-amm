@@ -2,10 +2,10 @@ import { Contract, ethers } from "ethers";
 import * as chains from "./constants/chains";
 import COINS from "./constants/coins";
 
-const ROUTER = require("./build/UniswapV2Router02.json");
+const ROUTER = require("./build/SolidRouter.json");
 const ERC20 = require("./build/ERC20.json");
-const FACTORY = require("./build/IUniswapV2Factory.json");
-const PAIR = require("./build/IUniswapV2Pair.json");
+const FACTORY = require("./build/SolidFactory.json");
+const PAIR = require("./build/SolidPair.json");
 
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
