@@ -9,7 +9,7 @@
         },
         {
           "internalType": "address",
-          "name": "_WETH",
+          "name": "_weth",
           "type": "address"
         }
       ],
@@ -18,7 +18,7 @@
     },
     {
       "inputs": [],
-      "name": "WETH",
+      "name": "weth",
       "outputs": [
         {
           "internalType": "address",

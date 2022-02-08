@@ -140,7 +140,7 @@ export async function swapTokens(
   );
 
   await token1.approve(routerContract.address, amountIn);
-  const wethAddress = await routerContract.WETH();
+  const wethAddress = await routerContract.weth();
 
   if (address1 === wethAddress) {
     // Eth -> Token

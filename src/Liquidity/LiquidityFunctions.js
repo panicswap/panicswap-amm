@@ -45,7 +45,7 @@ export async function addLiquidity(
   await token1.approve(routerContract.address, amountIn1);
   await token2.approve(routerContract.address, amountIn2);
 
-  const wethAddress = await routerContract.WETH();
+  const wethAddress = await routerContract.weth();
 
   console.log([
     address1,
@@ -139,7 +139,7 @@ export async function removeLiquidity(
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
 
-  const wethAddress = await routerContract.WETH();
+  const wethAddress = await routerContract.weth();
   const pairAddress = await factory.getPair(address1, address2);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
