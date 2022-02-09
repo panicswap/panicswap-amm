@@ -161,7 +161,7 @@ function LiquidityRemover(props) {
       coin1.address,
       coin2.address,
       field1Value,
-      0,
+      0, // todo frontrunning
       0,
       router,
       account,

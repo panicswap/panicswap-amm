@@ -343,7 +343,9 @@ export async function quoteRemoveLiquidity(
   const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF"; // TODO boolean
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
-  const hh = await router.quoteRemoveLiquidity(address1, address2, false, liquidity); // TODO boolean
-  console.log("result", hh);
-  return [0,0,0];
+  const liqWei = ethers.utils.parseEther(liquidity);
+
+  const hh = await router.quoteRemoveLiquidity(address1, address2, false, liqWei); // TODO boolean
+  console.log("result", hh, liquidity);
+  return [liquidity,hh["amountA"]/1e18,hh["amountB"]/1e18];
 }
