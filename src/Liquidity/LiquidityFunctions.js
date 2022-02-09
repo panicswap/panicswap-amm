@@ -122,7 +122,6 @@ export async function removeLiquidity(
 ) {
   const token1 = new Contract(address1, ERC20.abi, signer);
   const token2 = new Contract(address2, ERC20.abi, signer);
-
   const token1Decimals = await getDecimals(token1);
   const token2Decimals = await getDecimals(token2);
 
@@ -143,7 +142,7 @@ export async function removeLiquidity(
   const deadline = ethers.BigNumber.from(time);
 
   const wethAddress = await routerContract.weth();
-  const pairAddress = await factory.getPair(address1, address2);
+  const pairAddress = await factory.getPair(address1, address2, false); // todo boolean
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
   await pair.approve(routerContract.address, liquidity);
