@@ -245,11 +245,11 @@ function LiquidityDeployer(props) {
   // This hook is called when either of the state variables `coin1.address` or `coin2.address` change.
   // This means that when the user selects a different coin to convert between, or the coins are swapped,
   // the new reserves will be calculated.
+  // ToDo reserves
   useEffect(() => {
     console.log(
-      "Trying to get reserves between:\n" + coin1.address + "\n" + coin2.address
+      "Trying to get reserves M1 between:\n" + coin1.address + "\n" + coin2.address
     );
-
     if (coin1.address && coin2.address && account) {
       getReserves(coin1.address, coin2.address, factory, signer, account).then(
         (data) => {

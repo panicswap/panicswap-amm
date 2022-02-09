@@ -126,7 +126,7 @@ export async function swapTokens(
   accountAddress,
   signer
 ) {
-  const tokens = [address1, address2];
+  const tokens = [[address1, address2, false]]; // TODO check boolean
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
 
@@ -192,7 +192,7 @@ export async function getAmountOut(
 
     const values_out = await routerContract.getAmountsOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
-      [address1, address2]
+      [[address1, address2, false]] // TODO boolean
     );
     const amount_out = values_out[1]*10**(-token2Decimals);
     console.log('amount out: ', amount_out)
@@ -253,9 +253,8 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const pairAddress = await factory.getPair(address1, address2);
+    const pairAddress = await factory.getPair(address1, address2, false); // TODO stable
     const pair = new Contract(pairAddress, PAIR.abi, signer);
-  
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
   
       const reservesRaw = await fetchReserves(address1, address2, pair, signer);

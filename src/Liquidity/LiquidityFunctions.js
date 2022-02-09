@@ -3,7 +3,7 @@ import { fetchReserves, getDecimals } from "../ethereumFunctions";
 
 const ERC20 = require("../build/ERC20.json");
 const PAIR = require("../build/SolidPair.json");
-
+const ROUTER = require("../build/SolidRouter.json");
 // Function used to add Liquidity to any pair of tokens or token-AUT
 // To work correctly, there needs to be 9 arguments:
 //    `address1` - An Ethereum address of the coin to add from (either a token or AUT)
@@ -62,6 +62,7 @@ export async function addLiquidity(
     // Eth + Token
     await routerContract.addLiquidityETH(
       address2,
+      false, // TODO stable
       amountIn2,
       amount2Min,
       amount1Min,
@@ -73,6 +74,7 @@ export async function addLiquidity(
     // Token + Eth
     await routerContract.addLiquidityETH(
       address1,
+      false,  // TODO stable
       amountIn1,
       amount1Min,
       amount2Min,
@@ -85,6 +87,7 @@ export async function addLiquidity(
     await routerContract.addLiquidity(
       address1,
       address2,
+      false, // TODO stable
       amountIn1,
       amountIn2,
       amount1Min,
@@ -159,6 +162,7 @@ export async function removeLiquidity(
     // Eth + Token
     await routerContract.removeLiquidityETH(
       address2,
+      false, // TODO boolean
       liquidity,
       amount2Min,
       amount1Min,
@@ -169,6 +173,7 @@ export async function removeLiquidity(
     // Token + Eth
     await routerContract.removeLiquidityETH(
       address1,
+      false, // TODO boolean
       liquidity,
       amount1Min,
       amount2Min,
@@ -180,6 +185,7 @@ export async function removeLiquidity(
     await routerContract.removeLiquidity(
       address1,
       address2,
+      false, // TODO boolean
       liquidity,
       amount1Min,
       amount2Min,
@@ -189,6 +195,7 @@ export async function removeLiquidity(
   }
 }
 
+//TODO check
 const quote = (amount1, reserve1, reserve2) => {
   const amount2 = amount1 * (reserve2 / reserve1);
   return [amount2];
@@ -214,7 +221,7 @@ async function quoteMintLiquidity(
   let _reserveA = 0;
   let _reserveB = 0;
   let totalSupply = 0;
-  [_reserveA, _reserveB, totalSupply] = await factory.getPair(address1, address2).then(async (pairAddress) => {
+  [_reserveA, _reserveB, totalSupply] = await factory.getPair(address1, address2, false).then(async (pairAddress) => { // TODO boolean
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
       const pair = new Contract(pairAddress, PAIR.abi, signer);
 
@@ -262,7 +269,7 @@ export async function quoteAddLiquidity(
   signer
 ) {
 
-  const pairAddress = await factory.getPair(address1, address2);
+  const pairAddress = await factory.getPair(address1, address2, false); // TODO boolean
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
   const reservesRaw = await fetchReserves(address1, address2, pair, signer); // Returns the reserves already formated as ethers
@@ -333,32 +340,10 @@ export async function quoteRemoveLiquidity(
   factory,
   signer
 ) {
-  const pairAddress = await factory.getPair(address1, address2);
-  console.log("pair address", pairAddress);
-  const pair = new Contract(pairAddress, PAIR.abi, signer);
+  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF"; // TODO boolean
+  const router = new Contract(routerAddress, ROUTER.abi, signer);
 
-  const reservesRaw = await fetchReserves(address1, address2, pair, signer); // Returns the reserves already formated as ethers
-  const reserveA = reservesRaw[0];
-  const reserveB = reservesRaw[1];
-
-  const feeOn =
-    (await factory.feeTo()) !== 0x0000000000000000000000000000000000000000;
-
-  const _kLast = await pair.kLast();
-  const kLast = Number(ethers.utils.formatEther(_kLast));
-
-  const _totalSupply = await pair.totalSupply();
-  let totalSupply = Number(ethers.utils.formatEther(_totalSupply));
-
-  if (feeOn && kLast > 0) {
-    const feeLiquidity =
-      (totalSupply * (Math.sqrt(reserveA * reserveB) - Math.sqrt(kLast))) /
-      (5 * Math.sqrt(reserveA * reserveB) + Math.sqrt(kLast));
-    totalSupply = totalSupply + feeLiquidity;
-  }
-
-  const Aout = (reserveA * liquidity) / totalSupply;
-  const Bout = (reserveB * liquidity) / totalSupply;
-
-  return [liquidity, Aout, Bout];
+  const hh = await router.quoteRemoveLiquidity(address1, address2, false, liquidity); // TODO boolean
+  console.log("result", hh);
+  return [0,0,0];
 }

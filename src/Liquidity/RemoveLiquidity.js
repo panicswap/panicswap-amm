@@ -233,7 +233,7 @@ function LiquidityRemover(props) {
   // the new reserves will be calculated.
   useEffect(() => {
     console.log(
-      "Trying to get reserves between:\n" + coin1.address + "\n" + coin2.address
+      "Trying to get reserves M1 between:\n" + coin1.address + "\n" + coin2.address
     );
 
     if (coin1.address && coin2.address && account) {
