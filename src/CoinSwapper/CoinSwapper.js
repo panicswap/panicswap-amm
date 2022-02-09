@@ -321,18 +321,12 @@ function CoinSwapper(props) {
         setChainId(chainId);
         return chainId;
       });
-      console.log("lfg1"); //TODO delete
       if (chains.networks.includes(chainId)){
-        console.log("lfg2"); //TODO delete
         setwrongNetworkOpen(false);
-        console.log("lfg3"); //TODO delete
         console.log('chainID: ', chainId);
-        console.log("lfg4"); //TODO delete
         // Get the router using the chainID
         const router = await getRouter (chains.routerAddress.get(chainId), signer)
-        console.log("lfg5", chains.routerAddress.get(chainId)); //TODO delete
         setRouter(router);
-        console.log("lfg6"); //TODO delete
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -342,7 +336,6 @@ function CoinSwapper(props) {
           coins[0].address = wethAddress;
           setCoins(coins);
         });
-        console.log("lfg7"); //TODO delete
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
           setFactory(getFactory (factory_address, signer));
@@ -351,7 +344,6 @@ function CoinSwapper(props) {
         console.log('Wrong network mate.');
         setwrongNetworkOpen(true);
       }
-      console.log("lfgF"); //TODO delete
     }
 
     Network()
