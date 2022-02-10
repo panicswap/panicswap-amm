@@ -118,7 +118,7 @@ export async function getBalanceAndSymbol(
 //    `routerContract` - The router contract to carry out this trade
 //    `accountAddress` - An Ethereum address of the current user's account
 //    `signer` - The current signer
-export async function swapTokens(
+export async function swapTokens( // todo removed bool from interface
   address1,
   address2,
   amount,
@@ -126,27 +126,48 @@ export async function swapTokens(
   accountAddress,
   signer
 ) {
-  const tokens = [[address1, address2, false]]; // TODO check boolean
+  const vtokens = [[address1, address2, false]];
+  const stokens = [[address1, address2, true]];
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
 
   const token1 = new Contract(address1, ERC20.abi, signer);
   const tokenDecimals = await getDecimals(token1);
-  
-  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
-  const amountOut = await routerContract.callStatic.getAmountsOut(
-    amountIn,
-    tokens
-  );
 
+  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
+
+  let vamountOut = 0;
+  let samountOut = 0;
+
+  try{
+  vamountOut = await routerContract.callStatic.getAmountsOut(
+    amountIn,
+    vtokens
+  );
+  }catch{
+   console.log("error, maybe no liq on v pair");
+  }
+
+  try{
+  samountOut = await routerContract.callStatic.getAmountsOut(
+    amountIn,
+    stokens
+  );
+  }catch{
+   console.log("error, maybe no liq on s pair");
+  }
+
+  const [actualTokens, actualAmountOut] = vamountOut[1] > samountOut[1] ? [vtokens, vamountOut] : [stokens, samountOut];
+
+  // TODO check approval. If approved dont
   await token1.approve(routerContract.address, amountIn);
   const wethAddress = await routerContract.weth();
 
   if (address1 === wethAddress) {
     // Eth -> Token
     await routerContract.swapExactETHForTokens(
-      amountOut[1],
-      tokens,
+      actualAmountOut[1],
+      actualTokens,
       accountAddress,
       deadline,
       { value: amountIn }
@@ -155,16 +176,16 @@ export async function swapTokens(
     // Token -> Eth
     await routerContract.swapExactTokensForETH(
       amountIn,
-      amountOut[1],
-      tokens,
+      actualAmountOut[1],
+      actualTokens,
       accountAddress,
       deadline
     );
   } else {
     await routerContract.swapExactTokensForTokens(
       amountIn,
-      amountOut[1],
-      tokens,
+      actualAmountOut[1],
+      actualTokens,
       accountAddress,
       deadline
     );
@@ -190,11 +211,19 @@ export async function getAmountOut(
     const token2 = new Contract(address2, ERC20.abi, signer);
     const token2Decimals = await getDecimals(token2);
 
-    const values_out = await routerContract.getAmountsOut(
+    const svalues_out = await routerContract.getAmountsOut(
+      ethers.utils.parseUnits(String(amountIn), token1Decimals),
+      [[address1, address2, true]] // TODO boolean
+    );
+
+    const vvalues_out = await routerContract.getAmountsOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
       [[address1, address2, false]] // TODO boolean
     );
-    const amount_out = values_out[1]*10**(-token2Decimals);
+
+    const actualValuesOut = vvalues_out[1] > svalues_out[1] ? vvalues_out[1] : svalues_out[1];
+
+    const amount_out = actualValuesOut*10**(-token2Decimals);
     console.log('amount out: ', amount_out)
     return Number(amount_out);
   } catch {
@@ -253,7 +282,7 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const pairAddress = await factory.getPair(address1, address2, false); // TODO stable
+    const pairAddress = await factory.getPair(address1, address2, false); // TODO table
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
   

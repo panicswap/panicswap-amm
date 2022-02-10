@@ -170,6 +170,7 @@ function LiquidityDeployer(props) {
     console.log("Attempting to deploy liquidity...");
     setLoading(true);
 
+    // TODO frontrunning
     addLiquidity(
       coin1.address,
       coin2.address,
