@@ -20,6 +20,7 @@ import CoinField from "../CoinSwapper/CoinField";
 import CoinDialog from "../CoinSwapper/CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
+import ToggleStable from "../Components/ToggleStable";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 
@@ -421,6 +422,8 @@ function LiquidityDeployer(props) {
         spacing={4}
         className={classes.balance}
       >
+        
+        <ToggleStable />
         <hr className={classes.hr} />
         <Grid
           container

@@ -5,6 +5,7 @@ import {
   makeStyles,
   Paper,
   Typography,
+  Switch
 } from "@material-ui/core";
 
 import SwitchButton from "./SwitchButton";
@@ -49,8 +50,9 @@ function Liquidity() {
         <Paper className={classes.paperContainer}>
           <Typography variant="h5" className={classes.title}>
             <SwitchButton setDeploy={setDeploy} />
+            <input type="checkbox" id="stable" /> Stableswap
+            
           </Typography>
-
           {deploy_or_remove(deploy)}
         </Paper>
       </Container>

@@ -398,6 +398,7 @@ function LiquidityRemover(props) {
         spacing={4}
         className={classes.balance}
       >
+        
         <hr className={classes.hr} />
         <Grid
           container

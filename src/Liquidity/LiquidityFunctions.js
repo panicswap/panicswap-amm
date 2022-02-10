@@ -27,6 +27,7 @@ export async function addLiquidity(
   account,
   signer
 ) {
+  const stable = document.getElementById("stable").checked;
   const token1 = new Contract(address1, ERC20.abi, signer);
   const token2 = new Contract(address2, ERC20.abi, signer);
 
@@ -36,8 +37,20 @@ export async function addLiquidity(
   const amountIn1 = ethers.utils.parseUnits(amount1, token1Decimals);
   const amountIn2 = ethers.utils.parseUnits(amount2, token2Decimals);
 
-  const amount1Min = ethers.utils.parseUnits(amount1min, token1Decimals);
-  const amount2Min = ethers.utils.parseUnits(amount2min, token2Decimals);
+  // Not implemented yet, gotta quote
+  // const amount1Min = ethers.utils.parseUnits(amount1min, token1Decimals);
+  // const amount2Min = ethers.utils.parseUnits(amount2min, token2Decimals);
+
+  console.log("quoting add deploy");
+
+  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const router = new Contract(routerAddress, ROUTER.abi, signer);
+
+  const hh = await router.quoteAddLiquidity(address1, address2, stable, amountIn1, amountIn2);
+
+  const [amount1Min, amount2Min, liq] = hh;
+
+  console.log("add deploy details", hh);
 
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
@@ -62,7 +75,7 @@ export async function addLiquidity(
     // Eth + Token
     await routerContract.addLiquidityETH(
       address2,
-      false, // TODO stable
+      stable,
       amountIn2,
       amount2Min,
       amount1Min,
@@ -74,7 +87,7 @@ export async function addLiquidity(
     // Token + Eth
     await routerContract.addLiquidityETH(
       address1,
-      false,  // TODO stable
+      stable,
       amountIn1,
       amount1Min,
       amount2Min,
@@ -87,7 +100,7 @@ export async function addLiquidity(
     await routerContract.addLiquidity(
       address1,
       address2,
-      false, // TODO stable
+      stable,
       amountIn1,
       amountIn2,
       amount1Min,
@@ -120,6 +133,8 @@ export async function removeLiquidity(
   signer,
   factory
 ) {
+  const stable = document.getElementById("stable").checked;
+
   const token1 = new Contract(address1, ERC20.abi, signer);
   const token2 = new Contract(address2, ERC20.abi, signer);
   const token1Decimals = await getDecimals(token1);
@@ -135,17 +150,27 @@ export async function removeLiquidity(
   const liquidity = Getliquidity(liquidity_tokens);
   console.log('liquidity: ', liquidity);
 
-  const amount1Min = ethers.utils.parseUnits(String(amount1min), token1Decimals);
-  const amount2Min = ethers.utils.parseUnits(String(amount2min), token2Decimals);
+  // should be implemented before this but It's not
+  // const amount1Min = ethers.utils.parseUnits(String(amount1min), token1Decimals);
+  // const amount2Min = ethers.utils.parseUnits(String(amount2min), token2Decimals);
+  console.log("quoting remove deploy");
+
+  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const router = new Contract(routerAddress, ROUTER.abi, signer);
+
+  const [amount1Min, amount2Min] = await router.quoteRemoveLiquidity(address1, address2, stable, liquidity);
+
+  console.log("withdraw amounts", amount1Min, amount2Min);
 
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
 
   const wethAddress = await routerContract.weth();
-  const pairAddress = await factory.getPair(address1, address2, false); // todo boolean
+  const pairAddress = await factory.getPair(address1, address2, stable);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
-  await pair.approve(routerContract.address, liquidity);
+  // TODO already approved, but you don't know
+  // await pair.approve(routerContract.address, liquidity);
 
   console.log([
     address1,
@@ -161,7 +186,7 @@ export async function removeLiquidity(
     // Eth + Token
     await routerContract.removeLiquidityETH(
       address2,
-      false, // TODO boolean
+      stable,
       liquidity,
       amount2Min,
       amount1Min,
@@ -207,7 +232,7 @@ const quote = (amount1, reserve1, reserve2) => {
 //    `amountB_desired` - The prefered value of the second token that the user would like to deploy as liquidity
 //    `factory` - The current factory
 //    `signer` - The current signer
-
+// todo deprecated?
 async function quoteMintLiquidity(
   address1,
   address2,
@@ -267,62 +292,21 @@ export async function quoteAddLiquidity(
   factory,
   signer
 ) {
+  console.log("quoting add");
+  const stable = document.getElementById("stable").checked;
+  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const router = new Contract(routerAddress, ROUTER.abi, signer);
 
-  const pairAddress = await factory.getPair(address1, address2, false); // TODO boolean
-  const pair = new Contract(pairAddress, PAIR.abi, signer);
+  //const liqWei = ethers.utils.parseEther(liquidity);
 
-  const reservesRaw = await fetchReserves(address1, address2, pair, signer); // Returns the reserves already formated as ethers
-  const reserveA = reservesRaw[0];
-  const reserveB = reservesRaw[1];
+  const hh = await router.quoteAddLiquidity(address1, address2, stable, ethers.utils.parseEther(amountADesired), ethers.utils.parseEther(amountBDesired));
+  console.log("quote add", hh);
 
-  if (reserveA === 0 && reserveB === 0) {
-    const amountOut = await quoteMintLiquidity(
-      address1,
-      address2,
-      amountADesired,
-      amountBDesired,
-      factory,
-      signer);
-    return [
-      amountADesired,
-      amountBDesired,
-      amountOut.toPrecision(8),
+  return [
+      hh["amountA"]/1e18,
+      hh["amountB"]/1e18,
+      hh["liquidity"]/1e18,
     ];
-  } else {
-    const amountBOptimal = quote(amountADesired, reserveA, reserveB);
-    if (amountBOptimal <= amountBDesired) {
-      const amountOut = await quoteMintLiquidity(
-        address1,
-        address2,
-        amountADesired,
-        amountBOptimal,
-        factory,
-        signer);
-      return [
-        amountADesired,
-        amountBOptimal,
-        amountOut.toPrecision(8),
-      ];
-    } else {
-      const amountAOptimal = quote(
-        amountBDesired,
-        reserveB,
-        reserveA
-      );
-      const amountOut = await quoteMintLiquidity(
-        address1,
-        address2,
-        amountAOptimal,
-        amountBDesired,
-        factory,
-        signer);
-      return [
-        amountAOptimal,
-        amountBDesired,
-        amountOut.toPrecision(8),
-      ];
-    }
-  }
 }
 
 // Function used to get a quote of the liquidity removal
@@ -339,12 +323,13 @@ export async function quoteRemoveLiquidity(
   factory,
   signer
 ) {
-  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF"; // TODO boolean
+  const stable = document.getElementById("stable").checked;
+  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const liqWei = ethers.utils.parseEther(liquidity);
 
-  const hh = await router.quoteRemoveLiquidity(address1, address2, false, liqWei); // TODO boolean
-  console.log("result", hh, liquidity);
+  const hh = await router.quoteRemoveLiquidity(address1, address2, stable, liqWei); // TODO boolean
+  console.log("quote remove", hh, liquidity);
   return [liquidity,hh["amountA"]/1e18,hh["amountB"]/1e18];
 }
