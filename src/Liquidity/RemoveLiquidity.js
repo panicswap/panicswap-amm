@@ -452,7 +452,6 @@ function LiquidityRemover(props) {
         </Grid>
 
         <Paper className={classes.paperContainer}>
-          {/*Red  Display to show the quote */}
           <Grid
             container
             item

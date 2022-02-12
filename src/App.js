@@ -26,6 +26,11 @@ const theme = createTheme({
       contrastText: "#555",
     },
   },
+  shadows: [
+    "none",
+    "0px 3px 10px -1px rgb(0 0 0 / 20%)",
+    ...Array(23).fill('none')
+  ],
 });
 
 function App() {

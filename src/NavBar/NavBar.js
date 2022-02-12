@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { NavLink  } from "react-router-dom";
 import { MenuItems } from "./MenuItems";
 import "./NavBar.css";
 
@@ -14,9 +14,9 @@ class NavBar extends Component {
             {MenuItems.map((item, index) => {
               return (
                 <li key={index}>
-                  <Link className={"nav-links"} to={item.url}>
+                  <NavLink className={"nav-links"} to={item.url}>
                     {item.title}
-                  </Link>
+                  </NavLink>
                 </li>
               );
             })}

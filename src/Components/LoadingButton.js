@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, CircularProgress, makeStyles } from "@material-ui/core";
 import green from "@material-ui/core/colors/green";
-import red from "@material-ui/core/colors/red";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {

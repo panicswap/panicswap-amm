@@ -1,7 +1,7 @@
 #header {
   text-align: center;
   font-size: 1rem;
-  margin: 3rem auto 2rem;
+  margin: 2rem auto 1.5rem;
 }
 #header h1 {
   color: #3cc6f4;
@@ -10,5 +10,5 @@
   cursor: pointer;
 }
 #header .logo {
-  max-width: 320px;
+  max-width: 280px;
 }

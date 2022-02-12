@@ -38,7 +38,7 @@ const styles = (theme) => ({
   },
   switchButton: {
     zIndex: 1,
-    margin: "-16px",
+    margin: "-24px",
     padding: theme.spacing(0.5),
   },
   fullWidth: {
@@ -383,7 +383,7 @@ function CoinSwapper(props) {
             </Grid>
 
             <IconButton onClick={switchFields} className={classes.switchButton}>
-              <SwapVerticalCircleIcon fontSize="medium" />
+              <SwapVerticalCircleIcon fontSize="large" />
             </IconButton>
 
             <Grid item xs={12} className={classes.fullWidth}>
