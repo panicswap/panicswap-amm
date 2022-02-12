@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { MenuItems } from "./MenuItems";
-import logo from "../assets/img/logo.svg";
 import "./NavBar.css";
 
 class NavBar extends Component {
@@ -9,13 +8,7 @@ class NavBar extends Component {
 
   render() {
     return (
-      <nav>
-        <div className="Title">
-          <h1 className="navbar-logo">
-            <img src={logo} className="logo"></img> PanicSwap
-          </h1>
-        </div>
-
+      <nav id="nav">
         <div className="NavbarItems">
           <ul className={`nav-menu`}>
             {MenuItems.map((item, index) => {

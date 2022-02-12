@@ -6,7 +6,6 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import logo from "../assets/img/logo.svg";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -45,12 +44,6 @@ function ConnectWalletPage() {
   const classes = useStyles();
   return (
     <div>
-      <div className="Title">
-        <h1 className="navbar-logo">
-          <img src={logo} className="logo"></img> PanicSwap
-        </h1>
-      </div>
-
       <Container>
         <Paper className={classes.paperContainer}>
           <Typography

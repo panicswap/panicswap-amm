@@ -1,0 +1,14 @@
+#header {
+  text-align: center;
+  font-size: 1rem;
+  margin: 3rem auto 2rem;
+}
+#header h1 {
+  color: #3cc6f4;
+  justify-self: start;
+  margin-left: 0px;
+  cursor: pointer;
+}
+#header .logo {
+  max-width: 400px;
+}

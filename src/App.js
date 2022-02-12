@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
 import { ethers } from "ethers";
-import NarBar from "./NavBar/NavBar";
+import Header from "./Header/Header";
+import NavBar from "./NavBar/NavBar";
 import CoinSwapper from "./CoinSwapper/CoinSwapper";
 import FarmList from "./FarmList/FarmList";
 import FarmDetails from "./FarmDetails/FarmDetails";
@@ -35,7 +36,8 @@ function App() {
       <div className="App">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
-            <NarBar />
+            <Header />
+            <NavBar />
             <Route
               exact
               path="/"
@@ -72,6 +74,7 @@ function App() {
       <div className="App">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
+            <Header />
             <ConnectWalletPage />
             <Footer />
           </ThemeProvider>
