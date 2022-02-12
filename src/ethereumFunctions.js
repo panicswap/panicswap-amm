@@ -7,7 +7,8 @@ const ERC20 = require("./build/ERC20.json");
 const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
-
+const EPSSTAKING = require("./build/EpsStaking.json");
+const epsStakingAddress = "0x066Da5249e1312E95d63F7A54CB039aE36510A6E";
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
 }
@@ -237,6 +238,59 @@ export async function withdrawLp( // todo removed bool from interface
       pid,
       amountIn
     );
+}
+
+
+
+export async function claimAll(
+  chefContract,
+  signer
+) {
+  await chefContract.claimAll(
+    );
+}
+
+
+export async function stake(
+  amount,
+  lockornot,
+  signer
+) {
+  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
+  await epsContract.stake( amount, lockornot );
+}
+
+
+export async function getReward(
+  signer
+) {
+  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
+  await epsContract.getReward();
+}
+
+
+export async function exit(
+  signer
+) {
+  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
+  await epsContract.exit();
+}
+
+
+export async function withdraw(
+  amount,
+  signer
+) {
+  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
+  await epsContract.withdraw(amount);
+}
+
+
+export async function withdrawExpiredLocks(
+  signer
+) {
+  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
+  await epsContract.withdrawExpiredLocks();
 }
 
 
