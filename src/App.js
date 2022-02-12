@@ -5,6 +5,7 @@ import NarBar from "./NavBar/NavBar";
 import CoinSwapper from "./CoinSwapper/CoinSwapper";
 import FarmList from "./FarmList/FarmList";
 import FarmDetails from "./FarmDetails/FarmDetails";
+import TokenPage from "./TokenPage/TokenPage";
 import { Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Liquidity from "./Liquidity/Liquidity";
@@ -58,7 +59,7 @@ function App() {
             <Route
               exact
               path="/stake"
-              component={ () => null}
+              component={TokenPage}
             />
 
             <Footer />
