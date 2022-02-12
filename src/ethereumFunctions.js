@@ -241,6 +241,16 @@ export async function withdrawLp( // todo removed bool from interface
 
 
 
+export async function claimAll(
+  chefContract,
+  signer
+) {
+  await chefContract.claimAll(
+    );
+}
+
+
+
 //This function returns the conversion rate between two token addresses
 //    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
 //    `address2` - An Ethereum address of the token to swaped to (either a token or AUT)
