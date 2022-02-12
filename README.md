@@ -1,13 +1,5 @@
 
-# NOTE: This is a proof-of-concept. Use it at your own risk, and it's not intended for any sort of production use.
-
-Publishes to [https://clearmatics.github.io/autonity-uniswap-interface/]()
-
-Check out the blog [here](https://medium.com/clearmatics/how-i-made-a-uniswap-interface-from-scratch-b51e1027ca87)
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# PanicSwap
 
 ## Available Scripts
 
