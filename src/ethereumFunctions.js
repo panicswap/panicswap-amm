@@ -215,7 +215,27 @@ export async function depositLp( // todo removed bool from interface
 
   await chefContract.deposit(
       pid,
-      amount
+      amountIn
+    );
+}
+
+export async function withdrawLp( // todo removed bool from interface
+  pid,
+  amount,
+  chefContract,
+  accountAddress,
+  signer
+) {
+  const [lpToken,,,] = await chefContract.callStatic.poolInfo(pid);
+
+  const lpContract = new Contract(lpToken, ERC20.abi, signer);
+  const tokenDecimals = await getDecimals(lpContract);
+
+  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
+
+  await chefContract.withdraw(
+      pid,
+      amountIn
     );
 }
 
