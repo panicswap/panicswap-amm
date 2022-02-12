@@ -158,11 +158,11 @@ function FarmDetails(props) {
   const hasBalance = {
     deposit: () => {
       // @todo 
-      return false; // returns true if user has balance to deposit
+      return true; // returns true if user has balance to deposit
     },
     withdraw: () => {
       // @todo 
-      return false; // returns true if user has balance to withdraw
+      return true; // returns true if user has balance to withdraw
     }
   }
 
