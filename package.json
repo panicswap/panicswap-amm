@@ -1,5 +1,5 @@
 {
-  "name": "react-uniswap",
+  "name": "react-panicswap", 
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,7 +26,7 @@
     "prop-types": "^15.7.2",
     "notistack": "^1.0.10"
   },
-  "homepage": "https://clearmatics.github.io/autonity-uniswap-interface/",
+  "homepage": "https://panicswap.com/",
   "scripts": {
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",

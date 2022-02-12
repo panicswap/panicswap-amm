@@ -10,6 +10,7 @@ import { SnackbarProvider } from "notistack";
 import Liquidity from "./Liquidity/Liquidity";
 import ConnectWalletPage from "./Components/connectWalletPage";
 import { createTheme, ThemeProvider } from "@material-ui/core";
+import Footer from "./Components/Footer";
 
 
 const theme = createTheme({
@@ -36,29 +37,31 @@ function App() {
             <NarBar />
             <Route
               exact
-              path="/autonity-uniswap-interface/"
+              path="/"
               component={CoinSwapper}
             />
             <Route
               exact
-              path="/autonity-uniswap-interface/liquidity"
+              path="/liquidity"
               component={Liquidity}
             />
             <Route
               exact
-              path="/autonity-uniswap-interface/farms"
+              path="/farms"
               component={FarmList}
             />
             <Route
               exact
-              path="/autonity-uniswap-interface/farms/:farmId"
+              path="/farms/:farmId"
               component={FarmDetails}
             />
             <Route
               exact
-              path="/autonity-uniswap-interface/stake"
+              path="/stake"
               component={ () => null}
             />
+
+            <Footer />
           </ThemeProvider>
         </SnackbarProvider>
       </div>
@@ -69,6 +72,7 @@ function App() {
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <ConnectWalletPage />
+            <Footer />
           </ThemeProvider>
         </SnackbarProvider>
       </div>

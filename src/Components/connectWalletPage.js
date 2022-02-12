@@ -37,9 +37,6 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
   },
-  footer: {
-    marginTop: "155px",
-  },
 });
 
 const useStyles = makeStyles(styles);
@@ -50,7 +47,7 @@ function ConnectWalletPage() {
     <div>
       <div className="Title">
         <h1 className="navbar-logo">
-          <img src={logo} className="logo"></img> Autonity Uniswap
+          <img src={logo} className="logo"></img> PanicSwap
         </h1>
       </div>
 
@@ -61,24 +58,11 @@ function ConnectWalletPage() {
             className={classes.title}
             color="common.white"
           >
-            Please connect an Ethereum wallet to your browser to use the
-            application
+            Please connect your wallet to continue.
           </Typography>
         </Paper>
       </Container>
-
-      <Grid
-        container
-        className={classes.footer}
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-end"
-      >
-        <p>
-          Clearmatics Autonity Uniswap | Get AUT for use in the bakerloo testnet{" "}
-          <a href="https://faucet.bakerloo.autonity.network/">here</a>
-        </p>
-      </Grid>
+      
     </div>
   );
 }

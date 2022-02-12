@@ -65,7 +65,6 @@ function LiquidityRemover(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Stores information for the Autonity Network
   const [provider, setProvider] = React.useState(getProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
 

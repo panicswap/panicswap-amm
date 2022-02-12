@@ -57,9 +57,6 @@ const styles = (theme) => ({
     overflow: "wrap",
     textAlign: "center",
   },
-  footer: {
-    marginTop: "285px",
-  },
 });
 
 const useStyles = makeStyles(styles);
@@ -67,8 +64,6 @@ const useStyles = makeStyles(styles);
 function CoinSwapper(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-
-  // Stores information for the Autonity Network
 
   const [provider, setProvider] = React.useState(getProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
@@ -450,18 +445,6 @@ function CoinSwapper(props) {
         </Paper>
       </Container>
 
-      <Grid
-        container
-        className={classes.footer}
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-end"
-      >
-        <p>
-          Clearmatics Autonity Uniswap | Get AUT for use in the bakerloo testnet{" "}
-          <a href="https://faucet.bakerloo.autonity.network/">here</a>
-        </p>
-      </Grid>
     </div>
   );
 }
