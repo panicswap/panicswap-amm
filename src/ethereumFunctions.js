@@ -226,6 +226,21 @@ export async function depositLp( // todo removed bool from interface
 //    `address2` - An Ethereum address of the token to swaped to (either a token or AUT)
 //    `amountIn` - Amount of the token at address 1 to be swaped from
 //    `routerContract` - The router contract to carry out this swap
+export async function getUserPendingReward(
+  user,
+  chefContract,
+  signer
+) {
+  const userRewards = await chefContract.callStatic.poolInfo(user);
+  return userRewards;
+}
+
+
+//This function returns the conversion rate between two token addresses
+//    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
+//    `address2` - An Ethereum address of the token to swaped to (either a token or AUT)
+//    `amountIn` - Amount of the token at address 1 to be swaped from
+//    `routerContract` - The router contract to carry out this swap
 export async function getAmountOut(
   address1,
   address2,
