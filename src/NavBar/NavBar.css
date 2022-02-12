@@ -1,29 +1,23 @@
 .NavbarItems {
-  background: #f4f4f4;
-  height: 80px;
   display: flex;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  align-items: center;
   font-size: 1.2rem;
-  width: 75%;
-  text-align: left;
-  margin-left: 25%;
+  width: 100%;
+  margin: 1rem auto;
 }
 
 .nav-menu {
   display: grid;
   grid-template-columns: repeat(5, auto);
-  grid-gap: 50px;
+  grid-gap: 2.5rem;
   list-style: none;
-  text-align: left;
   justify-content: end;
   padding-top: 1rem;
-  padding-left: 0rem;
-  font-size: 25px;
+  font-size: 1.6rem;
 }
 
 .nav-links {
-  color: rgb(73, 73, 73);
   text-decoration: none;
   padding: 1rem;
   border-radius: 0.8rem;

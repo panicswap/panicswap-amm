@@ -31,8 +31,7 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing(3),
     width: "40%",
     overflow: "wrap",
-    background: "linear-gradient(45deg, #ff0000 30%, #FF8E53 90%)",
-    color: "white",
+    background: "#e5e5e5",
   },
   fullWidth: {
     width: "100%",
@@ -477,7 +476,6 @@ function LiquidityDeployer(props) {
           </Grid>
         </Grid>
         <Paper className={classes.paperContainer}>
-          {/*Red  Display to show the quote */}
           <Grid
             container
             item
