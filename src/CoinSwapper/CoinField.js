@@ -147,9 +147,10 @@ export default function CoinField(props) {
   //      value - string - The value of the text field
   //      onChange - (e) => void - Called when the text field changes
   //      activeField - boolean - Whether text can be entered into this field or not
+  //      userCanChoose - boolean - Whether user can select coin or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField } = props;
+  const { onClick, symbol, value, onChange, activeField, userCanChoose } = props;
 
   return (
     <div className={classes.container}>
@@ -169,7 +170,7 @@ export default function CoinField(props) {
             className={classes.fab}
           >
             {symbol}
-            <ExpandMoreIcon />
+            { userCanChoose !== false && <ExpandMoreIcon /> }
           </Fab>
         </Grid>
 

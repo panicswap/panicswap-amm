@@ -3,11 +3,14 @@ import "./App.css";
 import { ethers } from "ethers";
 import NarBar from "./NavBar/NavBar";
 import CoinSwapper from "./CoinSwapper/CoinSwapper";
+import FarmList from "./FarmList/FarmList";
+import FarmDetails from "./FarmDetails/FarmDetails";
 import { Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Liquidity from "./Liquidity/Liquidity";
 import ConnectWalletPage from "./Components/connectWalletPage";
 import { createTheme, ThemeProvider } from "@material-ui/core";
+
 
 const theme = createTheme({
   palette: {
@@ -40,6 +43,21 @@ function App() {
               exact
               path="/autonity-uniswap-interface/liquidity"
               component={Liquidity}
+            />
+            <Route
+              exact
+              path="/autonity-uniswap-interface/farms"
+              component={FarmList}
+            />
+            <Route
+              exact
+              path="/autonity-uniswap-interface/farms/:farmId"
+              component={FarmDetails}
+            />
+            <Route
+              exact
+              path="/autonity-uniswap-interface/stake"
+              component={ () => null}
             />
           </ThemeProvider>
         </SnackbarProvider>
