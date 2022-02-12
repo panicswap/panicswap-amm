@@ -6,6 +6,7 @@ const ROUTER = require("./build/SolidRouter.json");
 const ERC20 = require("./build/ERC20.json");
 const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
+const CHEF = require("./build/SolidChef.json");
 
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
@@ -191,6 +192,34 @@ export async function swapTokens( // todo removed bool from interface
     );
   }
 }
+
+
+
+export async function depositLp( // todo removed bool from interface
+  pid,
+  amount,
+  chefContract,
+  accountAddress,
+  signer
+) {
+  const [lpToken,,,] = await chefContract.callStatic.poolInfo(pid);
+
+  const lpContract = new Contract(lpToken, ERC20.abi, signer);
+  const tokenDecimals = await getDecimals(lpContract);
+
+  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
+
+  // TODO check approval. If approved dont
+  // TODO take router from variable instead
+  await lpContract.approve("0x37d2b865846293892257717aD9acD4f854AFDe3b", amountIn);
+
+  await chefContract.deposit(
+      pid,
+      amount
+    );
+}
+
+
 
 //This function returns the conversion rate between two token addresses
 //    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
