@@ -28,8 +28,8 @@ import {
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
-import CoinField from "../CoinSwapper/CoinField";
 import * as chains from "../constants/chains";
+import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -46,14 +46,14 @@ const styles = (theme) => ({
     width: "100%",
   },
   balance: {
-    padding: theme.spacing(2),
-    paddingBottom: 0,
+    marginBottom: theme.spacing(2),
     overflow: "wrap",
     textAlign: "left",
     width: "100%",
   },
   btnContainer: {
     padding: theme.spacing(2.5),
+    paddingTop: theme.spacing(8.5),
   }
 });
 
@@ -178,19 +178,20 @@ function FarmDetails(props) {
           </Typography>
 
           {/* Deposit */}
-          <Typography variant="h6" className={classes.balance}>
-            Your wallet balance: xxx
-          </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={true}
                 value={field1Value}
                 onClick={() => setDialog1Open(true)}
                 onChange={handleChange.field1}
                 symbol={lpDetails.symbol}
                 userCanChoose={false}
+                maxValue={null}
               />
+              <Typography variant="h6" className={classes.balance}>
+                Your wallet balance: xxx
+              </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
@@ -208,19 +209,20 @@ function FarmDetails(props) {
 
 
           {/* Withdraw */}
-          <Typography variant="h6" className={classes.balance}>
-            Your staked balance: xxx
-          </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={true}
                 value={field2Value}
                 onClick={() => setDialog2Open(true)}
                 onChange={handleChange.field2}
                 symbol={lpDetails.symbol}
                 userCanChoose={false}
+                maxValue={null}
               />
+              <Typography variant="h6" className={classes.balance}>
+                Your staked balance: xxx
+              </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
