@@ -40,7 +40,7 @@ const styles = (theme) => ({
     marginTop: theme.spacing(2),
   },
   balance: {
-    paddingTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   btnContainer: {
     padding: theme.spacing(2.5),

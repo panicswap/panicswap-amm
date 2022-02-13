@@ -32,7 +32,7 @@ export default function StakePage() {
   return (
     <div>
       <Container>
-        <Grid container direction="row" justifyContent="center" spacing={2}>
+        <Grid container direction="row" justifyContent="center">
           <Grid item xs={12} md={6} className={classes.rewardsContainer}>
             <Rewards />
           </Grid>
