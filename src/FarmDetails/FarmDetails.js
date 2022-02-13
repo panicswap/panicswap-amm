@@ -33,6 +33,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
+import { ethers } from "ethers";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -182,7 +183,29 @@ function FarmDetails(props) {
     }
   }, [chef]);
 
+  async function deposit(amount){
+    await chef;
   
+    const amountIn = ethers.utils.parseUnits(amount, 18);
+
+    const pInfo = await chef.poolInfo(farmId);
+    const lpt = pInfo["lpToken"];
+    console.log(lpt);
+    const lptC = getWeth(lpt, signer);
+    console.log("approving", amountIn);
+    //TODO REMOVE APPROVE
+    await lptC.approve("0x668675832FdD9601E8804c694B0E2073B676cEfF", "99999999999999999999999999999");
+    await chef.deposit(farmId, amountIn);
+  }
+
+  
+  async function withdraw(amount){
+    await chef;
+  
+    const amountIn = ethers.utils.parseUnits(amount, 18);
+
+    await chef.withdraw(farmId, amountIn);
+  }
 
   
 
@@ -233,7 +256,7 @@ function FarmDetails(props) {
                 valid={hasBalance.deposit()}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => { deposit(field1Value) }}
               >
                 Deposit
               </LoadingButton>
@@ -264,7 +287,7 @@ function FarmDetails(props) {
                 valid={hasBalance.withdraw()}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => { withdraw(field2Value) }}
               >
                 Withdraw
               </LoadingButton>
