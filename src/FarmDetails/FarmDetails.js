@@ -22,8 +22,11 @@ import {
   getAmountOut,
   getBalanceAndSymbol,
   getWeth,
+  getChef,
   swapTokens,
   getReserves,
+  getPoolInfo,
+  getUserInfo,
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -65,7 +68,7 @@ const useStyles = makeStyles(styles);
 function FarmDetails(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-
+  const { farmId } = useParams();
 
   const [provider, setProvider] = React.useState(getProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
@@ -76,6 +79,7 @@ function FarmDetails(props) {
   const [router, setRouter] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
+  const [chef, setChef] = React.useState(undefined);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -97,6 +101,11 @@ function FarmDetails(props) {
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
+  const [balanceWallet, setBalanceWallet] = React.useState(0);
+  const [balanceStaked, setBalanceStaked] = React.useState(0);
+
+
+
 
   // These functions take an HTML event, pull the data out and puts it into a state variable.
   const handleChange = {
@@ -116,6 +125,10 @@ function FarmDetails(props) {
       setAccount(account);
     });
 
+    // getBalanceAndSymbol(account, coin2.address, provider, signer, weth.address, coins).then(
+
+
+
     async function Network() {
       const chainId = await getNetwork(provider).then((chainId) => {
         setChainId(chainId);
@@ -125,8 +138,11 @@ function FarmDetails(props) {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
-        const router = await getRouter(chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(chains.routerAddress.get(chainId), signer);
+        const chef = await getChef("0x668675832FdD9601E8804c694B0E2073B676cEfF", signer);
         setRouter(router);
+        setChef(chef);
+        //getUserInfo(farmId,chef,signer);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -136,6 +152,7 @@ function FarmDetails(props) {
           coins[0].address = wethAddress;
           setCoins(coins);
         });
+        
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
           setFactory(getFactory(factory_address, signer));
@@ -150,7 +167,24 @@ function FarmDetails(props) {
 
   }, []);
 
-  const { farmId } = useParams();
+
+  useEffect( async() => {
+    if(chef){
+      const uInfo = await chef.userInfo(farmId,account);
+      setBalanceStaked(String(uInfo["amount"]/1e18));
+  
+      const pInfo = await chef.poolInfo(farmId);
+      const lpt = pInfo["lpToken"];
+      console.log(lpt);
+      const lptC = getWeth(lpt, signer);
+      const balWal = await lptC.balanceOf(account);
+      setBalanceWallet(String(balWal/1e18));
+    }
+  }, [chef]);
+
+  
+
+  
 
   const hasBalance = {
     deposit: () => {
@@ -190,7 +224,7 @@ function FarmDetails(props) {
                 maxValue={null}
               />
               <Typography variant="h6" className={classes.balance}>
-                Your wallet balance: xxx
+                Your wallet balance: <span>{balanceWallet}</span>
               </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
@@ -221,7 +255,7 @@ function FarmDetails(props) {
                 maxValue={null}
               />
               <Typography variant="h6" className={classes.balance}>
-                Your staked balance: xxx
+                Your staked balance: <span>{balanceStaked}</span>
               </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>

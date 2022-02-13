@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { ethers } from "ethers";
 import {
   useParams
 } from "react-router-dom";
@@ -23,6 +24,7 @@ import {
   getWeth,
   swapTokens,
   getReserves,
+  getEpsStaking
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -61,7 +63,9 @@ export default function Stake() {
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
+  const [stakingEps, setStakingEps] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
+  const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
 
   // Stores a record of whether their respective dialog window is open
@@ -74,6 +78,8 @@ export default function Stake() {
     symbol: undefined,
     balance: undefined,
   });
+
+  const [panicBalance, setPanicBalance] = React.useState("0");
 
   const [coins, setCoins] = React.useState([]);
 
@@ -112,8 +118,11 @@ export default function Stake() {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
-        const router = await getRouter(chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(chains.routerAddress.get(chainId), signer);
+        const stakingEps = await getEpsStaking("0x066Da5249e1312E95d63F7A54CB039aE36510A6E",signer);
         setRouter(router);
+        setStakingEps(stakingEps);
+        setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -137,7 +146,20 @@ export default function Stake() {
 
   }, []);
 
-  const { farmId } = useParams();
+  useEffect( async() => {
+    if(panic){
+      const bal = await panic.balanceOf(account);
+      setPanicBalance(String(bal/1e18));
+    }
+  }, [panic]);
+
+  async function stakePan(bal, lockrnt){
+    await stakingEps;
+    await panic;
+    const amountIn = ethers.utils.parseUnits(bal, 18);
+    await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
+    await stakingEps.stake(amountIn, lockrnt);
+  }
 
   const hasBalance = {
     deposit: () => {
@@ -157,7 +179,7 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="h6" className={classes.balance}>
-            Wallet balance: xxx PANIC
+            Wallet balance: {panicBalance} PANIC
           </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
@@ -173,10 +195,10 @@ export default function Stake() {
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
                 loading={loading}
-                valid={hasBalance.deposit()}
+                valid={true}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => {stakePan(field1Value,false)}}
               >
                 Deposit
               </LoadingButton>
@@ -199,7 +221,7 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="h6" className={classes.balance}>
-            Wallet balance: xxx PANIC
+            Wallet balance: {panicBalance} PANIC
           </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
@@ -215,10 +237,10 @@ export default function Stake() {
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
                 loading={loading}
-                valid={hasBalance.deposit()}
+                valid={true}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => {stakePan(field2Value,true)}}
               >
                 Lock
               </LoadingButton>
