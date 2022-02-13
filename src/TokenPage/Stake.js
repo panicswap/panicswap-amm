@@ -155,8 +155,9 @@ export default function Stake() {
   async function stakePan(bal, lockrnt){
     await stakingEps;
     await panic;
+    const amountIn = ethers.utils.parseUnits(bal, 18);
     await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
-    await stakingEps.stake(bal, lockrnt);
+    await stakingEps.stake(amountIn, lockrnt);
   }
 
   const hasBalance = {
