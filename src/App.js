@@ -31,6 +31,13 @@ const theme = createTheme({
     "0px 3px 10px -1px rgb(0 0 0 / 20%)",
     ...Array(23).fill('none')
   ],
+  overrides: {
+    MuiPaper: {
+      root: {
+        padding: "2rem"
+      },
+    },
+  },
 });
 
 function App() {

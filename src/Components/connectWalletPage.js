@@ -10,11 +10,9 @@ import {
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
     maxWidth: 700,
     margin: "auto",
-    marginTop: "200px",
+    marginTop: "5rem",
   },
   fullWidth: {
     width: "100%",

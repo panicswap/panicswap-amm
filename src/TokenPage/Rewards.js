@@ -12,9 +12,10 @@ import {
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
   },
+  title: {
+    marginTop: theme.spacing(2),
+  }
 });
 
 const useStyles = makeStyles(styles);

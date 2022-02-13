@@ -29,7 +29,6 @@ const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
     padding: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
     width: "40%",
     overflow: "wrap",
     background: "#e5e5e5",

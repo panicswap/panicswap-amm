@@ -34,9 +34,10 @@ import * as chains from "../constants/chains";
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
     marginBottom: theme.spacing(3),
+  },
+  title: {
+    marginTop: theme.spacing(2),
   },
   balance: {
     paddingTop: theme.spacing(3),
@@ -151,7 +152,7 @@ export default function Stake() {
 
         {/* Stake w/o locking */}
         <Paper className={classes.paperContainer}>
-        <Typography variant="h5">
+          <Typography variant="h5" className={classes.title}>
             Stake Panic
           </Typography>
 
@@ -185,8 +186,8 @@ export default function Stake() {
 
 
         {/* Stake & lock */}
-        <Paper className={classes.paperContainer}>
-          <Typography variant="h5">
+        <Paper className={classes.paperContainer} >
+          <Typography variant="h5" className={classes.title}>
             Stake & Lock Panic
           </Typography>
 

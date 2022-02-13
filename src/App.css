@@ -4,7 +4,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: normal;
-  line-height: 1em;
+  line-height: 1.6em;
   margin: 0;
 }
 
@@ -15,6 +15,13 @@ a {
 a:hover {
   color: #000;
   text-decoration: underline;
+}
+
+ul, ol {
+  margin-bottom: 2rem;
+}
+ul li, ol li {
+  margin: 1rem 0;
 }
 
 .outer {

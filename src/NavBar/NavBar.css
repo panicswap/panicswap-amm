@@ -12,12 +12,15 @@
   grid-gap: 1.5rem;
   list-style: none;
   justify-content: end;
+  margin: 0 auto 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   font-size: 1.2rem;
   border-bottom: 1px solid #aaa;
 }
-
+.nav-menu li {
+  margin: 0 auto;
+}
 .nav-links {
   text-decoration: none;
   padding: 0.5rem 1rem;

@@ -33,8 +33,6 @@ import * as chains from "../constants/chains";
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
   },
   switchButton: {
     zIndex: 1,

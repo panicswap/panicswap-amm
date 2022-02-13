@@ -1,10 +1,21 @@
 import React from "react";
 import { useTheme } from '@material-ui/styles';
-import { ButtonGroup, Button } from "@material-ui/core";
+import { makeStyles, ButtonGroup, Button } from "@material-ui/core";
+
+
+const styles = (theme) => ({
+  btnGroup: {
+    fontWeight: "bold",
+  },
+});
+
+const useStyles = makeStyles(styles);
+
 
 export default function SwitchButton(props) {
   const { setDeploy } = props;
   const theme = useTheme();
+  const classes = useStyles();
 
   const changeStyles = (K) => {
     if (K === true) {
@@ -31,6 +42,7 @@ export default function SwitchButton(props) {
       <ButtonGroup size="large" variant="contained">
         <Button
           id="add-button"
+          className={classes.btnGroup}
           color="primary"
           text="white"
           onClick={() => {
@@ -43,6 +55,7 @@ export default function SwitchButton(props) {
 
         <Button
           id="remove-button"
+          className={classes.btnGroup}
           color="secondary"
           text="white"
           onClick={() => {

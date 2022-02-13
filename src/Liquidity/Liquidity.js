@@ -15,14 +15,11 @@ import LiquidityRemover from "./RemoveLiquidity";
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
-    padding: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
     maxWidth: 700,
     margin: "auto",
   },
   title: {
     textAlign: "center",
-    padding: theme.spacing(0.5),
     marginBottom: theme.spacing(1),
   },
 });
