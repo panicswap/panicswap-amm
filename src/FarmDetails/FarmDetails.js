@@ -57,7 +57,7 @@ const styles = (theme) => ({
   },
   btnContainer: {
     padding: theme.spacing(2.5),
-    paddingTop: theme.spacing(8.5),
+    marginTop: theme.spacing(5),
   }
 });
 
