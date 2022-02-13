@@ -48,7 +48,9 @@ export default function ToggleStable() {
   const [isStable, setIsStable] = useState(true);
 
   const toggleControl = () => {
-    setIsStable(!isStable);
+    setIsStable( prevValue => {
+      return !prevValue;
+    });
   }
 
   return (
