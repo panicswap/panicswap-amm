@@ -24,6 +24,7 @@ import {
   getWeth,
   swapTokens,
   getReserves,
+  getChef,
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -73,12 +74,13 @@ function FarmList(props) {
   const [router, setRouter] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
+  const [chef, setChef] = React.useState(undefined);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
   const [dialog2Open, setDialog2Open] = React.useState(false);
   const [wrongNetworkOpen, setwrongNetworkOpen] = React.useState(false);
-
+  const [pendingPanic, setPendingPanic] = React.useState("");
   const [coins, setCoins] = React.useState([]);
 
   // Controls the loading button
@@ -101,8 +103,10 @@ function FarmList(props) {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
-        const router = await getRouter(chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(chains.routerAddress.get(chainId), signer);
+        const chef = await getChef("0x668675832FdD9601E8804c694B0E2073B676cEfF", signer);
         setRouter(router);
+        setChef(chef);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -126,6 +130,12 @@ function FarmList(props) {
 
   }, []);
 
+  useEffect( async() => {
+    if(chef){
+      const reward = await chef.totalClaimableReward(account);
+      setPendingPanic(String(reward/1e18));
+    }
+  }, [chef]);
 
   const hasPendingRewards = () => {
     // @todo 
@@ -151,13 +161,13 @@ function FarmList(props) {
             <Grid item xs={4}>
               <Typography variant="body1" className={classes.balance}>
                 {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                XXXX PANIC
+                {pendingPanic} PANIC
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <LoadingButton
                 loading={loading}
-                valid={hasPendingRewards()}
+                valid={true}
                 success={false}
                 fail={false}
                 onClick={()=>{}}
