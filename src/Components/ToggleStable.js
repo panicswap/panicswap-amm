@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Switch,
   FormControlLabel,
@@ -8,8 +8,11 @@ import {
 const StableSwitch = styled(Switch)(({ theme }) => ({
   margin: 16,
   padding: 8,
+  transform: "scale(1.5)",
+  
   '& .MuiSwitch-track': {
     borderRadius: 22 / 2,
+    backgroundColor: "#999 !important",
     '&:before, &:after': {
       content: '""',
       position: 'absolute',
@@ -41,10 +44,18 @@ const StableSwitch = styled(Switch)(({ theme }) => ({
 
 
 export default function ToggleStable() {
+
+  const [isStable, setIsStable] = useState(true);
+
+  const toggleControl = () => {
+    setIsStable(!isStable);
+  }
+
   return (
     <FormControlLabel
       control={<StableSwitch defaultChecked />}
-      label="Stable"
+      onChange={toggleControl}
+      label={isStable ? "Stable" : "Not stable"}
     />
   );
 }

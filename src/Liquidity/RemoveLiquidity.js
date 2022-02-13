@@ -23,6 +23,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
+import ToggleStable from "../Components/ToggleStable";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -397,6 +398,8 @@ function LiquidityRemover(props) {
         className={classes.balance}
       >
         
+        <ToggleStable />
+
         <hr className={classes.hr} />
         <Grid
           container
