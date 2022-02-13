@@ -29,7 +29,7 @@ import {
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
-import CoinField from "../CoinSwapper/CoinField";
+import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import * as chains from "../constants/chains";
 
 
@@ -40,12 +40,13 @@ const styles = (theme) => ({
   },
   title: {
     marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   balance: {
-    marginTop: theme.spacing(2),
   },
   btnContainer: {
     padding: theme.spacing(2.5),
+    marginTop: theme.spacing(5),
   }
 });
 
@@ -178,12 +179,13 @@ export default function Stake() {
             Stake Panic
           </Typography>
 
-          <Typography variant="h6" className={classes.balance}>
-            Wallet balance: {panicBalance} PANIC
+          <Typography variant="subtitle1">
+              Stake PANIC and earn platform fees in WFTM without lock-up.
           </Typography>
+
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={true}
                 value={field1Value}
                 onClick={() => setDialog1Open(true)}
@@ -191,7 +193,11 @@ export default function Stake() {
                 symbol={tokenDetails.symbol}
                 userCanChoose={false}
               />
+              <Typography variant="body1" className={classes.balance}>
+                Wallet balance: {panicBalance} PANIC
+              </Typography>
             </Grid>
+
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
                 loading={loading}
@@ -214,18 +220,18 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="subtitle1">
+            <p>
+              Stake and lock PANIC and earn platform fees in WFTM + penalty fees in unlocked PANIC.
+            </p>
 
-            Lock Period: 2 years. <br />
-
-            Panic deposited and locked is subject to a 2 year lock and will continue to earn fees after the locks expire if you do not withdraw.
+            <p>
+              Panic deposited and locked is subject to a 2 year lock and will continue to earn fees after the locks expire if you do not withdraw.
+            </p>
           </Typography>
 
-          <Typography variant="h6" className={classes.balance}>
-            Wallet balance: {panicBalance} PANIC
-          </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={true}
                 value={field2Value}
                 onClick={() => setDialog2Open(true)}
@@ -233,6 +239,9 @@ export default function Stake() {
                 symbol={tokenDetails.symbol}
                 userCanChoose={false}
               />
+              <Typography variant="body1" className={classes.balance}>
+                Wallet balance: {panicBalance} PANIC
+              </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
