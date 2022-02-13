@@ -7,8 +7,9 @@ import * as COLORS from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(1),
-    minHeight: "80px",
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    minHeight: "60px",
     backgroundColor: COLORS.grey[50],
     borderRadius: theme.spacing(2),
     borderColor: COLORS.grey[300],
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container_blank: {
     padding: theme.spacing(1),
-    minHeight: "80px",
+    minHeight: "60px",
     borderRadius: theme.spacing(2),
   },
   grid: {
