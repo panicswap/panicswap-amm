@@ -17,7 +17,7 @@ export const MenuItems = [
   },
   ,
   {
-    title: "Stake Panic",
+    title: "Stake",
     url: "/stake",
     cName: "nav-links",
   },
