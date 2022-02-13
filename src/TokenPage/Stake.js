@@ -62,6 +62,7 @@ export default function Stake() {
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
+  const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
 
   // Stores a record of whether their respective dialog window is open
@@ -74,6 +75,8 @@ export default function Stake() {
     symbol: undefined,
     balance: undefined,
   });
+
+  const [panicBalance, setPanicBalance] = React.useState("0");
 
   const [coins, setCoins] = React.useState([]);
 
@@ -114,6 +117,7 @@ export default function Stake() {
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer)
         setRouter(router);
+        setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -137,7 +141,12 @@ export default function Stake() {
 
   }, []);
 
-  const { farmId } = useParams();
+  useEffect( async() => {
+    if(panic){
+      const bal = await panic.balanceOf(account);
+      setPanicBalance(String(bal/1e18));
+    }
+  }, [panic]);
 
   const hasBalance = {
     deposit: () => {
@@ -157,7 +166,7 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="h6" className={classes.balance}>
-            Wallet balance: xxx PANIC
+            Wallet balance: {panicBalance} PANIC
           </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
@@ -173,7 +182,7 @@ export default function Stake() {
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
                 loading={loading}
-                valid={hasBalance.deposit()}
+                valid={true}
                 success={false}
                 fail={false}
                 onClick={() => { }}
@@ -199,7 +208,7 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="h6" className={classes.balance}>
-            Wallet balance: xxx PANIC
+            Wallet balance: {panicBalance} PANIC
           </Typography>
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
@@ -215,7 +224,7 @@ export default function Stake() {
             <Grid item xs={4} className={classes.btnContainer}>
               <LoadingButton
                 loading={loading}
-                valid={hasBalance.deposit()}
+                valid={true}
                 success={false}
                 fail={false}
                 onClick={() => { }}
