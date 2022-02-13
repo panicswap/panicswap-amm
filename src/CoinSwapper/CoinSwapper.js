@@ -23,7 +23,7 @@ import {
   swapTokens,
   getReserves,
 } from "../ethereumFunctions";
-import CoinField from "./CoinField";
+import CoinAmountInterface from "./CoinAmountInterface";
 import CoinDialog from "./CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -371,12 +371,13 @@ function CoinSwapper(props) {
 
           <Grid container direction="column" alignItems="center" spacing={2}>
             <Grid item xs={12} className={classes.fullWidth}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={true}
                 value={field1Value}
                 onClick={() => setDialog1Open(true)}
                 onChange={handleChange.field1}
                 symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+                maxValue={coin1.balance}
               />
             </Grid>
 
@@ -385,11 +386,12 @@ function CoinSwapper(props) {
             </IconButton>
 
             <Grid item xs={12} className={classes.fullWidth}>
-              <CoinField
+              <CoinAmountInterface
                 activeField={false}
                 value={field2Value}
                 onClick={() => setDialog2Open(true)}
                 symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+                maxValue={coin2.balance}
               />
             </Grid>
 

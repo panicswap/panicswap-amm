@@ -85,6 +85,7 @@ export function RemoveLiquidityField1(props) {
             <ExpandMoreIcon />
           </Fab>
         </Grid>
+        
         {/* Text Field */}
         <Grid item xs={9}>
           <InputBase

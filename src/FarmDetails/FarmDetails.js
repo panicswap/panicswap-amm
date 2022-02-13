@@ -221,7 +221,7 @@ function FarmDetails(props) {
                 onChange={handleChange.field1}
                 symbol={lpDetails.symbol}
                 userCanChoose={false}
-                maxValue={null}
+                maxValue={balanceWallet}
               />
               <Typography variant="h6" className={classes.balance}>
                 Your wallet balance: <span>{balanceWallet}</span>
@@ -252,7 +252,7 @@ function FarmDetails(props) {
                 onChange={handleChange.field2}
                 symbol={lpDetails.symbol}
                 userCanChoose={false}
-                maxValue={null}
+                maxValue={balanceStaked}
               />
               <Typography variant="h6" className={classes.balance}>
                 Your staked balance: <span>{balanceStaked}</span>

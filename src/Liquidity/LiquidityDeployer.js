@@ -16,7 +16,7 @@ import {
 
 import { addLiquidity, quoteAddLiquidity } from "./LiquidityFunctions";
 
-import CoinField from "../CoinSwapper/CoinField";
+import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import CoinDialog from "../CoinSwapper/CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -390,22 +390,24 @@ function LiquidityDeployer(props) {
 
       <Grid container direction="column" alignItems="center" spacing={2}>
         <Grid item xs={12} className={classes.fullWidth}>
-          <CoinField
+          <CoinAmountInterface
             activeField={true}
             value={field1Value}
             onClick={() => setDialog1Open(true)}
             onChange={handleChange.field1}
             symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+            maxValue={coin1.balance}
           />
         </Grid>
 
         <Grid item xs={12} className={classes.fullWidth}>
-          <CoinField
+          <CoinAmountInterface
             activeField={true}
             value={field2Value}
             onClick={() => setDialog2Open(true)}
             onChange={handleChange.field2}
             symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+            maxValue={coin2.balance}
           />
         </Grid>
       </Grid>

@@ -22,16 +22,30 @@ export default function CoinAmountInterface(props) {
 
   const classes = useStyles();
 
-  const { value, maxValue } = props;
+  const { value, symbol, maxValue } = props;
 
   const [newValue, setNewValue] = React.useState(value);
 
-  const set = (event, amount) => {
-    event.preventDefault();
+  const set = (amount) => {
     if(amount){
       setNewValue(String(amount));
     }
   }
+
+  const setMax = (e) => {
+    e.preventDefault();
+    if(symbol && symbol === "FTM"){
+      set(maxValue - 2);
+    } else {
+      set(maxValue);
+    }
+  }
+
+  const set50 = (e) => {
+    e.preventDefault();
+    set(maxValue/2);
+  }
+
 
   return (
     <>
@@ -45,12 +59,12 @@ export default function CoinAmountInterface(props) {
             spacing={2}
         >
           <Grid item>
-            <Link href="#" onClick={(event) => set(event, maxValue/2)}>
+            <Link href="#" onClick={set50}>
               50%
             </Link>
           </Grid>
           <Grid item>
-            <Link href="#" onClick={(event) => set(event, maxValue)}>
+            <Link href="#" onClick={setMax}>
               Max
             </Link>
           </Grid>
