@@ -137,6 +137,11 @@ function FarmList(props) {
     }
   }, [chef]);
 
+  async function claimAllRewards() {
+    await chef;
+    chef.claimAll();
+  }
+
   const hasPendingRewards = () => {
     // @todo 
     
@@ -170,7 +175,7 @@ function FarmList(props) {
                 valid={true}
                 success={false}
                 fail={false}
-                onClick={()=>{}}
+                onClick={()=>{claimAllRewards()}}
               >
                 <AccountBalanceIcon className={classes.buttonIcon} />
                 COLLECT YOUR REWARDS
