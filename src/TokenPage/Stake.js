@@ -23,6 +23,7 @@ import {
   getWeth,
   swapTokens,
   getReserves,
+  getEpsStaking
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -61,6 +62,7 @@ export default function Stake() {
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
+  const [stakingEps, setStakingEps] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
@@ -115,8 +117,10 @@ export default function Stake() {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
-        const router = await getRouter(chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(chains.routerAddress.get(chainId), signer);
+        const stakingEps = await getEpsStaking("0x066Da5249e1312E95d63F7A54CB039aE36510A6E",signer);
         setRouter(router);
+        setStakingEps(stakingEps);
         setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
@@ -147,6 +151,13 @@ export default function Stake() {
       setPanicBalance(String(bal/1e18));
     }
   }, [panic]);
+
+  async function stakePan(bal, lockrnt){
+    await stakingEps;
+    await panic;
+    await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
+    await stakingEps.stake(bal, lockrnt);
+  }
 
   const hasBalance = {
     deposit: () => {
@@ -185,7 +196,7 @@ export default function Stake() {
                 valid={true}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => {stakePan(field1Value,false)}}
               >
                 Deposit
               </LoadingButton>
@@ -227,7 +238,7 @@ export default function Stake() {
                 valid={true}
                 success={false}
                 fail={false}
-                onClick={() => { }}
+                onClick={() => {stakePan(field2Value,true)}}
               >
                 Lock
               </LoadingButton>

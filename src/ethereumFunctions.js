@@ -31,6 +31,10 @@ export function getChef(address, signer) {
   return new Contract(address, CHEF.abi, signer);
 }
 
+export function getEpsStaking(address, signer) {
+  return new Contract(address, EPSSTAKING.abi, signer);
+}
+
 export async function checkNetwork(provider) {
   const chainId = getNetwork(provider);
   if (chains.networks.includes(chainId)){
@@ -198,131 +202,6 @@ export async function swapTokens( // todo removed bool from interface
     );
   }
 }
-
-
-
-export async function depositLp( // todo removed bool from interface
-  pid,
-  amount,
-  chefContract,
-  accountAddress,
-  signer
-) {
-  const [lpToken,,,] = await chefContract.callStatic.poolInfo(pid);
-
-  const lpContract = new Contract(lpToken, ERC20.abi, signer);
-  const tokenDecimals = await getDecimals(lpContract);
-
-  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
-
-  // TODO check approval. If approved dont
-  // TODO take router from variable instead
-  await lpContract.approve("0x37d2b865846293892257717aD9acD4f854AFDe3b", amountIn);
-
-  await chefContract.deposit(
-      pid,
-      amountIn
-    );
-}
-
-export async function withdrawLp( // todo removed bool from interface
-  pid,
-  amount,
-  chefContract,
-  accountAddress,
-  signer
-) {
-  const [lpToken,,,] = await chefContract.callStatic.poolInfo(pid);
-
-  const lpContract = new Contract(lpToken, ERC20.abi, signer);
-  const tokenDecimals = await getDecimals(lpContract);
-
-  const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
-
-  await chefContract.withdraw(
-      pid,
-      amountIn
-    );
-}
-
-
-
-export async function claimAll(
-  chefContract,
-  signer
-) {
-  await chefContract.claimAll(
-    );
-}
-
-
-export async function stake(
-  amount,
-  lockornot,
-  signer
-) {
-  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
-  await epsContract.stake( amount, lockornot );
-}
-
-
-export async function getReward(
-  signer
-) {
-  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
-  await epsContract.getReward();
-}
-
-
-export async function exit(
-  signer
-) {
-  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
-  await epsContract.exit();
-}
-
-
-export async function withdraw(
-  amount,
-  signer
-) {
-  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
-  await epsContract.withdraw(amount);
-}
-
-
-export async function withdrawExpiredLocks(
-  signer
-) {
-  const epsContract = new Contract(epsStakingAddress, EPSSTAKING.abi, signer);
-  await epsContract.withdrawExpiredLocks();
-}
-
-
-
-//This function returns the conversion rate between two token addresses
-//    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
-//    `address2` - An Ethereum address of the token to swaped to (either a token or AUT)
-//    `amountIn` - Amount of the token at address 1 to be swaped from
-//    `routerContract` - The router contract to carry out this swap
-export async function getUserPendingReward(
-  user,
-  chefContract,
-  signer
-) {
-  const userRewards = await chefContract.callStatic.totalClaimableReward();
-  return userRewards;
-}
-
-export async function getPoolInfo(
-  pid,
-  signer
-) {
-  const chefContract = new Contract(chefAddress, CHEF.abi, signer);
-  const poolInfo = await chefContract.callStatic.poolInfo(pid);
-  return poolInfo;
-}
-
 
 //This function returns the conversion rate between two token addresses
 //    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
