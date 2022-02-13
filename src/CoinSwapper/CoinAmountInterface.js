@@ -22,7 +22,7 @@ export default function CoinAmountInterface(props) {
 
   const classes = useStyles();
 
-  const { value, symbol, maxValue } = props;
+  const { value, maxValue, symbol } = props;
 
   const [newValue, setNewValue] = React.useState(value);
 
@@ -72,7 +72,7 @@ export default function CoinAmountInterface(props) {
       </div>
 
       {/* CoinField */}
-      <CoinField {...props} value={newValue} />
+      <CoinField newValue={newValue} {...props}  />
     </>
   );
 }
