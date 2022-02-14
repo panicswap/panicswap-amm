@@ -55,7 +55,7 @@ export default function Rewards() {
                 Exiting before the end of the vesting period always incurs a 50% penalty no matter how early or late you choose to exit.
               </li>
               <li>
-                The 50% penalty is distributed continuously to PANIC lockers rewarding long-term holders.
+                The 50% penalty is distributed continuously to PANIC lockers rewarding the long-term holders.
               </li>
             </ul>
           </section>
@@ -70,7 +70,7 @@ export default function Rewards() {
                 Lock dates are grouped by the week. Any lock between Monday to Sunday is grouped in the same week group, and will release at the same time 2 years later.
               </li>
               <li>
-                Locked PANIC is subject to a mandatory 2 years lock, and cannot be unlocked early.
+                Locked PANIC is subject to a mandatory 2 years lock and cannot be unlocked early.
               </li>
               <li>
                 PANIC rewards from locking PANIC can be claimed anytime with no penalty.
