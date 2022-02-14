@@ -64,7 +64,7 @@ export async function addLiquidity(
     await token1.approve(routerContract.address, amountIn1);
   if(allowance2 < amountIn2 && address1 != wethAddress)
     await token2.approve(routerContract.address, amountIn2);
-
+  console.log("reached");
 
   console.log([
     address1,

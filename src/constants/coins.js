@@ -9,15 +9,40 @@ const FANTOMCoins = [
     address: "", // Weth address is fetched from the router
   },
   {
-    name: "Bitcoin",
-    abbr: "BTC",
-    address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+    name: "yvWFTM",
+    abbr: "yvWFTM",
+    address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",
   },
   {
-    name: "PanicSwap",
-    abbr: "PANIC",
-    address: "0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",
-  }
+    name: "yvWETH",
+    abbr: "yvWETH",
+    address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
+  },
+  {
+    name: "yvWBTC",
+    abbr: "yvWBTC",
+    address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
+  },
+  {
+    name: "renBTC",
+    abbr: "renBTC",
+    address: "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501",
+  },
+  {
+    name: "yvDAI",
+    abbr: "yvDAI",
+    address: "0x637eC617c86D24E421328e6CAEa1d92114892439",
+  },
+  {
+    name: "yvUSDC",
+    abbr: "yvUSDC",
+    address: "0xEF0210eB96c7EB36AF8ed1c20306462764935607",
+  },
+  {
+    name: "yvYFI",
+    abbr: "yvYFI",
+    address: "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db",
+  },
 ]
 
 const AUTONITYCoins = [

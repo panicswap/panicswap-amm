@@ -54,11 +54,6 @@ export default function CoinAmountInterface(props) {
             spacing={2}
         >
           <Grid item>
-          <Link href="#" onClick={(e) => {updateAmount(e, 50)}}>
-              50%
-            </Link>
-          </Grid>
-          <Grid item>
             <Link href="#" onClick={(e) => {updateAmount(e, 100)}}>
               Max
             </Link>
