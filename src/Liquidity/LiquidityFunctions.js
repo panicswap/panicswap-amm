@@ -43,7 +43,7 @@ export async function addLiquidity(
 
   console.log("quoting add deploy");
 
-  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const hh = await router.quoteAddLiquidity(address1, address2, stable, amountIn1, amountIn2);
@@ -55,10 +55,16 @@ export async function addLiquidity(
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
 
-  //await token1.approve(routerContract.address, amountIn1);
-  //await token2.approve(routerContract.address, amountIn2);
+  const allowance1 = await token1.allowance(account, routerAddress);
+  const allowance2 = await token2.allowance(account, routerAddress);
 
   const wethAddress = await routerContract.weth();
+
+  if(allowance1 < amountIn1 && address1 != wethAddress)
+    await token1.approve(routerContract.address, amountIn1);
+  if(allowance2 < amountIn2 && address1 != wethAddress)
+    await token2.approve(routerContract.address, amountIn2);
+
 
   console.log([
     address1,
@@ -155,7 +161,7 @@ export async function removeLiquidity(
   // const amount2Min = ethers.utils.parseUnits(String(amount2min), token2Decimals);
   console.log("quoting remove deploy");
 
-  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const [amount1Min, amount2Min] = await router.quoteRemoveLiquidity(address1, address2, stable, liquidity);
@@ -292,20 +298,31 @@ export async function quoteAddLiquidity(
   factory,
   signer
 ) {
-  console.log("quoting add");
+  console.log("quoting add liquidity");
   const stable = document.getElementById("stable").checked;
-  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  console.log("stable pair?", stable);
+  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   //const liqWei = ethers.utils.parseEther(liquidity);
 
-  const hh = await router.quoteAddLiquidity(address1, address2, stable, ethers.utils.parseEther(amountADesired), ethers.utils.parseEther(amountBDesired));
-  console.log("quote add", hh);
+  console.log("address1 is", address1);
+  console.log("address2 is", address2);
+
+
+  const amountAIn = ethers.utils.parseEther(amountADesired);
+  console.log("amount A desired", amountAIn);
+
+  const amountBIn = ethers.utils.parseEther(amountBDesired);
+  console.log("amount B desired", amountBIn);
+
+  const hh = await router.quoteAddLiquidity(address1, address2, stable, amountAIn, amountBIn);
+  console.log("routerResults", hh);
 
   return [
-      hh["amountA"]/1e18,
-      hh["amountB"]/1e18,
-      hh["liquidity"]/1e18,
+      hh[0]/1e18,
+      hh[1]/1e18,
+      hh[2]/1e18,
     ];
 }
 
@@ -324,7 +341,7 @@ export async function quoteRemoveLiquidity(
   signer
 ) {
   const stable = document.getElementById("stable").checked;
-  const routerAddress = "0x42F8ecd0db054B67fB325046a5430a460461a1AF";
+  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const liqWei = ethers.utils.parseEther(liquidity);
