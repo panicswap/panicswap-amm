@@ -59,11 +59,16 @@ export async function addLiquidity(
   const allowance2 = await token2.allowance(account, routerAddress);
 
   const wethAddress = await routerContract.weth();
+  const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  if(allowance1 < amountIn1 && address1 != wethAddress)
+  if(allowance1 < amountIn1 && address1 != wethAddress){
     await token1.approve(routerContract.address, amountIn1);
-  if(allowance2 < amountIn2 && address1 != wethAddress)
+    await delay(5000);
+  }
+  if(allowance2 < amountIn2 && address1 != wethAddress){
     await token2.approve(routerContract.address, amountIn2);
+    await delay(5000);
+  }
   console.log("reached");
 
   console.log([

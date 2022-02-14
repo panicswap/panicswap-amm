@@ -44,7 +44,6 @@ export default function CoinAmountInterface(props) {
 
   return (
     <>
-
       {/* Controls */}
       <div className={classes.controls}>
         <Grid
@@ -60,7 +59,6 @@ export default function CoinAmountInterface(props) {
           </Grid>
         </Grid>
       </div>
-
       {/* CoinField */}
       <CoinField {...props}  />
     </>

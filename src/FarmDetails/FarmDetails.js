@@ -186,7 +186,9 @@ function FarmDetails(props) {
   async function deposit(amount){
     await chef;
   
-    const amountIn = ethers.utils.parseUnits(amount, 18);
+    console.log("dasfasf",typeof amount); // ready . run this code :) es string pero pone lo mismo amount.toFixed is not a function 
+
+    const amountIn = ethers.utils.parseUnits(Number(amount).toFixed(18), 18);
 
     const pInfo = await chef.poolInfo(farmId);
     const lpt = pInfo["lpToken"];
@@ -194,10 +196,14 @@ function FarmDetails(props) {
     const lptC = getWeth(lpt, signer);
     console.log("approving", amountIn);
 
-    const allowance = lptC.allowance(account, "0x668675832FdD9601E8804c694B0E2073B676cEfF");
+    const allowance = await lptC.allowance(account, "0x668675832FdD9601E8804c694B0E2073B676cEfF");
+    const delay = ms => new Promise(res => setTimeout(res, ms));
 
-    if(allowance < amountIn)
+    console.log("allowance",allowance);
+    if(allowance < amountIn){
         await lptC.approve("0x668675832FdD9601E8804c694B0E2073B676cEfF", "99999999999999999999999999999");
+        await delay(5000);
+    }
     await chef.deposit(farmId, amountIn);
   }
 
