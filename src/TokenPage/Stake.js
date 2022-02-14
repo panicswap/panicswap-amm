@@ -224,7 +224,7 @@ export default function Stake() {
             </p>
 
             <p>
-              Panic deposited and locked is subject to a 2 year lock and will continue to earn fees after the locks expire if you do not withdraw.
+              PANIC deposited and locked is subject to a 2 year lock. You will continue to earn fees after the locks expire if you do not withdraw.
             </p>
           </Typography>
 
