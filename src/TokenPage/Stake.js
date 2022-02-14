@@ -39,8 +39,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(3),
   },
   title: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   balance: {
   },
