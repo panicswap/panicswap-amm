@@ -117,7 +117,7 @@ export default function Rewards() {
         console.log('chainID: ', chainId);
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const stakingEps = await getEpsStaking("0x066Da5249e1312E95d63F7A54CB039aE36510A6E",signer);
+        const stakingEps = await getEpsStaking("0xf841213C402d77Ec3E44724a7bBF804df3825280",signer);
         setRouter(router);
         setStakingEps(stakingEps);
         setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
@@ -172,7 +172,7 @@ export default function Rewards() {
   async function withdrawUnlocked(){
     await stakingEps;
     const amount = await stakingEps.unlockedBalance(account);
-    //await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
+    //await panic.approve("0xf841213c402d77ec3e44724a7bbf804df3825280","999999999999999999999999");
     await stakingEps.withdraw(amount);
   }
 
