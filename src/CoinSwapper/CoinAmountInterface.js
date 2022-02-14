@@ -22,28 +22,23 @@ export default function CoinAmountInterface(props) {
 
   const classes = useStyles();
 
-  const { value, maxValue, symbol } = props;
+  const { value, maxValue, onChange, symbol } = props;
 
-  const [newValue, setNewValue] = React.useState(value);
 
-  const set = (amount) => {
-    if(amount){
-      setNewValue(String(amount));
-    }
-  }
-
-  const setMax = (e) => {
+  const updateAmount = (e, percentage = 100) => {
     e.preventDefault();
-    if(symbol && symbol === "FTM"){
-      set(maxValue - 2);
+    let amount;
+
+    if(percentage === 100 && maxValue){
+      amount = (symbol && symbol === "FTM") ? maxValue - 2 : maxValue;
+    } else if(maxValue) {
+      amount = maxValue * percentage / 100;
     } else {
-      set(maxValue);
+      amount = 0;
     }
-  }
-
-  const set50 = (e) => {
-    e.preventDefault();
-    set(maxValue/2);
+    
+    const mockEvent = { target: {value: String(amount)} }
+    onChange(mockEvent)
   }
 
 
@@ -59,12 +54,12 @@ export default function CoinAmountInterface(props) {
             spacing={2}
         >
           <Grid item>
-            <Link href="#" onClick={set50}>
+          <Link href="#" onClick={(e) => {updateAmount(e, 50)}}>
               50%
             </Link>
           </Grid>
           <Grid item>
-            <Link href="#" onClick={setMax}>
+            <Link href="#" onClick={(e) => {updateAmount(e, 100)}}>
               Max
             </Link>
           </Grid>
@@ -72,7 +67,7 @@ export default function CoinAmountInterface(props) {
       </div>
 
       {/* CoinField */}
-      <CoinField newValue={newValue} {...props}  />
+      <CoinField {...props}  />
     </>
   );
 }

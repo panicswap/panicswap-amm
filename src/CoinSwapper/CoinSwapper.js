@@ -29,6 +29,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
+import CoinField from "./CoinField";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -386,7 +387,7 @@ function CoinSwapper(props) {
             </IconButton>
 
             <Grid item xs={12} className={classes.fullWidth}>
-              <CoinAmountInterface
+              <CoinField
                 activeField={false}
                 value={field2Value}
                 onClick={() => setDialog2Open(true)}

@@ -191,6 +191,7 @@ export default function Stake() {
                 onChange={handleChange.field1}
                 symbol={tokenDetails.symbol}
                 userCanChoose={false}
+                maxValue={panicBalance}
               />
               <Typography variant="body1" className={classes.balance}>
                 Wallet balance: {panicBalance} PANIC
@@ -237,6 +238,7 @@ export default function Stake() {
                 onChange={handleChange.field2}
                 symbol={tokenDetails.symbol}
                 userCanChoose={false}
+                maxValue={panicBalance}
               />
               <Typography variant="body1" className={classes.balance}>
                 Wallet balance: {panicBalance} PANIC
