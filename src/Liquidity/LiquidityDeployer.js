@@ -421,7 +421,7 @@ function LiquidityDeployer(props) {
         className={classes.balance}
       >
         
-        <ToggleStable />
+        {/*<ToggleStable />*/}
         <hr className={classes.hr} />
         <Grid
           container

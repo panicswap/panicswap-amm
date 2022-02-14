@@ -144,10 +144,19 @@ export default function Rewards() {
   
   async function exit(){
     await stakingEps;
-    await panic;
-    //const amountIn = ethers.utils.parseUnits(bal, 18);
-    //await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
     await stakingEps.exit();
+  }
+  
+  async function getReward(){
+    await stakingEps;
+    await stakingEps.getReward();
+  }
+  
+  async function withdrawUnlocked(){
+    await stakingEps;
+    const amount = await stakingEps.unlockedBalance(account);
+    //await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
+    await stakingEps.withdraw(amount);
   }
 
   return (
@@ -221,7 +230,7 @@ export default function Rewards() {
                       valid={true}
                       success={false}
                       fail={false}
-                      onClick={() => { }}
+                      onClick={() => { withdrawUnlocked() }}
                     >
                       Claim
                     </LoadingButton>
@@ -243,7 +252,7 @@ export default function Rewards() {
                       valid={true}
                       success={false}
                       fail={false}
-                      onClick={() => { }}
+                      onClick={() => { getReward() }}
                     >
                       Claim
                     </LoadingButton>
@@ -261,15 +270,7 @@ export default function Rewards() {
                   </TableCell>
                   <TableCell align="center">-</TableCell>
                   <TableCell align="center">
-                    <LoadingButton
-                      loading={false}
-                      valid={true}
-                      success={false}
-                      fail={false}
-                      onClick={() => { }}
-                    >
-                      Claim
-                    </LoadingButton>
+
                   </TableCell>
                 </TableRow>
 
@@ -306,7 +307,7 @@ export default function Rewards() {
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
-                      valid={true}
+                      valid={false}
                       success={false}
                       fail={false}
                       onClick={() => { }}

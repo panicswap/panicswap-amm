@@ -45,7 +45,6 @@ function Liquidity() {
           <Typography variant="h5" className={classes.title}>
             <SwitchButton setDeploy={setDeploy} />
             <input type="checkbox" id="stable" /> Stableswap
-            
           </Typography>
           {deploy_or_remove(deploy)}
         </Paper>

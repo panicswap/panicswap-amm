@@ -193,8 +193,11 @@ function FarmDetails(props) {
     console.log(lpt);
     const lptC = getWeth(lpt, signer);
     console.log("approving", amountIn);
-    //TODO REMOVE APPROVE
-    await lptC.approve("0x668675832FdD9601E8804c694B0E2073B676cEfF", "99999999999999999999999999999");
+
+    const allowance = lptC.allowance(account, "0x668675832FdD9601E8804c694B0E2073B676cEfF");
+
+    if(allowance < amountIn)
+        await lptC.approve("0x668675832FdD9601E8804c694B0E2073B676cEfF", "99999999999999999999999999999");
     await chef.deposit(farmId, amountIn);
   }
 

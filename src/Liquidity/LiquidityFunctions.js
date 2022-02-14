@@ -175,8 +175,10 @@ export async function removeLiquidity(
   const pairAddress = await factory.getPair(address1, address2, stable);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
-  // TODO already approved, but you don't know
-  // await pair.approve(routerContract.address, liquidity);
+  const allowance = await pair.allowance(account, routerContract.address);
+
+  if(allowance < liquidity)
+      await pair.approve(routerContract.address, liquidity);
 
   console.log([
     address1,
@@ -203,7 +205,7 @@ export async function removeLiquidity(
     // Token + Eth
     await routerContract.removeLiquidityETH(
       address1,
-      false, // TODO boolean
+      stable,
       liquidity,
       amount1Min,
       amount2Min,
@@ -215,7 +217,7 @@ export async function removeLiquidity(
     await routerContract.removeLiquidity(
       address1,
       address2,
-      false, // TODO boolean
+      stable,
       liquidity,
       amount1Min,
       amount2Min,
@@ -346,7 +348,7 @@ export async function quoteRemoveLiquidity(
 
   const liqWei = ethers.utils.parseEther(liquidity);
 
-  const hh = await router.quoteRemoveLiquidity(address1, address2, stable, liqWei); // TODO boolean
+  const hh = await router.quoteRemoveLiquidity(address1, address2, stable, liqWei);
   console.log("quote remove", hh, liquidity);
   return [liquidity,hh["amountA"]/1e18,hh["amountB"]/1e18];
 }
