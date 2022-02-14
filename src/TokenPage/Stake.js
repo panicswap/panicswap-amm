@@ -179,7 +179,7 @@ export default function Stake() {
           </Typography>
 
           <Typography variant="subtitle1">
-              Stake PANIC and earn platform fees in WFTM without lock-up.
+              Stake PANIC and earn platform fees in yvWFTM without lock-up.
           </Typography>
 
           <Grid container direction="row" justifyContent="center">
@@ -220,7 +220,7 @@ export default function Stake() {
 
           <Typography variant="subtitle1">
             <p>
-              Stake and lock PANIC and earn platform fees in WFTM + penalty fees in unlocked PANIC.
+              Stake and lock PANIC, earn platform fees in yvWFTM + penalty fees in unlocked PANIC.
             </p>
 
             <p>

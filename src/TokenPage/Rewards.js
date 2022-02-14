@@ -73,7 +73,7 @@ export default function Rewards() {
                 Locked PANIC is subject to a mandatory 2 years lock, and cannot be unlocked early.
               </li>
               <li>
-                PANIC rewars from locking PANIC can be claimed anytime with no penalty.
+                PANIC rewards from locking PANIC can be claimed anytime with no penalty.
               </li>
             </ul>
           </section>
