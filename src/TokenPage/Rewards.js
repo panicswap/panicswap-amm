@@ -62,6 +62,9 @@ export default function Rewards() {
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
+  const [vestedBalance, setVestedBalance] = React.useState(0);
+  const [unlockedBalance, setUnlockedBalance] = React.useState(0);
+  const [panicRewards, setPanicRewards] = React.useState(0);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -140,6 +143,20 @@ export default function Rewards() {
     Network()
 
   }, []);
+
+  useEffect( async() => {
+    if(stakingEps){
+      const unlockedBal = await stakingEps.unlockedBalance(account);
+      const penaltyData = await stakingEps.withdrawableBalance(account);
+      const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
+      const panicEarnedHalf = panicEarnedUnparsed[0];
+      const panicEarnedFinal = panicEarnedHalf[1];
+      console.log("panic earned", panicEarnedFinal);
+      setVestedBalance(String(penaltyData[1]/1e18));
+      setUnlockedBalance(String(unlockedBal/1e18));
+      setPanicRewards(String(panicEarnedFinal/1e18));
+    }
+  }, [panic]);
 
   
   async function exit(){
@@ -223,7 +240,7 @@ export default function Rewards() {
                     </Typography>
                     Staked PANIC and cleared PANIC vests
                   </TableCell>
-                  <TableCell align="center">-</TableCell>
+                  <TableCell align="center">{unlockedBalance}</TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
@@ -245,7 +262,7 @@ export default function Rewards() {
                       PANIC Stake and Lock Rewards
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">-</TableCell>
+                  <TableCell align="center">{panicRewards}</TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
@@ -268,7 +285,7 @@ export default function Rewards() {
                     </Typography>
                     PANIC that can be claimed with a 50% penalty
                   </TableCell>
-                  <TableCell align="center">-</TableCell>
+                  <TableCell align="center">{vestedBalance}</TableCell>
                   <TableCell align="center">
 
                   </TableCell>
@@ -325,113 +342,6 @@ export default function Rewards() {
         </Paper >
 
 
-      </Container >
-
-
-      <Container>
-        <Paper className={classes.paperContainer}>
-
-          <Typography variant="h5" className={classes.title}>
-            Vesting PANIC
-          </Typography>
-
-          <TableContainer>
-            <Table className={classes.table} size="small" aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Early exit penalty</TableCell>
-                  <TableCell>Expiry</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-
-                {/* @todo */}
-                {/* @todo --> need to iterate with myArray.map()  */}
-                {/* @todo */}
-                <TableRow>
-                  <TableCell>
-                    xxx
-                  </TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>Thu May 12 2022</TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell>
-                    xxx
-                  </TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell>Thu May 12 2022</TableCell>
-                </TableRow>
-
-              </TableBody >
-            </Table >
-          </TableContainer >
-
-          <br />
-
-          <Typography variant="body1">
-            Total PANIC vesting: xxx
-          </Typography>
-
-          <Typography variant="body1">
-            Total value: $ xxx
-          </Typography>
-
-        </Paper>
-      </Container >
-
-
-      <Container>
-        <Paper className={classes.paperContainer}>
-
-          <Typography variant="h5" className={classes.title}>
-            Your locked PANIC
-          </Typography>
-
-          <TableContainer>
-            <Table className={classes.table} size="small" aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Expiry</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-
-                {/* @todo */}
-                {/* @todo --> need to iterate with myArray.map()  */}
-                {/* @todo */}
-                <TableRow>
-                  <TableCell>
-                    xxx
-                  </TableCell>
-                  <TableCell>Thu May 12 2022</TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell>
-                    xxx
-                  </TableCell>
-                  <TableCell>Thu May 12 2022</TableCell>
-                </TableRow>
-
-              </TableBody >
-            </Table >
-          </TableContainer >
-
-          <br />
-
-          <Typography variant="body1">
-            Total PANIC locked: xxx
-          </Typography>
-
-          <Typography variant="body1">
-            Total value: $ xxx
-          </Typography>
-
-        </Paper>
       </Container >
 
 
