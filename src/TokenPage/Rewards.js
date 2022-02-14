@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Container,
   Grid,
@@ -14,6 +13,24 @@ import {
   TableCell,
 } from "@material-ui/core";
 import LoadingButton from "../Components/LoadingButton";
+import React, { useEffect } from "react";
+import * as chains from "../constants/chains";
+import COINS from "../constants/coins";
+
+import {
+  getAccount,
+  getFactory,
+  getProvider,
+  getRouter,
+  getSigner,
+  getNetwork,
+  getAmountOut,
+  getBalanceAndSymbol,
+  getWeth,
+  swapTokens,
+  getReserves,
+  getEpsStaking
+} from "../ethereumFunctions";
 
 
 const styles = (theme) => ({
@@ -34,6 +51,104 @@ const useStyles = makeStyles(styles);
 
 export default function Rewards() {
   const classes = useStyles();
+  const [provider, setProvider] = React.useState(getProvider());
+  const [signer, setSigner] = React.useState(getSigner(provider));
+
+  // The following are populated in a react hook
+  const [account, setAccount] = React.useState(undefined);
+  const [chainId, setChainId] = React.useState(undefined);
+  const [router, setRouter] = React.useState(undefined);
+  const [stakingEps, setStakingEps] = React.useState(undefined);
+  const [weth, setWeth] = React.useState(undefined);
+  const [panic, setPanic] = React.useState(undefined);
+  const [factory, setFactory] = React.useState(undefined);
+
+  // Stores a record of whether their respective dialog window is open
+  const [dialog1Open, setDialog1Open] = React.useState(false);
+  const [dialog2Open, setDialog2Open] = React.useState(false);
+  const [wrongNetworkOpen, setwrongNetworkOpen] = React.useState(false);
+
+  const [tokenDetails, setTokenDetails] = React.useState({
+    address: undefined,
+    symbol: undefined,
+    balance: undefined,
+  });
+
+  const [panicBalance, setPanicBalance] = React.useState("0");
+
+  const [coins, setCoins] = React.useState([]);
+
+  // Stores the current value of their respective text box
+  const [field1Value, setField1Value] = React.useState("");
+  const [field2Value, setField2Value] = React.useState("");
+
+  // Controls the loading button
+  const [loading, setLoading] = React.useState(false);
+
+
+  // These functions take an HTML event, pull the data out and puts it into a state variable.
+  const handleChange = {
+    field1: (e) => {
+      setField1Value(e.target.value);
+    },
+    field2: (e) => {
+      setField2Value(e.target.value);
+    },
+  };
+
+
+  // This hook will run when the component first mounts, it can be useful to put logs to populate variables here
+  useEffect(() => {
+
+    getAccount().then((account) => {
+      setAccount(account);
+    });
+
+    async function Network() {
+      const chainId = await getNetwork(provider).then((chainId) => {
+        setChainId(chainId);
+        return chainId;
+      });
+      if (chains.networks.includes(chainId)) {
+        setwrongNetworkOpen(false);
+        console.log('chainID: ', chainId);
+        // Get the router using the chainID
+        const router = await getRouter(chains.routerAddress.get(chainId), signer);
+        const stakingEps = await getEpsStaking("0x066Da5249e1312E95d63F7A54CB039aE36510A6E",signer);
+        setRouter(router);
+        setStakingEps(stakingEps);
+        setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
+        // Get Weth address from router
+        await router.weth().then((wethAddress) => {
+          console.log('Weth: ', wethAddress);
+          setWeth(getWeth(wethAddress, signer));
+          // Set the value of the weth address in the default coins array
+          const coins = COINS.get(chainId);
+          coins[0].address = wethAddress;
+          setCoins(coins);
+        });
+        // Get the factory address from the router
+        await router.factory().then((factory_address) => {
+          setFactory(getFactory(factory_address, signer));
+        })
+      } else {
+        console.log('Wrong network mate.');
+        setwrongNetworkOpen(true);
+      }
+    }
+
+    Network()
+
+  }, []);
+
+  
+  async function exit(){
+    await stakingEps;
+    await panic;
+    //const amountIn = ethers.utils.parseUnits(bal, 18);
+    //await panic.approve("0x066Da5249e1312E95d63F7A54CB039aE36510A6E","999999999999999999999999");
+    await stakingEps.exit();
+  }
 
   return (
     <div>
@@ -171,7 +286,7 @@ export default function Rewards() {
                       valid={true}
                       success={false}
                       fail={false}
-                      onClick={() => { }}
+                      onClick={() => { exit() }}
                     >
                       Claim
                     </LoadingButton>

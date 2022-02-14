@@ -8,7 +8,7 @@ const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
-const epsStakingAddress = "0x066Da5249e1312E95d63F7A54CB039aE36510A6E";
+const epsStakingAddress = "0xf841213C402d77Ec3E44724a7bBF804df3825280";
 const chefAddress = "0x668675832FdD9601E8804c694B0E2073B676cEfF";
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
