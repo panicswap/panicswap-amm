@@ -216,7 +216,7 @@ function FarmList(props) {
                     <Link to={item.url}>
                       {item.title}
                     </Link>
-                   {"   APR "+ aprMap[index+1]/100 + "%     TVL: " + Number(tvlMap[index+1]/1e18).toFixed(2)}
+                   {"   APR "+ aprMap[index+1]/100 + "%     TVL: " + Number(tvlMap[index+1]/1e18).toFixed(2)+"$"}
                   </li>
                 );
               })}
