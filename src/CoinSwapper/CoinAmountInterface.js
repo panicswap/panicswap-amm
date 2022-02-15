@@ -28,15 +28,15 @@ export default function CoinAmountInterface(props) {
   const updateAmount = (e, percentage = 100) => {
     e.preventDefault();
     let amount;
-
+    
     if(percentage === 100 && maxValue){
       amount = (symbol && symbol === "FTM") ? maxValue - 2 : maxValue;
     } else if(maxValue) {
-      amount = maxValue;
+      amount = maxValue  * percentage / 100;
     } else {
       amount = 0;
     }
-    
+    console.log("MAX CLICKED", amount);
     const mockEvent = { target: {value: String(amount)} }
     onChange(mockEvent)
   }
