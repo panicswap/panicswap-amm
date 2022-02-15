@@ -298,7 +298,8 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const pairAddress = await factory.getPair(address1, address2, false); // TODO table
+    const stable = document.getElementById("stable").checked;
+    const pairAddress = await factory.getPair(address1, address2, stable);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
   
