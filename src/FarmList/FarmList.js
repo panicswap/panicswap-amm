@@ -25,6 +25,7 @@ import {
   swapTokens,
   getReserves,
   getChef,
+  getAprFeed,
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -75,6 +76,8 @@ function FarmList(props) {
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
   const [chef, setChef] = React.useState(undefined);
+  const [aprFeed, setAprFeed] = React.useState(undefined);
+  const [aprMap, setAprMap] = React.useState([]);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -105,6 +108,8 @@ function FarmList(props) {
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const chef = await getChef("0x668675832FdD9601E8804c694B0E2073B676cEfF", signer);
+        const aprFeed = await getAprFeed("0xaabAEAd191f2b03fF6AA688eaEcF0f07199F3aCA", signer);
+        setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
         // Get Weth address from router
@@ -134,6 +139,13 @@ function FarmList(props) {
     if(chef){
       const reward = await chef.totalClaimableReward(account);
       setPendingPanic(String(reward/1e18));
+      const poolLength = await chef.poolLength();
+      const aprMap = [];
+      for(let i=0; i< poolLength; ++i){
+        try {aprMap[i] = await aprFeed.yvApr(i)}catch{continue};
+      }
+      console.log("aprmap", aprMap);
+      setAprMap(aprMap);
     }
   }, [chef]);
 
@@ -202,6 +214,7 @@ function FarmList(props) {
                     <Link to={item.url}>
                       {item.title}
                     </Link>
+                   {"   APR "+ aprMap[index+1]/100 + "%"}:
                   </li>
                 );
               })}

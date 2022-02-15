@@ -48,7 +48,7 @@ export async function addLiquidity(
 
   const hh = await router.quoteAddLiquidity(address1, address2, stable, amountIn1, amountIn2);
 
-  const [amount1Min, amount2Min, liq] = hh;
+  let [amount1Min, amount2Min, liq] = hh;
 
   console.log("add deploy details", hh);
 
@@ -61,12 +61,14 @@ export async function addLiquidity(
   const wethAddress = await routerContract.weth();
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
+  console.log("allowance1", allowance1, "alowance2", allowance2, "amountIn", amountIn1, "amountIn2", amountIn2);
+
   if(allowance1 < amountIn1 && address1 != wethAddress){
-    await token1.approve(routerContract.address, amountIn1);
+    await token1.approve(routerContract.address, "9999999999999999999999999999999999999");
     await delay(5000);
   }
-  if(allowance2 < amountIn2 && address1 != wethAddress){
-    await token2.approve(routerContract.address, amountIn2);
+  if(allowance2 < amountIn2 && address2 != wethAddress){
+    await token2.approve(routerContract.address, "9999999999999999999999999999999999999");
     await delay(5000);
   }
   console.log("reached");
@@ -78,6 +80,7 @@ export async function addLiquidity(
     amountIn2,
     amount1Min,
     amount2Min,
+    stable,
     account,
     deadline,
   ]);
@@ -180,10 +183,14 @@ export async function removeLiquidity(
   const pairAddress = await factory.getPair(address1, address2, stable);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
-  const allowance = await pair.allowance(account, routerContract.address);
+  const allowance = await pair.allowance(account, pair.address);
 
-  if(allowance < liquidity)
-      await pair.approve(routerContract.address, liquidity);
+  console.log("allowance is ", allowance);
+  console.log("liquidity is is ", liquidity);
+  console.log("pair is ", pair.address);
+
+  //if(allowance < liquidity)
+      //await pair.approve(routerContract.address, "999999999999999999999999999999999999");
 
   console.log([
     address1,

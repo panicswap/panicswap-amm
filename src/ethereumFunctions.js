@@ -7,6 +7,7 @@ const ERC20 = require("./build/ERC20.json");
 const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
+const APRFEED = require("./build/AprFeed.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
 const epsStakingAddress = "0xf841213C402d77Ec3E44724a7bBF804df3825280";
 const chefAddress = "0x668675832FdD9601E8804c694B0E2073B676cEfF";
@@ -25,6 +26,10 @@ export async function getNetwork(provider) {
 
 export function getRouter(address, signer) {
   return new Contract(address, ROUTER.abi, signer);
+}
+
+export function getAprFeed(address, signer) {
+  return new Contract(address, APRFEED.abi, signer);
 }
 
 export function getChef(address, signer) {
