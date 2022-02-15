@@ -32,7 +32,7 @@ export default function CoinAmountInterface(props) {
     if(percentage === 100 && maxValue){
       amount = (symbol && symbol === "FTM") ? maxValue - 2 : maxValue;
     } else if(maxValue) {
-      amount = maxValue * percentage / 100;
+      amount = maxValue;
     } else {
       amount = 0;
     }
