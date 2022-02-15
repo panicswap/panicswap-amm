@@ -152,7 +152,7 @@ export default function Rewards() {
       const panicEarnedHalf = panicEarnedUnparsed[0];
       const panicEarnedFinal = panicEarnedHalf[1];
       console.log("panic earned", panicEarnedFinal);
-      setVestedBalance(String(penaltyData[1]/1e18));
+      setVestedBalance(String(penaltyData[1]/1e18*2));
       setUnlockedBalance(String(unlockedBal/1e18));
       setPanicRewards(String(panicEarnedFinal/1e18));
     }
