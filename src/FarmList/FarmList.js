@@ -78,6 +78,7 @@ function FarmList(props) {
   const [chef, setChef] = React.useState(undefined);
   const [aprFeed, setAprFeed] = React.useState(undefined);
   const [aprMap, setAprMap] = React.useState([]);
+  const [tvlMap, setTvlMap] = React.useState([]);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -108,7 +109,7 @@ function FarmList(props) {
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const chef = await getChef("0x668675832FdD9601E8804c694B0E2073B676cEfF", signer);
-        const aprFeed = await getAprFeed("0xaabAEAd191f2b03fF6AA688eaEcF0f07199F3aCA", signer);
+        const aprFeed = await getAprFeed("0xD5BFD2a6A2f357bFe2ABa7eB84344d52Cb8561Ee", signer);
         setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
@@ -143,6 +144,7 @@ function FarmList(props) {
       const aprMap = [];
       for(let i=0; i< poolLength; ++i){
         try {aprMap[i] = await aprFeed.yvApr(i)}catch{continue};
+        try {tvlMap[i] = await aprFeed.lpValueDollarChef(i)}catch{continue};
       }
       console.log("aprmap", aprMap);
       setAprMap(aprMap);
@@ -214,7 +216,7 @@ function FarmList(props) {
                     <Link to={item.url}>
                       {item.title}
                     </Link>
-                   {"   APR "+ aprMap[index+1]/100 + "%"}:
+                   {"   APR "+ aprMap[index+1]/100 + "%     TVL: " + Number(tvlMap[index+1]/1e18).toFixed(2)}
                   </li>
                 );
               })}
