@@ -175,8 +175,12 @@ export async function swapTokens( // todo removed bool from interface
 
   const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
-  // TODO check approval. If approved dont
-  await token1.approve(routerContract.address, amountIn);
+  console.log("allowance");
+  const allowance = await token1.allowance(accountAddress, routerContract.address);
+  console.log(allowance);
+  if(Number(allowance)<amountIn)
+    console.log("approving");
+    await token1.approve(routerContract.address, amountIn);
   const wethAddress = await routerContract.weth();
 
   if (address1 === wethAddress) {
@@ -220,6 +224,7 @@ export async function getAmountOut(
   routerContract,
   signer
 ) {
+  console.log("trying to fetch amount out");
   try {
     const token1 = new Contract(address1, ERC20.abi, signer);
     const token1Decimals = await getDecimals(token1);
@@ -236,8 +241,8 @@ export async function getAmountOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
       [[address1, address2, false]] // TODO boolean
     );
-
-    const actualValuesOut = vvalues_out[1] > svalues_out[1] ? vvalues_out[1] : svalues_out[1];
+    console.log("s values", svalues_out, "vvalues", vvalues_out);
+    const actualValuesOut = Number(vvalues_out[1]) > Number(svalues_out[1]) ? vvalues_out[1] : svalues_out[1];
 
     const amount_out = actualValuesOut*10**(-token2Decimals);
     console.log('amount out: ', amount_out)
