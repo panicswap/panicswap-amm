@@ -318,8 +318,12 @@ export async function quoteAddLiquidity(
   const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
-  //const liqWei = ethers.utils.parseEther(liquidity);
+  const erc20A = new Contract(address1, ERC20.abi, signer);
+  const erc20B = new Contract(address2, ERC20.abi, signer);
 
+  const decs0 = await erc20A.decimals();
+  const decs1 = await erc20B.decimals();
+  
   console.log("address1 is", address1);
   console.log("address2 is", address2);
 
@@ -334,8 +338,8 @@ export async function quoteAddLiquidity(
   console.log("routerResults", hh);
 
   return [
-      hh[0]/1e18,
-      hh[1]/1e18,
+      hh[0]/(10**decs0),
+      hh[1]/(10**decs1),
       hh[2]/1e18,
     ];
 }

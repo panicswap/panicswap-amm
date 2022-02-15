@@ -175,11 +175,8 @@ export async function swapTokens( // todo removed bool from interface
 
   const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
-  console.log("allowance");
   const allowance = await token1.allowance(accountAddress, routerContract.address);
-  console.log(allowance);
   if(Number(allowance)<amountIn)
-    console.log("approving");
     await token1.approve(routerContract.address, amountIn);
   const wethAddress = await routerContract.weth();
 
