@@ -50,7 +50,7 @@ export async function addLiquidity(
 
   let [amount1Min, amount2Min, liq] = hh;
 
-  console.log("add deploy details", hh);
+  console.log("add deploy liquidity details", hh);
 
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = ethers.BigNumber.from(time);
@@ -61,13 +61,12 @@ export async function addLiquidity(
   const wethAddress = await routerContract.weth();
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  console.log("allowance1", allowance1, "alowance2", allowance2, "amountIn", amountIn1, "amountIn2", amountIn2);
 
-  if(allowance1 < amountIn1 && address1 != wethAddress){
+  if(Number(allowance1) < Number(amountIn1) && address1 != wethAddress){
     await token1.approve(routerContract.address, "9999999999999999999999999999999999999");
     await delay(5000);
   }
-  if(allowance2 < amountIn2 && address2 != wethAddress){
+  if(Number(allowance2) < Number(amountIn2) && address2 != wethAddress){
     await token2.approve(routerContract.address, "9999999999999999999999999999999999999");
     await delay(5000);
   }
@@ -110,6 +109,7 @@ export async function addLiquidity(
       { value: amountIn2 }
     );
   } else {
+    console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min,account,deadline);
     // Token + Token
     await routerContract.addLiquidity(
       address1,
@@ -189,8 +189,8 @@ export async function removeLiquidity(
   console.log("liquidity is is ", liquidity);
   console.log("pair is ", pair.address);
 
-  //if(allowance < liquidity)
-      //await pair.approve(routerContract.address, "999999999999999999999999999999999999");
+  if(Number(allowance) < Number(liquidity))
+      await pair.approve(routerContract.address, "999999999999999999999999999999999999");
 
   console.log([
     address1,
