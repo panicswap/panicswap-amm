@@ -231,7 +231,6 @@ function LiquidityDeployer(props) {
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
       getBalanceAndSymbol(account, address, provider, signer, weth.address, coins).then((data) => {
-        console.log("AAAAAAAAAAAAAAAA",data.balance);
         setCoin2({
           address: address,
           symbol: data.symbol,
