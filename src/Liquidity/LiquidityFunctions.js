@@ -364,7 +364,13 @@ export async function quoteRemoveLiquidity(
 
   const liqWei = ethers.utils.parseEther(liquidity);
 
+  const erc20A = new Contract(address1, ERC20.abi, signer);
+  const erc20B = new Contract(address2, ERC20.abi, signer);
+
+  const decs0 = await erc20A.decimals();
+  const decs1 = await erc20B.decimals();
+
   const hh = await router.quoteRemoveLiquidity(address1, address2, stable, liqWei);
   console.log("quote remove", hh, liquidity);
-  return [liquidity,hh["amountA"]/1e18,hh["amountB"]/1e18];
+  return [liquidity,hh["amountA"]/(10**decs0),hh["amountB"]/(10**decs1)];
 }
