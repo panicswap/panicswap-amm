@@ -173,7 +173,7 @@ export async function swapTokens( // todo removed bool from interface
    console.log("error, maybe no liq on s pair");
   }
 
-  const [actualTokens, actualAmountOut] = vamountOut[1] > samountOut[1] ? [vtokens, vamountOut] : [stokens, samountOut];
+  const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
   // TODO check approval. If approved dont
   await token1.approve(routerContract.address, amountIn);
