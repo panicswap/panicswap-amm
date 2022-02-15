@@ -446,34 +446,8 @@ function LiquidityDeployer(props) {
             </Grid>
           </Grid>
 
-          <hr className={classes.hr} />
-
-          {/* Reserves Display */}
-          <Typography variant="h6">Reserves</Typography>
-          <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatReserve(reserves[0], coin1.symbol)}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatReserve(reserves[1], coin2.symbol)}
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <hr className={classes.hr} />
-
           {/* Liquidity Tokens Display */}
-          <Typography variant="h6">Your Liquidity Pool Tokens</Typography>
-          <Grid container direction="row" justifyContent="center">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatReserve(liquidityTokens, "UNI-V2")}
-              </Typography>
-            </Grid>
-          </Grid>
+
         </Grid>
         <Paper className={classes.paperContainer}>
           <Grid
@@ -499,17 +473,9 @@ function LiquidityDeployer(props) {
               </Grid>
             </Grid>
 
-            <hr className={classes.hr} />
 
             {/* Liquidity Tokens Display */}
-            <Typography variant="h6">Liquidity Pool Tokens Out</Typography>
-            <Grid container direction="row" justifyContent="center">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatReserve(liquidityOut[2], "UNI-V2")}
-                </Typography>
-              </Grid>
-            </Grid>
+
           </Grid>
         </Paper>
 
