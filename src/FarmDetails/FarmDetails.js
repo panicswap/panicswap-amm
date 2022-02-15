@@ -172,14 +172,13 @@ function FarmDetails(props) {
   useEffect( async() => {
     if(chef){
       const uInfo = await chef.userInfo(farmId,account);
-      setBalanceStaked(String(uInfo["amount"]/1e18));
-  
+      setBalanceStaked(ethers.utils.formatUnits(uInfo["amount"]));
       const pInfo = await chef.poolInfo(farmId);
       const lpt = pInfo["lpToken"];
       console.log(lpt);
       const lptC = getWeth(lpt, signer);
       const balWal = await lptC.balanceOf(account);
-      setBalanceWallet(String(balWal/1e18));
+      setBalanceWallet(ethers.utils.formatUnits(balWal));
     }
   }, [chef]);
 

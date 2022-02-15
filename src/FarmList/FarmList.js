@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import { useSnackbar } from "notistack";
+import { ethers } from 'ethers';
 import LoopIcon from "@material-ui/icons/Loop";
 import {
   getAccount,
@@ -139,7 +140,7 @@ function FarmList(props) {
   useEffect( async() => {
     if(chef){
       const reward = await chef.totalClaimableReward(account);
-      setPendingPanic(String(reward/1e18));
+      setPendingPanic(ethers.utils.formatUnits(reward));
       const poolLength = await chef.poolLength();
       const aprMap = [];
       for(let i=0; i< poolLength; ++i){

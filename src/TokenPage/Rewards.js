@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import LoadingButton from "../Components/LoadingButton";
 import React, { useEffect } from "react";
+import {ethers} from 'ethers';
 import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
 
@@ -152,9 +153,9 @@ export default function Rewards() {
       const panicEarnedHalf = panicEarnedUnparsed[0];
       const panicEarnedFinal = panicEarnedHalf[1];
       console.log("panic earned", panicEarnedFinal);
-      setVestedBalance(String(penaltyData[1]/1e18*2));
-      setUnlockedBalance(String(unlockedBal/1e18));
-      setPanicRewards(String(panicEarnedFinal/1e18));
+      setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
+      setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
+      setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
     }
   }, [panic]);
 
