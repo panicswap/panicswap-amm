@@ -149,7 +149,7 @@ export default function Stake() {
   useEffect( async() => {
     if(panic){
       const bal = await panic.balanceOf(account);
-      setPanicBalance(String(bal/1e18));
+      setPanicBalance(ethers.utils.formatUnits(bal));
     }
   }, [panic]);
 
