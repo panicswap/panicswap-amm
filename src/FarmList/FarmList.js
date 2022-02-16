@@ -142,13 +142,16 @@ function FarmList(props) {
       const reward = await chef.totalClaimableReward(account);
       setPendingPanic(ethers.utils.formatUnits(reward));
       const poolLength = await chef.poolLength();
-      const aprMap = [];
+      const aprPromises = [];
+      const tvlPromises = [];
       for(let i=0; i< poolLength; ++i){
-        try {aprMap[i] = await aprFeed.yvApr(i)}catch{continue};
-        try {tvlMap[i] = await aprFeed.lpValueDollarChef(i)}catch{continue};
+        aprPromises.push(aprFeed.yvApr(i))
+        tvlPromises.push(aprFeed.lpValueDollarChef(i))
       }
-      console.log("aprmap", aprMap);
-      setAprMap(aprMap);
+      await Promise.all([
+          Promise.all(aprPromises).then(setAprMap),
+          Promise.all(tvlPromises).then(setTvlMap)
+      ]);
     }
   }, [chef]);
 
