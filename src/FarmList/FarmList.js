@@ -32,6 +32,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
+import PANIC from "../assets/logo/panicswap_A_rounded_125x125.png";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -58,6 +59,20 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
   },
+  farmName: {
+    fontSize: 20,
+  },
+  farmCell: {
+   backgroundColor: "#f8f9fa",
+   padding: "20px",
+   borderRadius: "10px",
+  },
+  tokenLogo: {
+    width: "30px",
+    paddingRight: "5px",
+    verticalAlign: "middle",
+  }
+
 });
 
 const useStyles = makeStyles(styles);
@@ -91,7 +106,16 @@ function FarmList(props) {
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
-
+  function commafy( num ) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 5) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
 
@@ -183,8 +207,9 @@ function FarmList(props) {
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={4}>
               <Typography variant="body1" className={classes.balance}>
-                {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                {pendingPanic} PANIC
+                  {/* {formatBalance(coin1.balance, coin1.symbol)} */}
+                  <img src={PANIC} class={classes.tokenLogo}></img>
+                  {pendingPanic} PANIC
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -196,7 +221,7 @@ function FarmList(props) {
                 onClick={()=>{claimAllRewards()}}
               >
                 <AccountBalanceIcon className={classes.buttonIcon} />
-                COLLECT YOUR REWARDS
+                Collect Rewards
               </LoadingButton>
             </Grid>
           </Grid>
@@ -213,14 +238,27 @@ function FarmList(props) {
           </Typography>
 
           <div className="FarmItems">
-            <ul className={`farm-menu`}>
-              {FarmItems.map((item, index) => {
+            <ul className={"farm-menu"}>
+      
+      
+            {FarmItems.map((item, index) => {
+              
                 return (
+      
                   <li key={index} className={classes.farmItem}>
-                    <Link to={item.url}>
-                      {item.title}
-                    </Link>
-                   {"   APR "+ aprMap[index+1]/100 + "%     TVL: " + Number(tvlMap[index+1]/1e18).toFixed(2)+"$"}
+                    <Grid container direction="row" justifyContent="space-between" class={classes.farmCell}>
+                      <Link to={item.url} className={classes.farmName}>
+                        <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
+                        <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
+                        {item.title}
+                      </Link>
+                      <Typography>
+                        {"APR: "+ aprMap[index+1]/100+"%"}
+                      </Typography>
+                      <Typography>
+                        {"TVL: " + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))+"$"}
+                      </Typography>
+                    </Grid>
                   </li>
                 );
               })}

@@ -37,8 +37,8 @@ export default function Footer() {
                 
                 
                 <a href="https://ftmscan.com/address/0x41abb76d39c4dcd885340f9b98c26b51250644cc">MasterChef Contract</a> |&nbsp;
-                <a href="https://ftmscan.com/address/0xa341d77315e5e130ad386e034b4c9714cb149f4a">Spookyswap PANIC-WFTM</a> 
-
+                <a href="https://ftmscan.com/address/0xa341d77315e5e130ad386e034b4c9714cb149f4a">Spookyswap PANIC-WFTM</a> |&nbsp;
+                <a href="https://classic.panicswap.com/">Pre-Farm</a>
                 <br /> <br />
 
                 <a href="https://medium.com/@thepanicswap/">Medium</a> |&nbsp;
