@@ -114,7 +114,7 @@ export async function getBalanceAndSymbol(
       const symbol = await token.symbol();
 
       return {
-        balance: balanceRaw*10**(-tokenDecimals),
+        balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
         symbol: symbol,
       };
     }

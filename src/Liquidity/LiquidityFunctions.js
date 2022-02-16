@@ -109,7 +109,7 @@ export async function addLiquidity(
       { value: amountIn2 }
     );
   } else {
-    console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min,account,deadline);
+    console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min, account,deadline);
     // Token + Token
     await routerContract.addLiquidity(
       address1,
