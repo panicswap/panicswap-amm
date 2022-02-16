@@ -156,6 +156,7 @@ export default function CoinDialog(props) {
               {coins.map((coin, index) => (
                 <Grid item key={index} xs={12}>
                   <CoinButton
+                    logo = {coin.abbr}
                     coinName={coin.name}
                     coinAbbr={coin.abbr}
                     onClick={() => exit(coin.address)}

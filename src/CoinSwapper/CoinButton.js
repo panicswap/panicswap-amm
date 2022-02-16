@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   coinName: {
     opacity: 0.6,
   },
+  coinLogo: {
+    width: "40px",
+  }
 }));
 
 CoinButton.propTypes = {
@@ -30,7 +33,10 @@ export default function CoinButton(props) {
   return (
     <ButtonBase focusRipple className={classes.button} onClick={onClick}>
       <Grid container direction="column">
-        <Typography variant="h6">{coinAbbr}</Typography>
+        <Typography variant="h6">
+          <img src={'/assets/token/'+ props.logo + ".svg"} className={classes.coinLogo}/>
+          {coinAbbr}
+        </Typography>
         <Typography variant="body2" className={classes.coinName}>
           {coinName}
         </Typography>

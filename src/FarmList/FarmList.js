@@ -32,7 +32,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
-
+import PANIC from "../assets/logo/panicswap_A_rounded_125x125.png";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -66,7 +66,13 @@ const styles = (theme) => ({
    backgroundColor: "#f8f9fa",
    padding: "20px",
    borderRadius: "10px",
+  },
+  tokenLogo: {
+    width: "30px",
+    paddingRight: "5px",
+    verticalAlign: "middle",
   }
+
 });
 
 const useStyles = makeStyles(styles);
@@ -198,8 +204,9 @@ function FarmList(props) {
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={4}>
               <Typography variant="body1" className={classes.balance}>
-                {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                {pendingPanic} PANIC
+                  {/* {formatBalance(coin1.balance, coin1.symbol)} */}
+                  <img src={PANIC} class={classes.tokenLogo}></img>
+                  {pendingPanic} PANIC
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -211,7 +218,7 @@ function FarmList(props) {
                 onClick={()=>{claimAllRewards()}}
               >
                 <AccountBalanceIcon className={classes.buttonIcon} />
-                COLLECT YOUR REWARDS
+                Collect Rewards
               </LoadingButton>
             </Grid>
           </Grid>
@@ -229,21 +236,25 @@ function FarmList(props) {
 
           <div className="FarmItems">
             <ul className={"farm-menu"}>
-              {FarmItems.map((item, index, logo) => {
+      
+      
+            {FarmItems.map((item, index) => {
+              
                 return (
+      
                   <li key={index} className={classes.farmItem}>
                     <Grid container direction="row" justifyContent="space-between" class={classes.farmCell}>
-                      <Grid item xs={6}>
-                        <Link to={item.url} className={classes.farmName}>
-                          {item.title}
-                        </Link>
-                        <Typography>
-                          {"APR: "+ aprMap[index+1]/100+"%"}
-                        </Typography>
-                        <Typography>
-                          {"TVL: " + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))+"$"}
-                        </Typography>
-                      </Grid>
+                      <Link to={item.url} className={classes.farmName}>
+                        <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
+                        <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
+                        {item.title}
+                      </Link>
+                      <Typography>
+                        {"APR: "+ aprMap[index+1]/100+"%"}
+                      </Typography>
+                      <Typography>
+                        {"TVL: " + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))+"$"}
+                      </Typography>
                     </Grid>
                   </li>
                 );
