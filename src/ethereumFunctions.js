@@ -262,16 +262,17 @@ export async function fetchReserves(address1, address2, pair, signer) {
     const coin1 = new Contract(address1, ERC20.abi, signer);
     const coin2 = new Contract(address2, ERC20.abi, signer);
 
-    const coin1Decimals = await getDecimals(coin1);
-    const coin2Decimals = await getDecimals(coin2);
-
-    // Get reserves
-    const reservesRaw = await pair.getReserves();
+    const [coin1Decimals, coin2Decimals, pairToken0, pairToken1, reservesRaw] = await Promise.all([
+        getDecimals(coin1), getDecimals(coin2),
+        pair.token0(), pair.token1(),
+        // Get reserves
+        pair.getReserves()
+    ]);
 
     // Put the results in the right order
     const results =  [
-      (await pair.token0()) === address1 ? reservesRaw[0] : reservesRaw[1],
-      (await pair.token1()) === address2 ? reservesRaw[1] : reservesRaw[0],
+      pairToken0 === address1 ? reservesRaw[0] : reservesRaw[1],
+      pairToken1 === address2 ? reservesRaw[1] : reservesRaw[0],
     ];
 
     // Scale each to the right decimal place
@@ -300,7 +301,7 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const stable = document.getElementById("stable").checked;
+    const stable = document.getElementById("stable")?.checked;
     const pairAddress = await factory.getPair(address1, address2, stable);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
