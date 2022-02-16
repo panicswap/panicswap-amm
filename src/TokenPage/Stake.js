@@ -9,7 +9,13 @@ import {
   makeStyles,
   Paper,
   Typography,
-  Switch
+  Switch,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import {
@@ -67,6 +73,10 @@ export default function Stake() {
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
+  const [vestedBalance, setVestedBalance] = React.useState(0);
+  const [lockedBalance, setLockedBalance] = React.useState(0);
+  const [unlockedBalance, setUnlockedBalance] = React.useState(0);
+  const [panicRewards, setPanicRewards] = React.useState(0);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -147,6 +157,20 @@ export default function Stake() {
   }, []);
 
   useEffect( async() => {
+    if(stakingEps){
+      const unlockedBal = await stakingEps.unlockedBalance(account);
+      const penaltyData = await stakingEps.withdrawableBalance(account);
+      const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
+      const panicEarnedHalf = panicEarnedUnparsed[0];
+      const panicEarnedFinal = panicEarnedHalf[1];
+      const panicLockedUnparsed = await stakingEps.lockedBalances(account);
+      const panicLockedTotal = panicLockedUnparsed[0];
+      console.log("panic earned", panicEarnedFinal);
+      setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
+      setLockedBalance(ethers.utils.formatUnits(panicLockedTotal));
+      setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
+      setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
+    }
     if(panic){
       const bal = await panic.balanceOf(account);
       setPanicBalance(ethers.utils.formatUnits(bal));
@@ -161,7 +185,7 @@ export default function Stake() {
 
     const amountIn = ethers.utils.parseUnits(bal, 18);
     const allo = await panic.allowance(account,"0xf841213C402d77Ec3E44724a7bBF804df3825280");
-    if(allo < amountIn){
+    if(Number(allo) < Number(amountIn)){
       await panic.approve("0xf841213C402d77Ec3E44724a7bBF804df3825280","99999999999999999999999999");
       await delay(5000);
     }
@@ -178,7 +202,46 @@ export default function Stake() {
   return (
     <div>
       <Container>
+        <Paper className={classes.paperContainer}>
 
+        <Typography variant="h5" className={classes.title}>
+            Staked PANIC
+          </Typography>
+
+          <TableContainer>
+            <Table className={classes.table} size="small" aria-label="simple table">
+
+              <TableBody>
+
+                {/* @todo */}
+                {/* @todo --> need to iterate with myArray.map()  */}
+                {/* @todo */}
+
+                <TableRow>
+                  <TableCell>
+                    Staked and locked
+                  </TableCell>
+                  <TableCell>{Number(lockedBalance).toFixed(2)}</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    Staked and vested
+                  </TableCell>
+                  <TableCell>{Number(vestedBalance).toFixed(2)}</TableCell>
+                </TableRow>
+
+                <TableRow>
+                  <TableCell>
+                    Staked and unlocked
+                  </TableCell>
+                  <TableCell>{Number(unlockedBalance).toFixed(2)}</TableCell>
+                </TableRow>
+
+              </TableBody >
+            </Table >
+          </TableContainer >
+        </Paper>
         {/* Stake w/o locking */}
         <Paper className={classes.paperContainer}>
           <Typography variant="h5" className={classes.title}>

@@ -179,15 +179,13 @@ export default function Rewards() {
 
   return (
     <div>
-      <Container>
-        <Paper className={classes.paperContainer}>
-          <Typography variant="h5" className={classes.title}>
-            PANIC Rewards
-          </Typography>
 
+
+<Container>
+        <Paper className={classes.paperContainer}>
           <section>
             <Typography variant="h6" className={classes.title}>
-              For Farmers:
+              Liquidity Providers
             </Typography>
             <ul>
               <li>
@@ -236,10 +234,7 @@ export default function Rewards() {
                 {/* Unlocked PANIC */}
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    <Typography variant="body1">
-                      Unlocked PANIC
-                    </Typography>
-                    Staked PANIC and cleared PANIC vests
+                    Staked PANIC
                   </TableCell>
                   <TableCell align="center">{unlockedBalance}</TableCell>
                   <TableCell align="center">
@@ -250,7 +245,7 @@ export default function Rewards() {
                       fail={false}
                       onClick={() => { withdrawUnlocked() }}
                     >
-                      Claim
+                      Unstake
                     </LoadingButton>
                   </TableCell>
                 </TableRow>
@@ -259,11 +254,13 @@ export default function Rewards() {
                 {/* PANIC Stake and Lock Rewards */}
                 <TableRow>
                   <TableCell component="th" scope="row">
-                    <Typography variant="body1">
-                      PANIC Stake and Lock Rewards
-                    </Typography>
+                      PANIC Rewards
                   </TableCell>
-                  <TableCell align="center">{panicRewards}</TableCell>
+                  <TableCell align="center">
+                    {Number(panicRewards).toFixed(2) + " PANIC"}
+                    <hr/>
+                    0.00 yvWFTM
+                  </TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
@@ -276,29 +273,12 @@ export default function Rewards() {
                     </LoadingButton>
                   </TableCell>
                 </TableRow>
-
-
-                {/* Vesting PANIC */}
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    <Typography variant="body1">
-                      Vesting PANIC
-                    </Typography>
-                    PANIC that can be claimed with a 50% penalty
-                  </TableCell>
-                  <TableCell align="center">{vestedBalance}</TableCell>
-                  <TableCell align="center">
-
-                  </TableCell>
-                </TableRow>
-
-
                 {/* Claim all above */}
                 <TableRow className={classes.rowClaimAll} >
                   <TableCell component="th" scope="row">
-                    Claim all above
+                    Exit vesting
                   </TableCell>
-                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">{vestedBalance/2}</TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
@@ -307,34 +287,10 @@ export default function Rewards() {
                       fail={false}
                       onClick={() => { exit() }}
                     >
-                      Claim
+                      Exit
                     </LoadingButton>
                   </TableCell>
                 </TableRow>
-
-
-                {/* Unlocked PANIC */}
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    <Typography variant="body1">
-                      Unlocked PANIC
-                    </Typography>
-                    PANIC that was previosuly locked for 2 years
-                  </TableCell>
-                  <TableCell align="center">-</TableCell>
-                  <TableCell align="center">
-                    <LoadingButton
-                      loading={false}
-                      valid={false}
-                      success={false}
-                      fail={false}
-                      onClick={() => { }}
-                    >
-                      Claim
-                    </LoadingButton>
-                  </TableCell>
-                </TableRow>
-
               </TableBody >
             </Table >
           </TableContainer >
@@ -344,7 +300,6 @@ export default function Rewards() {
 
 
       </Container >
-
 
     </div >
   );

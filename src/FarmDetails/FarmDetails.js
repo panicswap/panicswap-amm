@@ -185,8 +185,6 @@ function FarmDetails(props) {
   async function deposit(amount){
     await chef;
   
-    console.log("dasfasf",typeof amount); // ready . run this code :) es string pero pone lo mismo amount.toFixed is not a function 
-
     const amountIn = ethers.utils.parseUnits(Number(amount).toFixed(18), 18);
 
     const pInfo = await chef.poolInfo(farmId);
