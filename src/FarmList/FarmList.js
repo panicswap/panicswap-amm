@@ -255,7 +255,7 @@ function FarmList(props) {
                         {"APR: "+ aprMap[index+1]/100+"%"}
                       </Typography>
                       <Typography>
-                        {"TVL: " + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))+"$"}
+                        {"TVL: $" + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))}
                       </Typography>
                     </Grid>
                   </li>
