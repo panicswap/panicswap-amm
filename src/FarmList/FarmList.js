@@ -208,8 +208,7 @@ function FarmList(props) {
             <Grid item xs={4}>
               <Typography variant="body1" className={classes.balance}>
                   {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                  <img src={PANIC} class={classes.tokenLogo}></img>
-                  {pendingPanic} PANIC
+                  {Number(pendingPanic).toFixed(2)} PANIC
               </Typography>
             </Grid>
             <Grid item xs={4}>
