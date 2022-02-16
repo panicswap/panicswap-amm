@@ -33,6 +33,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 
+
 const styles = (theme) => ({
   paperContainer: {
     borderRadius: theme.spacing(2),
@@ -58,6 +59,14 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
   },
+  farmName: {
+    fontSize: 20,
+  },
+  farmCell: {
+   backgroundColor: "#f8f9fa",
+   padding: "20px",
+   borderRadius: "10px",
+  }
 });
 
 const useStyles = makeStyles(styles);
@@ -91,7 +100,16 @@ function FarmList(props) {
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
-
+  function commafy( num ) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 5) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
 
@@ -210,14 +228,23 @@ function FarmList(props) {
           </Typography>
 
           <div className="FarmItems">
-            <ul className={`farm-menu`}>
-              {FarmItems.map((item, index) => {
+            <ul className={"farm-menu"}>
+              {FarmItems.map((item, index, logo) => {
                 return (
                   <li key={index} className={classes.farmItem}>
-                    <Link to={item.url}>
-                      {item.title}
-                    </Link>
-                   {"   APR "+ aprMap[index+1]/100 + "%     TVL: " + Number(tvlMap[index+1]/1e18).toFixed(2)}
+                    <Grid container direction="row" justifyContent="space-between" class={classes.farmCell}>
+                      <Grid item xs={6}>
+                        <Link to={item.url} className={classes.farmName}>
+                          {item.title}
+                        </Link>
+                        <Typography>
+                          {"APR: "+ aprMap[index+1]/100+"%"}
+                        </Typography>
+                        <Typography>
+                          {"TVL: " + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))+"$"}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </li>
                 );
               })}

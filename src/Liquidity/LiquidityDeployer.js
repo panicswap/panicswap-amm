@@ -54,6 +54,9 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
   },
+  subText: {
+    fontSize: "13px",
+  },
 });
 
 const useStyles = makeStyles(styles);
@@ -455,11 +458,11 @@ function LiquidityDeployer(props) {
             item
             direction="column"
             alignItems="center"
-            spacing={2}
             className={classes.fullWidth}
           >
             {/* Tokens in */}
-            <Typography variant="h6">Tokens in</Typography>
+            <Typography variant="h6">Deployed Liquidity</Typography>
+            <Typography variant="p" className={classes.subText}>(Unstaked)</Typography>
             <Grid container direction="row" justifyContent="space-between">
               <Grid item xs={6}>
                 <Typography variant="body1" className={classes.balance}>
