@@ -262,7 +262,7 @@ function FarmDetails(props) {
                 valid={hasBalance.deposit()}
                 success={false}
                 fail={false}
-                onClick={() => { deposit(field1Value) }}
+                onClick={() => {  }}
               >
                 Deposit
               </LoadingButton>
