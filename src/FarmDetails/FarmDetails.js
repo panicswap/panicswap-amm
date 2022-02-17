@@ -140,7 +140,7 @@ function FarmDetails(props) {
         console.log('chainID: ', chainId);
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const chef = await getChef("0x668675832FdD9601E8804c694B0E2073B676cEfF", signer);
+        const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
         setRouter(router);
         setChef(chef);
         //getUserInfo(farmId,chef,signer);
@@ -193,12 +193,12 @@ function FarmDetails(props) {
     const lptC = getWeth(lpt, signer);
     console.log("approving", amountIn);
 
-    const allowance = await lptC.allowance(account, "0x668675832FdD9601E8804c694B0E2073B676cEfF");
+    const allowance = await lptC.allowance(account, "0xC02563f20Ba3e91E459299C3AC1f70724272D618");
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
     console.log("allowance",allowance);
     if(allowance < amountIn){
-        await lptC.approve("0x668675832FdD9601E8804c694B0E2073B676cEfF", "99999999999999999999999999999");
+        await lptC.approve("0xC02563f20Ba3e91E459299C3AC1f70724272D618", "99999999999999999999999999999");
         await delay(5000);
     }
     await chef.deposit(farmId, amountIn);
@@ -262,15 +262,12 @@ function FarmDetails(props) {
                 valid={hasBalance.deposit()}
                 success={false}
                 fail={false}
-                onClick={() => {  }}
+                onClick={() => { deposit(field1Value) }}
               >
                 Deposit
               </LoadingButton>
             </Grid>
           </Grid>
-
-
-
           {/* Withdraw */}
           <Grid container direction="row" justifyContent="center">
             <Grid item xs={8}>
