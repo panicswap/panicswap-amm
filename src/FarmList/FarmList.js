@@ -71,7 +71,6 @@ const styles = (theme) => ({
     paddingRight: "5px",
     verticalAlign: "middle",
   }
-
 });
 
 const useStyles = makeStyles(styles);
