@@ -65,6 +65,10 @@ const styles = (theme) => ({
     width: "40px",
     paddingRight: "5px",
     verticalAlign: "middle",
+  },
+  buttonContainer: {
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(1),
   }
 });
 
@@ -252,7 +256,7 @@ function FarmDetails(props) {
 
           {/* Deposit */}
           <Grid container direction="row" justifyContent="center">
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <CoinAmountInterface
                 activeField={true}
                 value={field1Value}
@@ -266,7 +270,7 @@ function FarmDetails(props) {
                 Wallet balance: <span>{balanceWallet}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
               </Typography>
             </Grid>
-            <Grid item xs={4} className={classes.btnContainer}>
+            <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
                 loading={loading}
                 valid={hasBalance.deposit()}
@@ -280,7 +284,7 @@ function FarmDetails(props) {
           </Grid>
           {/* Withdraw */}
           <Grid container direction="row" justifyContent="center">
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <CoinAmountInterface
                 activeField={true}
                 value={field2Value}
@@ -294,7 +298,7 @@ function FarmDetails(props) {
                 Staked balance: <span>{balanceStaked}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
               </Typography>
             </Grid>
-            <Grid item xs={4} className={classes.btnContainer}>
+            <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
                 loading={loading}
                 valid={hasBalance.withdraw()}
