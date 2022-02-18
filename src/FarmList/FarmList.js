@@ -39,8 +39,9 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(4),
   },
   title: {
-    textAlign: "center",
-    marginBottom: theme.spacing(2),
+    textAlign: "left",
+    marginLeft: theme.spacing(5),
+    marginBottom: "0px",
   },
   hr: {
     width: "100%",
@@ -50,13 +51,17 @@ const styles = (theme) => ({
     listStyle: "none",
   },
   balance: {
-    textAlign: "right",
+    textAlign: "center",
     padding: theme.spacing(1),
     paddingRight: theme.spacing(3),
   },
   buttonIcon: {
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
+    textDecoration: "none",
+    '&:hover': {
+      textDecoration:"underline",
+    },
   },
   farmName: {
     fontSize: 20,
@@ -70,6 +75,15 @@ const styles = (theme) => ({
     width: "30px",
     paddingRight: "5px",
     verticalAlign: "middle",
+  },
+  farmMenu: {
+    padding: "0px",
+    margin: "0px",
+  },
+  description: {
+    fontSize: "15px",
+    marginLeft: theme.spacing(5),
+    marginBottom: theme.spacing(2),
   }
 });
 
@@ -104,6 +118,12 @@ function FarmList(props) {
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
+  // Sum all values in a list
+  function add(accumulator, a) {
+    return accumulator + a;
+  }
+
+  // Beautify number value
   function commafy( num ) {
     var str = num.toString().split('.');
     if (str[0].length >= 5) {
@@ -202,25 +222,30 @@ function FarmList(props) {
           <Typography variant="h5" className={classes.title}>
             Rewards
           </Typography>
-          <Grid container direction="row" justifyContent="center">
-            <Grid item xs={4}>
-              <Typography variant="body1" className={classes.balance}>
-                  {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                  <img src="assets/token/PANIC.svg" className={classes.tokenLogo}></img>
-                  {Number(pendingPanic).toFixed(2)} PANIC
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <LoadingButton
-                loading={loading}
-                valid={true}
-                success={false}
-                fail={false}
-                onClick={()=>{claimAllRewards()}}
-              >
-                <AccountBalanceIcon className={classes.buttonIcon} />
-                Collect Rewards
-              </LoadingButton>
+          <Typography variant="h6" className={classes.description}>
+            Collect $PANIC rewards earned by farming
+          </Typography>
+          <Grid container direction="row" justifyContent="center" alignItems="center" xs={12}>
+            <Grid container xs={12} justifyContent="center" alignItems="center" className={classes.farmCell}>
+              <Grid item xs={6}>
+                <Typography variant="body1" justifyContent="center" className={classes.balance}>
+                    {/* {formatBalance(coin1.balance, coin1.symbol)} */}
+                    <img src="assets/token/PANIC.svg" className={classes.tokenLogo}></img>
+                    {Number(pendingPanic).toFixed(2)} PANIC
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <LoadingButton
+                  loading={loading}
+                  valid={true}
+                  success={false}
+                  fail={false}
+                  onClick={()=>{claimAllRewards()}}
+                >
+                  <AccountBalanceIcon className={classes.buttonIcon} />
+                  Collect Rewards
+                </LoadingButton>
+              </Grid>
             </Grid>
           </Grid>
         </Paper>
@@ -234,9 +259,12 @@ function FarmList(props) {
           <Typography variant="h5" className={classes.title}>
             Farms
           </Typography>
+          <Typography variant="h6" className={classes.description}>
+            Stake your liquidity provider tokens (LPs) and earn $PANIC
+          </Typography>
 
           <div className="FarmItems">
-            <ul className={"farm-menu"}>
+            <ul className={classes.farmMenu}>
       
       
             {FarmItems.map((item, index) => {
@@ -244,21 +272,53 @@ function FarmList(props) {
                 return (
       
                   <li key={index} className={classes.farmItem}>
-                    <Grid container direction="row" justifyContent="space-between" class={classes.farmCell}>
-                      <Link to={item.url} className={classes.farmName}>
-                        <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
-                        <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
-                        {item.title}
-                      </Link>
-                      <Typography>
-                        {"APR: "+ aprMap[index+1]/100+"%"}
-                      </Typography>
-                      <Typography>
-                        {"TVL: $" + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))}
-                      </Typography>
-                      <Typography>
-                        {"Boost: x" + item.boost}
-                      </Typography>
+                    <Grid container className={classes.farmCell}>
+                      <Grid container xs={12}>
+                        <Grid item xs={8}>
+                          <Typography className={classes.farmName}>
+                            <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
+                            <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
+                            {item.title}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <a href={item.url} class={classes.IconButton}>
+                            <LoadingButton
+                              loading={loading}
+                              valid={true}
+                              success={false}
+                              fail={false}>
+
+                              Deposit
+                            </LoadingButton>
+                          </a>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography>
+                          <b>Farm APR</b>
+                          </Typography>
+                          <Typography>
+                            {aprMap[index+1]/100+"%"}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography>
+                          <b>Total Value Staked</b>
+                          </Typography>
+                          <Typography>
+                            {commafy(Number(tvlMap[index+1]/1e18).toFixed(0)) + "$"}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography>
+                            <b>Multiplier</b>
+                          </Typography>
+                          <Typography>
+                            {"x" + item.boost}
+                          </Typography>
+                        </Grid>
+              
+                      </Grid>
                     </Grid>
                   </li>
                 );
