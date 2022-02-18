@@ -68,7 +68,6 @@ const styles = (theme) => ({
   },
   buttonContainer: {
     padding: theme.spacing(1),
-    marginTop: theme.spacing(1),
   }
 });
 

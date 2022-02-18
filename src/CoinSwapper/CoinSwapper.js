@@ -55,7 +55,7 @@ const styles = (theme) => ({
     padding: theme.spacing(1),
     overflow: "wrap",
     textAlign: "center",
-  },
+  }
 });
 
 const useStyles = makeStyles(styles);

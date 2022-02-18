@@ -131,7 +131,7 @@ export default function CoinDialog(props) {
       maxWidth="sm"
       classes={{ paper: classes.dialogContainer }}
     >
-      <DialogTitle onClose={() => exit(undefined)}>Select Coin</DialogTitle>
+      <DialogTitle onClose={() => exit(undefined)}>Select a token to swap</DialogTitle>
 
       <hr className={classes.hr} />
 
