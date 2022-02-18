@@ -37,7 +37,7 @@ const styles = (theme) => ({
   },
   switchButton: {
     zIndex: 1,
-    margin: "-24px",
+    margin: "-10px",
     padding: theme.spacing(0.5),
   },
   fullWidth: {
@@ -390,23 +390,6 @@ function CoinSwapper(props) {
                 symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
                 maxValue={coin2.balance}
               />
-            </Grid>
-
-            <hr className={classes.hr} />
-
-            {/* Balance Display */}
-            <Typography variant="h6">Your Balances</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(coin1.balance, coin1.symbol)}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(coin2.balance, coin2.symbol)}
-                </Typography>
-              </Grid>
             </Grid>
 
             <hr className={classes.hr} />
