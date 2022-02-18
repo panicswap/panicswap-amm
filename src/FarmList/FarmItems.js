@@ -21,7 +21,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1:"yvWBTC",
     symbol2:"yvWETH",
-    boost: "3",
+    boost: "4",
   },
   {
     title: "yvYFI-yvWETH Panic Variable LP",
@@ -37,7 +37,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "yvWBTC",
     symbol2: "renBTC",
-    boost: "1",
+    boost: "0.7",
   },
   {
     title: "yvUSDC-yvDAI Panic Stable LP",
@@ -45,6 +45,6 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "yvUSDC",
     symbol2: "yvDAI",
-    boost: "1",
+    boost: "0.3",
   },
 ];
