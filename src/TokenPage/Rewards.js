@@ -153,7 +153,7 @@ export default function Rewards() {
       const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
       const panicEarnedHalf = panicEarnedUnparsed[0];
       const yvWFTMEarned = panicEarnedUnparsed[1];
-      const panicEarnedFinal = panicEarnedHalf[1];
+      const panicEarnedFinal = panicEarnedHalf[1][0];
       console.log("panic earned", panicEarnedFinal);
       setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
       setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
