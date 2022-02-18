@@ -29,10 +29,15 @@ export default function CoinAmountInterface(props) {
     e.preventDefault();
     let amount;
     
-    if(percentage === 100 && maxValue){
-      amount = (symbol && symbol === "FTM") ? maxValue - 2 : maxValue;
+    if(percentage && maxValue && symbol === "FTM"){
+      if(maxValue < 1){
+        amount = 0;
+      }
+      else {
+        amount = (maxValue - 1) * percentage / 100
+      }
     } else if(maxValue) {
-      amount = maxValue  * percentage / 100;
+      amount = maxValue * percentage / 100;
     } else {
       amount = 0;
     }
@@ -52,9 +57,24 @@ export default function CoinAmountInterface(props) {
             justifyContent="flex-end"
             spacing={2}
         >
+            <Grid item>
+            <Link href="#" onClick={(e) => {updateAmount(e, 25)}}>
+              25%
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="#" onClick={(e) => {updateAmount(e, 50)}}>
+              50%
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="#" onClick={(e) => {updateAmount(e, 75)}}>
+              75%
+            </Link>
+          </Grid>
           <Grid item>
             <Link href="#" onClick={(e) => {updateAmount(e, 100)}}>
-              Max
+              100%
             </Link>
           </Grid>
         </Grid>
