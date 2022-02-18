@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     zIndex: "0",
+    height: "30px",
   },
   input: {
     ...theme.typography.h5,
@@ -45,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
   inputBase: {
     textAlign: "right",
   },
+  swapTokenIcon: {
+    width: "28px",
+    marginRight: "5px",
+  }
 }));
 
 CoinField.propTypes = {
@@ -171,6 +176,7 @@ export default function CoinField(props) {
             onClick={onClick}
             className={classes.fab}
           >
+            <img src={"/assets/token/" + symbol + ".svg"} className={classes.swapTokenIcon}></img>
             {symbol}
             { userCanChoose !== false && <ExpandMoreIcon /> }
           </Fab>

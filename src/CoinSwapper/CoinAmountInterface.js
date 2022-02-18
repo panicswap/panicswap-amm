@@ -29,7 +29,7 @@ export default function CoinAmountInterface(props) {
     e.preventDefault();
     let amount;
     
-    if(percentage && maxValue && symbol === "FTM"){
+    if(percentage && maxValue && symbol === "FTM") {
       if(maxValue < 1){
         amount = 0;
       }
