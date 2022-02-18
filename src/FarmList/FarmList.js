@@ -32,7 +32,6 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
-import PANIC from "../assets/logo/panicswap_A_rounded_125x125.png";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -208,6 +207,7 @@ function FarmList(props) {
             <Grid item xs={4}>
               <Typography variant="body1" className={classes.balance}>
                   {/* {formatBalance(coin1.balance, coin1.symbol)} */}
+                  <img src="assets/token/PANIC.svg" className={classes.tokenLogo}></img>
                   {Number(pendingPanic).toFixed(2)} PANIC
               </Typography>
             </Grid>
@@ -256,6 +256,9 @@ function FarmList(props) {
                       </Typography>
                       <Typography>
                         {"TVL: $" + commafy(Number(tvlMap[index+1]/1e18).toFixed(0))}
+                      </Typography>
+                      <Typography>
+                        {"Boost: x" + item.boost}
                       </Typography>
                     </Grid>
                   </li>

@@ -17,29 +17,40 @@ const useStyles = makeStyles((theme) => ({
   },
   coinLogo: {
     width: "40px",
+  },
+  tokenName: {
+    alignItems: "start",
   }
 }));
 
 CoinButton.propTypes = {
   coinName: PropTypes.string.isRequired,
   coinAbbr: PropTypes.string.isRequired,
+  coinAddress: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 export default function CoinButton(props) {
-  const { coinName, coinAbbr, onClick, ...other } = props;
+  const { coinName, coinAbbr, coinAddress, onClick, ...other } = props;
   const classes = useStyles();
 
   return (
     <ButtonBase focusRipple className={classes.button} onClick={onClick}>
-      <Grid container direction="column">
+      <Grid container direction="column" xs="2">
         <Typography variant="h6">
-          <img src={'/assets/token/'+ props.logo + ".svg"} className={classes.coinLogo}/>
+            <img src={'/assets/token/'+ props.logo + ".svg"} className={classes.coinLogo}/>
+        </Typography>
+      </Grid>
+      <Grid container direction="column" xs="6" className={classes.tokenName}>
+        <Typography variant="h6">
           {coinAbbr}
         </Typography>
         <Typography variant="body2" className={classes.coinName}>
           {coinName}
         </Typography>
+      </Grid>
+      <Grid container direction="column" xs="4">
+      {/* TODO: Add user balance of the current token */}
       </Grid>
     </ButtonBase>
   );
