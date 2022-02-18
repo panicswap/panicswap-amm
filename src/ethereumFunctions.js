@@ -9,7 +9,7 @@ const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
 const APRFEED = require("./build/AprFeed.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
-const epsStakingAddress = "0xf841213C402d77Ec3E44724a7bBF804df3825280";
+const epsStakingAddress = "0x536b88CC4Aa42450aaB021738bf22D63DDC7303e";
 const chefAddress = "0xC02563f20Ba3e91E459299C3AC1f70724272D618";
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);

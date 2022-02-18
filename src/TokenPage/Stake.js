@@ -129,7 +129,7 @@ export default function Stake() {
         console.log('chainID: ', chainId);
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const stakingEps = await getEpsStaking("0xf841213c402d77ec3e44724a7bbf804df3825280",signer);
+        const stakingEps = await getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer);
         setRouter(router);
         setStakingEps(stakingEps);
         setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
@@ -184,9 +184,9 @@ export default function Stake() {
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
     const amountIn = ethers.utils.parseUnits(bal, 18);
-    const allo = await panic.allowance(account,"0xf841213C402d77Ec3E44724a7bBF804df3825280");
+    const allo = await panic.allowance(account,"0x536b88CC4Aa42450aaB021738bf22D63DDC7303e");
     if(Number(allo) < Number(amountIn)){
-      await panic.approve("0xf841213C402d77Ec3E44724a7bBF804df3825280","99999999999999999999999999");
+      await panic.approve("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e","99999999999999999999999999");
       await delay(5000);
     }
     await stakingEps.stake(amountIn, lockrnt);
