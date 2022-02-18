@@ -134,7 +134,7 @@ function FarmList(props) {
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
-        const aprFeed = await getAprFeed("0xD5BFD2a6A2f357bFe2ABa7eB84344d52Cb8561Ee", signer);
+        const aprFeed = await getAprFeed("0xdD8C47d35248188eEA2d23037f3C80529Cf7b3ED", signer);
         setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
