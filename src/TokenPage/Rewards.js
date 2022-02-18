@@ -66,6 +66,7 @@ export default function Rewards() {
   const [vestedBalance, setVestedBalance] = React.useState(0);
   const [unlockedBalance, setUnlockedBalance] = React.useState(0);
   const [panicRewards, setPanicRewards] = React.useState(0);
+  const [yvWFTMRewards, setYvWFTMRewards] = React.useState(0);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -151,11 +152,13 @@ export default function Rewards() {
       const penaltyData = await stakingEps.withdrawableBalance(account);
       const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
       const panicEarnedHalf = panicEarnedUnparsed[0];
+      const yvWFTMEarned = panicEarnedUnparsed[1];
       const panicEarnedFinal = panicEarnedHalf[1];
       console.log("panic earned", panicEarnedFinal);
       setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
       setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
       setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
+      setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
     }
   }, [panic]);
 
@@ -259,7 +262,7 @@ export default function Rewards() {
                   <TableCell align="center">
                     {Number(panicRewards).toFixed(2) + " PANIC"}
                     <hr/>
-                    0.00 yvWFTM
+                    {Number(yvWFTMRewards).toFixed(2)} yvWFTM
                   </TableCell>
                   <TableCell align="center">
                     <LoadingButton
