@@ -45,6 +45,12 @@ const styles = (theme) => ({
   rowClaimAll: {
     backgroundColor: theme.palette.action.hover,
     borderBottom: "3px solid #ccc"
+  },
+  smallTokenIcon: {
+    width: "20px",
+    marginLeft: "5px",
+    marginRight: "5px",
+    marginBottom: "2px",
   }
 });
 
@@ -235,7 +241,10 @@ export default function Rewards() {
                   <TableCell component="th" scope="row">
                     Staked PANIC
                   </TableCell>
-                  <TableCell align="center">{unlockedBalance}</TableCell>
+                  <TableCell align="center">
+                    {Number(unlockedBalance).toFixed(6)}                    
+                    <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                  </TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}
@@ -256,9 +265,13 @@ export default function Rewards() {
                       PANIC Rewards
                   </TableCell>
                   <TableCell align="center">
-                    {Number(panicRewards).toFixed(2) + " PANIC"}
+                    {Number(panicRewards).toFixed(2) }
+                    <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                     PANIC
                     <hr/>
-                    {Number(yvWFTMRewards).toFixed(2)} yvWFTM
+                    {Number(yvWFTMRewards).toFixed(2)}
+                    <img src="assets/token/yvWFTM.svg" className={classes.smallTokenIcon}></img>
+                     yvWFTM
                   </TableCell>
                   <TableCell align="center">
                     <LoadingButton
@@ -277,7 +290,10 @@ export default function Rewards() {
                   <TableCell component="th" scope="row">
                     Exit vesting
                   </TableCell>
-                  <TableCell align="center">{vestedBalance/2}</TableCell>
+                  <TableCell align="center">
+                  {Number(vestedBalance/2).toFixed(6)}
+                  <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                  </TableCell>
                   <TableCell align="center">
                     <LoadingButton
                       loading={false}

@@ -9,12 +9,15 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
     minHeight: "60px",
     backgroundColor: COLORS.grey[50],
     borderRadius: theme.spacing(2),
     borderColor: COLORS.grey[300],
     borderWidth: "1px",
     borderStyle: "solid",
+    alignItems: "center",
+    alignText: "center",
   },
   container_input: {
     padding: theme.spacing(1),
@@ -37,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     zIndex: "0",
+    height: "30px",
   },
   input: {
     ...theme.typography.h5,
@@ -45,6 +49,16 @@ const useStyles = makeStyles((theme) => ({
   inputBase: {
     textAlign: "right",
   },
+  swapTokenIcon: {
+    width: "28px",
+    marginRight: "5px",
+  },
+  hr: {
+    margin: 1,
+  },
+  buttonContainer: {
+    padding: theme.spacing(1),
+  }
 }));
 
 CoinField.propTypes = {
@@ -134,7 +148,7 @@ export function RemoveLiquidityField2(props) {
             className={classes.fab}
           >
             {symbol}
-            <ExpandMoreIcon />
+            <ExpandMoreIcon className={classes.fab}/>
           </Fab>
         </Grid>
       </Grid>
@@ -152,7 +166,7 @@ export default function CoinField(props) {
   //      userCanChoose - boolean - Whether user can select coin or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField, userCanChoose } = props;
+  const { onClick, symbol, value, onChange, activeField, userCanChoose, maxValue } = props;
 
   return (
     <div className={classes.container}>
@@ -171,8 +185,9 @@ export default function CoinField(props) {
             onClick={onClick}
             className={classes.fab}
           >
+            <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
             {symbol}
-            { userCanChoose !== false && <ExpandMoreIcon /> }
+            {userCanChoose !== false && <ExpandMoreIcon/>}
           </Fab>
         </Grid>
 
@@ -185,6 +200,12 @@ export default function CoinField(props) {
             disabled={!activeField}
             classes={{ root: classes.input, input: classes.inputBase }}
           />
+        </Grid>
+        <Grid item xs={12} className={classes.buttonContainer}>
+          <hr className={classes.hr}></hr>
+          <Grid container direction="column" xs={12}>
+            {"Balance: " + maxValue}
+          </Grid>
         </Grid>
       </Grid>
     </div>

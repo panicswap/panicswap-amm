@@ -265,9 +265,6 @@ function FarmDetails(props) {
                 userCanChoose={false}
                 maxValue={balanceWallet}
               />
-              <Typography variant="h6" className={classes.balance}>
-                Wallet balance: <span>{balanceWallet}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
-              </Typography>
             </Grid>
             <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
@@ -293,9 +290,6 @@ function FarmDetails(props) {
                 userCanChoose={false}
                 maxValue={balanceStaked}
               />
-              <Typography variant="h6" className={classes.balance}>
-                Staked balance: <span>{balanceStaked}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
-              </Typography>
             </Grid>
             <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
