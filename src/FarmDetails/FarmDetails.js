@@ -34,6 +34,7 @@ import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import { ethers } from "ethers";
+import { FarmItems } from "../FarmList/FarmItems";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -54,10 +55,16 @@ const styles = (theme) => ({
     overflow: "wrap",
     textAlign: "left",
     width: "100%",
+    fontSize: "18px",
   },
   btnContainer: {
     padding: theme.spacing(2.5),
     marginTop: theme.spacing(5),
+  },
+  tokenLogo: {
+    width: "40px",
+    paddingRight: "5px",
+    verticalAlign: "middle",
   }
 });
 
@@ -228,6 +235,7 @@ function FarmDetails(props) {
 
 
   return (
+
     <div>
 
       <WrongNetwork
@@ -237,7 +245,9 @@ function FarmDetails(props) {
       <Container maxWidth="md">
         <Paper className={classes.paperContainer}>
           <Typography variant="h5" className={classes.title}>
-            Farm: {farmId}
+            <img src={'/assets/token/'+ FarmItems[farmId-1].symbol1 + ".svg"} class={classes.tokenLogo}></img>
+            <img src={'/assets/token/'+ FarmItems[farmId-1].symbol2 + ".svg"} class={classes.tokenLogo}></img>
+            {FarmItems[farmId-1].title}
           </Typography>
 
           {/* Deposit */}
@@ -253,7 +263,7 @@ function FarmDetails(props) {
                 maxValue={balanceWallet}
               />
               <Typography variant="h6" className={classes.balance}>
-                Your wallet balance: <span>{balanceWallet}</span>
+                Wallet balance: <span>{balanceWallet}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
               </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
@@ -281,7 +291,7 @@ function FarmDetails(props) {
                 maxValue={balanceStaked}
               />
               <Typography variant="h6" className={classes.balance}>
-                Your staked balance: <span>{balanceStaked}</span>
+                Staked balance: <span>{balanceStaked}</span> {FarmItems[farmId-1].symbol1}-{FarmItems[farmId-1].symbol2} LP
               </Typography>
             </Grid>
             <Grid item xs={4} className={classes.btnContainer}>
