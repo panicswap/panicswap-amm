@@ -49,9 +49,18 @@ const styles = (theme) => ({
   },
   balance: {
   },
+  smallTokenIcon: {
+    width: "20px",
+    marginLeft: "5px",
+    marginRight: "5px",
+    marginBottom: "2px",
+  },
   btnContainer: {
     padding: theme.spacing(2.5),
     marginTop: theme.spacing(5),
+  },
+  buttonContainer: {
+    padding: theme.spacing(2),
   }
 });
 
@@ -85,7 +94,7 @@ export default function Stake() {
 
   const [tokenDetails, setTokenDetails] = React.useState({
     address: undefined,
-    symbol: undefined,
+    symbol: "PANIC",
     balance: undefined,
   });
 
@@ -219,23 +228,32 @@ export default function Stake() {
 
                 <TableRow>
                   <TableCell>
-                    Staked and locked
+                    Staked & locked
                   </TableCell>
-                  <TableCell>{Number(lockedBalance).toFixed(2)}</TableCell>
+                  <TableCell>
+                    {Number(lockedBalance).toFixed(2)}
+                    <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                  </TableCell>
                 </TableRow>
 
                 <TableRow>
                   <TableCell>
-                    Staked and vested
+                    Staked & vested
                   </TableCell>
-                  <TableCell>{Number(vestedBalance).toFixed(2)}</TableCell>
+                  <TableCell>
+                    {Number(vestedBalance).toFixed(2)}
+                    <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                  </TableCell>
                 </TableRow>
 
                 <TableRow>
                   <TableCell>
-                    Staked and unlocked
+                    Staked & unlocked
                   </TableCell>
-                  <TableCell>{Number(unlockedBalance).toFixed(2)}</TableCell>
+                  <TableCell>
+                    {Number(unlockedBalance).toFixed(2)}
+                    <img src="assets/token/PANIC.svg" className={classes.smallTokenIcon}></img>
+                  </TableCell>
                 </TableRow>
 
               </TableBody >
@@ -253,7 +271,7 @@ export default function Stake() {
           </Typography>
 
           <Grid container direction="row" justifyContent="center">
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <CoinAmountInterface
                 activeField={true}
                 value={field1Value}
@@ -263,12 +281,9 @@ export default function Stake() {
                 userCanChoose={false}
                 maxValue={panicBalance}
               />
-              <Typography variant="body1" className={classes.balance}>
-                Wallet balance: {panicBalance} PANIC
-              </Typography>
             </Grid>
 
-            <Grid item xs={4} className={classes.btnContainer}>
+            <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
                 loading={loading}
                 valid={true}
@@ -300,7 +315,7 @@ export default function Stake() {
           </Typography>
 
           <Grid container direction="row" justifyContent="center">
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <CoinAmountInterface
                 activeField={true}
                 value={field2Value}
@@ -310,11 +325,8 @@ export default function Stake() {
                 userCanChoose={false}
                 maxValue={panicBalance}
               />
-              <Typography variant="body1" className={classes.balance}>
-                Wallet balance: {panicBalance} PANIC
-              </Typography>
             </Grid>
-            <Grid item xs={4} className={classes.btnContainer}>
+            <Grid item xs={12} className={classes.buttonContainer}>
               <LoadingButton
                 loading={loading}
                 valid={true}
