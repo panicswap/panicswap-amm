@@ -420,38 +420,15 @@ function LiquidityDeployer(props) {
         direction="row"
         alignItems="center"
         justifyContent="center"
-        spacing={4}
+        spacing={12}
         className={classes.balance}
+        xs={12}
       >
         
         {/*<ToggleStable />*/}
         <hr className={classes.hr} />
-        <Grid
-          container
-          item
-          className={classes.values}
-          direction="column"
-          alignItems="center"
-          spacing={2}
-        >
-          {/* Balance Display */}
-          <Typography variant="h6">Your Balances</Typography>
-          <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatBalance(coin1.balance, coin1.symbol)}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatBalance(coin2.balance, coin2.symbol)}
-              </Typography>
-            </Grid>
-          </Grid>
 
-          {/* Liquidity Tokens Display */}
-
-        </Grid>
+        {/* Liquidity Tokens Display */}
         <Paper className={classes.paperContainer}>
           <Grid
             container
