@@ -110,10 +110,8 @@ export default function Rewards() {
     });
 
     async function Network() {
-      const chainId = await getNetwork(provider).then((chainId) => {
-        setChainId(chainId);
-        return chainId;
-      });
+      const chainId = await getNetwork(provider);
+      setChainId(chainId);
       if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
@@ -148,16 +146,14 @@ export default function Rewards() {
 
   useEffect( async() => {
     if(stakingEps){
-      const unlockedBal = await stakingEps.unlockedBalance(account);
-      const penaltyData = await stakingEps.withdrawableBalance(account);
-      const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
-      const panicEarnedHalf = panicEarnedUnparsed[0];
-      const yvWFTMEarned = panicEarnedUnparsed[1];
-      const panicEarnedFinal = panicEarnedHalf[1][0];
-      console.log("panic earned", panicEarnedFinal);
-      setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
+      const [ unlockedBal, { 1: penaltyData }, [{ 1: panicEarned}, { 1: yvWFTMEarned}]] = await Promise.all([
+        stakingEps.unlockedBalance(account),
+        stakingEps.withdrawableBalance(account),
+        stakingEps.claimableRewards(account)
+      ])
+      setVestedBalance(ethers.utils.formatUnits(penaltyData)*2);
       setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
-      setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
+      setPanicRewards(ethers.utils.formatUnits(panicEarned));
       setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
     }
   }, [panic]);
