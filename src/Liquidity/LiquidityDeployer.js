@@ -427,37 +427,38 @@ function LiquidityDeployer(props) {
         
         {/*<ToggleStable />*/}
         <hr className={classes.hr} />
-
-        {/* Liquidity Tokens Display */}
-        <Paper className={classes.paperContainer}>
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="center"
-            className={classes.fullWidth}
-          >
-            {/* Tokens in */}
-            <Typography variant="h6">Deployed Liquidity</Typography>
-            <Typography variant="p" className={classes.subText}>(Unstaked)</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(liquidityOut[0], coin1.symbol)}
+        <Grid container direction="row" alignItems="center" xs={12}>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Your (Unstaked) Liquidity
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {formatReserve(liquidityOut[0], coin1.symbol)}
+                </Typography>
+                <Typography>
+                {formatReserve(liquidityOut[1], coin2.symbol)}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(liquidityOut[1], coin2.symbol)}
+              <Grid xs={1}></Grid>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Total Liquidity
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {formatReserve(reserves[0], coin1.symbol)}
+                </Typography>
+                <Typography>
+                {formatReserve(reserves[1], coin2.symbol)}
                 </Typography>
               </Grid>
+              <Grid xs={1}></Grid>
             </Grid>
-
-
-            {/* Liquidity Tokens Display */}
-
-          </Grid>
-        </Paper>
 
         <hr className={classes.hr} />
       </Grid>
