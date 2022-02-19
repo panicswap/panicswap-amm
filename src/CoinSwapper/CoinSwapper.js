@@ -399,20 +399,65 @@ function CoinSwapper(props) {
             </Grid>
 
             <hr className={classes.hr} />
-            
-            <Typography variant="h6">Reserves</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
+
+            {/* Reserves Display */}
+            <Grid container direction="row" alignItems="center" xs={12}>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Minimum received
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {/*TODO: Add minimum received */}
+                  {"TBA"}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Price Impact
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {/*TODO: Add price impact */}
+                  {"TBA"}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Liquidity Provider Fee
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {/*TODO: Add provider fee */}
+                  {"TBA"}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Total Liquidity
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
                   {formatReserve(reserves[0], coin1.symbol)}
                 </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatReserve(reserves[1], coin2.symbol)}
+                <Typography>
+                {formatReserve(reserves[1], coin2.symbol)}
                 </Typography>
               </Grid>
+              <Grid xs={1}></Grid>
             </Grid>
+            
 
             <hr className={classes.hr} />
 

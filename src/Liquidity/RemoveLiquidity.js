@@ -24,7 +24,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import ToggleStable from "../Components/ToggleStable";
-import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
+import CoinField from "../CoinSwapper/CoinField";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -377,7 +377,7 @@ function LiquidityRemover(props) {
 
       <Grid container direction="column" alignItems="center" spacing={2}>
         <Grid item xs={12} className={classes.fullWidth}>
-          <CoinAmountInterface
+          <CoinField
             activeField={true}
             value={field1Value}
             onClick={() => setDialog1Open(true)}
@@ -387,9 +387,11 @@ function LiquidityRemover(props) {
         </Grid>
 
         <Grid item xs={12} className={classes.fullWidth}>
-          <CoinAmountInterface
+          <CoinField
             activeField={true}
+            value={field1Value}
             onClick={() => setDialog2Open(true)}
+            onChange={handleChange.field2}
             symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
           />
         </Grid>

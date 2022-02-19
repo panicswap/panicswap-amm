@@ -50,7 +50,6 @@ export default function CoinButton(props) {
         </Typography>
       </Grid>
       <Grid container direction="column" xs="4">
-      {/* TODO: Add user balance of the current token */}
       </Grid>
     </ButtonBase>
   );

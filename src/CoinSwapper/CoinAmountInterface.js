@@ -4,7 +4,6 @@ import CoinField from "./CoinField";
 
 const useStyles = makeStyles((theme) => ({
   controls: {
-    marginTop: theme.spacing(3),
     paddingRight: theme.spacing(1),
     fontWeight: "bold",
   },
