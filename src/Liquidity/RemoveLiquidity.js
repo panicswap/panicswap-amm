@@ -24,6 +24,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import ToggleStable from "../Components/ToggleStable";
+import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -55,6 +56,12 @@ const styles = (theme) => ({
   buttonIcon: {
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
+  },
+  rightSideBottomText: {
+    textAlign: "right",
+  },
+  leftSideBottomText: {
+    textAlign: "left",
   },
 });
 
@@ -370,7 +377,7 @@ function LiquidityRemover(props) {
 
       <Grid container direction="column" alignItems="center" spacing={2}>
         <Grid item xs={12} className={classes.fullWidth}>
-          <RemoveLiquidityField1
+          <CoinAmountInterface
             activeField={true}
             value={field1Value}
             onClick={() => setDialog1Open(true)}
@@ -380,7 +387,7 @@ function LiquidityRemover(props) {
         </Grid>
 
         <Grid item xs={12} className={classes.fullWidth}>
-          <RemoveLiquidityField2
+          <CoinAmountInterface
             activeField={true}
             onClick={() => setDialog2Open(true)}
             symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
@@ -400,99 +407,59 @@ function LiquidityRemover(props) {
         {/*<ToggleStable />*/}
 
         <hr className={classes.hr} />
-        <Grid
-          container
-          item
-          className={classes.values}
-          direction="column"
-          alignItems="center"
-          spacing={2}
-        >
-          {/* Balance Display */}
-          <Typography variant="h6">Your Balances</Typography>
-          <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatBalance(coin1.balance, coin1.symbol)}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatBalance(coin2.balance, coin2.symbol)}
-              </Typography>
-            </Grid>
-          </Grid>
 
-          <hr className={classes.hr} />
+          <Grid container direction="row" alignItems="center" xs={12}>
 
-          {/* Reserves Display */}
-          <Typography variant="h6">Reserves</Typography>
-          <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
+              {/* Reserves Display */}
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Total Liquidity
+                </Typography>
+                </Grid>
+                <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
                 {formatReserve(reserves[0], coin1.symbol)}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
+                </Typography>
+                <Typography>
                 {formatReserve(reserves[1], coin2.symbol)}
-              </Typography>
-            </Grid>
-          </Grid>
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
 
-          <hr className={classes.hr} />
+              {/* Unstaked Liquidity Tokens Display */}
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Unstaked Liquidity
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
+                  {formatReserve(liquidityTokens, "UNI-V2")}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
 
-          {/* Liquidity Tokens Display */}
-          <Typography variant="h6">Your Liquidity Pool Tokens</Typography>
-          <Grid container direction="row" justifyContent="center">
-            <Grid item xs={6}>
-              <Typography variant="body1" className={classes.balance}>
-                {formatReserve(liquidityTokens, "UNI-V2")}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Paper className={classes.paperContainer}>
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="center"
-            spacing={2}
-            className={classes.fullWidth}
-          >
-            {/* Tokens in */}
-            <Typography variant="h6">Liquidity Pool Tokens in</Typography>
-            <Grid container direction="row" justifyContent="center">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
+              {/* Staked Liquidity Tokens Display */}
+              <Grid xs={1}></Grid>
+              <Grid item xs={5} className={classes.leftSideBottomText}>
+                <Typography>
+                  Staked Liquidity
+                </Typography>
+                </Grid>
+              <Grid item xs={5} className={classes.rightSideBottomText}>
+                <Typography>
                   {formatBalance(tokensOut[0], "UNI-V2")}
                 </Typography>
-              </Grid>
-            </Grid>
-
-            <hr className={classes.hr} />
-
-            {/* Liquidity Tokens Display */}
-            <Typography variant="h6">Tokens Out</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(tokensOut[1], coin1.symbol)}
+                <Typography>
+                {formatBalance(tokensOut[2], coin2.symbol)}
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(tokensOut[2], coin2.symbol)}
-                </Typography>
-              </Grid>
-            </Grid>
+              <Grid xs={1}></Grid>
           </Grid>
-        </Paper>
-        <hr className={classes.hr} />
       </Grid>
-
+      <hr className={classes.hr} />
       <Grid container direction="column" alignItems="center" spacing={2}>
         <LoadingButton
           loading={loading}
