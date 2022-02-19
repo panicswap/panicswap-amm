@@ -1,6 +1,7 @@
 import { Contract, ethers } from "ethers";
 import * as chains from "./constants/chains";
 import COINS from "./constants/coins";
+import { checkStable } from "./checkstable";
 
 const ROUTER = require("./build/SolidRouter.json");
 const ERC20 = require("./build/ERC20.json");
@@ -301,7 +302,7 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const stable = document.getElementById("stable")?.checked;
+    const stable = checkStable(address1, address2);
     const pairAddress = await factory.getPair(address1, address2, stable);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
