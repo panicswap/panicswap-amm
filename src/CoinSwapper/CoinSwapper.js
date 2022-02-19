@@ -55,6 +55,12 @@ const styles = (theme) => ({
     padding: theme.spacing(1),
     overflow: "wrap",
     textAlign: "center",
+  },
+  rightSideBottomText: {
+    textAlign: "right",
+  },
+  leftSideBottomText: {
+    textAlign: "left",
   }
 });
 
@@ -364,7 +370,7 @@ function CoinSwapper(props) {
         />
 
       {/* Coin Swapper */}
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Paper className={classes.paperContainer}>
           <Grid container direction="column" alignItems="center" spacing={2}>
             <Grid item xs={12} className={classes.fullWidth}>
@@ -393,8 +399,7 @@ function CoinSwapper(props) {
             </Grid>
 
             <hr className={classes.hr} />
-
-            {/* Reserves Display */}
+            
             <Typography variant="h6">Reserves</Typography>
             <Grid container direction="row" justifyContent="space-between">
               <Grid item xs={6}>
