@@ -178,21 +178,21 @@ export default function CoinField(props) {
         className={classes.grid}
       >
         {/* Button */}
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Fab
             size="small"
             variant="extended"
             onClick={onClick}
             className={classes.fab}
           >
-            <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
+            <img src={"/assets/token/" + symbol + ".svg"} className={[classes.fab,classes.swapTokenIcon].join(" ")}/>
             {symbol}
             {userCanChoose !== false && <ExpandMoreIcon/>}
           </Fab>
         </Grid>
 
         {/* Text Field */}
-        <Grid item xs={9}>
+        <Grid item xs={6}>
           <InputBase
             value={value}
             onChange={onChange}
@@ -202,9 +202,11 @@ export default function CoinField(props) {
           />
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
-          <hr className={classes.hr}></hr>
-          <Grid container direction="column" xs={12}>
-            {"Balance: " + maxValue}
+          <hr className={classes.hr}/>
+          <Grid container direction="column">
+            <Grid item xs={12}>
+              {"Balance: " + maxValue}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
