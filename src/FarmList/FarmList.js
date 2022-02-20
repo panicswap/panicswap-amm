@@ -178,7 +178,7 @@ function FarmList(props) {
       const poolLength = await chef.poolLength();
       const aprPromises = [];
       const tvlPromises = [];
-      for(let i=0; i< poolLength; ++i){
+      for(let i=1; i< poolLength; ++i){
         aprPromises.push(aprFeed.yvApr(i))
         tvlPromises.push(aprFeed.lpValueDollarChef(i))
       }
@@ -299,17 +299,13 @@ function FarmList(props) {
                           <Typography>
                           <b>Farm APR</b>
                           </Typography>
-                          <Typography>
-                            {aprMap[index+1]}
-                          </Typography>
+                          <Typography>{aprMap[index]}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography>
                           <b>Total Value Staked</b>
                           </Typography>
-                          <Typography>
-                            {tvlMap[index+1]}
-                          </Typography>
+                          <Typography>{tvlMap[index]}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography>
