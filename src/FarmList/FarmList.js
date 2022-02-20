@@ -89,6 +89,9 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
+const usdNumberFormat = new Intl.NumberFormat('us-EN', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const percentNumberFormat = new Intl.NumberFormat('us-EN', { style: 'percent', maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
 function FarmList(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -123,17 +126,6 @@ function FarmList(props) {
     return accumulator + a;
   }
 
-  // Beautify number value
-  function commafy( num ) {
-    var str = num.toString().split('.');
-    if (str[0].length >= 5) {
-        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-    }
-    if (str[1] && str[1].length >= 5) {
-        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
-    }
-    return str.join('.');
-}
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
 
@@ -191,8 +183,18 @@ function FarmList(props) {
         tvlPromises.push(aprFeed.lpValueDollarChef(i))
       }
       await Promise.all([
-          Promise.all(aprPromises).then(setAprMap),
-          Promise.all(tvlPromises).then(setTvlMap)
+          Promise.all(aprPromises).then(results => setAprMap(
+              results
+                  .map(v => v && v > 0 ? v / 10000 : v)
+                  .map(percentNumberFormat.format)
+              )
+          ),
+          Promise.all(tvlPromises).then(results => setTvlMap(
+              results
+                  .map(v => v && v > 0 ? v / 1e18 : v)
+                  .map(usdNumberFormat.format)
+              )
+          )
       ]);
     }
   }, [chef]);
@@ -298,7 +300,7 @@ function FarmList(props) {
                           <b>Farm APR</b>
                           </Typography>
                           <Typography>
-                            {aprMap[index+1]/100+"%"}
+                            {aprMap[index+1]}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
@@ -306,7 +308,7 @@ function FarmList(props) {
                           <b>Total Value Staked</b>
                           </Typography>
                           <Typography>
-                            {commafy(Number(tvlMap[index+1]/1e18).toFixed(0)) + "$"}
+                            {tvlMap[index+1]}
                           </Typography>
                         </Grid>
                         <Grid item xs={4}>
