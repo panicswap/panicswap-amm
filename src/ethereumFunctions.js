@@ -9,6 +9,7 @@ const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
 const APRFEED = require("./build/AprFeed.json");
+const APRFEEDSTAKING = require("./build/AprFeedStaking.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
 const epsStakingAddress = "0x536b88CC4Aa42450aaB021738bf22D63DDC7303e";
 const chefAddress = "0xC02563f20Ba3e91E459299C3AC1f70724272D618";
@@ -31,6 +32,10 @@ export function getRouter(address, signer) {
 
 export function getAprFeed(address, signer) {
   return new Contract(address, APRFEED.abi, signer);
+}
+
+export function getAprFeedStaking(address, signer) {
+  return new Contract(address, APRFEEDSTAKING.abi, signer);
 }
 
 export function getChef(address, signer) {

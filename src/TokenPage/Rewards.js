@@ -30,7 +30,8 @@ import {
   getWeth,
   swapTokens,
   getReserves,
-  getEpsStaking
+  getEpsStaking,
+  getAprFeedStaking
 } from "../ethereumFunctions";
 
 
@@ -66,10 +67,13 @@ export default function Rewards() {
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
   const [stakingEps, setStakingEps] = React.useState(undefined);
+  const [aprStaking, setAprStaking] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
   const [vestedBalance, setVestedBalance] = React.useState(0);
+  const [panicApr, setPanicApr] = React.useState(0);
+  const [yvwftmApr, setYvwftmApr] = React.useState(0);
   const [unlockedBalance, setUnlockedBalance] = React.useState(0);
   const [panicRewards, setPanicRewards] = React.useState(0);
   const [yvWFTMRewards, setYvWFTMRewards] = React.useState(0);
@@ -124,8 +128,10 @@ export default function Rewards() {
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const stakingEps = await getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer);
+        const aprFeedStaking = await getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",signer);
         setRouter(router);
         setStakingEps(stakingEps);
+        setAprStaking(aprFeedStaking);
         setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
@@ -152,15 +158,19 @@ export default function Rewards() {
 
   useEffect( async() => {
     if(stakingEps){
-      const [ unlockedBal, { 1: penaltyData }, [{ 1: panicEarned}, { 1: yvWFTMEarned}]] = await Promise.all([
+      const [ unlockedBal, { 1: penaltyData }, [{ 1: panicEarned}, { 1: yvWFTMEarned}], panicApr, yvWFTMApr] = await Promise.all([
         stakingEps.unlockedBalance(account),
         stakingEps.withdrawableBalance(account),
-        stakingEps.claimableRewards(account)
+        stakingEps.claimableRewards(account),
+        aprStaking.getPanicApr(),
+        aprStaking.getFtmApr()
       ])
       setVestedBalance(ethers.utils.formatUnits(penaltyData)*2);
       setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
       setPanicRewards(ethers.utils.formatUnits(panicEarned));
       setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
+      setPanicApr(panicApr/100);
+      setYvwftmApr(yvWFTMApr/100);
     }
   }, [panic]);
 
@@ -262,7 +272,12 @@ export default function Rewards() {
                 {/* PANIC Stake and Lock Rewards */}
                 <TableRow>
                   <TableCell component="th" scope="row">
-                      PANIC Rewards
+                    <TableRow>
+                      PANIC Rewards ({panicApr+ "%"})
+                    </TableRow>
+                    <TableRow>
+                      yvWFTM APR ({yvwftmApr+ "%"})
+                    </TableRow>
                   </TableCell>
                   <TableCell align="center">
                     {Number(panicRewards).toFixed(2) }
