@@ -7,6 +7,7 @@ import CoinSwapper from "./CoinSwapper/CoinSwapper";
 import FarmList from "./FarmList/FarmList";
 import FarmDetails from "./FarmDetails/FarmDetails";
 import TokenPage from "./TokenPage/TokenPage";
+import Migration from "./Migration/Migration";
 import { Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import Liquidity from "./Liquidity/Liquidity";
@@ -75,7 +76,11 @@ function App() {
               path="/stake"
               component={TokenPage}
             />
-
+            <Route
+              exact
+              path="/migration"
+              component={Migration}
+            />
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>
