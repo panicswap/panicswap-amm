@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   fab: {
     zIndex: "0",
     height: "30px",
+    overflow: "hidden",
   },
   input: {
     ...theme.typography.h5,
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     padding: theme.spacing(1),
+  },
+  swapBalance: {
+    overflow: "hidden",
   }
 }));
 
@@ -90,7 +94,7 @@ export function RemoveLiquidityField1(props) {
         alignItems="center"
       >
         {/* Button */}
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Fab
             size="small"
             variant="extended"
@@ -99,12 +103,12 @@ export function RemoveLiquidityField1(props) {
           >
             <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
             {symbol}
-            {userCanChoose !== false && <ExpandMoreIcon/>}
+            {userCanChoose !== true && <ExpandMoreIcon className={classes.fab}/>}
           </Fab>
         </Grid>
 
         {/* Text Field */}
-        <Grid item alignItems="center" xs={9}>
+        <Grid item alignItems="center" xs={6} className={classes.swapBalance}>
           <InputBase
             value={value}
             onChange={onChange}
@@ -115,7 +119,7 @@ export function RemoveLiquidityField1(props) {
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
           <hr className={classes.hr}></hr>
-          <Grid container direction="column" xs={12}>
+          <Grid item direction="column" xs={12}>
             {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
           </Grid>
         </Grid>

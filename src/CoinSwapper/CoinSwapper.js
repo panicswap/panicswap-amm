@@ -61,6 +61,11 @@ const styles = (theme) => ({
   },
   leftSideBottomText: {
     textAlign: "left",
+  },
+  liquidityIcon: {
+    width: "20px",
+    marginLeft: "3px",
+    marginBottom: "5px",
   }
 });
 
@@ -402,6 +407,31 @@ function CoinSwapper(props) {
 
             {/* Reserves Display */}
             <Grid container direction="row" alignItems="center" xs={12}>
+            <Grid xs={1}></Grid>
+              <Grid item xs={2} className={classes.leftSideBottomText}>
+                <Typography>
+                  Price (yv)
+                </Typography>
+                </Grid>
+              <Grid item xs={8} className={classes.rightSideBottomText}>
+                <Typography>
+                  {Number(field1Value/field2Value).toPrecision(7)} {coin1.symbol} per {coin2.symbol}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
+              <Grid xs={1}></Grid>
+              <Grid item xs={3} className={classes.leftSideBottomText}>
+                <Typography>
+                  Price (Classic)
+                </Typography>
+                </Grid>
+              <Grid item xs={7} className={classes.rightSideBottomText}>
+                <Typography>
+                  {/*TODO: Add conversion of yvTOKEN to TOKEN */}
+                  {"TBA"}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
               <Grid xs={1}></Grid>
               <Grid item xs={5} className={classes.leftSideBottomText}>
                 <Typography>
@@ -431,7 +461,7 @@ function CoinSwapper(props) {
               <Grid xs={1}></Grid>
               <Grid item xs={5} className={classes.leftSideBottomText}>
                 <Typography>
-                  Liquidity Provider Fee
+                  Fee
                 </Typography>
                 </Grid>
               <Grid item xs={5} className={classes.rightSideBottomText}>
@@ -449,10 +479,12 @@ function CoinSwapper(props) {
                 </Grid>
               <Grid item xs={5} className={classes.rightSideBottomText}>
                 <Typography>
-                  {formatReserve(reserves[0], coin1.symbol)}
+                  {formatReserve(reserves[0], coin1.symbol)} 
+                  <img src={"/assets/token/" + coin1.symbol + ".svg"} className={classes.liquidityIcon}></img>
                 </Typography>
                 <Typography>
                 {formatReserve(reserves[1], coin2.symbol)}
+                <img src={"/assets/token/" + coin2.symbol + ".svg"} className={classes.liquidityIcon}></img>
                 </Typography>
               </Grid>
               <Grid xs={1}></Grid>
