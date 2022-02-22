@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   fab: {
     zIndex: "0",
     height: "30px",
+    overflow: "hidden",
   },
   input: {
     ...theme.typography.h5,
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     padding: theme.spacing(1),
+  },
+  swapBalance: {
+    overflow: "hidden",
   }
 }));
 
@@ -78,45 +82,60 @@ export function RemoveLiquidityField1(props) {
   //      activeField - boolean - Whether text can be entered into this field or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField } = props;
+  const { onClick, symbol, value, onChange, activeField, userCanChoose, maxValue } = props;
   return (
-    <div className={classes.container_blank}>
+    <div className={classes.container}>
       <Grid
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         className={classes.grid}
+        alignItems="center"
       >
         {/* Button */}
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Fab
             size="small"
             variant="extended"
             onClick={onClick}
             className={classes.fab}
           >
+            <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
             {symbol}
-            <ExpandMoreIcon />
+            {userCanChoose !== true && <ExpandMoreIcon className={classes.fab}/>}
           </Fab>
         </Grid>
+
         {/* Text Field */}
-        <Grid item xs={9}>
+        <Grid item alignItems="center" xs={6} className={classes.swapBalance}>
           <InputBase
             value={value}
             onChange={onChange}
             placeholder="0.0"
             disabled={!activeField}
-            classes={{
-              root: classes.container_input,
-              input: classes.inputBase,
-            }}
+            classes={{ root: classes.input, input: classes.inputBase }}
           />
         </Grid>
-        {/* </div> */}
+        <Grid item xs={12} className={classes.buttonContainer}>
+          <hr className={classes.hr}></hr>
+          <Grid item direction="column" xs={12}>
+            {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
+          </Grid>
+        </Grid>
       </Grid>
     </div>
   );
+}
+// Ignore balance for unselected tokens
+function checkIfSelect( str ) {
+  var string = str;
+  if (string == "undefined") {
+    return 0.0;
+  }
+  else {
+    return str;
+  }
 }
 
 export function RemoveLiquidityField2(props) {
@@ -128,16 +147,17 @@ export function RemoveLiquidityField2(props) {
   //      activeField - boolean - Whether text can be entered into this field or not
 
   const classes = useStyles();
-  const { onClick, symbol } = props;
+  const { onClick, symbol, value, onChange, activeField, userCanChoose, maxValue } = props;
 
   return (
-    <div className={classes.container_blank}>
+    <div className={classes.container}>
       <Grid
         container
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         className={classes.grid}
+        alignItems="center"
       >
         {/* Button */}
         <Grid item xs={3}>
@@ -147,9 +167,27 @@ export function RemoveLiquidityField2(props) {
             onClick={onClick}
             className={classes.fab}
           >
+            <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
             {symbol}
-            <ExpandMoreIcon className={classes.fab}/>
+            {userCanChoose !== false && <ExpandMoreIcon/>}
           </Fab>
+        </Grid>
+
+        {/* Text Field */}
+        <Grid item alignItems="center" xs={9}>
+          <InputBase
+            value={value}
+            onChange={onChange}
+            placeholder="0.0"
+            disabled={!activeField}
+            classes={{ root: classes.input, input: classes.inputBase }}
+          />
+        </Grid>
+        <Grid item xs={12} className={classes.buttonContainer}>
+          <hr className={classes.hr}></hr>
+          <Grid container direction="column" xs={12}>
+            {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
+          </Grid>
         </Grid>
       </Grid>
     </div>
@@ -176,6 +214,7 @@ export default function CoinField(props) {
         justifyContent="space-between"
         alignItems="center"
         className={classes.grid}
+        alignItems="center"
       >
         {/* Button */}
         <Grid item xs={3}>
@@ -192,7 +231,7 @@ export default function CoinField(props) {
         </Grid>
 
         {/* Text Field */}
-        <Grid item xs={9}>
+        <Grid item alignItems="center" xs={9}>
           <InputBase
             value={value}
             onChange={onChange}
@@ -204,7 +243,7 @@ export default function CoinField(props) {
         <Grid item xs={12} className={classes.buttonContainer}>
           <hr className={classes.hr}></hr>
           <Grid container direction="column" xs={12}>
-            {"Balance: " + maxValue}
+            {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
           </Grid>
         </Grid>
       </Grid>

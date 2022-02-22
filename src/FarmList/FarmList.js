@@ -84,6 +84,9 @@ const styles = (theme) => ({
     fontSize: "15px",
     marginLeft: theme.spacing(5),
     marginBottom: theme.spacing(2),
+  },
+  farmInfo: {
+    paddingTop: "15px",
   }
 });
 
@@ -270,54 +273,62 @@ function FarmList(props) {
             {FarmItems.map((item, index) => {
               
                 return (
-      
-                  <li key={index} className={classes.farmItem}>
-                    <Grid container className={classes.farmCell}>
+                  
+                  <li key={index} className={classes.farmItem} direction="column">
+                    <Grid item className={classes.farmCell} direction="column" xs={12}>
                       <Grid container xs={12}>
                         <Grid item xs={8}>
                           <Typography className={classes.farmName}>
                             <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
                             <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
-                            {item.title}
+                            {item.symbol1 + "-" + item.symbol2}
                           </Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <a href={item.url} class={classes.IconButton}>
                             <LoadingButton
                               loading={loading}
                               valid={true}
                               success={false}
                               fail={false}>
-
-                              Deposit
+                              Stake
                             </LoadingButton>
                           </a>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid container xs={12} className={classes.farmInfo}>
+                          <Grid item xs={3}>
+                            <Typography>
+                            <b>Farm APR</b>
+                            </Typography>
+                            <Typography>
+                              {aprMap[index+1]/100+"%"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography>
+                            <b>Total Value Staked</b>
+                            </Typography>
+                            <Typography>
+                              {commafy(Number(tvlMap[index+1]/1e18).toFixed(0)) + "$"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
                           <Typography>
-                          <b>Farm APR</b>
+                            <b>Staked Balance</b>
                           </Typography>
                           <Typography>
-                            {aprMap[index+1]/100+"%"}
+                            TBA
                           </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography>
+                              <b>Multiplier</b>
+                            </Typography>
+                            <Typography>
+                              {"x" + item.boost}
+                            </Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={4}>
-                          <Typography>
-                          <b>Total Value Staked</b>
-                          </Typography>
-                          <Typography>
-                            {commafy(Number(tvlMap[index+1]/1e18).toFixed(0)) + "$"}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography>
-                            <b>Multiplier</b>
-                          </Typography>
-                          <Typography>
-                            {"x" + item.boost}
-                          </Typography>
-                        </Grid>
-              
                       </Grid>
                     </Grid>
                   </li>
