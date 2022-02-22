@@ -48,6 +48,11 @@ const FANTOMCoins = [
     abbr: "PANIC",
     address: "0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B"
   },
+  {
+    name: "WFTM",
+    abbr: "WFTM",
+    address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+  }
 ]
 
 const AUTONITYCoins = [
