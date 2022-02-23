@@ -31,7 +31,7 @@ export default function Footer() {
             alignItems="flex-end"
         >
             <p>
-                <Typography variant="" className={classes.title}>
+                <Typography variant={"body2"} component={"span"} className={classes.title}>
                     PanicSwap 💙
                 </Typography>
                 
