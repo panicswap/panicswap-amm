@@ -122,6 +122,8 @@ export async function getBalanceAndSymbol(
       return {
         balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
         symbol: symbol,
+        wei: balanceRaw,
+        decimals: tokenDecimals,
       };
     }
   } catch (error) {

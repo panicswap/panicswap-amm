@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, makeStyles, Link } from "@material-ui/core";
 import CoinField from "./CoinField";
+import { ethers } from "ethers";
 
 const useStyles = makeStyles((theme) => ({
   controls: {
@@ -22,11 +23,12 @@ export default function CoinAmountInterface(props) {
 
   const classes = useStyles();
 
-  const { value, maxValue, onChange, symbol } = props;
+  const { value, maxValue, onChange, symbol, maxWeiValue, decimals } = props;
 
 
   const updateAmount = (e, percentage = 100) => {
     e.preventDefault();
+    console.log("starting");
     let amount;
     
     if(percentage && maxValue && symbol === "FTM") {
@@ -34,10 +36,11 @@ export default function CoinAmountInterface(props) {
         amount = 0;
       }
       else {
-        amount = (maxValue - 1) * percentage / 100
+        amount = ethers.utils.formatUnits(String(Math.floor((maxWeiValue - 1e18) * percentage / 100)), decimals);
       }
     } else if(maxValue) {
-      amount = maxValue * percentage / 100;
+      console.log("decimals",decimals);
+      amount = ethers.utils.formatUnits(String(Math.floor(maxWeiValue * percentage / 100)), decimals);
     } else {
       amount = 0;
     }
