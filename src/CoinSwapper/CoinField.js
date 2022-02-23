@@ -217,14 +217,14 @@ export default function CoinField(props) {
         alignItems="center"
       >
         {/* Button */}
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Fab
             size="small"
             variant="extended"
             onClick={onClick}
             className={classes.fab}
           >
-            <img src={"/assets/token/" + symbol + ".svg"} className={[classes.fab,classes.swapTokenIcon].join(" ")}/>
+            <img src={"/assets/token/" + symbol + ".svg"} className={classes.fab,classes.swapTokenIcon}></img>
             {symbol}
             {userCanChoose !== false && <ExpandMoreIcon/>}
           </Fab>
@@ -232,7 +232,6 @@ export default function CoinField(props) {
 
         {/* Text Field */}
         <Grid item alignItems="center" xs={9}>
-        <Grid item xs={6}>
           <InputBase
             value={value}
             onChange={onChange}
@@ -242,11 +241,9 @@ export default function CoinField(props) {
           />
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
-          <hr className={classes.hr}/>
-          <Grid container direction="column">
-            <Grid item xs={12}>
-              {"Balance: " + maxValue}
-            </Grid>
+          <hr className={classes.hr}></hr>
+          <Grid container direction="column" xs={12}>
+            {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
           </Grid>
         </Grid>
       </Grid>
