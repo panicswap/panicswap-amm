@@ -36,12 +36,12 @@ export default function CoinButton(props) {
 
   return (
     <ButtonBase focusRipple className={classes.button} onClick={onClick}>
-      <Grid container direction="column" xs="2">
+      <Grid container direction="column" xs={2}>
         <Typography variant="h6">
             <img src={'/assets/token/'+ props.logo + ".svg"} className={classes.coinLogo}/>
         </Typography>
       </Grid>
-      <Grid container direction="column" xs="6" className={classes.tokenName}>
+      <Grid container direction="column" xs={6} className={classes.tokenName}>
         <Typography variant="h6">
           {coinAbbr}
         </Typography>
@@ -49,7 +49,7 @@ export default function CoinButton(props) {
           {coinName}
         </Typography>
       </Grid>
-      <Grid container direction="column" xs="4">
+      <Grid container direction="column" xs={4}>
       {/* TODO: Add user balance of the current token */}
       </Grid>
     </ButtonBase>
