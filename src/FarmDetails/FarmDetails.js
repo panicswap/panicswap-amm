@@ -101,6 +101,7 @@ function FarmDetails(props) {
     address: undefined,
     symbol: undefined,
     balance: undefined,
+    decimals: 18,
   });
 
   const [coins, setCoins] = React.useState([]);
@@ -113,7 +114,9 @@ function FarmDetails(props) {
   const [loading, setLoading] = React.useState(false);
 
   const [balanceWallet, setBalanceWallet] = React.useState(0);
+  const [balanceWeiWallet, setBalanceWeiWallet] = React.useState(0);
   const [balanceStaked, setBalanceStaked] = React.useState(0);
+  const [balanceWeiStaked, setBalanceWeiStaked] = React.useState(0);
 
 
 
@@ -182,12 +185,14 @@ function FarmDetails(props) {
   useEffect( async() => {
     if(chef){
       const uInfo = await chef.userInfo(farmId,account);
+      setBalanceWeiStaked(uInfo["amount"]);
       setBalanceStaked(ethers.utils.formatUnits(uInfo["amount"]));
       const pInfo = await chef.poolInfo(farmId);
       const lpt = pInfo["lpToken"];
       console.log(lpt);
       const lptC = getWeth(lpt, signer);
       const balWal = await lptC.balanceOf(account);
+      setBalanceWeiWallet(balWal);
       setBalanceWallet(ethers.utils.formatUnits(balWal));
     }
   }, [chef]);
@@ -262,8 +267,10 @@ function FarmDetails(props) {
                 onClick={() => setDialog1Open(true)}
                 onChange={handleChange.field1}
                 symbol={lpDetails.symbol}
+                decimals={lpDetails.decimals}
                 userCanChoose={false}
                 maxValue={balanceWallet}
+                maxWeiValue={balanceWeiWallet}
               />
             </Grid>
             <Grid item xs={12} className={classes.buttonContainer}>
@@ -287,8 +294,10 @@ function FarmDetails(props) {
                 onClick={() => setDialog2Open(true)}
                 onChange={handleChange.field2}
                 symbol={lpDetails.symbol}
+                decimals={lpDetails.decimals}
                 userCanChoose={false}
                 maxValue={balanceStaked}
+                maxWeiValue={balanceWeiStaked}
               />
             </Grid>
             <Grid item xs={12} className={classes.buttonContainer}>

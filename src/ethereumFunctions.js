@@ -1,6 +1,7 @@
 import { Contract, ethers } from "ethers";
 import * as chains from "./constants/chains";
 import COINS from "./constants/coins";
+import { checkStable } from "./checkstable";
 
 const ROUTER = require("./build/SolidRouter.json");
 const ERC20 = require("./build/ERC20.json");
@@ -8,6 +9,7 @@ const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
 const APRFEED = require("./build/AprFeed.json");
+const APRFEEDSTAKING = require("./build/AprFeedStaking.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
 const epsStakingAddress = "0x536b88CC4Aa42450aaB021738bf22D63DDC7303e";
 const chefAddress = "0xC02563f20Ba3e91E459299C3AC1f70724272D618";
@@ -30,6 +32,10 @@ export function getRouter(address, signer) {
 
 export function getAprFeed(address, signer) {
   return new Contract(address, APRFEED.abi, signer);
+}
+
+export function getAprFeedStaking(address, signer) {
+  return new Contract(address, APRFEEDSTAKING.abi, signer);
 }
 
 export function getChef(address, signer) {
@@ -116,6 +122,8 @@ export async function getBalanceAndSymbol(
       return {
         balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
         symbol: symbol,
+        wei: balanceRaw,
+        decimals: tokenDecimals,
       };
     }
   } catch (error) {
@@ -301,7 +309,7 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const stable = document.getElementById("stable")?.checked;
+    const stable = checkStable(address1, address2);
     const pairAddress = await factory.getPair(address1, address2, stable);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){

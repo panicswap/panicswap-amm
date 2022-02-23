@@ -1,5 +1,6 @@
 import { Contract, ethers } from "ethers";
 import { fetchReserves, getDecimals } from "../ethereumFunctions";
+import  { checkStable } from "../checkstable";
 
 const ERC20 = require("../build/ERC20.json");
 const PAIR = require("../build/SolidPair.json");
@@ -27,7 +28,7 @@ export async function addLiquidity(
   account,
   signer
 ) {
-  const stable = document.getElementById("stable").checked;
+  const stable = checkStable(address1, address2);
   const token1 = new Contract(address1, ERC20.abi, signer);
   const token2 = new Contract(address2, ERC20.abi, signer);
 
@@ -147,7 +148,7 @@ export async function removeLiquidity(
   signer,
   factory
 ) {
-  const stable = document.getElementById("stable").checked;
+  const stable = checkStable(address1, address2);
 
   const token1 = new Contract(address1, ERC20.abi, signer);
   const token2 = new Contract(address2, ERC20.abi, signer);
@@ -313,7 +314,7 @@ export async function quoteAddLiquidity(
   signer
 ) {
   console.log("quoting add liquidity");
-  const stable = document.getElementById("stable").checked;
+  const stable = checkStable(address1, address2);
   console.log("stable pair?", stable);
   const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
@@ -358,7 +359,7 @@ export async function quoteRemoveLiquidity(
   factory,
   signer
 ) {
-  const stable = document.getElementById("stable").checked;
+  const stable = checkStable(address1, address2);
   const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 

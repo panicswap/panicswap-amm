@@ -92,6 +92,9 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
+const usdNumberFormat = new Intl.NumberFormat('us-EN', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const percentNumberFormat = new Intl.NumberFormat('us-EN', { style: 'percent', maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
 function FarmList(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -126,17 +129,6 @@ function FarmList(props) {
     return accumulator + a;
   }
 
-  // Beautify number value
-  function commafy( num ) {
-    var str = num.toString().split('.');
-    if (str[0].length >= 5) {
-        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-    }
-    if (str[1] && str[1].length >= 5) {
-        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
-    }
-    return str.join('.');
-}
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
 
@@ -153,9 +145,9 @@ function FarmList(props) {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
+        const aprFeed = await getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer);
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
-        const aprFeed = await getAprFeed("0xdD8C47d35248188eEA2d23037f3C80529Cf7b3ED", signer);
         setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
@@ -189,13 +181,23 @@ function FarmList(props) {
       const poolLength = await chef.poolLength();
       const aprPromises = [];
       const tvlPromises = [];
-      for(let i=0; i< poolLength; ++i){
+      for(let i=1; i< poolLength; ++i){
         aprPromises.push(aprFeed.yvApr(i))
         tvlPromises.push(aprFeed.lpValueDollarChef(i))
       }
       await Promise.all([
-          Promise.all(aprPromises).then(setAprMap),
-          Promise.all(tvlPromises).then(setTvlMap)
+          Promise.all(aprPromises).then(results => setAprMap(
+              results
+                  .map(v => v && v > 0 ? v / 10000 : v)
+                  .map(percentNumberFormat.format)
+              )
+          ),
+          Promise.all(tvlPromises).then(results => setTvlMap(
+              results
+                  .map(v => v && v > 0 ? v / 1e18 : v)
+                  .map(usdNumberFormat.format)
+              )
+          )
       ]);
     }
   }, [chef]);
@@ -313,6 +315,13 @@ function FarmList(props) {
                             </Typography>
                           </Grid>
                           <Grid item xs={3}>
+                        <Grid item xs={4}>
+                          <Typography>
+                          <b>Farm APR</b>
+                          </Typography>
+                          <Typography>{aprMap[index]}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
                           <Typography>
                             <b>Staked Balance</b>
                           </Typography>
@@ -328,6 +337,7 @@ function FarmList(props) {
                               {"x" + item.boost}
                             </Typography>
                           </Grid>
+                          <Typography>{tvlMap[index]}</Typography>
                         </Grid>
                       </Grid>
                     </Grid>

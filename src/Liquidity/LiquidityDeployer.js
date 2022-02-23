@@ -85,11 +85,15 @@ function LiquidityDeployer(props) {
     address: undefined,
     symbol: undefined,
     balance: undefined,
+    decimals: undefined,
+    wei: undefined,
   });
   const [coin2, setCoin2] = React.useState({
     address: undefined,
     symbol: undefined,
     balance: undefined,
+    decimals: undefined,
+    wei: undefined,
   });
 
   const [coins, setCoins] = React.useState([]);
@@ -216,6 +220,8 @@ function LiquidityDeployer(props) {
           address: address,
           symbol: data.symbol,
           balance: data.balance,
+          decimals: data.decimals,
+          wei: data.wei,
         });
       });
     }
@@ -238,6 +244,8 @@ function LiquidityDeployer(props) {
           address: address,
           symbol: data.symbol,
           balance: data.balance,
+          decimals: data.decimals,
+          wei: data.wei,
         });
       });
     }
@@ -309,6 +317,8 @@ function LiquidityDeployer(props) {
             setCoin1({
               ...coin1,
               balance: data.balance,
+              decimals: data.decimals,
+              wei: data.wei,
             });
           }
         );
@@ -319,6 +329,8 @@ function LiquidityDeployer(props) {
             setCoin2({
               ...coin2,
               balance: data.balance,
+              decimals: data.decimals,
+              wei: data.wei,
             });
           }
         );
@@ -400,6 +412,8 @@ function LiquidityDeployer(props) {
             onChange={handleChange.field1}
             symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
             maxValue={coin1.balance}
+            decimals={coin1.decimals}
+            maxWeiValue={coin1.wei}
           />
         </Grid>
 
@@ -411,6 +425,8 @@ function LiquidityDeployer(props) {
             onChange={handleChange.field2}
             symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
             maxValue={coin2.balance}
+            decimals={coin2.decimals}
+            maxWeiValue={coin2.wei}
           />
         </Grid>
       </Grid>

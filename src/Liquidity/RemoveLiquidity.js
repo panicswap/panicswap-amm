@@ -92,11 +92,13 @@ function LiquidityRemover(props) {
     address: undefined,
     symbol: undefined,
     balance: undefined,
+    wei: undefined,
   });
   const [coin2, setCoin2] = React.useState({
     address: undefined,
     symbol: undefined,
     balance: undefined,
+    wei: undefined,
   });
 
   const [coins, setCoins] = React.useState([]);
@@ -206,6 +208,7 @@ function LiquidityRemover(props) {
           address: address,
           symbol: data.symbol,
           balance: data.balance,
+          wei: data.wei,
         });
       });
     }
@@ -228,6 +231,7 @@ function LiquidityRemover(props) {
           address: address,
           symbol: data.symbol,
           balance: data.balance,
+          wei: data.wei,
         });
       });
     }
@@ -294,6 +298,7 @@ function LiquidityRemover(props) {
             setCoin1({
               ...coin1,
               balance: data.balance,
+              wei: data.wei,
             });
           }
         );
@@ -304,6 +309,7 @@ function LiquidityRemover(props) {
             setCoin2({
               ...coin2,
               balance: data.balance,
+              wei: data.wei,
             });
           }
         );
