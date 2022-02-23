@@ -376,7 +376,7 @@ function CoinSwapper(props) {
         />
 
       {/* Coin Swapper */}
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Paper className={classes.paperContainer}>
           <Grid container direction="column" alignItems="center" spacing={2}>
             <Grid item xs={12} className={classes.fullWidth}>
