@@ -69,6 +69,17 @@ CoinField.propTypes = {
   activeField: PropTypes.bool.isRequired,
 };
 
+// Ignore balance for unselected tokens
+function checkIfSelect( str ) {
+  var string = str;
+  if (string == "undefined") {
+    return 0.0;
+  }
+  else {
+    return str;
+  }
+}
+
 export function RemoveLiquidityField1(props) {
   // This component is used to selecting a coin and entering a value, the props are explained below:
   //      onClick - (string) => void - Called when the button is clicked
@@ -205,7 +216,7 @@ export default function CoinField(props) {
           <hr className={classes.hr}/>
           <Grid container direction="column">
             <Grid item xs={12}>
-              {"Balance: " + maxValue}
+              {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
             </Grid>
           </Grid>
         </Grid>
