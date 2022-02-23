@@ -150,9 +150,9 @@ function FarmList(props) {
         setwrongNetworkOpen(false);
         console.log('chainID: ', chainId);
         // Get the router using the chainID
+        const aprFeed = await getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer);
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
         const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
-        const aprFeed = await getAprFeed("0xdD8C47d35248188eEA2d23037f3C80529Cf7b3ED", signer);
         setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
