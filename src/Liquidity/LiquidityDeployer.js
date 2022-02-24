@@ -474,9 +474,6 @@ function LiquidityDeployer(props) {
         className={classes.balance}
         xs={12}
       >
-        {/*<ToggleStable />*/}
-
-        {/* Liquidity Tokens Display */}
         <Grid
           container
           item
@@ -489,7 +486,7 @@ function LiquidityDeployer(props) {
             <>
               <hr className={classes.hr} />
               <Grid container direction="row" alignItems="center" xs={12}>
-                {/* Reserves Display */}
+                {/* User's Unstaked Liquidity Tokens Display */}
                 <Grid xs={1}></Grid>
                 <Grid item xs={4} className={classes.leftSideBottomText}>
                   <Typography>Your Liquidity (Unstaked!)</Typography>
@@ -538,8 +535,6 @@ function LiquidityDeployer(props) {
               </Grid>
             </>
           )}
-
-          {/* Liquidity Tokens Display */}
         </Grid>
 
         <hr className={classes.hr} />
