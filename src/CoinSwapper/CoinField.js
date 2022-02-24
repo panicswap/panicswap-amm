@@ -3,7 +3,7 @@ import { Fab, Grid, InputBase, makeStyles } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
-
+import { IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,9 +56,26 @@ const useStyles = makeStyles((theme) => ({
   hr: {
     margin: 1,
   },
-  buttonContainer: {
-    padding: theme.spacing(1),
-  }
+  iconButton: {
+    borderRadius: "10px",
+    background: "#e5e5e5",
+    color: "#333333",
+    height: "40px",
+    paddingLeft: theme.spacing(1),
+  },
+  balanceText: {
+    display: "grid",
+    justifyContent: "left",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+  },
+  balanceNumber: {
+    display: "grid",
+    justifyContent: "right",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    color: "#333333",
+  },
 }));
 
 CoinField.propTypes = {
@@ -70,12 +87,11 @@ CoinField.propTypes = {
 };
 
 // Ignore balance for unselected tokens
-function checkIfSelect( str ) {
+function checkIfSelect(str) {
   var string = str;
   if (string == "undefined") {
     return 0.0;
-  }
-  else {
+  } else {
     return str;
   }
 }
@@ -159,7 +175,7 @@ export function RemoveLiquidityField2(props) {
             className={classes.fab}
           >
             {symbol}
-            <ExpandMoreIcon className={classes.fab}/>
+            <ExpandMoreIcon className={classes.fab} />
           </Fab>
         </Grid>
       </Grid>
@@ -177,7 +193,15 @@ export default function CoinField(props) {
   //      userCanChoose - boolean - Whether user can select coin or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField, userCanChoose, maxValue } = props;
+  const {
+    onClick,
+    symbol,
+    value,
+    onChange,
+    activeField,
+    userCanChoose,
+    maxValue,
+  } = props;
 
   return (
     <div className={classes.container}>
@@ -190,16 +214,21 @@ export default function CoinField(props) {
       >
         {/* Button */}
         <Grid item xs={6}>
-          <Fab
+          <IconButton
             size="small"
             variant="extended"
             onClick={onClick}
-            className={classes.fab}
+            className={classes.iconButton}
           >
-            <img src={"/assets/token/" + symbol + ".svg"} className={[classes.fab,classes.swapTokenIcon].join(" ")}/>
+            {symbol !== "Select" && (
+              <img
+                src={"/assets/token/" + symbol + ".svg"}
+                className={[classes.fab, classes.swapTokenIcon].join(" ")}
+              />
+            )}
             {symbol}
-            {userCanChoose !== false && <ExpandMoreIcon/>}
-          </Fab>
+            {userCanChoose !== false && <ExpandMoreIcon />}
+          </IconButton>
         </Grid>
 
         {/* Text Field */}
@@ -213,10 +242,11 @@ export default function CoinField(props) {
           />
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
-          <hr className={classes.hr}/>
-          <Grid container direction="column">
-            <Grid item xs={12}>
-              {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
+          <hr className={classes.hr} />
+          <Grid container direction="row">
+            <Grid item xs={12} className={classes.balanceNumber}>
+              {"Balance: " +
+                checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
             </Grid>
           </Grid>
         </Grid>
