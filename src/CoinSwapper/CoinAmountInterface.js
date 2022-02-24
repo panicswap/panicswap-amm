@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, makeStyles, Link } from "@material-ui/core";
 import CoinField from "./CoinField";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 const useStyles = makeStyles((theme) => ({
   controls: {
@@ -36,11 +36,13 @@ export default function CoinAmountInterface(props) {
         amount = 0;
       }
       else {
-        amount = ethers.utils.formatUnits(String(Math.floor((maxWeiValue - 1e18) * percentage / 100)), decimals);
+        const weiAm = maxWeiValue.sub(1e18).mul( percentage ).div(100);
+        amount = ethers.utils.formatUnits(String(weiAm), decimals);
       }
     } else if(maxValue) {
-      console.log("decimals",decimals);
-      amount = ethers.utils.formatUnits(String(Math.floor(maxWeiValue * percentage / 100)), decimals);
+      console.log("decimals ==",decimals);
+      const weiAm = maxWeiValue.mul( percentage ).div(100);
+      amount = ethers.utils.formatUnits(String(weiAm), decimals);
     } else {
       amount = 0;
     }
