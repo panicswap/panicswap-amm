@@ -55,6 +55,17 @@ const styles = (theme) => ({
     padding: theme.spacing(1),
     overflow: "wrap",
     textAlign: "center",
+  },
+  rightSideBottomText: {
+    textAlign: "right",
+  },
+  leftSideBottomText: {
+    textAlign: "left",
+  },
+  liquidityIcon: {
+    width: "20px",
+    marginLeft: "3px",
+    marginBottom: "5px",
   }
 });
 
@@ -228,6 +239,7 @@ function CoinSwapper(props) {
         });
       });
   };
+  
 
   // The lambdas within these useEffects will be called when a particular dependency is updated. These dependencies
   // are defined in the array of variables passed to the function after the lambda expression. If there are no dependencies
@@ -407,6 +419,21 @@ function CoinSwapper(props) {
             </Grid>
 
             <hr className={classes.hr} />
+            {/* Price per token */}
+            <Grid container direction="row" alignItems="center" xs={12}>
+              <Grid xs={1}></Grid>
+              <Grid item xs={2} className={classes.leftSideBottomText}>
+                <Typography>
+                  Price
+                </Typography>
+                </Grid>
+              <Grid item xs={8} className={classes.rightSideBottomText}>
+                <Typography>
+                  {Number(field1Value/field2Value).toPrecision(7)} {coin1.symbol} per {coin2.symbol}
+                </Typography>
+              </Grid>
+              <Grid xs={1}></Grid>
+            </Grid>
 
             {/* Reserves Display */}
             <Typography variant="h6">Reserves</Typography>
