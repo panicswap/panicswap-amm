@@ -11,7 +11,7 @@ import {
   getBalanceAndSymbol,
   getWeth,
   getReserves,
-  getNetwork
+  getNetwork,
 } from "../ethereumFunctions";
 
 import { addLiquidity, quoteAddLiquidity } from "./LiquidityFunctions";
@@ -56,6 +56,17 @@ const styles = (theme) => ({
   },
   subText: {
     fontSize: "13px",
+  },
+  rightSideBottomText: {
+    textAlign: "right",
+  },
+  leftSideBottomText: {
+    textAlign: "left",
+  },
+  liquidityIcon: {
+    width: "20px",
+    marginLeft: "3px",
+    marginBottom: "5px",
   },
 });
 
@@ -152,7 +163,6 @@ function LiquidityDeployer(props) {
 
   // Determines whether the button should be enabled or not
   const isButtonEnabled = () => {
-
     // If both coins have been selected, and a valid float has been entered for both, which are less than the user's balances, then return true
     const parsedInput1 = parseFloat(field1Value);
     const parsedInput2 = parseFloat(field2Value);
@@ -168,8 +178,6 @@ function LiquidityDeployer(props) {
     );
   };
 
-
-
   const deploy = () => {
     console.log("Attempting to deploy liquidity...");
     setLoading(true);
@@ -180,8 +188,8 @@ function LiquidityDeployer(props) {
       coin2.address,
       field1Value,
       field2Value,
-      '0',
-      '0',
+      "0",
+      "0",
       router,
       account,
       signer
@@ -215,7 +223,14 @@ function LiquidityDeployer(props) {
     // We only update the values if the user provides a token
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
-      getBalanceAndSymbol(account, address, provider, signer, weth.address, coins).then((data) => {
+      getBalanceAndSymbol(
+        account,
+        address,
+        provider,
+        signer,
+        weth.address,
+        coins
+      ).then((data) => {
         setCoin1({
           address: address,
           symbol: data.symbol,
@@ -239,7 +254,14 @@ function LiquidityDeployer(props) {
     // We only update the values if the user provides a token
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
-      getBalanceAndSymbol(account, address, provider, signer, weth.address, coins).then((data) => {
+      getBalanceAndSymbol(
+        account,
+        address,
+        provider,
+        signer,
+        weth.address,
+        coins
+      ).then((data) => {
         setCoin2({
           address: address,
           symbol: data.symbol,
@@ -257,7 +279,10 @@ function LiquidityDeployer(props) {
   // ToDo reserves
   useEffect(() => {
     console.log(
-      "Trying to get reserves M1 between:\n" + coin1.address + "\n" + coin2.address
+      "Trying to get reserves M1 between:\n" +
+        coin1.address +
+        "\n" +
+        coin2.address
     );
     if (coin1.address && coin2.address && account) {
       getReserves(coin1.address, coin2.address, factory, signer, account).then(
@@ -311,29 +336,39 @@ function LiquidityDeployer(props) {
         });
       }
 
-      if (coin1.address && account &&!wrongNetworkOpen) {
-        getBalanceAndSymbol(account, coin1.address, provider, signer, weth.address, coins).then(
-          (data) => {
-            setCoin1({
-              ...coin1,
-              balance: data.balance,
-              decimals: data.decimals,
-              wei: data.wei,
-            });
-          }
-        );
+      if (coin1.address && account && !wrongNetworkOpen) {
+        getBalanceAndSymbol(
+          account,
+          coin1.address,
+          provider,
+          signer,
+          weth.address,
+          coins
+        ).then((data) => {
+          setCoin1({
+            ...coin1,
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
       }
-      if (coin2.address && account &&!wrongNetworkOpen) {
-        getBalanceAndSymbol(account, coin2.address, provider, signer, weth.address, coins).then(
-          (data) => {
-            setCoin2({
-              ...coin2,
-              balance: data.balance,
-              decimals: data.decimals,
-              wei: data.wei,
-            });
-          }
-        );
+      if (coin2.address && account && !wrongNetworkOpen) {
+        getBalanceAndSymbol(
+          account,
+          coin2.address,
+          provider,
+          signer,
+          weth.address,
+          coins
+        ).then((data) => {
+          setCoin2({
+            ...coin2,
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
       }
     }, 10000);
 
@@ -342,7 +377,6 @@ function LiquidityDeployer(props) {
 
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
-    
     getAccount().then((account) => {
       setAccount(account);
     });
@@ -353,15 +387,18 @@ function LiquidityDeployer(props) {
         return chainId;
       });
 
-      if (chains.networks.includes(chainId)){
+      if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
-        console.log('chainID: ', chainId);
+        console.log("chainID: ", chainId);
         // Get the router using the chainID
-        const router = await getRouter (chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(
+          chains.routerAddress.get(chainId),
+          signer
+        );
         setRouter(router);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
-          setWeth(getWeth (wethAddress, signer));
+          setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
           coins[0].address = wethAddress;
@@ -369,16 +406,15 @@ function LiquidityDeployer(props) {
         });
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
-          setFactory(getFactory (factory_address, signer));
-        })
+          setFactory(getFactory(factory_address, signer));
+        });
       } else {
-        console.log('Wrong network mate.');
+        console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
     }
 
-    Network()
-
+    Network();
   }, []);
 
   return (
@@ -399,9 +435,7 @@ function LiquidityDeployer(props) {
         coins={coins}
         signer={signer}
       />
-      <WrongNetwork
-        open={wrongNetworkOpen}
-      />
+      <WrongNetwork open={wrongNetworkOpen} />
 
       <Grid container direction="column" alignItems="center" spacing={2}>
         <Grid item xs={12} className={classes.fullWidth}>
@@ -440,40 +474,73 @@ function LiquidityDeployer(props) {
         className={classes.balance}
         xs={12}
       >
-        
         {/*<ToggleStable />*/}
-        <hr className={classes.hr} />
 
         {/* Liquidity Tokens Display */}
-        <Paper className={classes.paperContainer}>
-          <Grid
-            container
-            item
-            direction="column"
-            alignItems="center"
-            className={classes.fullWidth}
-          >
-            {/* Tokens in */}
-            <Typography variant="h6">Deployed Liquidity</Typography>
-            <Typography variant="p" className={classes.subText}>(Unstaked)</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(liquidityOut[0], coin1.symbol)}
-                </Typography>
+        <Grid
+          container
+          item
+          direction="column"
+          alignItems="center"
+          className={classes.fullWidth}
+        >
+          {/* Tokens in */}
+          {coin1.symbol && coin2.symbol && (
+            <>
+              <hr className={classes.hr} />
+              <Grid container direction="row" alignItems="center" xs={12}>
+                {/* Reserves Display */}
+                <Grid xs={1}></Grid>
+                <Grid item xs={4} className={classes.leftSideBottomText}>
+                  <Typography>Your Liquidity (Unstaked!)</Typography>
+                </Grid>
+                <Grid item xs={6} className={classes.rightSideBottomText}>
+                  <Typography>
+                    {formatBalance(liquidityOut[0], coin1.symbol)}
+                    <img
+                      src={"/assets/token/" + coin1.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                  <Typography>
+                    {formatBalance(liquidityOut[1], coin2.symbol)}
+                    <img
+                      src={"/assets/token/" + coin2.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                </Grid>
+                <Grid xs={1}></Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatBalance(liquidityOut[1], coin2.symbol)}
-                </Typography>
+              <Grid container direction="row" alignItems="center" xs={12}>
+                {/* Reserves Display */}
+                <Grid xs={1}></Grid>
+                <Grid item xs={4} className={classes.leftSideBottomText}>
+                  <Typography>Total Liquidity</Typography>
+                </Grid>
+                <Grid item xs={6} className={classes.rightSideBottomText}>
+                  <Typography>
+                    {formatReserve(reserves[0], coin1.symbol)}
+                    <img
+                      src={"/assets/token/" + coin1.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                  <Typography>
+                    {formatReserve(reserves[1], coin2.symbol)}
+                    <img
+                      src={"/assets/token/" + coin2.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                </Grid>
+                <Grid xs={1}></Grid>
               </Grid>
-            </Grid>
+            </>
+          )}
 
-
-            {/* Liquidity Tokens Display */}
-
-          </Grid>
-        </Paper>
+          {/* Liquidity Tokens Display */}
+        </Grid>
 
         <hr className={classes.hr} />
       </Grid>
