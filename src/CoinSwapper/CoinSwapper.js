@@ -66,7 +66,7 @@ const styles = (theme) => ({
     width: "20px",
     marginLeft: "3px",
     marginBottom: "5px",
-  }
+  },
 });
 
 const useStyles = makeStyles(styles);
@@ -149,7 +149,6 @@ function CoinSwapper(props) {
 
   // Determines whether the button should be enabled or not
   const isButtonEnabled = () => {
-
     // If both coins have been selected, and a valid float has been entered which is less than the user's balance, then return true
     const parsedInput1 = parseFloat(field1Value);
     const parsedInput2 = parseFloat(field2Value);
@@ -175,7 +174,14 @@ function CoinSwapper(props) {
     // We only update the values if the user provides a token
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
-      getBalanceAndSymbol(account, address, provider, signer, weth.address, coins).then((data) => {
+      getBalanceAndSymbol(
+        account,
+        address,
+        provider,
+        signer,
+        weth.address,
+        coins
+      ).then((data) => {
         setCoin1({
           address: address,
           symbol: data.symbol,
@@ -199,7 +205,14 @@ function CoinSwapper(props) {
     // We only update the values if the user provides a token
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
-      getBalanceAndSymbol(account, address, provider, signer, weth.address, coins).then((data) => {
+      getBalanceAndSymbol(
+        account,
+        address,
+        provider,
+        signer,
+        weth.address,
+        coins
+      ).then((data) => {
         setCoin2({
           address: address,
           symbol: data.symbol,
@@ -239,7 +252,6 @@ function CoinSwapper(props) {
         });
       });
   };
-  
 
   // The lambdas within these useEffects will be called when a particular dependency is updated. These dependencies
   // are defined in the array of variables passed to the function after the lambda expression. If there are no dependencies
@@ -252,14 +264,17 @@ function CoinSwapper(props) {
   // the new reserves will be calculated.
   useEffect(() => {
     console.log(
-      "Trying to get Reserves M2 between:\n" + coin1.address + "\n" + coin2.address
+      "Trying to get Reserves M2 between:\n" +
+        coin1.address +
+        "\n" +
+        coin2.address
     );
     // ToDo reserves
     if (coin1.address && coin2.address) {
       getReserves(coin1.address, coin2.address, factory, signer, account).then(
         (data) => setReserves(data)
       );
-     console.log("fetched");
+      console.log("fetched");
     }
   }, [coin1.address, coin2.address, account, factory, router, signer]);
 
@@ -271,12 +286,12 @@ function CoinSwapper(props) {
     if (isNaN(parseFloat(field1Value))) {
       setField2Value("");
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
-      getAmountOut(coin1.address, coin2.address, field1Value, router, signer).then(
-        (amount) => setField2Value(amount.toFixed(7))
-      ).catch(e => {
-        console.log(e);
-        setField2Value("NA");
-      })
+      getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
+        .then((amount) => setField2Value(amount.toFixed(7)))
+        .catch((e) => {
+          console.log(e);
+          setField2Value("NA");
+        });
     } else {
       setField2Value("");
     }
@@ -298,29 +313,39 @@ function CoinSwapper(props) {
         ).then((data) => setReserves(data));
       }
 
-      if (coin1.address && account &&!wrongNetworkOpen) {
-        getBalanceAndSymbol(account, coin1.address, provider, signer, weth.address, coins).then(
-          (data) => {
-            setCoin1({
-              ...coin1,
-              balance: data.balance,
-              decimals: data.decimals,
-              wei: data.wei,
-            });
-          }
-        );
+      if (coin1.address && account && !wrongNetworkOpen) {
+        getBalanceAndSymbol(
+          account,
+          coin1.address,
+          provider,
+          signer,
+          weth.address,
+          coins
+        ).then((data) => {
+          setCoin1({
+            ...coin1,
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
       }
-      if (coin2.address && account &&!wrongNetworkOpen) {
-        getBalanceAndSymbol(account, coin2.address, provider, signer, weth.address, coins).then(
-          (data) => {
-            setCoin2({
-              ...coin2,
-              balance: data.balance,
-              decimals: data.decimals,
-              wei: data.wei,
-            });
-          }
-        );
+      if (coin2.address && account && !wrongNetworkOpen) {
+        getBalanceAndSymbol(
+          account,
+          coin2.address,
+          provider,
+          signer,
+          weth.address,
+          coins
+        ).then((data) => {
+          setCoin2({
+            ...coin2,
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
       }
     }, 10000);
 
@@ -329,7 +354,6 @@ function CoinSwapper(props) {
 
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
-    
     getAccount().then((account) => {
       setAccount(account);
     });
@@ -339,16 +363,19 @@ function CoinSwapper(props) {
         setChainId(chainId);
         return chainId;
       });
-      if (chains.networks.includes(chainId)){
+      if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
-        console.log('chainID: ', chainId);
+        console.log("chainID: ", chainId);
         // Get the router using the chainID
-        const router = await getRouter (chains.routerAddress.get(chainId), signer)
+        const router = await getRouter(
+          chains.routerAddress.get(chainId),
+          signer
+        );
         setRouter(router);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
-          console.log('Weth: ', wethAddress);
-          setWeth(getWeth (wethAddress, signer));
+          console.log("Weth: ", wethAddress);
+          setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
           coins[0].address = wethAddress;
@@ -356,16 +383,15 @@ function CoinSwapper(props) {
         });
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
-          setFactory(getFactory (factory_address, signer));
-        })
+          setFactory(getFactory(factory_address, signer));
+        });
       } else {
-        console.log('Wrong network mate.');
+        console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
     }
 
-    Network()
-
+    Network();
   }, []);
 
   return (
@@ -383,9 +409,7 @@ function CoinSwapper(props) {
         coins={coins}
         signer={signer}
       />
-      <WrongNetwork
-        open={wrongNetworkOpen}
-        />
+      <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Coin Swapper */}
       <Container maxWidth="xs">
@@ -418,43 +442,50 @@ function CoinSwapper(props) {
               />
             </Grid>
 
-            <hr className={classes.hr} />
-            {/* Price per token */}
-            <Grid container direction="row" alignItems="center" xs={12}>
-              <Grid xs={1}></Grid>
-              <Grid item xs={2} className={classes.leftSideBottomText}>
-                <Typography>
-                  Price
-                </Typography>
-                </Grid>
-              <Grid item xs={8} className={classes.rightSideBottomText}>
-                <Typography>
-                  {Number(field1Value/field2Value).toPrecision(7)} {coin1.symbol} per {coin2.symbol}
-                </Typography>
-              </Grid>
-              <Grid xs={1}></Grid>
-            </Grid>
-
-            {/* Reserves Display */}
-            <Grid container direction="row" alignItems="center" xs={12}>
-              <Grid xs={1}></Grid>
-                <Grid item xs={5} className={classes.leftSideBottomText}>
-                  <Typography>
-                    Total Liquidity
-                  </Typography>
+            {coin1.symbol &&
+              coin2.symbol(
+                <>
+                  <hr className={classes.hr} />
+                  <Grid container direction="row" alignItems="center" xs={12}>
+                    {/* Price per token */}
+                    <Grid xs={1}></Grid>
+                    <Grid item xs={2} className={classes.leftSideBottomText}>
+                      <Typography>Price</Typography>
+                    </Grid>
+                    <Grid item xs={8} className={classes.rightSideBottomText}>
+                      <Typography>
+                        {Number(field1Value / field2Value).toPrecision(7)}{" "}
+                        {coin1.symbol} per {coin2.symbol}
+                      </Typography>
+                    </Grid>
+                    <Grid xs={1}></Grid>
                   </Grid>
-                <Grid item xs={5} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {formatReserve(reserves[0], coin1.symbol)} 
-                    <img src={"/assets/token/" + coin1.symbol + ".svg"} className={classes.liquidityIcon}></img>
-                  </Typography>
-                  <Typography>
-                  {formatReserve(reserves[1], coin2.symbol)}
-                  <img src={"/assets/token/" + coin2.symbol + ".svg"} className={classes.liquidityIcon}></img>
-                  </Typography>
-                </Grid>
-              <Grid xs={1}></Grid>
-            </Grid>
+                  <Grid container direction="row" alignItems="center" xs={12}>
+                    {/* Reserves Display */}
+                    <Grid xs={1}></Grid>
+                    <Grid item xs={5} className={classes.leftSideBottomText}>
+                      <Typography>Total Liquidity</Typography>
+                    </Grid>
+                    <Grid item xs={5} className={classes.rightSideBottomText}>
+                      <Typography>
+                        {formatReserve(reserves[0], coin1.symbol)}
+                        <img
+                          src={"/assets/token/" + coin1.symbol + ".svg"}
+                          className={classes.liquidityIcon}
+                        ></img>
+                      </Typography>
+                      <Typography>
+                        {formatReserve(reserves[1], coin2.symbol)}
+                        <img
+                          src={"/assets/token/" + coin2.symbol + ".svg"}
+                          className={classes.liquidityIcon}
+                        ></img>
+                      </Typography>
+                    </Grid>
+                    <Grid xs={1}></Grid>
+                  </Grid>
+                </>
+              )}
 
             <hr className={classes.hr} />
 
@@ -471,7 +502,6 @@ function CoinSwapper(props) {
           </Grid>
         </Paper>
       </Container>
-
     </div>
   );
 }
