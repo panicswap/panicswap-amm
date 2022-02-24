@@ -3,6 +3,7 @@ import { Fab, Grid, InputBase, makeStyles } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
+import { IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -55,8 +56,25 @@ const useStyles = makeStyles((theme) => ({
   hr: {
     margin: 1,
   },
-  buttonContainer: {
-    padding: theme.spacing(1),
+  iconButton: {
+    borderRadius: "10px",
+    background: "#e5e5e5",
+    color: "#333333",
+    height: "40px",
+    paddingLeft: theme.spacing(1),
+  },
+  balanceText: {
+    display: "grid",
+    justifyContent: "left",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+  },
+  balanceNumber: {
+    display: "grid",
+    justifyContent: "right",
+    paddingTop: "5px",
+    paddingBottom: "5px",
+    color: "#333333",
   },
 }));
 
@@ -196,13 +214,13 @@ export default function CoinField(props) {
       >
         {/* Button */}
         <Grid item xs={6}>
-          <Fab
+          <IconButton
             size="small"
             variant="extended"
             onClick={onClick}
-            className={classes.fab}
+            className={classes.iconButton}
           >
-            {symbol && (
+            {symbol !== "Select" && (
               <img
                 src={"/assets/token/" + symbol + ".svg"}
                 className={[classes.fab, classes.swapTokenIcon].join(" ")}
@@ -210,7 +228,7 @@ export default function CoinField(props) {
             )}
             {symbol}
             {userCanChoose !== false && <ExpandMoreIcon />}
-          </Fab>
+          </IconButton>
         </Grid>
 
         {/* Text Field */}
@@ -225,8 +243,8 @@ export default function CoinField(props) {
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
           <hr className={classes.hr} />
-          <Grid container direction="column">
-            <Grid item xs={12}>
+          <Grid container direction="row">
+            <Grid item xs={12} className={classes.balanceNumber}>
               {"Balance: " +
                 checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
             </Grid>
