@@ -239,19 +239,43 @@ export async function getAmountOut(
 
     const svalues_out = await routerContract.getAmountsOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
-      [[address1, address2, true]] // TODO boolean
+      [[address1, address2, true]]
     );
 
     const vvalues_out = await routerContract.getAmountsOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
-      [[address1, address2, false]] // TODO boolean
+      [[address1, address2, false]]
     );
+    const factoryContract = await getFactory("0x1A60482b1Bca074F3E6e17e89F92aDbb578BD63A",signer);
+    const variablePair = await factoryContract.getPair(address1,address2,false);
+    const stablePair = await factoryContract.getPair(address1,address2,true);    
     console.log("s values", svalues_out, "vvalues", vvalues_out);
-    const actualValuesOut = Number(vvalues_out[1]) > Number(svalues_out[1]) ? vvalues_out[1] : svalues_out[1];
+    const [actualValuesOut, actualPair, stable]= Number(vvalues_out[1]) > Number(svalues_out[1]) ? [vvalues_out[1], variablePair, false]: [svalues_out[1], stablePair, true];
 
+    const pairContract = new Contract(actualPair, PAIR.abi, signer);
+
+    const pairFee = await pairContract.fee();
+    const tokenFee = amountIn/pairFee;
+
+    let priceImpact;// = finalPrice/initialPrice;
+    const reserves = await fetchReserves(address1, address2, pairContract, signer);
+
+    if(stable)
+      priceImpact = NaN;//TODO
+    else{
+      const initialPrice = reserves[0]/reserves[1];
+      const finalPrice = 
+        (reserves[0] +
+          ethers.utils.parseUnits(String(amountIn), token1Decimals) -
+          ethers.utils.parseUnits(String(tokenFee), token1Decimals))/
+        (reserves[1]-actualValuesOut);
+      priceImpact = (finalPrice*100/initialPrice);
+    }
     const amount_out = actualValuesOut*10**(-token2Decimals);
-    console.log('amount out: ', amount_out)
-    return Number(amount_out);
+    console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee);
+
+
+    return [Number(amount_out), priceImpact, tokenFee, pairFee];
   } catch {
     return false;
   }
