@@ -436,18 +436,24 @@ function CoinSwapper(props) {
             </Grid>
 
             {/* Reserves Display */}
-            <Typography variant="h6">Reserves</Typography>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
-                  {formatReserve(reserves[0], coin1.symbol)}
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" className={classes.balance}>
+            <Grid container direction="row" alignItems="center" xs={12}>
+              <Grid xs={1}></Grid>
+                <Grid item xs={5} className={classes.leftSideBottomText}>
+                  <Typography>
+                    Total Liquidity
+                  </Typography>
+                  </Grid>
+                <Grid item xs={5} className={classes.rightSideBottomText}>
+                  <Typography>
+                    {formatReserve(reserves[0], coin1.symbol)} 
+                    <img src={"/assets/token/" + coin1.symbol + ".svg"} className={classes.liquidityIcon}></img>
+                  </Typography>
+                  <Typography>
                   {formatReserve(reserves[1], coin2.symbol)}
-                </Typography>
-              </Grid>
+                  <img src={"/assets/token/" + coin2.symbol + ".svg"} className={classes.liquidityIcon}></img>
+                  </Typography>
+                </Grid>
+              <Grid xs={1}></Grid>
             </Grid>
 
             <hr className={classes.hr} />
