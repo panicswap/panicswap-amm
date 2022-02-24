@@ -118,6 +118,8 @@ function CoinSwapper(props) {
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
+  const [priceImpact, setPriceImpact] = React.useState([]);
+
   // Switches the top and bottom coins, this is called when users hit the swap button or select the opposite
   // token in the dialog (e.g. if coin1 is TokenA and the user selects TokenB when choosing coin2)
   const switchFields = () => {
@@ -287,7 +289,10 @@ function CoinSwapper(props) {
       setField2Value("");
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
       getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
-        .then((data) => setField2Value(data[0].toFixed(7)))
+        .then(
+          (data) => setField2Value(data[0].toFixed(7)),
+          setPriceImpact({ priceImpact: priceImpact })
+        )
         .catch((e) => {
           console.log(e);
           setField2Value("NA");
@@ -446,20 +451,34 @@ function CoinSwapper(props) {
               <>
                 <hr className={classes.hr} />
                 {field1Value && (
-                  <Grid container direction="row" alignItems="center" xs={12}>
-                    {/* Price per token */}
-                    <Grid xs={1}></Grid>
-                    <Grid item xs={2} className={classes.leftSideBottomText}>
-                      <Typography>Price</Typography>
+                  <>
+                    <Grid container direction="row" alignItems="center" xs={12}>
+                      {/* Price per token */}
+                      <Grid xs={1}></Grid>
+                      <Grid item xs={2} className={classes.leftSideBottomText}>
+                        <Typography>Price</Typography>
+                      </Grid>
+                      <Grid item xs={8} className={classes.rightSideBottomText}>
+                        <Typography>
+                          {Number(field1Value / field2Value).toPrecision(7)}{" "}
+                          {coin1.symbol} per {coin2.symbol}
+                        </Typography>
+                      </Grid>
+                      <Grid xs={1}></Grid>
                     </Grid>
-                    <Grid item xs={8} className={classes.rightSideBottomText}>
-                      <Typography>
-                        {Number(field1Value / field2Value).toPrecision(7)}{" "}
-                        {coin1.symbol} per {coin2.symbol}
-                      </Typography>
+                    <Grid container direction="row" alignItems="center" xs={12}>
+                      {/* Price per token */}
+                      <Grid xs={1}></Grid>
+                      <Grid item xs={5} className={classes.leftSideBottomText}>
+                        <Typography>Price Impact</Typography>
+                      </Grid>
+                      <Grid item xs={5} className={classes.rightSideBottomText}>
+                        <Typography>{priceImpact}</Typography>
+                      </Grid>
+                      <Grid xs={1}></Grid>
                     </Grid>
-                    <Grid xs={1}></Grid>
-                  </Grid>
+                    <hr className={classes.hr} />
+                  </>
                 )}
 
                 <Grid container direction="row" alignItems="center" xs={12}>
