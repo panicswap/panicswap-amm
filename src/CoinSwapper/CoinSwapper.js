@@ -67,6 +67,15 @@ const styles = (theme) => ({
     marginLeft: "3px",
     marginBottom: "5px",
   },
+  yellow: {
+    color: "yellow",
+  },
+  red: {
+    color: "red",
+  },
+  green: {
+    color: "green",
+  },
 });
 
 const useStyles = makeStyles(styles);
@@ -119,6 +128,8 @@ function CoinSwapper(props) {
   const [loading, setLoading] = React.useState(false);
 
   const [priceImpact, setPriceImpact] = React.useState([]);
+  const [tokenFee, setTokenFee] = React.useState([]);
+  const [pairFee, setPairFee] = React.useState([]);
 
   // Switches the top and bottom coins, this is called when users hit the swap button or select the opposite
   // token in the dialog (e.g. if coin1 is TokenA and the user selects TokenB when choosing coin2)
@@ -195,6 +206,12 @@ function CoinSwapper(props) {
     }
   };
 
+  function warningSeverity(priceImpact) {
+    if (!priceImpact) return undefined;
+    if (Number(priceImpact) < 1) return "classes.green";
+    if (Number(priceImpact) < 5) return "classes.yellow";
+    if (Number(priceImpact) <= 100) return "classes.red";
+  }
   // Called when the dialog window for coin2 exits
   const onToken2Selected = (address) => {
     // Close the dialog window
@@ -289,10 +306,12 @@ function CoinSwapper(props) {
       setField2Value("");
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
       getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
-        .then(
-          (data) => setField2Value(data[0].toFixed(7)),
-          setPriceImpact({ priceImpact: priceImpact })
-        )
+        .then((data) => {
+          setField2Value(data[0].toFixed(7));
+          setPriceImpact(data[1].toFixed(2));
+          setTokenFee(data[2].toFixed(7));
+          setPairFee(data[3].toFixed(2));
+        })
         .catch((e) => {
           console.log(e);
           setField2Value("NA");
@@ -473,7 +492,22 @@ function CoinSwapper(props) {
                         <Typography>Price Impact</Typography>
                       </Grid>
                       <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography>{priceImpact}</Typography>
+                        <Typography className={warningSeverity(priceImpact)}>
+                          {Number(priceImpact).toFixed(2) + "%"}
+                        </Typography>
+                      </Grid>
+                      <Grid xs={1}></Grid>
+                    </Grid>
+                    <Grid container direction="row" alignItems="center" xs={12}>
+                      {/* Price per token */}
+                      <Grid xs={1}></Grid>
+                      <Grid item xs={5} className={classes.leftSideBottomText}>
+                        <Typography>Fee (Paid To Stakers)</Typography>
+                      </Grid>
+                      <Grid item xs={5} className={classes.rightSideBottomText}>
+                        <Typography className={warningSeverity(priceImpact)}>
+                          {Number(tokenFee) + " (" + Number(pairFee) + "%)"}
+                        </Typography>
                       </Grid>
                       <Grid xs={1}></Grid>
                     </Grid>
