@@ -4,7 +4,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
 
-
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingLeft: theme.spacing(1),
@@ -58,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     padding: theme.spacing(1),
-  }
+  },
 }));
 
 CoinField.propTypes = {
@@ -70,12 +69,11 @@ CoinField.propTypes = {
 };
 
 // Ignore balance for unselected tokens
-function checkIfSelect( str ) {
+function checkIfSelect(str) {
   var string = str;
   if (string == "undefined") {
     return 0.0;
-  }
-  else {
+  } else {
     return str;
   }
 }
@@ -159,7 +157,7 @@ export function RemoveLiquidityField2(props) {
             className={classes.fab}
           >
             {symbol}
-            <ExpandMoreIcon className={classes.fab}/>
+            <ExpandMoreIcon className={classes.fab} />
           </Fab>
         </Grid>
       </Grid>
@@ -177,7 +175,15 @@ export default function CoinField(props) {
   //      userCanChoose - boolean - Whether user can select coin or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField, userCanChoose, maxValue } = props;
+  const {
+    onClick,
+    symbol,
+    value,
+    onChange,
+    activeField,
+    userCanChoose,
+    maxValue,
+  } = props;
 
   return (
     <div className={classes.container}>
@@ -196,9 +202,14 @@ export default function CoinField(props) {
             onClick={onClick}
             className={classes.fab}
           >
-            <img src={"/assets/token/" + symbol + ".svg"} className={[classes.fab,classes.swapTokenIcon].join(" ")}/>
+            {symbol && (
+              <img
+                src={"/assets/token/" + symbol + ".svg"}
+                className={[classes.fab, classes.swapTokenIcon].join(" ")}
+              />
+            )}
             {symbol}
-            {userCanChoose !== false && <ExpandMoreIcon/>}
+            {userCanChoose !== false && <ExpandMoreIcon />}
           </Fab>
         </Grid>
 
@@ -213,10 +224,11 @@ export default function CoinField(props) {
           />
         </Grid>
         <Grid item xs={12} className={classes.buttonContainer}>
-          <hr className={classes.hr}/>
+          <hr className={classes.hr} />
           <Grid container direction="column">
             <Grid item xs={12}>
-              {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.00)}
+              {"Balance: " +
+                checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
             </Grid>
           </Grid>
         </Grid>
