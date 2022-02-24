@@ -442,10 +442,10 @@ function CoinSwapper(props) {
               />
             </Grid>
 
-            {coin1.symbol &&
-              coin2.symbol(
-                <>
-                  <hr className={classes.hr} />
+            {coin1.symbol && coin2.symbol && (
+              <>
+                <hr className={classes.hr} />
+                {field1Value && (
                   <Grid container direction="row" alignItems="center" xs={12}>
                     {/* Price per token */}
                     <Grid xs={1}></Grid>
@@ -460,32 +460,34 @@ function CoinSwapper(props) {
                     </Grid>
                     <Grid xs={1}></Grid>
                   </Grid>
-                  <Grid container direction="row" alignItems="center" xs={12}>
-                    {/* Reserves Display */}
-                    <Grid xs={1}></Grid>
-                    <Grid item xs={5} className={classes.leftSideBottomText}>
-                      <Typography>Total Liquidity</Typography>
-                    </Grid>
-                    <Grid item xs={5} className={classes.rightSideBottomText}>
-                      <Typography>
-                        {formatReserve(reserves[0], coin1.symbol)}
-                        <img
-                          src={"/assets/token/" + coin1.symbol + ".svg"}
-                          className={classes.liquidityIcon}
-                        ></img>
-                      </Typography>
-                      <Typography>
-                        {formatReserve(reserves[1], coin2.symbol)}
-                        <img
-                          src={"/assets/token/" + coin2.symbol + ".svg"}
-                          className={classes.liquidityIcon}
-                        ></img>
-                      </Typography>
-                    </Grid>
-                    <Grid xs={1}></Grid>
+                )}
+
+                <Grid container direction="row" alignItems="center" xs={12}>
+                  {/* Reserves Display */}
+                  <Grid xs={1}></Grid>
+                  <Grid item xs={4} className={classes.leftSideBottomText}>
+                    <Typography>Total Liquidity</Typography>
                   </Grid>
-                </>
-              )}
+                  <Grid item xs={6} className={classes.rightSideBottomText}>
+                    <Typography>
+                      {formatReserve(reserves[0], coin1.symbol)}
+                      <img
+                        src={"/assets/token/" + coin1.symbol + ".svg"}
+                        className={classes.liquidityIcon}
+                      ></img>
+                    </Typography>
+                    <Typography>
+                      {formatReserve(reserves[1], coin2.symbol)}
+                      <img
+                        src={"/assets/token/" + coin2.symbol + ".svg"}
+                        className={classes.liquidityIcon}
+                      ></img>
+                    </Typography>
+                  </Grid>
+                  <Grid xs={1}></Grid>
+                </Grid>
+              </>
+            )}
 
             <hr className={classes.hr} />
 
