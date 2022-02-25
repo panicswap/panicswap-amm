@@ -17,6 +17,7 @@ import {
 import { addLiquidity, quoteAddLiquidity } from "./LiquidityFunctions";
 
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
+import CoinField from "../CoinSwapper/CoinField";
 import CoinDialog from "../CoinSwapper/CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -300,15 +301,15 @@ function LiquidityDeployer(props) {
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
   useEffect(() => {
-    if(coin1.address && coin2.address && (field1Value || field2Value)){
+    if (coin1.address && coin2.address && (field1Value || field2Value)) {
       console.log("fill other field");
       const oneTrillion = String(BigNumber.from(1e12));
       const [amount1, amount2] =
-        prevField1Value.current != field1Value ?
-          [field1Value, oneTrillion]:
-          prevField2Value.current != field2Value ?
-            [oneTrillion, field2Value]:
-            [0,0];
+        prevField1Value.current != field1Value
+          ? [field1Value, oneTrillion]
+          : prevField2Value.current != field2Value
+          ? [oneTrillion, field2Value]
+          : [0, 0];
       quoteAddLiquidity(
         coin1.address,
         coin2.address,
@@ -329,7 +330,7 @@ function LiquidityDeployer(props) {
         prevField2Value.current = field2Value;
       });
     }
-    }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
+  }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -466,15 +467,12 @@ function LiquidityDeployer(props) {
         </Grid>
 
         <Grid item xs={12} className={classes.fullWidth}>
-          <CoinAmountInterface
-            activeField={true}
+          <CoinField
+            activeField={false}
             value={field2Value}
             onClick={() => setDialog2Open(true)}
-            onChange={handleChange.field2}
             symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
             maxValue={coin2.balance}
-            decimals={coin2.decimals}
-            maxWeiValue={coin2.wei}
           />
         </Grid>
       </Grid>
@@ -503,7 +501,7 @@ function LiquidityDeployer(props) {
                 {/* User's Unstaked Liquidity Tokens Display */}
                 <Grid xs={1}></Grid>
                 <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>Your Liquidity (Unstaked!)</Typography>
+                  <Typography>Liquidity Preview</Typography>
                 </Grid>
                 <Grid item xs={6} className={classes.rightSideBottomText}>
                   <Typography>
@@ -527,22 +525,16 @@ function LiquidityDeployer(props) {
                 {/* Reserves Display */}
                 <Grid xs={1}></Grid>
                 <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>Total Liquidity</Typography>
+                  <Typography>LP Tokens</Typography>
                 </Grid>
                 <Grid item xs={6} className={classes.rightSideBottomText}>
                   <Typography>
-                    {formatReserve(reserves[0], coin1.symbol)}
-                    <img
-                      src={"/assets/token/" + coin1.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                  <Typography>
-                    {formatReserve(reserves[1], coin2.symbol)}
-                    <img
-                      src={"/assets/token/" + coin2.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
+                    {liquidityOut[2] +
+                      " " +
+                      coin1.symbol +
+                      "-" +
+                      coin2.symbol +
+                      " LP"}
                   </Typography>
                 </Grid>
                 <Grid xs={1}></Grid>
