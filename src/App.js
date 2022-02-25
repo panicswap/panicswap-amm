@@ -15,7 +15,6 @@ import ConnectWalletPage from "./Components/connectWalletPage";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 import Footer from "./Components/Footer";
 
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -30,12 +29,12 @@ const theme = createTheme({
   shadows: [
     "none",
     "0px 3px 10px -1px rgb(0 0 0 / 20%)",
-    ...Array(23).fill('none')
+    ...Array(23).fill("none"),
   ],
   overrides: {
     MuiPaper: {
       root: {
-        padding: "2rem"
+        padding: "2rem",
       },
     },
   },
@@ -46,41 +45,17 @@ function App() {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     return (
-      <div className="App">
+      <div className="App bg-gradient-to-bl from-blue-100 via-blue-50  to-white">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
             <NavBar />
-            <Route
-              exact
-              path="/"
-              component={CoinSwapper}
-            />
-            <Route
-              exact
-              path="/liquidity"
-              component={Liquidity}
-            />
-            <Route
-              exact
-              path="/farms"
-              component={FarmList}
-            />
-            <Route
-              exact
-              path="/farms/:farmId"
-              component={FarmDetails}
-            />
-            <Route
-              exact
-              path="/stake"
-              component={TokenPage}
-            />
-            <Route
-              exact
-              path="/migration"
-              component={Migration}
-            />
+            <Route exact path="/" component={CoinSwapper} />
+            <Route exact path="/liquidity" component={Liquidity} />
+            <Route exact path="/farms" component={FarmList} />
+            <Route exact path="/farms/:farmId" component={FarmDetails} />
+            <Route exact path="/stake" component={TokenPage} />
+            <Route exact path="/migration" component={Migration} />
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>

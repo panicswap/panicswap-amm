@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import logo from "../assets/logo/variations/full-logo-01.png";
-import "./Header.css";
+import { formatNumber } from "../helpers/numberFormatter";
 import {
   getAccount,
   getFactory,
@@ -87,17 +87,33 @@ export default function Header() {
   }, [aprFeed]);
 
   return (
-    <header id="header">
-      <strong>
-        TVL: ${Number(totalTvl / 1e18).toFixed(2)} | $PANIC Price: $
-        {Number(panicPrice / 1e18).toFixed(2)} | Total Pairs:{" "}
-        {Number(totalPairs)} | yvWFTM Dividends:{" "}
-        {Number(divApr / 100).toFixed(2)}%
-      </strong>
-      <hr />
-      <h1>
-        <img src={logo} className="logo mx-auto mt-5" alt="PanicSwap" />
-      </h1>
+    <header>
+      <section className="p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between max-w-3xl mx-auto">
+        <HeaderItem
+          label="TVL"
+          value={"$" + formatNumber(totalTvl / 1e18, 2)}
+        />
+        <HeaderItem
+          label="$PANIC price"
+          value={"$" + formatNumber(panicPrice / 1e18, 3)}
+        />
+        <HeaderItem label="Total Pairs" value={Number(totalPairs)} />
+        <HeaderItem
+          label="yvWFTM Dividends"
+          value={formatNumber(divApr / 100, 2) + "%"}
+        />
+      </section>
+      <img src={logo} className="mx-auto mt-2 max-w-sm" alt="PanicSwap" />
     </header>
   );
 }
+
+const HeaderItem = ({ label, value }) => {
+  return (
+    <div className="border rounded-md bg-white">
+      <div className="text-sm pt-1 px-3">{label}</div>
+      <div className="h-[1px] w-3/4 bg-gray-500 bg-gradient-to-r from-slate-500 to-slate-200"></div>
+      <div className="text-xl px-3 py-1">{value}</div>
+    </div>
+  );
+};
