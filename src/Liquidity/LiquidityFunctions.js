@@ -329,15 +329,13 @@ export async function quoteAddLiquidity(
   console.log("address2 is", address2);
 
 
-  const amountAIn = ethers.utils.parseEther(amountADesired);
+  const amountAIn = ethers.utils.parseUnits(amountADesired, decs0);
   console.log("amount A desired", amountAIn);
 
-  const amountBIn = ethers.utils.parseEther(amountBDesired);
+  const amountBIn = ethers.utils.parseUnits(amountBDesired, decs1);
   console.log("amount B desired", amountBIn);
 
   const hh = await router.quoteAddLiquidity(address1, address2, stable, amountAIn, amountBIn);
-  console.log("routerResults", hh);
-
   return [
       hh[0]/(10**decs0),
       hh[1]/(10**decs1),
