@@ -210,7 +210,7 @@ function CoinSwapper(props) {
     if (!priceImpact) return undefined;
     if (Number(priceImpact) < 1) return classes.green;
     if (Number(priceImpact) < 5) return classes.orange;
-    if (Number(priceImpact) <= 100) return classes.red;
+    return classes.red;
   }
 
   function FormattedPriceImpact(priceImpact) {
