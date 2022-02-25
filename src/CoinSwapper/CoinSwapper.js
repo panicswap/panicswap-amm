@@ -67,8 +67,8 @@ const styles = (theme) => ({
     marginLeft: "3px",
     marginBottom: "5px",
   },
-  yellow: {
-    color: "yellow",
+  orange: {
+    color: "orange",
   },
   red: {
     color: "red",
@@ -209,7 +209,7 @@ function CoinSwapper(props) {
   function warningSeverity(priceImpact) {
     if (!priceImpact) return undefined;
     if (Number(priceImpact) < 1) return classes.green;
-    if (Number(priceImpact) < 5) return classes.yellow;
+    if (Number(priceImpact) < 5) return classes.orange;
     if (Number(priceImpact) <= 100) return classes.red;
   }
 
