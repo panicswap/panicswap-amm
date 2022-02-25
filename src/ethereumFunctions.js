@@ -295,6 +295,7 @@ export async function getAmountOut(
   }
 }
 
+
 // This function calls the pair contract to fetch the reserves stored in a the liquidity pool between the token of address1 and the token
 // of address2. Some extra logic was needed to make sure that the results were returned in the correct order, as
 // `pair.getReserves()` would always return the reserves in the same order regardless of which order the addresses were.
