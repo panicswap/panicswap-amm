@@ -256,6 +256,7 @@ export async function getAmountOut(
 
     const pairFee = await pairContract.fee();
     const tokenFee = amountIn/pairFee;
+    const normalizedFee = 100 / pairFee;
 
     let priceImpact;// = finalPrice/initialPrice;
     const reserves = await fetchReserves(address1, address2, pairContract, signer);
@@ -264,18 +265,31 @@ export async function getAmountOut(
       priceImpact = NaN;//TODO
     else{
       const initialPrice = reserves[0]/reserves[1];
-      const finalPrice = 
-        (reserves[0] +
-          ethers.utils.parseUnits(String(amountIn), token1Decimals) -
-          ethers.utils.parseUnits(String(tokenFee), token1Decimals))/
-        (reserves[1]-actualValuesOut);
-      priceImpact = 100-(initialPrice*100/finalPrice);
+
+      const numerator = (
+        reserves[0] +
+        Number(amountIn) -
+        tokenFee 
+      );
+
+      const denominator = (
+        reserves[1] -
+        (actualValuesOut/10**token2Decimals)
+      );
+
+      console.log("priceData0", reserves[0], amountIn, tokenFee );
+      console.log("priceData1", numerator, denominator);
+
+      const finalPrice = numerator / denominator;
+
+      priceImpact = 100-(initialPrice*100/finalPrice)+normalizedFee;
     }
     const amount_out = actualValuesOut*10**(-token2Decimals);
     console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee);
 
 
-    return [Number(amount_out), priceImpact, tokenFee, pairFee];
+
+    return [Number(amount_out), priceImpact, tokenFee, normalizedFee];
   } catch {
     return false;
   }
