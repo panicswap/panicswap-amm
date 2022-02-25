@@ -208,9 +208,15 @@ function CoinSwapper(props) {
 
   function warningSeverity(priceImpact) {
     if (!priceImpact) return undefined;
-    if (Number(priceImpact) < 1) return "classes.green";
-    if (Number(priceImpact) < 5) return "classes.yellow";
-    if (Number(priceImpact) <= 100) return "classes.red";
+    if (Number(priceImpact) < 1) return classes.green;
+    if (Number(priceImpact) < 5) return classes.yellow;
+    if (Number(priceImpact) <= 100) return classes.red;
+  }
+
+  function FormattedPriceImpact(priceImpact) {
+    if (priceImpact < 0.01) return "<0.01";
+    if (priceImpact > 50) return ">50";
+    else return priceImpact.toFixed(2);
   }
   // Called when the dialog window for coin2 exits
   const onToken2Selected = (address) => {
@@ -493,7 +499,7 @@ function CoinSwapper(props) {
                       </Grid>
                       <Grid item xs={5} className={classes.rightSideBottomText}>
                         <Typography className={warningSeverity(priceImpact)}>
-                          {Number(priceImpact).toFixed(2) + "%"}
+                          {FormattedPriceImpact(Number(priceImpact)) + "%"}
                         </Typography>
                       </Grid>
                       <Grid xs={1}></Grid>
@@ -505,8 +511,8 @@ function CoinSwapper(props) {
                         <Typography>Fee (Paid To Stakers)</Typography>
                       </Grid>
                       <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography className={warningSeverity(priceImpact)}>
-                          {Number(tokenFee) + " (" + Number(pairFee) + "%)"}
+                        <Typography>
+                          {Number(tokenFee) + " " + coin1.symbol}
                         </Typography>
                       </Grid>
                       <Grid xs={1}></Grid>
