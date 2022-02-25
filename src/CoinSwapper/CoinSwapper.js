@@ -316,7 +316,7 @@ function CoinSwapper(props) {
           setField2Value(data[0].toFixed(7));
           setPriceImpact(data[1].toFixed(2));
           setTokenFee(data[2].toFixed(7));
-          setPairFee(data[3].toFixed(2));
+          //setPairFee(data[3].toFixed(2));
         })
         .catch((e) => {
           console.log(e);
