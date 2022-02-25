@@ -85,7 +85,7 @@ export default function Header() {
             TVL: ${Number(totalTvl/1e18).toFixed(2)} |
             $PANIC Price: ${Number(panicPrice/1e18).toFixed(2)} |
             Total Pairs: {Number(totalPairs)} |
-            Dividends: {Number(divApr/100).toFixed(2)}%
+            yvWFTM Dividends: {Number(divApr/100).toFixed(2)}%
           </strong>
           <hr/>
         <h1>
