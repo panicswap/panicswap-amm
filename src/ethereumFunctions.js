@@ -269,7 +269,7 @@ export async function getAmountOut(
           ethers.utils.parseUnits(String(amountIn), token1Decimals) -
           ethers.utils.parseUnits(String(tokenFee), token1Decimals))/
         (reserves[1]-actualValuesOut);
-      priceImpact = (finalPrice*100/initialPrice);
+      priceImpact = 100-(initialPrice*100/finalPrice);
     }
     const amount_out = actualValuesOut*10**(-token2Decimals);
     console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee);
