@@ -300,35 +300,36 @@ function LiquidityDeployer(props) {
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
   useEffect(() => {
-    if(coin1.address && coin2.address && (field1Value || field2Value)){
-      console.log("fill other field");
-      const oneTrillion = String(BigNumber.from(1e12));
-      const [amount1, amount2] =
-        prevField1Value.current != field1Value ?
-          [field1Value, oneTrillion]:
-          prevField2Value.current != field2Value ?
-            [oneTrillion, field2Value]:
-            [0,0];
-      quoteAddLiquidity(
-        coin1.address,
-        coin2.address,
-        amount1,
-        amount2,
-        factory,
-        signer
-      ).then((data) => {
-        // console.log(data);
-        console.log("TokenA in: ", data[0]);
-        setField1Value(String(data[0]));
-        console.log("TokenB in: ", data[1]);
-        setField2Value(String(data[1]));
-        console.log("Liquidity out: ", data[2]);
-        setLiquidityOut([data[0], data[1], data[2]]);
-        console.log("fill Finished");
-        prevField1Value.current = field1Value;
-        prevField2Value.current = field2Value;
-      });
-    }
+    if(!(field1Value == prevField1Value.current && field2Value == prevField2Value.current))
+      if(coin1.address && coin2.address && (field1Value || field2Value)){
+        console.log("fill other field");
+        const oneTrillion = String(BigNumber.from(1e12));
+        const [amount1, amount2] =
+          prevField1Value.current != field1Value ?
+            [field1Value, oneTrillion]:
+            prevField2Value.current != field2Value ?
+              [oneTrillion, field2Value]:
+              [0,0];
+        quoteAddLiquidity(
+          coin1.address,
+          coin2.address,
+          amount1,
+          amount2,
+          factory,
+          signer
+        ).then((data) => {
+          // console.log(data);
+          console.log("TokenA in: ", data[0]);
+          setField1Value(String(data[0]));
+          console.log("TokenB in: ", data[1]);
+          setField2Value(String(data[1]));
+          console.log("Liquidity out: ", data[2]);
+          setLiquidityOut([data[0], data[1], data[2]]);
+          console.log("fill Finished");
+          prevField1Value.current = field1Value;
+          prevField2Value.current = field2Value;
+        });
+      }
     }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
