@@ -154,7 +154,6 @@ function FarmList(props) {
           setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
-          coins[0].address = wethAddress;
           setCoins(coins);
         });
         // Get the factory address from the router

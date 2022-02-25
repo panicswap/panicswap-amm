@@ -84,46 +84,19 @@ export async function addLiquidity(
     account,
     deadline,
   ]);
-
-  if (address1 === wethAddress) {
-    // Eth + Token
-    await routerContract.addLiquidityETH(
-      address2,
-      stable,
-      amountIn2,
-      amount2Min,
-      amount1Min,
-      account,
-      deadline,
-      { value: amountIn1 }
-    );
-  } else if (address2 === wethAddress) {
-    // Token + Eth
-    await routerContract.addLiquidityETH(
-      address1,
-      stable,
-      amountIn1,
-      amount1Min,
-      amount2Min,
-      account,
-      deadline,
-      { value: amountIn2 }
-    );
-  } else {
-    console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min, account,deadline);
-    // Token + Token
-    await routerContract.addLiquidity(
-      address1,
-      address2,
-      stable,
-      amountIn1,
-      amountIn2,
-      amount1Min,
-      amount2Min,
-      account,
-      deadline
-    );
-  }
+  console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min, account,deadline);
+  // Token + Token
+  await routerContract.addLiquidity(
+    address1,
+    address2,
+    stable,
+    amountIn1,
+    amountIn2,
+    amount1Min,
+    amount2Min,
+    account,
+    deadline
+  );
 }
 
 // Function used to remove Liquidity from any pair of tokens or token-AUT
@@ -202,42 +175,17 @@ export async function removeLiquidity(
     account,
     deadline,
   ]);
-
-  if (address1 === wethAddress) {
-    // Eth + Token
-    await routerContract.removeLiquidityETH(
-      address2,
-      stable,
-      liquidity,
-      amount2Min,
-      amount1Min,
-      account,
-      deadline
-    );
-  } else if (address2 === wethAddress) {
-    // Token + Eth
-    await routerContract.removeLiquidityETH(
-      address1,
-      stable,
-      liquidity,
-      amount1Min,
-      amount2Min,
-      account,
-      deadline
-    );
-  } else {
-    // Token + Token
-    await routerContract.removeLiquidity(
-      address1,
-      address2,
-      stable,
-      liquidity,
-      amount1Min,
-      amount2Min,
-      account,
-      deadline
-    );
-  }
+  // Token + Token
+  await routerContract.removeLiquidity(
+    address1,
+    address2,
+    stable,
+    liquidity,
+    amount1Min,
+    amount2Min,
+    account,
+    deadline
+  );
 }
 
 //TODO check

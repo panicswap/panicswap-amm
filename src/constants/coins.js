@@ -4,11 +4,6 @@ import * as chains from './chains';
 
 const FANTOMCoins = [
   {
-    name: "Fantom",
-    abbr: "FTM",
-    address: "", // Weth address is fetched from the router
-  },
-  {
     name: "yvWFTM",
     abbr: "yvWFTM",
     address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",

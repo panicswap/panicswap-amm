@@ -106,25 +106,16 @@ export async function getBalanceAndSymbol(
   coins
 ) {
   try {
-    if (address === weth_address) {
-      const balanceRaw = await provider.getBalance(accountAddress);
+    const token = new Contract(address, ERC20.abi, signer);
+    const tokenDecimals = await getDecimals(token);
+    const balanceRaw = await token.balanceOf(accountAddress);
+    const symbol = await token.symbol();
 
-      return {
-        balance: ethers.utils.formatEther(balanceRaw),
-        symbol: coins[0].abbr,
-      };
-    } else {
-      const token = new Contract(address, ERC20.abi, signer);
-      const tokenDecimals = await getDecimals(token);
-      const balanceRaw = await token.balanceOf(accountAddress);
-      const symbol = await token.symbol();
-
-      return {
-        balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
-        symbol: symbol,
-        wei: balanceRaw,
-        decimals: tokenDecimals,
-      };
+    return {
+      balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
+      symbol: symbol,
+      wei: balanceRaw,
+      decimals: tokenDecimals,
     }
   } catch (error) {
     console.log ('The getBalanceAndSymbol function had an error!');
@@ -169,14 +160,14 @@ export async function swapTokens( // todo removed bool from interface
     vtokens
   );
   }catch{
-   console.log("error, maybe no liq on v pair");
+    console.log("error, maybe no liq on v pair");
   }
 
   try{
-  samountOut = await routerContract.callStatic.getAmountsOut(
-    amountIn,
-    stokens
-  );
+    samountOut = await routerContract.callStatic.getAmountsOut(
+      amountIn,
+      stokens
+    );
   }catch{
    console.log("error, maybe no liq on s pair");
   }
@@ -186,35 +177,15 @@ export async function swapTokens( // todo removed bool from interface
   const allowance = await token1.allowance(accountAddress, routerContract.address);
   if(Number(allowance)<amountIn)
     await token1.approve(routerContract.address, amountIn);
-  const wethAddress = await routerContract.weth();
 
-  if (address1 === wethAddress) {
-    // Eth -> Token
-    await routerContract.swapExactETHForTokens(
-      actualAmountOut[1],
-      actualTokens,
-      accountAddress,
-      deadline,
-      { value: amountIn }
-    );
-  } else if (address2 === wethAddress) {
-    // Token -> Eth
-    await routerContract.swapExactTokensForETH(
-      amountIn,
-      actualAmountOut[1],
-      actualTokens,
-      accountAddress,
-      deadline
-    );
-  } else {
-    await routerContract.swapExactTokensForTokens(
-      amountIn,
-      actualAmountOut[1],
-      actualTokens,
-      accountAddress,
-      deadline
-    );
-  }
+
+  await routerContract.swapExactTokensForTokens(
+    amountIn,
+    actualAmountOut[1],
+    actualTokens,
+    accountAddress,
+    deadline
+  );
 }
 
 //This function returns the conversion rate between two token addresses
