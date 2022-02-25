@@ -9,8 +9,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    paddingBottom: theme.spacing(2),
-    minHeight: "60px",
+    minHeight: "80px",
     backgroundColor: COLORS.grey[50],
     borderRadius: theme.spacing(2),
     borderColor: COLORS.grey[300],
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container_input: {
     padding: theme.spacing(1),
-    minHeight: "68px",
+    minHeight: "80px",
     backgroundColor: COLORS.grey[50],
     borderRadius: theme.spacing(2),
     borderColor: COLORS.grey[300],
@@ -32,49 +31,66 @@ const useStyles = makeStyles((theme) => ({
   },
   container_blank: {
     padding: theme.spacing(1),
-    minHeight: "60px",
+    minHeight: "66px",
     borderRadius: theme.spacing(2),
   },
   grid: {
-    height: "60px",
+    height: "80px",
   },
   fab: {
     zIndex: "0",
-    height: "30px",
+    height: "50px",
   },
   input: {
-    ...theme.typography.h5,
     width: "100%",
   },
   inputBase: {
     textAlign: "right",
+    fontSize: "28px",
+    padding: "0px",
+    height: "35px",
   },
   swapTokenIcon: {
-    width: "28px",
     marginRight: "5px",
   },
   hr: {
     margin: 1,
   },
   iconButton: {
-    borderRadius: "10px",
+    borderRadius: "25px",
     background: "#e5e5e5",
     color: "#333333",
-    height: "40px",
+    height: "60px",
     paddingLeft: theme.spacing(1),
   },
   balanceText: {
     display: "grid",
     justifyContent: "left",
-    paddingTop: "5px",
-    paddingBottom: "5px",
   },
   balanceNumber: {
     display: "grid",
     justifyContent: "right",
-    paddingTop: "5px",
-    paddingBottom: "5px",
-    color: "#333333",
+    color: "#6f6f6f",
+    height: "20px",
+    fontSize: "14px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textAlign: "right",
+  },
+  swapBalance: {
+    height: "30px",
+    display: "grid",
+    justifyContent: "right",
+  },
+  rightSideOfSwap: {
+    maxHeight: "66px",
+  },
+  symbolName: {
+    fontSize: "15px",
+    height: "25px",
+    display: "grid",
+    justifyContent: "right",
+    color: "#6f6f6f",
   },
 }));
 
@@ -213,41 +229,37 @@ export default function CoinField(props) {
         className={classes.grid}
       >
         {/* Button */}
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <IconButton
             size="small"
             variant="extended"
             onClick={onClick}
             className={classes.iconButton}
           >
-            {symbol !== "Select" && (
-              <img
-                src={"/assets/token/" + symbol + ".svg"}
-                className={[classes.fab, classes.swapTokenIcon].join(" ")}
-              />
-            )}
-            {symbol}
-            {userCanChoose !== false && <ExpandMoreIcon />}
+            <img
+              src={"/assets/token/" + symbol + ".svg"}
+              className={[classes.fab, classes.swapTokenIcon].join(" ")}
+            />
           </IconButton>
         </Grid>
 
         {/* Text Field */}
-        <Grid item xs={6}>
-          <InputBase
-            value={value}
-            onChange={onChange}
-            placeholder="0.0"
-            disabled={!activeField}
-            classes={{ root: classes.input, input: classes.inputBase }}
-          />
-        </Grid>
-        <Grid item xs={12} className={classes.buttonContainer}>
-          <hr className={classes.hr} />
-          <Grid container direction="row">
-            <Grid item xs={12} className={classes.balanceNumber}>
-              {"Balance: " +
-                checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
-            </Grid>
+        <Grid container xs={8} className={classes.rightSideOfSwap}>
+          <Grid item xs={12} className={classes.balanceNumber}>
+            {"Balance: " +
+              checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
+          </Grid>
+          <Grid item xs={12} className={classes.swapBalance}>
+            <InputBase
+              value={value}
+              onChange={onChange}
+              placeholder="0.0"
+              disabled={!activeField}
+              classes={{ root: classes.input, input: classes.inputBase }}
+            />
+          </Grid>
+          <Grid item xs={12} className={classes.symbolName}>
+            {symbol !== "Select" && <>{symbol}</>}
           </Grid>
         </Grid>
       </Grid>
