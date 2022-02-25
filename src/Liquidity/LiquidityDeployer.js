@@ -504,7 +504,7 @@ function LiquidityDeployer(props) {
                 {/* User's Unstaked Liquidity Tokens Display */}
                 <Grid xs={1}></Grid>
                 <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>Your Liquidity (Unstaked!)</Typography>
+                  <Typography>Liquidity Preview</Typography>
                 </Grid>
                 <Grid item xs={6} className={classes.rightSideBottomText}>
                   <Typography>
@@ -528,22 +528,16 @@ function LiquidityDeployer(props) {
                 {/* Reserves Display */}
                 <Grid xs={1}></Grid>
                 <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>Total Liquidity</Typography>
+                  <Typography>LP Tokens</Typography>
                 </Grid>
                 <Grid item xs={6} className={classes.rightSideBottomText}>
                   <Typography>
-                    {formatReserve(reserves[0], coin1.symbol)}
-                    <img
-                      src={"/assets/token/" + coin1.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                  <Typography>
-                    {formatReserve(reserves[1], coin2.symbol)}
-                    <img
-                      src={"/assets/token/" + coin2.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
+                    {liquidityOut[2] +
+                      " " +
+                      coin1.symbol +
+                      "-" +
+                      coin2.symbol +
+                      " LP"}
                   </Typography>
                 </Grid>
                 <Grid xs={1}></Grid>
