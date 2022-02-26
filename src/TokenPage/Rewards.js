@@ -199,17 +199,17 @@ export default function Rewards() {
         <Paper className={classes.paperContainer}>
           <section>
             <Typography variant="h6" className={classes.title}>
-              Liquidity Providers
+              Liquidity Providers (earning PANIC from LP + yvWFTM)
             </Typography>
             <ul>
               <li>
-                PANIC rewards are subject to a 2 year vesting period, but can also be claimed early at a 50% penalty.
+                PANIC rewards are subject to a 2 year vesting period, but can also be claimed early at a 50% penalty. 
               </li>
               <li>
-                Exiting before the end of the vesting period always incurs a 50% penalty no matter how early or late you choose to exit.
+                Vested PANIC earns Dividends in the form of yvWFTM, which is accrued every block, and claimable at any time with no fees.
               </li>
               <li>
-                The 50% penalty is distributed continuously to PANIC lockers rewarding the long-term holders.
+                Exiting before the end of the vesting period always incurs a 50% penalty on rewards only no matter how early or late you choose to exit. The penalty is distributed continuously to PANIC lockers rewarding the long-term holders.
               </li>
             </ul>
           </section>
@@ -217,17 +217,17 @@ export default function Rewards() {
 
           <section>
             <Typography variant="h6" className={classes.title}>
-              For PANIC lockers:
+              For Lockers: (earning PANIC from penalties + yvWFTM):
             </Typography>
             <ul>
-              <li>
-                Lock dates are grouped by the week. Any lock between Monday to Sunday is grouped in the same week group, and will release at the same time 2 years later.
-              </li>
               <li>
                 Locked PANIC is subject to a mandatory 2 years lock and cannot be unlocked early.
               </li>
               <li>
-                PANIC rewards from locking PANIC can be claimed anytime with no penalty.
+                PANIC rewards and Dividends in the form of yvWFTM can be claimed anytime with no penalty.
+              </li>
+              <li>
+                Lock dates are grouped by the week. Any lock between Monday to Sunday is grouped in the same week group, and will release at the same time 2 years later.
               </li>
             </ul>
           </section>
