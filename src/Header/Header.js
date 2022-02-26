@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import logo from "../assets/logo/variations/full-logo-01.png";
-import "./Header.css";
+import { formatNumber } from "../helpers/numberFormatter";
 import {
   getAccount,
   getFactory,
@@ -16,7 +16,7 @@ import {
   getEpsStaking,
   getAprFeed,
   getAprFeedStaking,
-  getChef
+  getChef,
 } from "../ethereumFunctions";
 import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
@@ -39,7 +39,6 @@ export default function Header() {
 
   // This hook will run when the component first mounts, it can be useful to put logs to populate variables here
   useEffect(() => {
-
     getAccount().then((account) => {
       setAccount(account);
     });
@@ -50,9 +49,18 @@ export default function Header() {
         return chainId;
       });
       if (chains.networks.includes(chainId)) {
-        const aprFeed = await getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer);
-        const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
-        const aprFeedStaking = await getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",signer);
+        const aprFeed = await getAprFeed(
+          "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
+          signer
+        );
+        const chef = await getChef(
+          "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
+          signer
+        );
+        const aprFeedStaking = await getAprFeedStaking(
+          "0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",
+          signer
+        );
 
         setChef(chef);
         setAprStaking(aprFeedStaking);
@@ -60,17 +68,16 @@ export default function Header() {
       }
     }
 
-    Network()
-
+    Network();
   }, []);
 
-  useEffect( async() => {
-    if(aprFeed){
-      const [totalTvl, panicPrice, totalPairs, divApr ] = await Promise.all([ 
+  useEffect(async () => {
+    if (aprFeed) {
+      const [totalTvl, panicPrice, totalPairs, divApr] = await Promise.all([
         aprFeed.totalTvl(),
         aprFeed.panicDollarPrice(),
         chef.poolLength(),
-        aprStaking.getFtmApr()
+        aprStaking.getFtmApr(),
       ]);
       setTotalTvl(totalTvl);
       setPanicPrice(panicPrice);
@@ -79,19 +86,34 @@ export default function Header() {
     }
   }, [aprFeed]);
 
-    return (
-      <header id="header">
-          <strong>
-            TVL: ${Number(totalTvl/1e18).toFixed(2)} |
-            $PANIC Price: ${Number(panicPrice/1e18).toFixed(2)} |
-            Total Pairs: {Number(totalPairs)} |
-            yvWFTM Dividends: {Number(divApr/100).toFixed(2)}%
-          </strong>
-          <hr/>
-        <h1>
-          <img src={logo} className="logo" alt="PanicSwap" />
-        </h1>
-      </header>
-    );
-  }
+  return (
+    <header>
+      <section className="p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between max-w-3xl mx-auto">
+        <HeaderItem
+          label="TVL"
+          value={"$" + formatNumber(totalTvl / 1e18, 2)}
+        />
+        <HeaderItem
+          label="$PANIC price"
+          value={"$" + formatNumber(panicPrice / 1e18, 3)}
+        />
+        <HeaderItem label="Total Pairs" value={Number(totalPairs)} />
+        <HeaderItem
+          label="yvWFTM Dividends"
+          value={formatNumber(divApr / 100, 2) + "%"}
+        />
+      </section>
+      <img src={logo} className="mx-auto mt-2 max-w-sm" alt="PanicSwap" />
+    </header>
+  );
+}
 
+const HeaderItem = ({ label, value }) => {
+  return (
+    <div className="border rounded-md bg-white">
+      <div className="text-sm pt-1 px-3">{label}</div>
+      <div className="h-[1px] w-3/4 bg-gray-500 bg-gradient-to-r from-slate-500 to-slate-200"></div>
+      <div className="text-xl px-3 py-1">{value}</div>
+    </div>
+  );
+};
