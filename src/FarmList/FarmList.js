@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FarmItems } from "./FarmItems";
+import { formatNumber } from "../helpers/numberFormatter";
 import {
   Container,
   Grid,
@@ -11,7 +12,7 @@ import {
 } from "@material-ui/core";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import { useSnackbar } from "notistack";
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 import LoopIcon from "@material-ui/icons/Loop";
 import {
   getAccount,
@@ -59,17 +60,17 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.4),
     textDecoration: "none",
-    '&:hover': {
-      textDecoration:"underline",
+    "&:hover": {
+      textDecoration: "underline",
     },
   },
   farmName: {
     fontSize: 20,
   },
   farmCell: {
-   backgroundColor: "#f8f9fa",
-   padding: "20px",
-   borderRadius: "10px",
+    backgroundColor: "#f8f9fa",
+    padding: "20px",
+    borderRadius: "10px",
   },
   tokenLogo: {
     width: "30px",
@@ -84,18 +85,25 @@ const styles = (theme) => ({
     fontSize: "15px",
     marginLeft: theme.spacing(5),
     marginBottom: theme.spacing(2),
-  }
+  },
 });
 
 const useStyles = makeStyles(styles);
 
-const usdNumberFormat = new Intl.NumberFormat('us-EN', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-const percentNumberFormat = new Intl.NumberFormat('us-EN', { style: 'percent', maximumFractionDigits: 2, minimumFractionDigits: 2 });
+const usdNumberFormat = new Intl.NumberFormat("us-EN", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+const percentNumberFormat = new Intl.NumberFormat("us-EN", {
+  style: "percent",
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
+});
 
 function FarmList(props) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-
 
   const [provider, setProvider] = React.useState(getProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
@@ -128,7 +136,6 @@ function FarmList(props) {
 
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
-
     getAccount().then((account) => {
       setAccount(account);
     });
@@ -140,17 +147,26 @@ function FarmList(props) {
       });
       if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
-        console.log('chainID: ', chainId);
+        console.log("chainID: ", chainId);
         // Get the router using the chainID
-        const aprFeed = await getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer);
-        const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const chef = await getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer);
+        const aprFeed = await getAprFeed(
+          "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
+          signer
+        );
+        const router = await getRouter(
+          chains.routerAddress.get(chainId),
+          signer
+        );
+        const chef = await getChef(
+          "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
+          signer
+        );
         setAprFeed(aprFeed);
         setRouter(router);
         setChef(chef);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
-          console.log('Weth: ', wethAddress);
+          console.log("Weth: ", wethAddress);
           setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
@@ -159,41 +175,42 @@ function FarmList(props) {
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
           setFactory(getFactory(factory_address, signer));
-        })
+        });
       } else {
-        console.log('Wrong network mate.');
+        console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
     }
 
-    Network()
-
+    Network();
   }, []);
 
-  useEffect( async() => {
-    if(chef){
+  useEffect(async () => {
+    if (chef) {
       const reward = await chef.totalClaimableReward(account);
       setPendingPanic(ethers.utils.formatUnits(reward));
       const poolLength = await chef.poolLength();
       const aprPromises = [];
       const tvlPromises = [];
-      for(let i=1; i< poolLength; ++i){
-        aprPromises.push(aprFeed.yvApr(i))
-        tvlPromises.push(aprFeed.lpValueDollarChef(i))
+      for (let i = 1; i < poolLength; ++i) {
+        aprPromises.push(aprFeed.yvApr(i));
+        tvlPromises.push(aprFeed.lpValueDollarChef(i));
       }
       await Promise.all([
-          Promise.all(aprPromises).then(results => setAprMap(
-              results
-                  .map(v => v && v > 0 ? v / 10000 : v)
-                  .map(percentNumberFormat.format)
-              )
-          ),
-          Promise.all(tvlPromises).then(results => setTvlMap(
-              results
-                  .map(v => v && v > 0 ? v / 1e18 : v)
-                  .map(usdNumberFormat.format)
-              )
+        Promise.all(aprPromises).then((results) =>
+          setAprMap(
+            results
+              .map((v) => (v && v > 0 ? v / 10000 : v))
+              .map(percentNumberFormat.format)
           )
+        ),
+        Promise.all(tvlPromises).then((results) =>
+          setTvlMap(
+            results
+              .map((v) => (v && v > 0 ? v / 1e18 : v))
+              .map(usdNumberFormat.format)
+          )
+        ),
       ]);
     }
   }, [chef]);
@@ -204,55 +221,58 @@ function FarmList(props) {
   }
 
   const hasPendingRewards = () => {
-    // @todo 
-    
+    // @todo
+
     return false; // returns true if user has pending rewards
-  }
+  };
 
   return (
-    <div>
-
-      <WrongNetwork
-        open={wrongNetworkOpen}
-      />
-
+    <div className="mx-2">
+      <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Rewards */}
-      <Container maxWidth="md">
-        <Paper className={classes.paperContainer}>
-          <Typography variant="h5" className={classes.title}>
-            Rewards
-          </Typography>
-          <Typography variant="h6" className={classes.description}>
-            Collect $PANIC rewards earned by farming
-          </Typography>
-          <Grid container direction="row" justifyContent="center" alignItems="center" xs={12}>
-            <Grid container xs={12} justifyContent="center" alignItems="center" className={classes.farmCell}>
-              <Grid item xs={6}>
-                <Typography variant="body1" justifyContent="center" className={classes.balance}>
-                    {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-                    <img src="assets/token/PANIC.svg" className={classes.tokenLogo}></img>
-                    {Number(pendingPanic).toFixed(2)} PANIC
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <LoadingButton
-                  loading={loading}
-                  valid={true}
-                  success={false}
-                  fail={false}
-                  onClick={()=>{claimAllRewards()}}
-                >
-                  <AccountBalanceIcon className={classes.buttonIcon} />
-                  Collect Rewards
-                </LoadingButton>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container>
+      <section className="border-2 border-blue-200 m-2 mx-auto max-w-2xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
+        <div className="flex justify-between">
+          <div>
+            <h3 className="text-3xl font-bold">Rewards</h3>
+            <small className="text-base leading-none">
+              Collect <strong>$PANIC</strong> rewards earned by farming
+            </small>
+          </div>
 
+          <div>
+            <LoadingButton
+              loading={loading}
+              valid={true}
+              success={false}
+              fail={false}
+              onClick={() => {
+                claimAllRewards();
+              }}
+            >
+              <AccountBalanceIcon className={classes.buttonIcon} />
+              Collect Rewards
+            </LoadingButton>
+          </div>
+        </div>
+        {/* {formatBalance(coin1.balance, coin1.symbol)} */}
 
+        <div className="mt-2 flex items-center">
+          <img
+            src="assets/token/PANIC.svg"
+            className="max-w-[50px] border-3 border-blue-400 rounded-full"
+            alt="PANIC logo"
+          />
+          <div className="ml-2">
+            <div className="flex">
+              <div className="text-4xl font-bold">
+                {formatNumber(pendingPanic, 3)}
+              </div>
+              <div className="text-sm self-end ml-1">PANIC</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Farms */}
       <Container maxWidth="md">
@@ -266,19 +286,21 @@ function FarmList(props) {
 
           <div className="FarmItems">
             <ul className={classes.farmMenu}>
-      
-      
-            {FarmItems.map((item, index) => {
-              
+              {FarmItems.map((item, index) => {
                 return (
-      
                   <li key={index} className={classes.farmItem}>
                     <Grid container className={classes.farmCell}>
                       <Grid container xs={12}>
                         <Grid item xs={8}>
                           <Typography className={classes.farmName}>
-                            <img src={'/assets/token/'+ item.symbol1 + ".svg"} class={classes.tokenLogo}></img>
-                            <img src={'/assets/token/'+ item.symbol2 + ".svg"} class={classes.tokenLogo}></img>
+                            <img
+                              src={"/assets/token/" + item.symbol1 + ".svg"}
+                              class={classes.tokenLogo}
+                            ></img>
+                            <img
+                              src={"/assets/token/" + item.symbol2 + ".svg"}
+                              class={classes.tokenLogo}
+                            ></img>
                             {item.title}
                           </Typography>
                         </Grid>
@@ -288,21 +310,21 @@ function FarmList(props) {
                               loading={loading}
                               valid={true}
                               success={false}
-                              fail={false}>
-
+                              fail={false}
+                            >
                               Deposit
                             </LoadingButton>
                           </a>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography>
-                          <b>Farm APR</b>
+                            <b>Farm APR</b>
                           </Typography>
                           <Typography>{aprMap[index]}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                           <Typography>
-                          <b>Total Value Staked</b>
+                            <b>Total Value Staked</b>
                           </Typography>
                           <Typography>{tvlMap[index]}</Typography>
                         </Grid>
@@ -310,11 +332,8 @@ function FarmList(props) {
                           <Typography>
                             <b>Multiplier</b>
                           </Typography>
-                          <Typography>
-                            {"x" + item.boost}
-                          </Typography>
+                          <Typography>{"x" + item.boost}</Typography>
                         </Grid>
-              
                       </Grid>
                     </Grid>
                   </li>
@@ -324,8 +343,6 @@ function FarmList(props) {
           </div>
         </Paper>
       </Container>
-
-
     </div>
   );
 }
