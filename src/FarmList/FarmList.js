@@ -2,18 +2,9 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FarmItems } from "./FarmItems";
 import { formatNumber } from "../helpers/numberFormatter";
-import {
-  Container,
-  Grid,
-  IconButton,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import { useSnackbar } from "notistack";
 import { ethers } from "ethers";
-import LoopIcon from "@material-ui/icons/Loop";
 import {
   getAccount,
   getFactory,
@@ -21,11 +12,7 @@ import {
   getRouter,
   getSigner,
   getNetwork,
-  getAmountOut,
-  getBalanceAndSymbol,
   getWeth,
-  swapTokens,
-  getReserves,
   getChef,
   getAprFeed,
 } from "../ethereumFunctions";
@@ -33,62 +20,6 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
-
-const styles = (theme) => ({
-  paperContainer: {
-    borderRadius: theme.spacing(2),
-    marginBottom: theme.spacing(4),
-  },
-  title: {
-    textAlign: "left",
-    marginLeft: theme.spacing(5),
-    marginBottom: "0px",
-  },
-  hr: {
-    width: "100%",
-  },
-  farmItem: {
-    margin: theme.spacing(3),
-    listStyle: "none",
-  },
-  balance: {
-    textAlign: "center",
-    padding: theme.spacing(1),
-    paddingRight: theme.spacing(3),
-  },
-  buttonIcon: {
-    marginRight: theme.spacing(1),
-    padding: theme.spacing(0.4),
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
-  farmName: {
-    fontSize: 20,
-  },
-  farmCell: {
-    backgroundColor: "#f8f9fa",
-    padding: "20px",
-    borderRadius: "10px",
-  },
-  tokenLogo: {
-    width: "30px",
-    paddingRight: "5px",
-    verticalAlign: "middle",
-  },
-  farmMenu: {
-    padding: "0px",
-    margin: "0px",
-  },
-  description: {
-    fontSize: "15px",
-    marginLeft: theme.spacing(5),
-    marginBottom: theme.spacing(2),
-  },
-});
-
-const useStyles = makeStyles(styles);
 
 const usdNumberFormat = new Intl.NumberFormat("us-EN", {
   style: "currency",
@@ -102,7 +33,6 @@ const percentNumberFormat = new Intl.NumberFormat("us-EN", {
 });
 
 function FarmList(props) {
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getProvider());
@@ -235,9 +165,9 @@ function FarmList(props) {
         <div className="flex justify-between">
           <div>
             <h3 className="text-3xl font-bold">Rewards</h3>
-            <small className="text-base leading-none">
+            <p className="text-base leading-none">
               Collect <strong>$PANIC</strong> rewards earned by farming
-            </small>
+            </p>
           </div>
 
           <div>
@@ -250,7 +180,7 @@ function FarmList(props) {
                 claimAllRewards();
               }}
             >
-              <AccountBalanceIcon className={classes.buttonIcon} />
+              <AccountBalanceIcon />
               Collect Rewards
             </LoadingButton>
           </div>
@@ -275,74 +205,67 @@ function FarmList(props) {
       </section>
 
       {/* Farms */}
-      <Container maxWidth="md">
-        <Paper className={classes.paperContainer}>
-          <Typography variant="h5" className={classes.title}>
-            Farms
-          </Typography>
-          <Typography variant="h6" className={classes.description}>
-            Stake your liquidity provider tokens (LPs) and earn $PANIC
-          </Typography>
+      <section className="border-2 border-blue-200 m-3 mx-auto max-w-2xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
+        <div className="mb-4">
+          <h3 className="text-3xl font-bold">Farms</h3>
+          <p>Stake your liquidity provider tokens (LPs) and earn $PANIC</p>
+        </div>
 
-          <div className="FarmItems">
-            <ul className={classes.farmMenu}>
-              {FarmItems.map((item, index) => {
-                return (
-                  <li key={index} className={classes.farmItem}>
-                    <Grid container className={classes.farmCell}>
-                      <Grid container xs={12}>
-                        <Grid item xs={8}>
-                          <Typography className={classes.farmName}>
-                            <img
-                              src={"/assets/token/" + item.symbol1 + ".svg"}
-                              class={classes.tokenLogo}
-                            ></img>
-                            <img
-                              src={"/assets/token/" + item.symbol2 + ".svg"}
-                              class={classes.tokenLogo}
-                            ></img>
-                            {item.title}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <a href={item.url} class={classes.IconButton}>
-                            <LoadingButton
-                              loading={loading}
-                              valid={true}
-                              success={false}
-                              fail={false}
-                            >
-                              Deposit
-                            </LoadingButton>
-                          </a>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography>
-                            <b>Farm APR</b>
-                          </Typography>
-                          <Typography>{aprMap[index]}</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography>
-                            <b>Total Value Staked</b>
-                          </Typography>
-                          <Typography>{tvlMap[index]}</Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <Typography>
-                            <b>Multiplier</b>
-                          </Typography>
-                          <Typography>{"x" + item.boost}</Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </Paper>
-      </Container>
+        <div>
+          {FarmItems.map((item, index) => {
+            return (
+              <div className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl">
+                <div className="flex justify-between">
+                  {/* Logos */}
+                  <div className="flex items-center w-3/4">
+                    <img
+                      className="max-w-[30px] sm:max-w-[40px]"
+                      src={"/assets/token/" + item.symbol1 + ".svg"}
+                    ></img>
+                    <img
+                      className="max-w-[30px] sm:max-w-[40px] relative left-[-8px]"
+                      src={"/assets/token/" + item.symbol2 + ".svg"}
+                    ></img>
+
+                    {/* Title */}
+                    <div className="md:text-lg font-bold">{item.title}</div>
+                  </div>
+
+                  <div>
+                    <Link
+                      to={item.url}
+                      className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg hover:no-underline text-white transition-all"
+                    >
+                      Deposit
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="mt-1 md:ml-[80px] grid grid-cols-[1fr_2fr_1fr] gap-2 w-full max-w-sm">
+                  <div className="">
+                    <div className="text-sm">Farm APR</div>
+                    <div className="md:text-lg font-bold md:font-normal">
+                      {aprMap[index]}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-sm">Total Value Staked</div>
+                    <div className="md:text-lg font-bold md:font-normal">
+                      {tvlMap[index]}
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="text-sm">Multiplier</div>
+                    <div className="md:text-lg font-bold md:font-normal">
+                      {"x" + item.boost}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 }
