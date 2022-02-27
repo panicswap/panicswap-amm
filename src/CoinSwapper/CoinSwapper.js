@@ -1,3 +1,5 @@
+import { AiOutlineSwap } from "react-icons/ai";
+
 import React, { useEffect } from "react";
 import {
   Container,
@@ -377,7 +379,6 @@ function CoinSwapper(props) {
           });
         });
       }
-
     }, 4000);
 
     return () => clearTimeout(coinTimeout);
@@ -420,10 +421,10 @@ function CoinSwapper(props) {
         setwrongNetworkOpen(true);
       }
 
-      if(!coin1.address && !coin2.address){
+      if (!coin1.address && !coin2.address) {
         getBalanceAndSymbol(
           account,
-          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",//yvwbtc
+          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9", //yvwbtc
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -440,7 +441,7 @@ function CoinSwapper(props) {
 
         getBalanceAndSymbol(
           account,
-          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",//yvweth
+          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7", //yvweth
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -454,140 +455,141 @@ function CoinSwapper(props) {
             wei: data.wei,
           });
         });
-
       }
-
     }
 
     Network();
   }, []);
 
   return (
-    <div>
-      {/* Dialog Windows */}
-      <CoinDialog
-        open={dialog1Open}
-        onClose={onToken1Selected}
-        coins={coins}
-        signer={signer}
-      />
-      <CoinDialog
-        open={dialog2Open}
-        onClose={onToken2Selected}
-        coins={coins}
-        signer={signer}
-      />
+    <div className="px-2">
       <WrongNetwork open={wrongNetworkOpen} />
+      <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 rounded-3xl p-3 shadow-lg">
+        <h3 className="text-xl font-bold p-3">Swap</h3>
 
-      {/* Coin Swapper */}
-      <Container maxWidth="sm">
-        <Paper className={classes.paperContainer}>
-          <Grid container direction="column" alignItems="center" spacing={2}>
-            <Grid item xs={12} className={classes.fullWidth}>
-              <CoinAmountInterface
-                activeField={true}
-                value={field1Value}
-                onClick={() => setDialog1Open(true)}
-                onChange={handleChange.field1}
-                symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
-                maxValue={coin1.balance}
-                decimals={coin1.decimals}
-                maxWeiValue={coin1.wei}
-              />
-            </Grid>
+        {/* Dialog Windows */}
+        <CoinDialog
+          open={dialog1Open}
+          onClose={onToken1Selected}
+          coins={coins}
+          signer={signer}
+        />
+        <CoinDialog
+          open={dialog2Open}
+          onClose={onToken2Selected}
+          coins={coins}
+          signer={signer}
+        />
 
-            <IconButton onClick={switchFields} className={classes.switchButton}>
-              <SwapVerticalCircleIcon fontSize="large" />
-            </IconButton>
+        {/* Coin Swapper */}
+        <div>
+          <div>
+            <CoinAmountInterface
+              activeField={true}
+              value={field1Value}
+              onClick={() => setDialog1Open(true)}
+              onChange={handleChange.field1}
+              symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+              maxValue={coin1.balance}
+              decimals={coin1.decimals}
+              maxWeiValue={coin1.wei}
+            />
+          </div>
 
-            <Grid item xs={12} className={classes.fullWidth}>
-              <CoinField
-                activeField={false}
-                value={field2Value}
-                onClick={() => setDialog2Open(true)}
-                symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
-                maxValue={coin2.balance}
-              />
-            </Grid>
+          {/* Field switcher */}
+          <div className="flex justify-center -mt-4">
+            <div
+              onClick={switchFields}
+              className="rotate-90 p-3 bg-gradient-to-br from-blue-500 to-blue-300 rounded-full transition-all hover:scale-105 text-lg cursor-pointer"
+            >
+              <AiOutlineSwap />
+            </div>
+          </div>
 
-            {coin1.symbol && coin2.symbol && (
-              <>
-                <hr className={classes.hr} />
-                {field1Value && (
-                  <>
-                    <Grid container direction="row" alignItems="center" xs={12}>
+          <div className="-mt-5">
+            {/* Second coin input */}
+            <CoinField
+              activeField={false}
+              value={field2Value}
+              onClick={() => setDialog2Open(true)}
+              symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+              maxValue={coin2.balance}
+            />
+          </div>
+
+          {coin1.symbol && coin2.symbol && (
+            <>
+              {field1Value && (
+                <section className="mt-4">
+                  {/* Price per token */}
+                  <div className="grid grid-cols-2">
+                    <div>
+                      <div className="text-sm">
+                        {coin1.symbol} per 1 {coin2.symbol}
+                      </div>
+                      <div className="font-bold">
+                        {Number(field1Value / field2Value).toPrecision(7)}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-sm">
+                        {coin2.symbol} per 1 {coin1.symbol}
+                      </div>
+                      <div className="font-bold">
+                        {Number(field2Value / field1Value).toPrecision(7)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="">
+                      <h4 className="font-bold">Price Impact</h4>
+                      <div
+                        className={`${
+                          Number(priceImpact) < 5
+                            ? "text-green-500"
+                            : Number(priceImpact) > 10
+                            ? "text-red-500"
+                            : "text-orange-500"
+                        }`}
+                      >
+                        {FormattedPriceImpact(Number(priceImpact)) + "%"}
+                      </div>
+                    </div>
+
+                    <div>
                       {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={2} className={classes.leftSideBottomText}>
-                        <Typography>Price</Typography>
-                      </Grid>
-                      <Grid item xs={8} className={classes.rightSideBottomText}>
-                        <Typography>
-                          {Number(field1Value / field2Value).toPrecision(7)}{" "}
-                          {coin1.symbol} per {coin2.symbol}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <Grid container direction="row" alignItems="center" xs={12}>
-                      {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={5} className={classes.leftSideBottomText}>
-                        <Typography>Price Impact</Typography>
-                      </Grid>
-                      <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography className={warningSeverity(priceImpact)}>
-                          {FormattedPriceImpact(Number(priceImpact)) + "%"}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <Grid container direction="row" alignItems="center" xs={12}>
-                      {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={5} className={classes.leftSideBottomText}>
-                        <Typography>Fee (Paid To Stakers)</Typography>
-                      </Grid>
-                      <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography>
-                          {Number(tokenFee) + " " + coin1.symbol}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <hr className={classes.hr} />
-                  </>
-                )}
+                      <h4 className="font-bold">Fee (Paid To Stakers)</h4>
+                      <div>{Number(tokenFee) + " " + coin1.symbol}</div>
+                    </div>
+                  </div>
+                </section>
+              )}
 
-                <Grid container direction="row" alignItems="center" xs={12}>
-                  {/* Reserves Display */}
-                  <Grid xs={1}></Grid>
-                  <Grid item xs={4} className={classes.leftSideBottomText}>
-                    <Typography>Total Liquidity</Typography>
-                  </Grid>
-                  <Grid item xs={6} className={classes.rightSideBottomText}>
-                    <Typography>
-                      {formatReserve(reserves[0], coin1.symbol)}
-                      <img
-                        src={"/assets/token/" + coin1.symbol + ".svg"}
-                        className={classes.liquidityIcon}
-                      ></img>
-                    </Typography>
-                    <Typography>
-                      {formatReserve(reserves[1], coin2.symbol)}
-                      <img
-                        src={"/assets/token/" + coin2.symbol + ".svg"}
-                        className={classes.liquidityIcon}
-                      ></img>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={1}></Grid>
-                </Grid>
-              </>
-            )}
+              {/* Reserves Display */}
+              <section className="mt-4">
+                <h4 className="text-xl font-bold mb-1">Total Liquidity</h4>
+                <div className="flex items-center gap-2">
+                  <img
+                    src={"/assets/token/" + coin1.symbol + ".svg"}
+                    className="max-w-[30px]"
+                  />
+                  <div>{formatReserve(reserves[0], coin1.symbol)}</div>
+                </div>
 
-            <hr className={classes.hr} />
+                <div className="-mt-2 flex items-center gap-2">
+                  <img
+                    src={"/assets/token/" + coin2.symbol + ".svg"}
+                    className="max-w-[30px]"
+                  />
+                  <div>{formatReserve(reserves[1], coin2.symbol)}</div>
+                </div>
+              </section>
+            </>
+          )}
 
+          <div className="mt-3">
             <LoadingButton
               loading={loading}
               valid={isButtonEnabled()}
@@ -595,12 +597,11 @@ function CoinSwapper(props) {
               fail={false}
               onClick={swap}
             >
-              <LoopIcon />
               Swap
             </LoadingButton>
-          </Grid>
-        </Paper>
-      </Container>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -21,8 +21,6 @@ export default function CoinAmountInterface(props) {
   //    note: all other props are forwarded to the child component <CoinField>
   //
 
-  const classes = useStyles();
-
   const { value, maxValue, onChange, symbol, maxWeiValue, decimals } = props;
 
   const updateAmount = (e, percentage = 100) => {
@@ -52,49 +50,41 @@ export default function CoinAmountInterface(props) {
   return (
     <>
       {/* Controls */}
-      <div className={classes.controls}>
-        <Grid container direction="row" justifyContent="flex-end">
-          <Grid item className={classes.percentages}>
-            <Link
-              href="#"
-              onClick={(e) => {
-                updateAmount(e, 25);
-              }}
-            >
-              25%
-            </Link>
-          </Grid>
-          <Grid item className={classes.percentages}>
-            <Link
-              href="#"
-              onClick={(e) => {
-                updateAmount(e, 50);
-              }}
-            >
-              50%
-            </Link>
-          </Grid>
-          <Grid item className={classes.percentages}>
-            <Link
-              href="#"
-              onClick={(e) => {
-                updateAmount(e, 75);
-              }}
-            >
-              75%
-            </Link>
-          </Grid>
-          <Grid item className={classes.percentages}>
-            <Link
-              href="#"
-              onClick={(e) => {
-                updateAmount(e, 100);
-              }}
-            >
-              100%
-            </Link>
-          </Grid>
-        </Grid>
+      <div className="flex justify-end pr-2">
+        <div>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 25);
+            }}
+          >
+            25%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 50);
+            }}
+          >
+            50%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 75);
+            }}
+          >
+            75%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 100);
+            }}
+          >
+            100%
+          </button>
+        </div>
       </div>
       {/* CoinField */}
       <CoinField {...props} />
