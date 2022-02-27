@@ -33,7 +33,7 @@ const percentNumberFormat = new Intl.NumberFormat("us-EN", {
   minimumFractionDigits: 2,
 });
 
-const limit = pLimit(3);
+const limit = pLimit(5);
 
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
@@ -105,9 +105,7 @@ function FarmList(props) {
   
 
   useEffect(() => {
-    const deps = { setPendingPanic, account };
-    const updatePanicRewards = async (deps) => {
-      const { setPendingPanic, account } = deps;
+    const updatePanicRewards = async () => {
       try {
         const reward = await limit(() => chef.totalClaimableReward(account));
         setPendingPanic(ethers.utils.formatUnits(reward));
@@ -115,15 +113,13 @@ function FarmList(props) {
         console.error("error getting chef.totalClaimableReward", {error});
       }
     }
-    updatePanicRewards(deps);
-    const updateIntervalHandle = setInterval(() => updatePanicRewards(deps), 15000);
+    updatePanicRewards();
+    const updateIntervalHandle = setInterval(() => updatePanicRewards(), 15000);
     return () => clearInterval(updateIntervalHandle);
   }, [setPendingPanic, account, chef]);
   
   useEffect(() => {
-    const deps = { aprFeed, setAprMap, setTvlMap, poolLength };
-    const updateFarmStats = async (deps) => {
-      const { aprFeed, setAprMap, setTvlMap, poolLength } = deps;
+    const updateFarmStats = async () => {
       const aprPromises = [];
       const tvlPromises = [];
       for (let i = 1; i < poolLength; ++i) {
@@ -153,8 +149,8 @@ function FarmList(props) {
         })
       ]);
     }
-    updateFarmStats(deps);
-    const updateFarmInterval = setInterval(() => updateFarmStats(deps), 60000);
+    updateFarmStats();
+    const updateFarmInterval = setInterval(() => updateFarmStats(), 60000);
     return () => clearInterval(updateFarmInterval);
   }, [chef, aprFeed, setAprMap, setTvlMap, poolLength])
 

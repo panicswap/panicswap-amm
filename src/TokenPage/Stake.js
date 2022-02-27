@@ -31,7 +31,7 @@ import COINS from "../constants/coins";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import * as chains from "../constants/chains";
 
-const limit = pLimit(2);
+const limit = pLimit(3);
 
 const styles = (theme) => ({
   paperContainer: {
@@ -160,24 +160,19 @@ export default function Stake() {
   useEffect( () => {
     const updateStakingStats = async () => {
       const promises = [
-        stakingEps.unlockedBalance(account).then(unlockedBal => 
-            setUnlockedBalance(ethers.utils.formatUnits(unlockedBal))
-        ),
-        stakingEps.withdrawableBalance(account).then(({1: vestedBalance}) =>
-            setVestedBalance(ethers.utils.formatUnits(vestedBalance)*2)
-        ),
-        stakingEps.claimableRewards(account).then(({0: panicEarnedHalf }) => {
-          const panicEarnedFinal = panicEarnedHalf[1];
-          console.log("panic earned", panicEarnedFinal);
-          setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
-        }),
-        stakingEps.lockedBalances(account).then(({0: panicLockedTotal}) =>
-            setLockedBalance(ethers.utils.formatUnits(panicLockedTotal))
-        ),
-        panic.balanceOf(account).then(bal => {
-          setPanicWeiBalance(bal);
-          setPanicBalance(ethers.utils.formatUnits(bal));
-        })
+        stakingEps.unlockedBalance(account)
+            .then(unlockedBal => setUnlockedBalance(ethers.utils.formatUnits(unlockedBal))),
+        stakingEps.withdrawableBalance(account)
+            .then(({1: vestedBalance}) => setVestedBalance(ethers.utils.formatUnits(vestedBalance)*2)),
+        stakingEps.claimableRewards(account)
+            .then(({1: {0: panicEarnedFinal }}) => setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal))),
+        stakingEps.lockedBalances(account)
+            .then(({0: panicLockedTotal}) => setLockedBalance(ethers.utils.formatUnits(panicLockedTotal))),
+        panic.balanceOf(account)
+            .then(bal => {
+              setPanicWeiBalance(bal);
+              setPanicBalance(ethers.utils.formatUnits(bal));
+            })
       ].map(promise => limit(() => promise));
       await Promise.allSettled(promises);
     }
