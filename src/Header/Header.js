@@ -22,6 +22,7 @@ import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
 import { ethers } from "ethers";
 import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -93,20 +94,26 @@ export default function Header() {
         background: "rgba(255, 255, 255, 0.1)",
         borderTop: "1px solid rgba(255, 255, 255, 0.5)",
         borderLeft: "1px solid rgba(255, 255, 255, 0.5)",
-        backdropFilter: "blur(8px)",
+        backdropFilter: "blur(10px)",
       }}
-      className="border-b sticky top-0 z-10 mb-10"
+      className="border-b sticky top-0 z-10 mb-10 p-2 md:p-5"
     >
-      <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo */}
-          <img src={logo} className="max-w-[170px]" alt="PanicSwap logo" />
+          <Link to="/">
+            <img
+              src={logo}
+              className="max-w-[100px] md:max-w-[130px]"
+              alt="PanicSwap logo"
+            />
+          </Link>
           {/* Navigation */}
           <NavBar />
         </div>
 
         {/* Stats */}
-        <section className="p-3 flex gap-2 max-w-3xl">
+        <section className="p-3 flex max-w-3xl">
           <HeaderItem
             label="TVL"
             value={"$" + formatNumber(totalTvl / 1e18, 2)}
@@ -128,7 +135,7 @@ export default function Header() {
 
 const HeaderItem = ({ label, value }) => {
   return (
-    <div className="ml-4 rounded-lg">
+    <div className="ml-2 lg:ml-4 rounded-lg">
       <div className="text-xs text-gray-500 leading-none">{label}</div>
       <div className="">{value}</div>
     </div>
