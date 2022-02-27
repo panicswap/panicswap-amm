@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import { ethers } from "ethers";
 import Header from "./Header/Header";
-import NavBar from "./NavBar/NavBar";
 import CoinSwapper from "./CoinSwapper/CoinSwapper";
 import FarmList from "./FarmList/FarmList";
 import FarmDetails from "./FarmDetails/FarmDetails";
@@ -45,17 +44,18 @@ function App() {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     return (
-      <div className="App bg-gradient-to-bl from-blue-100 via-blue-50  to-white">
+      <div className="flex flex-col min-h-screen App bg-gradient-to-bl from-blue-300 via-blue-100  to-blue-50">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
-            <NavBar />
-            <Route exact path="/" component={CoinSwapper} />
-            <Route exact path="/liquidity" component={Liquidity} />
-            <Route exact path="/farms" component={FarmList} />
-            <Route exact path="/farms/:farmId" component={FarmDetails} />
-            <Route exact path="/stake" component={TokenPage} />
-            <Route exact path="/migration" component={Migration} />
+            <div className="flex-1">
+              <Route exact path="/" component={CoinSwapper} />
+              <Route exact path="/liquidity" component={Liquidity} />
+              <Route exact path="/farms" component={FarmList} />
+              <Route exact path="/farms/:farmId" component={FarmDetails} />
+              <Route exact path="/stake" component={TokenPage} />
+              <Route exact path="/migration" component={Migration} />
+            </div>
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>

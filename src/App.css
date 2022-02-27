@@ -10,15 +10,6 @@ body {
   margin: 0;
 }
 
-a {
-  color: #333;
-  text-decoration: none;
-}
-a:hover {
-  color: #000;
-  text-decoration: underline;
-}
-
 ul,
 ol {
   margin-bottom: 2rem;

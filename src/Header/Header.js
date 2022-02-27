@@ -21,6 +21,8 @@ import {
 import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
 import { ethers } from "ethers";
+import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -87,33 +89,55 @@ export default function Header() {
   }, [aprFeed]);
 
   return (
-    <header>
-      <section className="p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 justify-between max-w-3xl mx-auto">
-        <HeaderItem
-          label="TVL"
-          value={"$" + formatNumber(totalTvl / 1e18, 2)}
-        />
-        <HeaderItem
-          label="$PANIC price"
-          value={"$" + formatNumber(panicPrice / 1e18, 3)}
-        />
-        <HeaderItem label="Total Pairs" value={Number(totalPairs)} />
-        <HeaderItem
-          label="yvWFTM Dividends"
-          value={formatNumber(divApr / 100, 2) + "%"}
-        />
-      </section>
-      <img src={logo} className="mx-auto mt-2 max-w-sm" alt="PanicSwap" />
+    <header
+      style={{
+        background: "rgba(255, 255, 255, 0.1)",
+        borderTop: "1px solid rgba(255, 255, 255, 0.5)",
+        borderLeft: "1px solid rgba(255, 255, 255, 0.5)",
+        backdropFilter: "blur(10px)",
+      }}
+      className="border-b sticky top-0 z-10 mb-10 p-2 md:p-5"
+    >
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          {/* Logo */}
+          <Link to="/">
+            <img
+              src={logo}
+              className="max-w-[100px] md:max-w-[130px]"
+              alt="PanicSwap logo"
+            />
+          </Link>
+          {/* Navigation */}
+          <NavBar />
+        </div>
+
+        {/* Stats */}
+        <section className="p-3 flex max-w-3xl">
+          <HeaderItem
+            label="TVL"
+            value={"$" + formatNumber(totalTvl / 1e18, 2)}
+          />
+          <HeaderItem
+            label="$PANIC price"
+            value={"$" + formatNumber(panicPrice / 1e18, 3)}
+          />
+          <HeaderItem label="Total Pairs" value={Number(totalPairs)} />
+          <HeaderItem
+            label="yvWFTM Dividends"
+            value={formatNumber(divApr / 100, 2) + "%"}
+          />
+        </section>
+      </div>
     </header>
   );
 }
 
 const HeaderItem = ({ label, value }) => {
   return (
-    <div className="border rounded-md bg-white">
-      <div className="text-sm pt-1 px-3">{label}</div>
-      <div className="h-[1px] w-3/4 bg-gray-500 bg-gradient-to-r from-slate-500 to-slate-200"></div>
-      <div className="text-xl px-3 py-1">{value}</div>
+    <div className="ml-2 lg:ml-4 rounded-lg">
+      <div className="text-xs text-gray-500 leading-none">{label}</div>
+      <div className="">{value}</div>
     </div>
   );
 };
