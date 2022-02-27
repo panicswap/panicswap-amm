@@ -1,3 +1,5 @@
+import { AiOutlineSwap } from "react-icons/ai";
+
 import React, { useEffect } from "react";
 import {
   Container,
@@ -425,143 +427,148 @@ function CoinSwapper(props) {
 
   return (
     <div>
-      {/* Dialog Windows */}
-      <CoinDialog
-        open={dialog1Open}
-        onClose={onToken1Selected}
-        coins={coins}
-        signer={signer}
-      />
-      <CoinDialog
-        open={dialog2Open}
-        onClose={onToken2Selected}
-        coins={coins}
-        signer={signer}
-      />
       <WrongNetwork open={wrongNetworkOpen} />
+      <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 rounded-3xl p-3 shadow-lg">
+        <h3 className="text-xl font-bold p-3">Swap</h3>
 
-      {/* Coin Swapper */}
-      <Container maxWidth="sm">
-        <Paper className={classes.paperContainer}>
-          <Grid container direction="column" alignItems="center" spacing={2}>
-            <Grid item xs={12} className={classes.fullWidth}>
-              <CoinAmountInterface
-                activeField={true}
-                value={field1Value}
-                onClick={() => setDialog1Open(true)}
-                onChange={handleChange.field1}
-                symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
-                maxValue={coin1.balance}
-                decimals={coin1.decimals}
-                maxWeiValue={coin1.wei}
-              />
-            </Grid>
+        {/* Dialog Windows */}
+        <CoinDialog
+          open={dialog1Open}
+          onClose={onToken1Selected}
+          coins={coins}
+          signer={signer}
+        />
+        <CoinDialog
+          open={dialog2Open}
+          onClose={onToken2Selected}
+          coins={coins}
+          signer={signer}
+        />
 
-            <IconButton onClick={switchFields} className={classes.switchButton}>
-              <SwapVerticalCircleIcon fontSize="large" />
-            </IconButton>
+        {/* Coin Swapper */}
+        <div>
+          <div>
+            <CoinAmountInterface
+              activeField={true}
+              value={field1Value}
+              onClick={() => setDialog1Open(true)}
+              onChange={handleChange.field1}
+              symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+              maxValue={coin1.balance}
+              decimals={coin1.decimals}
+              maxWeiValue={coin1.wei}
+            />
+          </div>
 
-            <Grid item xs={12} className={classes.fullWidth}>
-              <CoinField
-                activeField={false}
-                value={field2Value}
-                onClick={() => setDialog2Open(true)}
-                symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
-                maxValue={coin2.balance}
-              />
-            </Grid>
-
-            {coin1.symbol && coin2.symbol && (
-              <>
-                <hr className={classes.hr} />
-                {field1Value && (
-                  <>
-                    <Grid container direction="row" alignItems="center" xs={12}>
-                      {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={2} className={classes.leftSideBottomText}>
-                        <Typography>Price</Typography>
-                      </Grid>
-                      <Grid item xs={8} className={classes.rightSideBottomText}>
-                        <Typography>
-                          {Number(field1Value / field2Value).toPrecision(7)}{" "}
-                          {coin1.symbol} per {coin2.symbol}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <Grid container direction="row" alignItems="center" xs={12}>
-                      {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={5} className={classes.leftSideBottomText}>
-                        <Typography>Price Impact</Typography>
-                      </Grid>
-                      <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography className={warningSeverity(priceImpact)}>
-                          {FormattedPriceImpact(Number(priceImpact)) + "%"}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <Grid container direction="row" alignItems="center" xs={12}>
-                      {/* Price per token */}
-                      <Grid xs={1}></Grid>
-                      <Grid item xs={5} className={classes.leftSideBottomText}>
-                        <Typography>Fee (Paid To Stakers)</Typography>
-                      </Grid>
-                      <Grid item xs={5} className={classes.rightSideBottomText}>
-                        <Typography>
-                          {Number(tokenFee) + " " + coin1.symbol}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={1}></Grid>
-                    </Grid>
-                    <hr className={classes.hr} />
-                  </>
-                )}
-
-                <Grid container direction="row" alignItems="center" xs={12}>
-                  {/* Reserves Display */}
-                  <Grid xs={1}></Grid>
-                  <Grid item xs={4} className={classes.leftSideBottomText}>
-                    <Typography>Total Liquidity</Typography>
-                  </Grid>
-                  <Grid item xs={6} className={classes.rightSideBottomText}>
-                    <Typography>
-                      {formatReserve(reserves[0], coin1.symbol)}
-                      <img
-                        src={"/assets/token/" + coin1.symbol + ".svg"}
-                        className={classes.liquidityIcon}
-                      ></img>
-                    </Typography>
-                    <Typography>
-                      {formatReserve(reserves[1], coin2.symbol)}
-                      <img
-                        src={"/assets/token/" + coin2.symbol + ".svg"}
-                        className={classes.liquidityIcon}
-                      ></img>
-                    </Typography>
-                  </Grid>
-                  <Grid xs={1}></Grid>
-                </Grid>
-              </>
-            )}
-
-            <hr className={classes.hr} />
-
-            <LoadingButton
-              loading={loading}
-              valid={isButtonEnabled()}
-              success={false}
-              fail={false}
-              onClick={swap}
+          {/* Field switcher */}
+          <div className="flex justify-center -mt-3">
+            <div
+              onClick={switchFields}
+              className="rotate-90 p-3 bg-blue-300 rounded-full text-lg cursor-pointer"
             >
-              <LoopIcon />
-              Swap
-            </LoadingButton>
-          </Grid>
-        </Paper>
-      </Container>
+              <AiOutlineSwap />
+            </div>
+          </div>
+
+          {/* Second coin input */}
+          <CoinField
+            activeField={false}
+            value={field2Value}
+            onClick={() => setDialog2Open(true)}
+            symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+            maxValue={coin2.balance}
+          />
+
+          {coin1.symbol && coin2.symbol && (
+            <>
+              <hr className={classes.hr} />
+              {field1Value && (
+                <>
+                  <Grid container direction="row" alignItems="center" xs={12}>
+                    {/* Price per token */}
+                    <Grid xs={1}></Grid>
+                    <Grid item xs={2} className={classes.leftSideBottomText}>
+                      <Typography>Price</Typography>
+                    </Grid>
+                    <Grid item xs={8} className={classes.rightSideBottomText}>
+                      <Typography>
+                        {Number(field1Value / field2Value).toPrecision(7)}{" "}
+                        {coin1.symbol} per {coin2.symbol}
+                      </Typography>
+                    </Grid>
+                    <Grid xs={1}></Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" xs={12}>
+                    {/* Price per token */}
+                    <Grid xs={1}></Grid>
+                    <Grid item xs={5} className={classes.leftSideBottomText}>
+                      <Typography>Price Impact</Typography>
+                    </Grid>
+                    <Grid item xs={5} className={classes.rightSideBottomText}>
+                      <Typography className={warningSeverity(priceImpact)}>
+                        {FormattedPriceImpact(Number(priceImpact)) + "%"}
+                      </Typography>
+                    </Grid>
+                    <Grid xs={1}></Grid>
+                  </Grid>
+                  <Grid container direction="row" alignItems="center" xs={12}>
+                    {/* Price per token */}
+                    <Grid xs={1}></Grid>
+                    <Grid item xs={5} className={classes.leftSideBottomText}>
+                      <Typography>Fee (Paid To Stakers)</Typography>
+                    </Grid>
+                    <Grid item xs={5} className={classes.rightSideBottomText}>
+                      <Typography>
+                        {Number(tokenFee) + " " + coin1.symbol}
+                      </Typography>
+                    </Grid>
+                    <Grid xs={1}></Grid>
+                  </Grid>
+                  <hr className={classes.hr} />
+                </>
+              )}
+
+              <Grid container direction="row" alignItems="center" xs={12}>
+                {/* Reserves Display */}
+                <Grid xs={1}></Grid>
+                <Grid item xs={4} className={classes.leftSideBottomText}>
+                  <Typography>Total Liquidity</Typography>
+                </Grid>
+                <Grid item xs={6} className={classes.rightSideBottomText}>
+                  <Typography>
+                    {formatReserve(reserves[0], coin1.symbol)}
+                    <img
+                      src={"/assets/token/" + coin1.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                  <Typography>
+                    {formatReserve(reserves[1], coin2.symbol)}
+                    <img
+                      src={"/assets/token/" + coin2.symbol + ".svg"}
+                      className={classes.liquidityIcon}
+                    ></img>
+                  </Typography>
+                </Grid>
+                <Grid xs={1}></Grid>
+              </Grid>
+            </>
+          )}
+
+          <hr className={classes.hr} />
+
+          <LoadingButton
+            loading={loading}
+            valid={isButtonEnabled()}
+            success={false}
+            fail={false}
+            onClick={swap}
+          >
+            <LoopIcon />
+            Swap
+          </LoadingButton>
+        </div>
+      </div>
     </div>
   );
 }
