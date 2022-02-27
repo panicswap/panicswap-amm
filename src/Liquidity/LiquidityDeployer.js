@@ -426,6 +426,43 @@ function LiquidityDeployer(props) {
         console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
+
+      if(!coin1.address && !coin2.address){
+        getBalanceAndSymbol(
+          account,
+          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",//yvwbtc
+          provider,
+          signer,
+          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          coins
+        ).then((data) => {
+          setCoin1({
+            address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
+            symbol: "yvWBTC",
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
+
+        getBalanceAndSymbol(
+          account,
+          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",//yvweth
+          provider,
+          signer,
+          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          coins
+        ).then((data) => {
+          setCoin2({
+            address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
+            symbol: "yvWETH",
+            balance: data.balance,
+            decimals: data.decimals,
+            wei: data.wei,
+          });
+        });
+
+      }
     }
 
     Network();
