@@ -220,49 +220,37 @@ export default function CoinField(props) {
   } = props;
 
   return (
-    <div className={classes.container}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.grid}
-      >
-        {/* Button */}
-        <Grid item xs={4}>
-          <IconButton
-            size="small"
-            variant="extended"
-            onClick={onClick}
-            className={classes.iconButton}
-          >
-            <img
-              src={"/assets/token/" + symbol + ".svg"}
-              className={[classes.fab, classes.swapTokenIcon].join(" ")}
-            />
-          </IconButton>
-        </Grid>
+    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
+      {/* Button */}
+      <div onClick={onClick} className="cursor-pointer">
+        <img
+          src={"/assets/token/" + symbol + ".svg"}
+          className="shadow-lg rounded-full max-w-[50px]"
+        />
+      </div>
 
-        {/* Text Field */}
-        <Grid container xs={8} className={classes.rightSideOfSwap}>
-          <Grid item xs={12} className={classes.balanceNumber}>
-            {"Balance: " +
-              checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
-          </Grid>
-          <Grid item xs={12} className={classes.swapBalance}>
-            <InputBase
-              value={value}
-              onChange={onChange}
-              placeholder="0.0"
-              disabled={!activeField}
-              classes={{ root: classes.input, input: classes.inputBase }}
-            />
-          </Grid>
-          <Grid item xs={12} className={classes.symbolName}>
-            {symbol !== "Select" && <>{symbol}</>}
-          </Grid>
-        </Grid>
-      </Grid>
+      <div className="flex flex-col items-end">
+        {/* Balance */}
+        <div className="">
+          {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
+        </div>
+
+        {/* Input */}
+        <input
+          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-white"
+          min="0"
+          type="number"
+          value={value}
+          onChange={onChange}
+          placeholder="0.0"
+          disabled={!activeField}
+        />
+
+        {/* Symbol */}
+        <div className="px-1 rounded-md bg-blue-200">
+          {symbol !== "Select" && <>{symbol}</>}
+        </div>
+      </div>
     </div>
   );
 }

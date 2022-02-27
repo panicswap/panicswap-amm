@@ -461,23 +461,25 @@ function CoinSwapper(props) {
           </div>
 
           {/* Field switcher */}
-          <div className="flex justify-center -mt-3">
+          <div className="flex justify-center -mt-4">
             <div
               onClick={switchFields}
-              className="rotate-90 p-3 bg-blue-300 rounded-full text-lg cursor-pointer"
+              className="rotate-90 p-3 bg-gradient-to-br from-blue-500 to-blue-300 rounded-full transition-all hover:scale-105 text-lg cursor-pointer"
             >
               <AiOutlineSwap />
             </div>
           </div>
 
-          {/* Second coin input */}
-          <CoinField
-            activeField={false}
-            value={field2Value}
-            onClick={() => setDialog2Open(true)}
-            symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
-            maxValue={coin2.balance}
-          />
+          <div className="-mt-4">
+            {/* Second coin input */}
+            <CoinField
+              activeField={false}
+              value={field2Value}
+              onClick={() => setDialog2Open(true)}
+              symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+              maxValue={coin2.balance}
+            />
+          </div>
 
           {coin1.symbol && coin2.symbol && (
             <>
