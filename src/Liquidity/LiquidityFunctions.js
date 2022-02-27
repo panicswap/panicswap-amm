@@ -157,7 +157,7 @@ export async function removeLiquidity(
   const pairAddress = await factory.getPair(address1, address2, stable);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
-  const allowance = await pair.allowance(account, pair.address);
+  const allowance = await pair.allowance(account, routerContract.address);
 
   console.log("allowance is ", allowance);
   console.log("liquidity is is ", liquidity);

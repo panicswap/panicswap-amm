@@ -89,6 +89,9 @@ function LiquidityRemover(props) {
   const [dialog2Open, setDialog2Open] = React.useState(false);
   const [wrongNetworkOpen, setwrongNetworkOpen] = React.useState(false);
 
+  const [maxValue, setMaxValue] = React.useState(0);
+  const [maxWeiValue, setMaxWeiValue] = React.useState(0);
+
   // Stores data about their respective coin
   const [coin1, setCoin1] = React.useState({
     address: undefined,
@@ -116,6 +119,7 @@ function LiquidityRemover(props) {
 
   // Stores the liquidity tokens balance of the user
   const [liquidityTokens, setLiquidityTokens] = React.useState("");
+  const [liquidityTokensWei, setLiquidityTokensWei] = React.useState("");
 
   // Stores the input and output for the liquidity removal preview
   const [tokensOut, setTokensOut] = React.useState([0, 0, 0]);
@@ -268,6 +272,7 @@ function LiquidityRemover(props) {
         (data) => {
           setReserves([data[0], data[1]]);
           setLiquidityTokens(data[2]);
+          setLiquidityTokensWei(data[3]);
         }
       );
     }
@@ -278,6 +283,7 @@ function LiquidityRemover(props) {
   useEffect(() => {
     if (isButtonEnabled()) {
       console.log("Trying to preview the liquidity removal");
+
       quoteRemoveLiquidity(
         coin1.address,
         coin2.address,
@@ -307,6 +313,7 @@ function LiquidityRemover(props) {
         ).then((data) => {
           setReserves([data[0], data[1]]);
           setLiquidityTokens(data[2]);
+          setLiquidityTokensWei(data[3]);
         });
       }
 
@@ -412,6 +419,8 @@ function LiquidityRemover(props) {
           <RemoveLiquidityField1
             activeField={true}
             value={field1Value}
+            maxValue={liquidityTokens}
+            maxWeiValue={liquidityTokensWei}
             onClick={() => setDialog1Open(true)}
             onChange={handleChange.field1}
             symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}

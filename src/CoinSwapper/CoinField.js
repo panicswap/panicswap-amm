@@ -4,6 +4,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
 import { IconButton } from "@material-ui/core";
+import CoinAmountInterface from "./CoinAmountInterface";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -121,7 +122,7 @@ export function RemoveLiquidityField1(props) {
   //      activeField - boolean - Whether text can be entered into this field or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField } = props;
+  const { onClick, symbol, value, onChange, activeField, maxValue, maxWeiValue } = props;
   return (
     <div className={classes.container_blank}>
       <Grid
@@ -145,15 +146,14 @@ export function RemoveLiquidityField1(props) {
         </Grid>
         {/* Text Field */}
         <Grid item xs={9}>
-          <InputBase
+          <CoinAmountInterface
+            activeField={true}
             value={value}
             onChange={onChange}
-            placeholder="0.0"
-            disabled={!activeField}
-            classes={{
-              root: classes.container_input,
-              input: classes.inputBase,
-            }}
+            maxValue={maxValue}//TODO
+            symbol={"PANIC"}
+            decimals={18}
+            maxWeiValue={maxWeiValue}//TODO
           />
         </Grid>
         {/* </div> */}
