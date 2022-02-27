@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import LoadingButton from "../Components/LoadingButton";
 import React, { useEffect } from "react";
+import pLimit from 'p-limit';
 import {ethers} from 'ethers';
 import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
@@ -34,6 +35,7 @@ import {
   getAprFeedStaking
 } from "../ethereumFunctions";
 
+const limit = pLimit(3);
 
 const styles = (theme) => ({
   paperContainer: {
@@ -66,17 +68,17 @@ export default function Rewards() {
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
-  const [stakingEps, setStakingEps] = React.useState(undefined);
-  const [aprStaking, setAprStaking] = React.useState(undefined);
+  const [stakingEps, setStakingEps] = React.useState(getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer));
+  const [aprStaking, setAprStaking] = React.useState(getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",signer));
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
   const [vestedBalance, setVestedBalance] = React.useState(0);
   const [panicApr, setPanicApr] = React.useState(0);
   const [yvwftmApr, setYvwftmApr] = React.useState(0);
-  const [unlockedBalance, setUnlockedBalance] = React.useState(0);
-  const [panicRewards, setPanicRewards] = React.useState(0);
-  const [yvWFTMRewards, setYvWFTMRewards] = React.useState(0);
+  const [unlockedBalance, setUnlockedBalance] = React.useState('0');
+  const [panicRewards, setPanicRewards] = React.useState('0');
+  const [yvWFTMRewards, setYvWFTMRewards] = React.useState('0');
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -127,11 +129,7 @@ export default function Rewards() {
         console.log('chainID: ', chainId);
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const stakingEps = await getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer);
-        const aprFeedStaking = await getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",signer);
         setRouter(router);
-        setStakingEps(stakingEps);
-        setAprStaking(aprFeedStaking);
         setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
@@ -153,25 +151,24 @@ export default function Rewards() {
 
     Network()
 
-  }, []);
+  }, [provider, signer]);
 
-  useEffect( async() => {
-    if(stakingEps){
-      const [ unlockedBal, { 1: penaltyData }, [{ 1: panicEarned}, { 1: yvWFTMEarned}], panicApr, yvWFTMApr] = await Promise.all([
-        stakingEps.unlockedBalance(account),
-        stakingEps.withdrawableBalance(account),
-        stakingEps.claimableRewards(account),
-        aprStaking.getPanicApr(),
-        aprStaking.getFtmApr()
-      ])
-      setVestedBalance(ethers.utils.formatUnits(penaltyData)*2);
-      setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
-      setPanicRewards(ethers.utils.formatUnits(panicEarned));
-      setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
-      setPanicApr(panicApr/100);
-      setYvwftmApr(yvWFTMApr/100);
+  useEffect( () => {
+    const updateRewards = async () => {
+      const promises = [
+        stakingEps.unlockedBalance(account).then(unlockedBal => setUnlockedBalance(ethers.utils.formatUnits(unlockedBal))),
+        stakingEps.withdrawableBalance(account).then(({1: penaltyData}) => setVestedBalance(ethers.utils.formatUnits(penaltyData) * 2)),
+        stakingEps.claimableRewards(account).then(([{1: panicEarned}, {1: yvWFTMEarned}]) => {
+          setPanicRewards(ethers.utils.formatUnits(panicEarned));
+          setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
+        }),
+        aprStaking.getPanicApr().then(panicApr => setPanicApr(panicApr / 100)),
+        aprStaking.getFtmApr().then(yvWFTMApr => setYvwftmApr(yvWFTMApr / 100))
+      ].map(promise => limit(() => promise));
+      await Promise.allSettled(promises);
     }
-  }, [panic]);
+    updateRewards();
+  }, [account, panic, stakingEps, aprStaking]);
 
   
   async function exit(){

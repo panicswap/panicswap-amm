@@ -1,28 +1,20 @@
 import React, { useEffect } from "react";
+import pLimit from 'p-limit';
 import logo from "../assets/logo/variations/full-logo-01.png";
 import { formatNumber } from "../helpers/numberFormatter";
 import {
   getAccount,
-  getFactory,
   getProvider,
-  getRouter,
   getSigner,
   getNetwork,
-  getAmountOut,
-  getBalanceAndSymbol,
-  getWeth,
-  swapTokens,
-  getReserves,
-  getEpsStaking,
   getAprFeed,
   getAprFeedStaking,
   getChef,
 } from "../ethereumFunctions";
-import * as chains from "../constants/chains";
-import COINS from "../constants/coins";
-import { ethers } from "ethers";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
+
+const limit = pLimit(3);
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -31,9 +23,18 @@ export default function Header() {
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
-  const [aprFeed, setAprFeed] = React.useState(undefined);
-  const [chef, setChef] = React.useState(undefined);
-  const [aprStaking, setAprStaking] = React.useState(undefined);
+  const [aprFeed, setAprFeed] = React.useState(getAprFeed(
+      "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
+      signer
+  ));
+  const [chef, setChef] = React.useState(getChef(
+      "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
+      signer
+  ));
+  const [aprStaking, setAprStaking] = React.useState(getAprFeedStaking(
+      "0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",
+      signer
+  ));
   const [panicPrice, setPanicPrice] = React.useState(0);
   const [totalTvl, setTotalTvl] = React.useState(0);
   const [totalPairs, setTotalPairs] = React.useState(0);
@@ -50,43 +51,23 @@ export default function Header() {
         setChainId(chainId);
         return chainId;
       });
-      if (chains.networks.includes(chainId)) {
-        const aprFeed = await getAprFeed(
-          "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
-          signer
-        );
-        const chef = await getChef(
-          "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
-          signer
-        );
-        const aprFeedStaking = await getAprFeedStaking(
-          "0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",
-          signer
-        );
-
-        setChef(chef);
-        setAprStaking(aprFeedStaking);
-        setAprFeed(aprFeed);
-      }
     }
 
     Network();
-  }, []);
+  }, [provider]);
 
-  useEffect(async () => {
-    if (aprFeed) {
-      const [totalTvl, panicPrice, totalPairs, divApr] = await Promise.all([
-        aprFeed.totalTvl(),
-        aprFeed.panicDollarPrice(),
-        chef.poolLength(),
-        aprStaking.getFtmApr(),
-      ]);
-      setTotalTvl(totalTvl);
-      setPanicPrice(panicPrice);
-      setTotalPairs(totalPairs);
-      setDivApr(divApr);
+  useEffect(() => {
+    const updateHeaderStats = async () => {
+      const promises = [
+        aprFeed.totalTvl().then(setTotalTvl),
+        aprFeed.panicDollarPrice().then(setPanicPrice),
+        chef.poolLength().then(setTotalPairs),
+        aprStaking.getFtmApr().then(setDivApr),
+      ].map(promise => limit(() => promise));
+      await Promise.all(promises);
     }
-  }, [aprFeed]);
+    updateHeaderStats();
+  }, [aprFeed, aprStaking, chef]);
 
   return (
     <header

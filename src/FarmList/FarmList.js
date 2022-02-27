@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import pLimit from "p-limit";
 import { FarmItems } from "./FarmItems";
 import { formatNumber } from "../helpers/numberFormatter";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
@@ -32,6 +33,8 @@ const percentNumberFormat = new Intl.NumberFormat("us-EN", {
   minimumFractionDigits: 2,
 });
 
+const limit = pLimit(3);
+
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -39,15 +42,16 @@ function FarmList(props) {
   const [signer, setSigner] = React.useState(getSigner(provider));
 
   // The following are populated in a react hook
-  const [account, setAccount] = React.useState(undefined);
+  const [account, setAccount] = React.useState(getAccount());
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
-  const [chef, setChef] = React.useState(undefined);
-  const [aprFeed, setAprFeed] = React.useState(undefined);
+  const [chef, setChef] = React.useState(getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer));
+  const [aprFeed, setAprFeed] = React.useState(getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer));
   const [aprMap, setAprMap] = React.useState([]);
   const [tvlMap, setTvlMap] = React.useState([]);
+  const [poolLength, setPoolLength] = React.useState(0);
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -66,37 +70,22 @@ function FarmList(props) {
 
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
-    getAccount().then((account) => {
-      setAccount(account);
-    });
-
     async function Network() {
+      chef.poolLength().then(setPoolLength)
       const chainId = await getNetwork(provider).then((chainId) => {
         setChainId(chainId);
         return chainId;
       });
       if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
-        console.log("chainID: ", chainId);
         // Get the router using the chainID
-        const aprFeed = await getAprFeed(
-          "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
-          signer
-        );
         const router = await getRouter(
           chains.routerAddress.get(chainId),
           signer
         );
-        const chef = await getChef(
-          "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
-          signer
-        );
-        setAprFeed(aprFeed);
         setRouter(router);
-        setChef(chef);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
-          console.log("Weth: ", wethAddress);
           setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
@@ -107,43 +96,67 @@ function FarmList(props) {
           setFactory(getFactory(factory_address, signer));
         });
       } else {
-        console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
     }
 
     Network();
-  }, []);
+  }, [chef, provider, signer]);
+  
 
-  useEffect(async () => {
-    if (chef) {
-      const reward = await chef.totalClaimableReward(account);
-      setPendingPanic(ethers.utils.formatUnits(reward));
-      const poolLength = await chef.poolLength();
+  useEffect(() => {
+    const deps = { setPendingPanic, account };
+    const updatePanicRewards = async (deps) => {
+      const { setPendingPanic, account } = deps;
+      try {
+        const reward = await limit(() => chef.totalClaimableReward(account));
+        setPendingPanic(ethers.utils.formatUnits(reward));
+      } catch(error) {
+        console.error("error getting chef.totalClaimableReward", {error});
+      }
+    }
+    updatePanicRewards(deps);
+    const updateIntervalHandle = setInterval(() => updatePanicRewards(deps), 15000);
+    return () => clearInterval(updateIntervalHandle);
+  }, [setPendingPanic, account, chef]);
+  
+  useEffect(() => {
+    const deps = { aprFeed, setAprMap, setTvlMap, poolLength };
+    const updateFarmStats = async (deps) => {
+      const { aprFeed, setAprMap, setTvlMap, poolLength } = deps;
       const aprPromises = [];
       const tvlPromises = [];
       for (let i = 1; i < poolLength; ++i) {
-        aprPromises.push(aprFeed.yvApr(i));
-        tvlPromises.push(aprFeed.lpValueDollarChef(i));
+        aprPromises.push(limit(() => aprFeed.yvApr(i)));
+        tvlPromises.push(limit(() => aprFeed.lpValueDollarChef(i)));
       }
       await Promise.all([
-        Promise.all(aprPromises).then((results) =>
-          setAprMap(
-            results
-              .map((v) => (v && v > 0 ? v / 10000 : v))
-              .map(percentNumberFormat.format)
-          )
-        ),
-        Promise.all(tvlPromises).then((results) =>
-          setTvlMap(
-            results
-              .map((v) => (v && v > 0 ? v / 1e18 : v))
-              .map(usdNumberFormat.format)
-          )
-        ),
+        Promise.allSettled(aprPromises).then((results) => {
+          const newAprMap = []
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newAprMap[index] = percentNumberFormat.format(v && v > 0 ? v / 10000 : v)
+            }
+          })
+          setAprMap(newAprMap);
+        }),
+        Promise.allSettled(tvlPromises).then((results) => {
+          const newTvlMap = []
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newTvlMap[index] = usdNumberFormat.format(v && v > 0 ? v / 1e18 : v)
+            }
+          })
+          setTvlMap(newTvlMap);
+        })
       ]);
     }
-  }, [chef]);
+    updateFarmStats(deps);
+    const updateFarmInterval = setInterval(() => updateFarmStats(deps), 60000);
+    return () => clearInterval(updateFarmInterval);
+  }, [chef, aprFeed, setAprMap, setTvlMap, poolLength])
 
   async function claimAllRewards() {
     await chef;
@@ -214,7 +227,7 @@ function FarmList(props) {
         <div>
           {FarmItems.map((item, index) => {
             return (
-              <div className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl">
+              <div className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl" key={item.title}>
                 <div className="flex justify-between">
                   {/* Logos */}
                   <div className="flex items-center w-3/4">

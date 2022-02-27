@@ -159,7 +159,7 @@ function LiquidityRemover(props) {
     return (
       coin1.address &&
       coin2.address &&
-      parsedInput !== NaN &&
+      Number.isFinite(parsedInput) &&
       0 < parsedInput &&
       parsedInput <= liquidityTokens
     );
@@ -392,7 +392,7 @@ function LiquidityRemover(props) {
     }
 
     Network();
-  }, []);
+  }, [provider, signer]);
 
   return (
     <div>

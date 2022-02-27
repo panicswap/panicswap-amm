@@ -466,7 +466,7 @@ function LiquidityDeployer(props) {
     }
 
     Network();
-  }, []);
+  }, [account, coin1.address, coin2.address, coins, provider, signer]);
 
   return (
     <div>
