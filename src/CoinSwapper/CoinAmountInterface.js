@@ -50,39 +50,42 @@ export default function CoinAmountInterface(props) {
   return (
     <>
       {/* Controls */}
-      <div className="flex gap-1 justify-end pr-2">
-        <button
-          className="leading-tight"
-          onClick={(e) => {
-            updateAmount(e, 25);
-          }}
-        >
-          25%
-        </button>
-        <button
-          className="leading-tight"
-          onClick={(e) => {
-            updateAmount(e, 50);
-          }}
-        >
-          50%
-        </button>
-        <button
-          className="leading-tight"
-          onClick={(e) => {
-            updateAmount(e, 75);
-          }}
-        >
-          75%
-        </button>
-        <button
-          className="leading-tight"
-          onClick={(e) => {
-            updateAmount(e, 100);
-          }}
-        >
-          100%
-        </button>
+      <div className="flex  justify-between pr-2">
+        <div className="ml-3 font-bold">From</div>
+        <div>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 25);
+            }}
+          >
+            25%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 50);
+            }}
+          >
+            50%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 75);
+            }}
+          >
+            75%
+          </button>
+          <button
+            className="leading-tight ml-2"
+            onClick={(e) => {
+              updateAmount(e, 100);
+            }}
+          >
+            100%
+          </button>
+        </div>
       </div>
       {/* CoinField */}
       <CoinField {...props} />

@@ -471,6 +471,8 @@ function CoinSwapper(props) {
           </div>
 
           <div className="-mt-4">
+            <div className="ml-3 font-bold">To</div>
+
             {/* Second coin input */}
             <CoinField
               activeField={false}
@@ -483,7 +485,6 @@ function CoinSwapper(props) {
 
           {coin1.symbol && coin2.symbol && (
             <>
-              <hr className={classes.hr} />
               {field1Value && (
                 <>
                   <Grid container direction="row" alignItems="center" xs={12}>
