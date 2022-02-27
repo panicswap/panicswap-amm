@@ -208,7 +208,6 @@ export default function CoinField(props) {
   //      activeField - boolean - Whether text can be entered into this field or not
   //      userCanChoose - boolean - Whether user can select coin or not
 
-  const classes = useStyles();
   const {
     onClick,
     symbol,
@@ -222,7 +221,10 @@ export default function CoinField(props) {
   return (
     <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
       {/* Button */}
-      <div onClick={onClick} className="cursor-pointer">
+      <div
+        onClick={onClick}
+        className="cursor-pointer min-w-[50px] min-h-[50px]"
+      >
         <img
           src={"/assets/token/" + symbol + ".svg"}
           className="shadow-lg rounded-full max-w-[50px]"
@@ -237,7 +239,7 @@ export default function CoinField(props) {
 
         {/* Input */}
         <input
-          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-white"
+          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-white w-full"
           min="0"
           type="number"
           value={value}
@@ -247,7 +249,7 @@ export default function CoinField(props) {
         />
 
         {/* Symbol */}
-        <div className="px-1 rounded-md bg-blue-200">
+        <div className="px-1 text-xs rounded-md bg-blue-200">
           {symbol !== "Select" && <>{symbol}</>}
         </div>
       </div>

@@ -379,7 +379,6 @@ function CoinSwapper(props) {
           });
         });
       }
-
     }, 4000);
 
     return () => clearTimeout(coinTimeout);
@@ -422,10 +421,10 @@ function CoinSwapper(props) {
         setwrongNetworkOpen(true);
       }
 
-      if(!coin1.address && !coin2.address){
+      if (!coin1.address && !coin2.address) {
         getBalanceAndSymbol(
           account,
-          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",//yvwbtc
+          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9", //yvwbtc
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -442,7 +441,7 @@ function CoinSwapper(props) {
 
         getBalanceAndSymbol(
           account,
-          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",//yvweth
+          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7", //yvweth
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -456,16 +455,14 @@ function CoinSwapper(props) {
             wei: data.wei,
           });
         });
-
       }
-
     }
 
     Network();
   }, []);
 
   return (
-    <div>
+    <div className="px-2">
       <WrongNetwork open={wrongNetworkOpen} />
       <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 rounded-3xl p-3 shadow-lg">
         <h3 className="text-xl font-bold p-3">Swap</h3>
@@ -509,9 +506,7 @@ function CoinSwapper(props) {
             </div>
           </div>
 
-          <div className="-mt-4">
-            <div className="ml-3 font-bold">To</div>
-
+          <div className="-mt-5">
             {/* Second coin input */}
             <CoinField
               activeField={false}
@@ -525,53 +520,47 @@ function CoinSwapper(props) {
           {coin1.symbol && coin2.symbol && (
             <>
               {field1Value && (
-                <>
-                  <Grid container direction="row" alignItems="center" xs={12}>
-                    {/* Price per token */}
-                    <Grid xs={1}></Grid>
-                    <Grid item xs={2} className={classes.leftSideBottomText}>
-                      <Typography>Price</Typography>
-                    </Grid>
-                    <Grid item xs={8} className={classes.rightSideBottomText}>
-                      <Typography>
-                        {Number(field1Value / field2Value).toPrecision(7)}{" "}
+                <section className="mt-4">
+                  {/* Price per token */}
+                  <div className="grid grid-cols-2">
+                    <div>
+                      <div className="text-sm">
                         {coin1.symbol} per {coin2.symbol}
-                      </Typography>
-                    </Grid>
-                    <Grid xs={1}></Grid>
-                  </Grid>
-                  <Grid container direction="row" alignItems="center" xs={12}>
-                    {/* Price per token */}
-                    <Grid xs={1}></Grid>
-                    <Grid item xs={5} className={classes.leftSideBottomText}>
-                      <Typography>Price Impact</Typography>
-                    </Grid>
-                    <Grid item xs={5} className={classes.rightSideBottomText}>
-                      <Typography className={warningSeverity(priceImpact)}>
+                      </div>
+                      <div className="font-bold">
+                        {Number(field1Value / field2Value).toPrecision(7)}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-sm">
+                        {coin2.symbol} per {coin1.symbol}
+                      </div>
+                      <div className="font-bold">
+                        {Number(field2Value / field1Value).toPrecision(7)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="">
+                      <h4 className="font-bold">Price Impact</h4>
+                      <div>
                         {FormattedPriceImpact(Number(priceImpact)) + "%"}
-                      </Typography>
-                    </Grid>
-                    <Grid xs={1}></Grid>
-                  </Grid>
-                  <Grid container direction="row" alignItems="center" xs={12}>
-                    {/* Price per token */}
-                    <Grid xs={1}></Grid>
-                    <Grid item xs={5} className={classes.leftSideBottomText}>
-                      <Typography>Fee (Paid To Stakers)</Typography>
-                    </Grid>
-                    <Grid item xs={5} className={classes.rightSideBottomText}>
-                      <Typography>
-                        {Number(tokenFee) + " " + coin1.symbol}
-                      </Typography>
-                    </Grid>
-                    <Grid xs={1}></Grid>
-                  </Grid>
-                  <hr className={classes.hr} />
-                </>
+                      </div>
+                    </div>
+
+                    <div>
+                      {/* Price per token */}
+                      <h4 className="font-bold">Fee (Paid To Stakers)</h4>
+                      <div>{Number(tokenFee) + " " + coin1.symbol}</div>
+                    </div>
+                  </div>
+                </section>
               )}
 
               {/* Reserves Display */}
-              <section className="mt-3">
+              <section className="mt-4">
                 <h4 className="text-xl font-bold mb-1">Total Liquidity</h4>
                 <div className="flex items-center gap-2">
                   <img
@@ -581,7 +570,7 @@ function CoinSwapper(props) {
                   <div>{formatReserve(reserves[0], coin1.symbol)}</div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="-mt-2 flex items-center gap-2">
                   <img
                     src={"/assets/token/" + coin2.symbol + ".svg"}
                     className="max-w-[30px]"

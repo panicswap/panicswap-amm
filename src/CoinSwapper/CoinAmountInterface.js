@@ -50,8 +50,7 @@ export default function CoinAmountInterface(props) {
   return (
     <>
       {/* Controls */}
-      <div className="flex  justify-between pr-2">
-        <div className="ml-3 font-bold">From</div>
+      <div className="flex justify-end pr-2">
         <div>
           <button
             className="leading-tight ml-2"
