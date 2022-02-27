@@ -557,18 +557,17 @@ function CoinSwapper(props) {
             </>
           )}
 
-          <hr className={classes.hr} />
-
-          <LoadingButton
-            loading={loading}
-            valid={isButtonEnabled()}
-            success={false}
-            fail={false}
-            onClick={swap}
-          >
-            <LoopIcon />
-            Swap
-          </LoadingButton>
+          <div className="mt-3">
+            <LoadingButton
+              loading={loading}
+              valid={isButtonEnabled()}
+              success={false}
+              fail={false}
+              onClick={swap}
+            >
+              Swap
+            </LoadingButton>
+          </div>
         </div>
       </div>
     </div>
