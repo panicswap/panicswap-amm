@@ -334,14 +334,15 @@ export async function getReserves(
         reservesRaw[0].toPrecision(6),
         reservesRaw[1].toPrecision(6),
         liquidityTokens,
+        liquidityTokens_BN
       ];
     } else {
       console.log("no reserves yet");
-      return [0,0,0];
+      return [0,0,0,0];
     }
   }catch (err) {
     console.log("error!");
     console.log(err);
-    return [0, 0, 0];
+    return [0, 0, 0, 0];
   }
 }
