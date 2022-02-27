@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import pLimit from "p-limit";
 import { FarmItems } from "./FarmItems";
 import { formatNumber } from "../helpers/numberFormatter";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
@@ -32,8 +31,6 @@ const percentNumberFormat = new Intl.NumberFormat("us-EN", {
   maximumFractionDigits: 2,
   minimumFractionDigits: 2,
 });
-
-const limit = pLimit(5);
 
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
@@ -107,7 +104,7 @@ function FarmList(props) {
   useEffect(() => {
     const updatePanicRewards = async () => {
       try {
-        const reward = await limit(() => chef.totalClaimableReward(account));
+        const reward = await chef.totalClaimableReward(account);
         setPendingPanic(ethers.utils.formatUnits(reward));
       } catch(error) {
         console.error("error getting chef.totalClaimableReward", {error});
@@ -123,8 +120,8 @@ function FarmList(props) {
       const aprPromises = [];
       const tvlPromises = [];
       for (let i = 1; i < poolLength; ++i) {
-        aprPromises.push(limit(() => aprFeed.yvApr(i)));
-        tvlPromises.push(limit(() => aprFeed.lpValueDollarChef(i)));
+        aprPromises.push(aprFeed.yvApr(i));
+        tvlPromises.push(aprFeed.lpValueDollarChef(i));
       }
       await Promise.all([
         Promise.allSettled(aprPromises).then((results) => {

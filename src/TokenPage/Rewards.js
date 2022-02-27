@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import LoadingButton from "../Components/LoadingButton";
 import React, { useEffect } from "react";
-import pLimit from 'p-limit';
 import {ethers} from 'ethers';
 import * as chains from "../constants/chains";
 import COINS from "../constants/coins";
@@ -34,8 +33,6 @@ import {
   getEpsStaking,
   getAprFeedStaking
 } from "../ethereumFunctions";
-
-const limit = pLimit(3);
 
 const styles = (theme) => ({
   paperContainer: {
@@ -164,7 +161,7 @@ export default function Rewards() {
         }),
         aprStaking.getPanicApr().then(panicApr => setPanicApr(panicApr / 100)),
         aprStaking.getFtmApr().then(yvWFTMApr => setYvwftmApr(yvWFTMApr / 100))
-      ].map(promise => limit(() => promise));
+      ];
       await Promise.allSettled(promises);
     }
     updateRewards();

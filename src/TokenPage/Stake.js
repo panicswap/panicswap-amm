@@ -15,7 +15,6 @@ import {
   TableCell
 } from "@material-ui/core";
 import { useSnackbar } from "notistack";
-import pLimit from 'p-limit';
 import {
   getAccount,
   getFactory,
@@ -30,8 +29,6 @@ import LoadingButton from "../Components/LoadingButton";
 import COINS from "../constants/coins";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import * as chains from "../constants/chains";
-
-const limit = pLimit(3);
 
 const styles = (theme) => ({
   paperContainer: {
@@ -173,7 +170,7 @@ export default function Stake() {
               setPanicWeiBalance(bal);
               setPanicBalance(ethers.utils.formatUnits(bal));
             })
-      ].map(promise => limit(() => promise));
+      ];
       await Promise.allSettled(promises);
     }
     updateStakingStats();

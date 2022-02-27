@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import pLimit from 'p-limit';
 import logo from "../assets/logo/variations/full-logo-01.png";
 import { formatNumber } from "../helpers/numberFormatter";
 import {
@@ -13,8 +12,6 @@ import {
 } from "../ethereumFunctions";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
-
-const limit = pLimit(3);
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -47,10 +44,8 @@ export default function Header() {
     });
 
     async function Network() {
-      const chainId = await getNetwork(provider).then((chainId) => {
-        setChainId(chainId);
-        return chainId;
-      });
+      const chainId = await getNetwork(provider);
+      setChainId(chainId);
     }
 
     Network();
@@ -59,12 +54,16 @@ export default function Header() {
   useEffect(() => {
     const updateHeaderStats = async () => {
       const promises = [
-        aprFeed.totalTvl().then(setTotalTvl),
-        aprFeed.panicDollarPrice().then(setPanicPrice),
-        chef.poolLength().then(setTotalPairs),
-        aprStaking.getFtmApr().then(setDivApr),
-      ].map(promise => limit(() => promise));
-      await Promise.all(promises);
+        aprFeed.totalTvl()
+            .then(setTotalTvl),
+        aprFeed.panicDollarPrice()
+            .then(setPanicPrice),
+        chef.poolLength()
+            .then(setTotalPairs),
+        aprStaking.getFtmApr()
+            .then(setDivApr),
+      ];
+      await Promise.allSettled(promises);
     }
     updateHeaderStats();
   }, [aprFeed, aprStaking, chef]);
