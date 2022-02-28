@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import {
-  useParams
-} from "react-router-dom";
-import {
   Container,
   Grid,
   makeStyles,
@@ -25,19 +22,13 @@ import {
   getRouter,
   getSigner,
   getNetwork,
-  getAmountOut,
-  getBalanceAndSymbol,
   getWeth,
-  swapTokens,
-  getReserves,
   getEpsStaking
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
-import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import * as chains from "../constants/chains";
-
 
 const styles = (theme) => ({
   paperContainer: {
@@ -78,14 +69,14 @@ export default function Stake() {
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
-  const [stakingEps, setStakingEps] = React.useState(undefined);
+  const [stakingEps, setStakingEps] = React.useState(getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer));
   const [weth, setWeth] = React.useState(undefined);
-  const [panic, setPanic] = React.useState(undefined);
+  const [panic, setPanic] = React.useState(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
   const [factory, setFactory] = React.useState(undefined);
   const [vestedBalance, setVestedBalance] = React.useState(0);
-  const [lockedBalance, setLockedBalance] = React.useState(0);
-  const [unlockedBalance, setUnlockedBalance] = React.useState(0);
-  const [panicRewards, setPanicRewards] = React.useState(0);
+  const [lockedBalance, setLockedBalance] = React.useState("0");
+  const [unlockedBalance, setUnlockedBalance] = React.useState("0");
+  const [panicRewards, setPanicRewards] = React.useState("0");
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -140,10 +131,7 @@ export default function Stake() {
         console.log('chainID: ', chainId);
         // Get the router using the chainID
         const router = await getRouter(chains.routerAddress.get(chainId), signer);
-        const stakingEps = await getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e",signer);
         setRouter(router);
-        setStakingEps(stakingEps);
-        setPanic(getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",signer));
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log('Weth: ', wethAddress);
@@ -164,34 +152,32 @@ export default function Stake() {
 
     Network()
 
-  }, []);
+  }, [provider, signer]);
 
-  useEffect( async() => {
-    if(stakingEps){
-      const unlockedBal = await stakingEps.unlockedBalance(account);
-      const penaltyData = await stakingEps.withdrawableBalance(account);
-      const panicEarnedUnparsed = await stakingEps.claimableRewards(account);
-      const panicEarnedHalf = panicEarnedUnparsed[0];
-      const panicEarnedFinal = panicEarnedHalf[1];
-      const panicLockedUnparsed = await stakingEps.lockedBalances(account);
-      const panicLockedTotal = panicLockedUnparsed[0];
-      console.log("panic earned", panicEarnedFinal);
-      setVestedBalance(ethers.utils.formatUnits(penaltyData[1])*2);
-      setLockedBalance(ethers.utils.formatUnits(panicLockedTotal));
-      setUnlockedBalance(ethers.utils.formatUnits(unlockedBal));
-      setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal));
+  useEffect( () => {
+    const updateStakingStats = async () => {
+      const promises = [
+        stakingEps.unlockedBalance(account)
+            .then(unlockedBal => setUnlockedBalance(ethers.utils.formatUnits(unlockedBal))),
+        stakingEps.withdrawableBalance(account)
+            .then(({1: vestedBalance}) => setVestedBalance(ethers.utils.formatUnits(vestedBalance)*2)),
+        stakingEps.claimableRewards(account)
+            .then(({1: {0: panicEarnedFinal }}) => setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal))),
+        stakingEps.lockedBalances(account)
+            .then(({0: panicLockedTotal}) => setLockedBalance(ethers.utils.formatUnits(panicLockedTotal))),
+        panic.balanceOf(account)
+            .then(bal => {
+              setPanicWeiBalance(bal);
+              setPanicBalance(ethers.utils.formatUnits(bal));
+            })
+      ];
+      await Promise.allSettled(promises);
     }
-    if(panic){
-      const bal = await panic.balanceOf(account);
-      setPanicWeiBalance(bal);
-      setPanicBalance(ethers.utils.formatUnits(bal));
-    }
-  }, [panic]);
+    updateStakingStats();
+
+  }, [account, panic, stakingEps]);
 
   async function stakePan(bal, lockrnt){
-    await stakingEps;
-    await panic;
-
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
     const amountIn = ethers.utils.parseUnits(bal, 18);

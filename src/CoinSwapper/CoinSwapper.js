@@ -327,7 +327,7 @@ function CoinSwapper(props) {
     } else {
       setField2Value("");
     }
-  }, [field1Value, coin1.address, coin2.address]);
+  }, [field1Value, coin1.address, coin2.address, router, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -459,7 +459,7 @@ function CoinSwapper(props) {
     }
 
     Network();
-  }, []);
+  }, [account, coin1.address, coin2.address, coins, provider, signer]);
 
   return (
     <div className="px-2">
