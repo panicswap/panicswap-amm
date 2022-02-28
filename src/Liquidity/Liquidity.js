@@ -42,7 +42,7 @@ function Liquidity() {
   return (
     <div className="px-2">
       <div className="max-w-lg mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 p-3 rounded-3xl">
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-2">
           <SwitchButton setDeploy={setDeploy} />
         </div>
         <div>{deploy_or_remove(deploy)}</div>

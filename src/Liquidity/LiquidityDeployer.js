@@ -515,38 +515,51 @@ function LiquidityDeployer(props) {
 
       {/* Tokens in */}
       {coin1.symbol && coin2.symbol && (
-        <>
+        <section className="mt-3">
           {/* User's Unstaked Liquidity Tokens Display */}
-          <h4>Liquidity Preview</h4>
-          <h3>
-            {formatBalance(liquidityOut[0], coin1.symbol)}
-            <img
-              src={"/assets/token/" + coin1.symbol + ".svg"}
-              className={classes.liquidityIcon}
-            ></img>
-          </h3>
-          {formatBalance(liquidityOut[1], coin2.symbol)}
-          <img
-            src={"/assets/token/" + coin2.symbol + ".svg"}
-            className={classes.liquidityIcon}
-          />
+          <h4 className="font-bold">Liquidity Preview</h4>
+          <div className="grid grid-cols-2">
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin1.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(liquidityOut[0], coin1.symbol)}
+              </div>
+            </div>
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin2.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(liquidityOut[1], coin2.symbol)}
+              </div>
+            </div>
+          </div>
           {/* Reserves Display */}
-          <h3>LP Tokens</h3>
-          {liquidityOut[2] + " " + coin1.symbol + "-" + coin2.symbol + " LP"}
-        </>
+
+          <div className="mt-3">
+            <h3 className="font-bold">LP Tokens</h3>
+            {liquidityOut[2] + " " + coin1.symbol + "-" + coin2.symbol + " LP"}
+          </div>
+        </section>
       )}
 
       {/* Button */}
-      <LoadingButton
-        loading={loading}
-        valid={isButtonEnabled()}
-        success={false}
-        fail={false}
-        onClick={deploy}
-      >
-        <AccountBalanceIcon className={classes.buttonIcon} />
-        Deploy
-      </LoadingButton>
+      <div className="mt-3">
+        <LoadingButton
+          loading={loading}
+          valid={isButtonEnabled()}
+          success={false}
+          fail={false}
+          onClick={deploy}
+        >
+          <AccountBalanceIcon className={classes.buttonIcon} />
+          Deploy
+        </LoadingButton>
+      </div>
     </div>
   );
 }
