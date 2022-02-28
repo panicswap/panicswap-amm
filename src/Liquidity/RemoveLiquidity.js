@@ -512,18 +512,16 @@ function LiquidityRemover(props) {
         </Grid>
       </Grid>
 
-      <Grid container direction="column" alignItems="center" spacing={2}>
-        <LoadingButton
-          loading={loading}
-          valid={isButtonEnabled()}
-          success={false}
-          fail={false}
-          onClick={remove}
-        >
-          <ArrowDownwardIcon className={classes.buttonIcon} />
-          Remove
-        </LoadingButton>
-      </Grid>
+      <LoadingButton
+        loading={loading}
+        valid={isButtonEnabled()}
+        success={false}
+        fail={false}
+        onClick={remove}
+      >
+        <ArrowDownwardIcon className={classes.buttonIcon} />
+        Remove
+      </LoadingButton>
     </div>
   );
 }
