@@ -5,7 +5,7 @@ import {
   makeStyles,
   Paper,
   Typography,
-  Switch
+  Switch,
 } from "@material-ui/core";
 
 import SwitchButton from "./SwitchButton";
@@ -40,16 +40,13 @@ function Liquidity() {
   };
 
   return (
-    <div>
-      <Container>
-        <Paper className={classes.paperContainer}>
-          <Typography variant="h5" className={classes.title}>
-            <SwitchButton setDeploy={setDeploy} />
-          </Typography>
-          {deploy_or_remove(deploy)}
-        </Paper>
-      </Container>
-
+    <div className="px-2">
+      <div className="max-w-lg mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 p-3 rounded-3xl">
+        <div className="flex justify-center">
+          <SwitchButton setDeploy={setDeploy} />
+        </div>
+        <div>{deploy_or_remove(deploy)}</div>
+      </div>
     </div>
   );
 }
