@@ -300,16 +300,21 @@ function LiquidityDeployer(props) {
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
   useEffect(() => {
-    if(!(field1Value == prevField1Value.current && field2Value == prevField2Value.current))
-      if(coin1.address && coin2.address && (field1Value || field2Value)){
+    if (
+      !(
+        field1Value == prevField1Value.current &&
+        field2Value == prevField2Value.current
+      )
+    )
+      if (coin1.address && coin2.address && (field1Value || field2Value)) {
         console.log("fill other field");
         const oneTrillion = String(BigNumber.from(1e12));
         const [amount1, amount2] =
-          prevField1Value.current != field1Value ?
-            [field1Value, oneTrillion]:
-            prevField2Value.current != field2Value ?
-              [oneTrillion, field2Value]:
-              [0,0];
+          prevField1Value.current != field1Value
+            ? [field1Value, oneTrillion]
+            : prevField2Value.current != field2Value
+            ? [oneTrillion, field2Value]
+            : [0, 0];
         quoteAddLiquidity(
           coin1.address,
           coin2.address,
@@ -330,7 +335,7 @@ function LiquidityDeployer(props) {
           prevField2Value.current = field2Value;
         });
       }
-    }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
+  }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -427,10 +432,10 @@ function LiquidityDeployer(props) {
         setwrongNetworkOpen(true);
       }
 
-      if(!coin1.address && !coin2.address){
+      if (!coin1.address && !coin2.address) {
         getBalanceAndSymbol(
           account,
-          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",//yvwbtc
+          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9", //yvwbtc
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -447,7 +452,7 @@ function LiquidityDeployer(props) {
 
         getBalanceAndSymbol(
           account,
-          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",//yvweth
+          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7", //yvweth
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
@@ -461,7 +466,6 @@ function LiquidityDeployer(props) {
             wei: data.wei,
           });
         });
-
       }
     }
 
@@ -471,7 +475,6 @@ function LiquidityDeployer(props) {
   return (
     <div>
       {/* Liquidity deployer */}
-      <Typography variant="h5" className={classes.title}></Typography>
 
       {/* Dialog Windows */}
       <CoinDialog
@@ -488,103 +491,64 @@ function LiquidityDeployer(props) {
       />
       <WrongNetwork open={wrongNetworkOpen} />
 
-      <Grid container direction="column" alignItems="center" spacing={2}>
-        <Grid item xs={12} className={classes.fullWidth}>
-          <CoinAmountInterface
-            activeField={true}
-            value={field1Value}
-            onClick={() => setDialog1Open(true)}
-            onChange={handleChange.field1}
-            symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
-            maxValue={coin1.balance}
-            decimals={coin1.decimals}
-            maxWeiValue={coin1.wei}
-          />
-        </Grid>
+      <CoinAmountInterface
+        activeField={true}
+        value={field1Value}
+        onClick={() => setDialog1Open(true)}
+        onChange={handleChange.field1}
+        symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+        maxValue={coin1.balance}
+        decimals={coin1.decimals}
+        maxWeiValue={coin1.wei}
+      />
 
-        <Grid item xs={12} className={classes.fullWidth}>
-          <CoinAmountInterface
-            activeField={true}
-            value={field2Value}
-            onClick={() => setDialog2Open(true)}
-            onChange={handleChange.field2}
-            symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
-            maxValue={coin2.balance}
-            decimals={coin2.decimals}
-            maxWeiValue={coin2.wei}
-          />
-        </Grid>
-      </Grid>
+      <CoinAmountInterface
+        activeField={true}
+        value={field2Value}
+        onClick={() => setDialog2Open(true)}
+        onChange={handleChange.field2}
+        symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+        maxValue={coin2.balance}
+        decimals={coin2.decimals}
+        maxWeiValue={coin2.wei}
+      />
 
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        spacing={12}
-        className={classes.balance}
-        xs={12}
-      >
-        <Grid
-          container
-          item
-          direction="column"
-          alignItems="center"
-          className={classes.fullWidth}
-        >
-          {/* Tokens in */}
-          {coin1.symbol && coin2.symbol && (
-            <>
-              <hr className={classes.hr} />
-              <Grid container direction="row" alignItems="center" xs={12}>
-                {/* User's Unstaked Liquidity Tokens Display */}
-                <Grid xs={1}></Grid>
-                <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>Liquidity Preview</Typography>
-                </Grid>
-                <Grid item xs={6} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {formatBalance(liquidityOut[0], coin1.symbol)}
-                    <img
-                      src={"/assets/token/" + coin1.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                  <Typography>
-                    {formatBalance(liquidityOut[1], coin2.symbol)}
-                    <img
-                      src={"/assets/token/" + coin2.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                </Grid>
-                <Grid xs={1}></Grid>
-              </Grid>
-              <Grid container direction="row" alignItems="center" xs={12}>
-                {/* Reserves Display */}
-                <Grid xs={1}></Grid>
-                <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>LP Tokens</Typography>
-                </Grid>
-                <Grid item xs={6} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {liquidityOut[2] +
-                      " " +
-                      coin1.symbol +
-                      "-" +
-                      coin2.symbol +
-                      " LP"}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}></Grid>
-              </Grid>
-            </>
-          )}
-        </Grid>
+      {/* Tokens in */}
+      {coin1.symbol && coin2.symbol && (
+        <section className="mt-3">
+          {/* User's Unstaked Liquidity Tokens Display */}
+          <h4 className="font-bold">Liquidity Preview</h4>
+          <div className="grid grid-cols-2">
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin1.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(liquidityOut[0], coin1.symbol)}
+              </div>
+            </div>
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin2.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(liquidityOut[1], coin2.symbol)}
+              </div>
+            </div>
+          </div>
+          {/* Reserves Display */}
 
-        <hr className={classes.hr} />
-      </Grid>
-      <Grid container direction="column" alignItems="center" spacing={2}>
+          <div className="mt-3">
+            <h3 className="font-bold">LP Tokens</h3>
+            {liquidityOut[2] + " " + coin1.symbol + "-" + coin2.symbol + " LP"}
+          </div>
+        </section>
+      )}
+
+      {/* Button */}
+      <div className="mt-3">
         <LoadingButton
           loading={loading}
           valid={isButtonEnabled()}
@@ -595,7 +559,7 @@ function LiquidityDeployer(props) {
           <AccountBalanceIcon className={classes.buttonIcon} />
           Deploy
         </LoadingButton>
-      </Grid>
+      </div>
     </div>
   );
 }
