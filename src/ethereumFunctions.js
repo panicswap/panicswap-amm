@@ -1,10 +1,11 @@
 import { Contract, ethers } from "ethers";
 import * as chains from "./constants/chains";
 import COINS from "./constants/coins";
-import { checkStable } from "./checkstable";
+import { checkStable, checkVault } from "./checkstable";
 
 const ROUTER = require("./build/SolidRouter.json");
 const ERC20 = require("./build/ERC20.json");
+const YFIERC20 = require("./build/YfiVault.json");
 const FACTORY = require("./build/SolidFactory.json");
 const PAIR = require("./build/SolidPair.json");
 const CHEF = require("./build/SolidChef.json");
@@ -133,7 +134,7 @@ export async function getBalanceAndSymbol(
 //    `routerContract` - The router contract to carry out this trade
 //    `accountAddress` - An Ethereum address of the current user's account
 //    `signer` - The current signer
-export async function swapTokens( // todo removed bool from interface
+export async function swapTokens(
   address1,
   address2,
   amount,
@@ -213,13 +214,14 @@ export async function getAmountOut(
       [[address1, address2, true]]
     );
 
+    console.log("routeV",[[address1, address2, false]]);
+
     const vvalues_out = await routerContract.getAmountsOut(
       ethers.utils.parseUnits(String(amountIn), token1Decimals),
       [[address1, address2, false]]
     );
-    const factoryContract = await getFactory("0x1A60482b1Bca074F3E6e17e89F92aDbb578BD63A",signer);
-    const variablePair = await factoryContract.getPair(address1,address2,false);
-    const stablePair = await factoryContract.getPair(address1,address2,true);    
+    const variablePair = await routerContract.pairFor(address1,address2,false);
+    const stablePair = await routerContract.pairFor(address1,address2,true);    
     console.log("s values", svalues_out, "vvalues", vvalues_out);
     const [actualValuesOut, actualPair, stable]= Number(vvalues_out[1]) > Number(svalues_out[1]) ? [vvalues_out[1], variablePair, false]: [svalues_out[1], stablePair, true];
 
@@ -248,16 +250,14 @@ export async function getAmountOut(
         (actualValuesOut/10**token2Decimals)
       );
 
-      console.log("priceData0", reserves[0], amountIn, tokenFee );
-      console.log("priceData1", numerator, denominator);
+      console.log("PRICEDATA0", reserves[0], reserves[1], amountIn, tokenFee );
+      console.log("PRICEDATA1", numerator, denominator);
 
       const finalPrice = numerator / denominator;
-
       priceImpact = 100-(initialPrice*100/finalPrice)+normalizedFee;
     }
     const amount_out = actualValuesOut*10**(-token2Decimals);
     console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee);
-
 
 
     return [Number(amount_out), priceImpact, tokenFee, normalizedFee];
@@ -275,13 +275,14 @@ export async function getAmountOut(
 //    `pair` - The pair contract for the two tokens
 export async function fetchReserves(address1, address2, pair, signer) {
   try {
-
+    const [vAddress1, vAddress2] = [checkVault(address1), checkVault(address2)];
     // Get decimals for each coin
-    const coin1 = new Contract(address1, ERC20.abi, signer);
-    const coin2 = new Contract(address2, ERC20.abi, signer);
+    const coin1 = new Contract(vAddress1, YFIERC20.abi, signer);
+    const coin2 = new Contract(vAddress2, YFIERC20.abi, signer);
 
-    const [coin1Decimals, coin2Decimals, pairToken0, pairToken1, reservesRaw] = await Promise.all([
+    const [coin1Decimals, coin2Decimals, pps1, pps2, pairToken0, pairToken1, reservesRaw] = await Promise.all([
         getDecimals(coin1), getDecimals(coin2),
+        vAddress1 != address1 ? coin1.pricePerShare() : 0, vAddress2 != address2 ? coin2.pricePerShare() : 0,
         pair.token0(), pair.token1(),
         // Get reserves
         pair.getReserves()
@@ -289,14 +290,13 @@ export async function fetchReserves(address1, address2, pair, signer) {
 
     // Put the results in the right order
     const results =  [
-      pairToken0 === address1 ? reservesRaw[0] : reservesRaw[1],
-      pairToken1 === address2 ? reservesRaw[1] : reservesRaw[0],
+      pairToken0 === vAddress1 ? reservesRaw[0] : reservesRaw[1],
+      pairToken1 === vAddress2 ? reservesRaw[1] : reservesRaw[0],
     ];
-
     // Scale each to the right decimal place
     return [
-      (results[0]*10**(-coin1Decimals)),
-      (results[1]*10**(-coin2Decimals))
+      (address1 != vAddress1 ? results[0]*pps1*10**(-coin1Decimals*2) : results[0]*10**(-coin1Decimals)),
+      (address2 != vAddress2 ? results[1]*pps2*10**(-coin2Decimals*2) : results[1]*10**(-coin2Decimals))
     ]
   } catch (err) {
     console.log("error!");
@@ -319,8 +319,9 @@ export async function getReserves(
   accountAddress
 ) {
   try {
-    const stable = checkStable(address1, address2);
-    const pairAddress = await factory.getPair(address1, address2, stable);
+    const [vAddress1, vAddress2] = [checkVault(address1), checkVault(address2)];
+    const stable = checkStable(vAddress1, vAddress2);
+    const pairAddress = await factory.getPair(vAddress1, vAddress2, stable);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
   

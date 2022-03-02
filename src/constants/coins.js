@@ -4,6 +4,36 @@ import * as chains from './chains';
 
 const FANTOMCoins = [
   {
+    name: "WFTM",
+    abbr: "WFTM",
+    address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+  },
+  {
+    name: "WETH",
+    abbr: "WETH",
+    address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+  },
+  {
+    name: "WBTC",
+    abbr: "WBTC",
+    address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+  },
+  {
+    name: "DAI",
+    abbr: "DAI",
+    address: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
+  },
+  {
+    name: "USDC",
+    abbr: "USDC",
+    address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+  },
+  {
+    name: "YFI",
+    abbr: "YFI",
+    address: "0x29b0Da86e484E1C0029B56e817912d778aC0EC69",
+  },
+  {
     name: "yvWFTM",
     abbr: "yvWFTM",
     address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",

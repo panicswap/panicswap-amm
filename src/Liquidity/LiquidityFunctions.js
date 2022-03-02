@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 import { fetchReserves, getDecimals } from "../ethereumFunctions";
 import  { checkStable } from "../checkstable";
 
@@ -44,7 +44,7 @@ export async function addLiquidity(
 
   console.log("quoting add deploy");
 
-  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
+  const routerAddress = "0xb93D53410B308ca7eE5B713086880BeA6b912bA1";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const hh = await router.quoteAddLiquidity(address1, address2, stable, amountIn1, amountIn2);
@@ -134,7 +134,6 @@ export async function removeLiquidity(
     }
     return ethers.utils.parseUnits(String(liquidity_tokens), 18);
   }
-
   const liquidity = Getliquidity(liquidity_tokens);
   console.log('liquidity: ', liquidity);
 
@@ -143,7 +142,7 @@ export async function removeLiquidity(
   // const amount2Min = ethers.utils.parseUnits(String(amount2min), token2Decimals);
   console.log("quoting remove deploy");
 
-  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
+  const routerAddress = "0xb93D53410B308ca7eE5B713086880BeA6b912bA1";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const [amount1Min, amount2Min] = await router.quoteRemoveLiquidity(address1, address2, stable, liquidity);
@@ -154,7 +153,7 @@ export async function removeLiquidity(
   const deadline = ethers.BigNumber.from(time);
 
   const wethAddress = await routerContract.weth();
-  const pairAddress = await factory.getPair(address1, address2, stable);
+  const pairAddress = await routerContract.pairFor(address1, address2, stable);
   const pair = new Contract(pairAddress, PAIR.abi, signer);
 
   const allowance = await pair.allowance(account, routerContract.address);
@@ -165,7 +164,7 @@ export async function removeLiquidity(
 
   if(Number(allowance) < Number(liquidity))
       await pair.approve(routerContract.address, "999999999999999999999999999999999999");
-
+  console.log("passed");
   console.log([
     address1,
     address2,
@@ -181,8 +180,8 @@ export async function removeLiquidity(
     address2,
     stable,
     liquidity,
-    amount1Min,
-    amount2Min,
+    BigNumber.from(amount1Min).mul(99).div(100),
+    BigNumber.from(amount2Min).mul(99).div(100),
     account,
     deadline
   );
@@ -264,7 +263,7 @@ export async function quoteAddLiquidity(
   console.log("quoting add liquidity");
   const stable = checkStable(address1, address2);
   console.log("stable pair?", stable);
-  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
+  const routerAddress = "0xb93D53410B308ca7eE5B713086880BeA6b912bA1";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const erc20A = new Contract(address1, ERC20.abi, signer);
@@ -306,7 +305,7 @@ export async function quoteRemoveLiquidity(
   signer
 ) {
   const stable = checkStable(address1, address2);
-  const routerAddress = "0x37d2b865846293892257717aD9acD4f854AFDe3b";
+  const routerAddress = "0xb93D53410B308ca7eE5B713086880BeA6b912bA1";
   const router = new Contract(routerAddress, ROUTER.abi, signer);
 
   const liqWei = ethers.utils.parseEther(liquidity);

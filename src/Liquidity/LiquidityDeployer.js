@@ -435,15 +435,15 @@ function LiquidityDeployer(props) {
       if (!coin1.address && !coin2.address) {
         getBalanceAndSymbol(
           account,
-          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9", //yvwbtc
+          "0x321162Cd933E2Be498Cd2267a90534A804051b11", //wbtc
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
           coins
         ).then((data) => {
           setCoin1({
-            address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
-            symbol: "yvWBTC",
+            address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+            symbol: "WBTC",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,
@@ -452,14 +452,14 @@ function LiquidityDeployer(props) {
 
         getBalanceAndSymbol(
           account,
-          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7", //yvweth
+          "0x74b23882a30290451A17c44f4F05243b6b58C76d", //weth
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
           coins
         ).then((data) => {
           setCoin2({
-            address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
+            address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
             symbol: "yvWETH",
             balance: data.balance,
             decimals: data.decimals,

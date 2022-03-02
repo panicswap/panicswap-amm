@@ -315,9 +315,9 @@ function CoinSwapper(props) {
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
       getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
         .then((data) => {
-          setField2Value(data[0].toFixed(7));
-          setPriceImpact(data[1].toFixed(2));
-          setTokenFee(data[2].toFixed(7));
+          setField2Value(Number(data[0]).toFixed(7));
+          setPriceImpact(Number(data[1]).toFixed(2));
+          setTokenFee(Number(data[2]).toFixed(7));
           //setPairFee(data[3].toFixed(2));
         })
         .catch((e) => {
@@ -424,15 +424,15 @@ function CoinSwapper(props) {
       if (!coin1.address && !coin2.address) {
         getBalanceAndSymbol(
           account,
-          "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9", //yvwbtc
+          "0x321162Cd933E2Be498Cd2267a90534A804051b11", //wbtc
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
           coins
         ).then((data) => {
           setCoin1({
-            address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
-            symbol: "yvWBTC",
+            address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
+            symbol: "WBTC",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,
@@ -441,15 +441,15 @@ function CoinSwapper(props) {
 
         getBalanceAndSymbol(
           account,
-          "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7", //yvweth
+          "0x74b23882a30290451A17c44f4F05243b6b58C76d", //weth
           provider,
           signer,
           "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
           coins
         ).then((data) => {
           setCoin2({
-            address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
-            symbol: "yvWETH",
+            address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
+            symbol: "WETH",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,
