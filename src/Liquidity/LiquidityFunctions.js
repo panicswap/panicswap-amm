@@ -62,6 +62,9 @@ export async function addLiquidity(
   
   const wethAddress = await routerContract.weth();
 
+  console.log("allowances", allowance1, allowance2);
+  console.log("amountsin", amountIn1, amountIn2);
+
   // todo add liquidity eth
   if(Number(allowance1) < Number(amountIn1)){
     await token1.approve(routerContract.address, "9999999999999999999999999999999999999");
