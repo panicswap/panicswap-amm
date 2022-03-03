@@ -59,6 +59,7 @@ export async function addLiquidity(
   const allowance1 = await token1.allowance(account, routerAddress);
   const allowance2 = await token2.allowance(account, routerAddress);
 
+  
   const wethAddress = await routerContract.weth();
 
   // todo add liquidity eth
@@ -93,8 +94,8 @@ export async function addLiquidity(
     stable,
     amountIn1,
     amountIn2,
-    amount1Min,
-    amount2Min,
+    BigNumber.from(amount1Min).mul(99).div(100),
+    BigNumber.from(amount2Min).mul(99).div(100),
     account,
     deadline
   );
