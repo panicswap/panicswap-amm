@@ -181,7 +181,6 @@ export default function Rewards() {
   async function withdrawUnlocked(){
     await stakingEps;
     const amount = await stakingEps.unlockedBalance(account);
-    //await panic.approve("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e","999999999999999999999999");
     await stakingEps.withdraw(amount);
   }
 

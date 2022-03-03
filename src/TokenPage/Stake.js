@@ -178,12 +178,11 @@ export default function Stake() {
   }, [account, panic, stakingEps]);
 
   async function stakePan(bal, lockrnt){
-    const delay = ms => new Promise(res => setTimeout(res, ms));
-
     const amountIn = ethers.utils.parseUnits(bal, 18);
     const allo = await panic.allowance(account,"0x536b88CC4Aa42450aaB021738bf22D63DDC7303e");
     if(Number(allo) < Number(amountIn)){
       await panic.approve("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e","99999999999999999999999999");
+      const delay = ms => new Promise(res => setTimeout(res, ms));
       await delay(5000);
     }
     await stakingEps.stake(amountIn, lockrnt);

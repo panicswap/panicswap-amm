@@ -167,8 +167,11 @@ export async function removeLiquidity(
   console.log("liquidity is is ", liquidity);
   console.log("pair is ", pair.address);
 
-  if(Number(allowance) < Number(liquidity))
+  if(Number(allowance) < Number(liquidity)){
       await pair.approve(routerContract.address, ethers.constants.MaxUint256);
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      await delay(5000);
+    }
   console.log("passed");
   console.log([
     address1,

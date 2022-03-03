@@ -176,8 +176,11 @@ export async function swapTokens(
   const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
   const allowance = await token1.allowance(accountAddress, routerContract.address);
-  if(Number(allowance)<amountIn)
+  if(Number(allowance)<amountIn){
     await token1.approve(routerContract.address, ethers.constants.MaxUint256);
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+    await delay(5000);
+  }
 
 
   await routerContract.swapExactTokensForTokens(
