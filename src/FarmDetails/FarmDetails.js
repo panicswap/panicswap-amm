@@ -200,7 +200,7 @@ function FarmDetails(props) {
   async function deposit(amount){
     await chef;
   
-    const amountIn = ethers.utils.parseUnits(Number(amount).toFixed(18), 18);
+    const amountIn = ethers.utils.parseUnits(amount, 18);
 
     const pInfo = await chef.poolInfo(farmId);
     const lpt = pInfo["lpToken"];
