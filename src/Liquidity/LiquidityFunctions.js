@@ -67,12 +67,12 @@ export async function addLiquidity(
 
   // todo add liquidity eth
   if(Number(allowance1) < Number(amountIn1)){
-    await token1.approve(routerContract.address, "9999999999999999999999999999999999999");
+    await token1.approve(routerContract.address, ethers.constants.MaxUint256);
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
   }
   if(Number(allowance2) < Number(amountIn2)){
-    await token2.approve(routerContract.address, "9999999999999999999999999999999999999");
+    await token2.approve(routerContract.address, ethers.constants.MaxUint256);
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
   }
@@ -168,7 +168,7 @@ export async function removeLiquidity(
   console.log("pair is ", pair.address);
 
   if(Number(allowance) < Number(liquidity))
-      await pair.approve(routerContract.address, "999999999999999999999999999999999999");
+      await pair.approve(routerContract.address, ethers.constants.MaxUint256);
   console.log("passed");
   console.log([
     address1,

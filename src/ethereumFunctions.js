@@ -177,7 +177,7 @@ export async function swapTokens(
 
   const allowance = await token1.allowance(accountAddress, routerContract.address);
   if(Number(allowance)<amountIn)
-    await token1.approve(routerContract.address, amountIn);
+    await token1.approve(routerContract.address, ethers.constants.MaxUint256);
 
 
   await routerContract.swapExactTokensForTokens(
