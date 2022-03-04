@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import { useSnackbar } from "notistack";
@@ -14,6 +14,7 @@ import {
   getNetwork,
 } from "../ethereumFunctions";
 
+import CoinField from "../CoinSwapper/CoinField";
 import { addLiquidity, quoteAddLiquidity } from "./LiquidityFunctions";
 
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
@@ -295,26 +296,14 @@ function LiquidityDeployer(props) {
     }
   }, [coin1.address, coin2.address, account, factory, signer]);
 
-  const prevField1Value = useRef();
-  const prevField2Value = useRef();
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
   useEffect(() => {
-    if (
-      !(
-        field1Value == prevField1Value.current &&
-        field2Value == prevField2Value.current
-      )
-    )
-      if (coin1.address && coin2.address && (field1Value || field2Value)) {
+      if ( coin1.address && coin2.address && field1Value)
+      {
         console.log("fill other field");
         const oneTrillion = String(BigNumber.from(1e12));
-        const [amount1, amount2] =
-          prevField1Value.current != field1Value
-            ? [field1Value, oneTrillion]
-            : prevField2Value.current != field2Value
-            ? [oneTrillion, field2Value]
-            : [0, 0];
+        const [amount1, amount2] = [field1Value, oneTrillion]
         quoteAddLiquidity(
           coin1.address,
           coin2.address,
@@ -325,17 +314,14 @@ function LiquidityDeployer(props) {
         ).then((data) => {
           // console.log(data);
           console.log("TokenA in: ", data[0]);
-          setField1Value(String(data[0]));
           console.log("TokenB in: ", data[1]);
           setField2Value(String(data[1]));
           console.log("Liquidity out: ", data[2]);
           setLiquidityOut([data[0], data[1], data[2]]);
           console.log("fill Finished");
-          prevField1Value.current = field1Value;
-          prevField2Value.current = field2Value;
         });
       }
-  }, [coin1.address, coin2.address, field1Value, field2Value, factory, signer]);
+  }, [coin1.address, coin2.address, field1Value, factory, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -460,7 +446,7 @@ function LiquidityDeployer(props) {
         ).then((data) => {
           setCoin2({
             address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
-            symbol: "yvWETH",
+            symbol: "WETH",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,
@@ -502,8 +488,8 @@ function LiquidityDeployer(props) {
         maxWeiValue={coin1.wei}
       />
 
-      <CoinAmountInterface
-        activeField={true}
+      <CoinField
+        activeField={false}
         value={field2Value}
         onClick={() => setDialog2Open(true)}
         onChange={handleChange.field2}
