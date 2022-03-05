@@ -6,5 +6,5 @@ export const ChainId = {
 };
 
 export const routerAddress = new Map();
-routerAddress.set(ChainId.FANTOM, "0x0f046b2E6174BC40D01c92fB5dCdC05031300803");
+routerAddress.set(ChainId.FANTOM, "0xC0Aa8181407270bC9Bd9A0262e0000E3429c1a12");
 
