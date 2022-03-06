@@ -77,6 +77,6 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "XFTM",
-    boost: "2",
+    boost: "0",
   },
 ];
