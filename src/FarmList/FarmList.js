@@ -263,9 +263,9 @@ function FarmList(props) {
 
                 <div className="mt-1 md:ml-[80px] grid grid-cols-[1fr_2fr_1fr] gap-2 w-full max-w-sm">
                 <div className="">
-                    <div className="text-sm">Farm APR</div>
+                    <div className="text-sm">Farm & YFI APR</div>
                     <div className="md:text-lg font-bold md:font-normal">
-                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) }
+                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + " %" }
                     </div>
                   </div>
                   <div>
