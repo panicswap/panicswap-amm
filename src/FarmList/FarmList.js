@@ -242,7 +242,7 @@ function FarmList(props) {
                       to={item.url}
                       className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg hover:no-underline text-white transition-all"
                     >
-                      Deposit
+                      Select
                     </Link>
                   </div>
                 </div>
