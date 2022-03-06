@@ -66,7 +66,6 @@ function App() {
       <div className="App">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
-            <Header />
             <ConnectWalletPage />
             <Footer />
           </ThemeProvider>
