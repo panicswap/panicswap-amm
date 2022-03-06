@@ -9,13 +9,13 @@ const FANTOMCoins = [
     address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   },
   {
-    name: "WETH",
-    abbr: "WETH",
+    name: "ETH",
+    abbr: "ETH",
     address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
   },
   {
-    name: "WBTC",
-    abbr: "WBTC",
+    name: "BTC",
+    abbr: "BTC",
     address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
   },
   {

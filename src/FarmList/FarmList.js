@@ -48,6 +48,7 @@ function FarmList(props) {
   const [aprFeed, setAprFeed] = React.useState(getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer));
   const [aprMap, setAprMap] = React.useState([]);
   const [tvlMap, setTvlMap] = React.useState([]);
+  const [yfiMap, setYfiMap] = React.useState([]);
   const [poolLength, setPoolLength] = React.useState(0);
 
   // Stores a record of whether their respective dialog window is open
@@ -119,6 +120,19 @@ function FarmList(props) {
     const updateFarmStats = async () => {
       const aprPromises = [];
       const tvlPromises = [];
+
+      fetch('https://api.yearn.finance/v1/chains/250/vaults/all')
+      .then(response => response.json())
+      .then((data) =>{
+        let newYfiMap = {};
+        newYfiMap["renBTC"] = 0;
+        newYfiMap["PANIC"] = 0;
+        for(let i = 0; i < data.length; i++){
+          newYfiMap[data[i]["display_name"]] = Number(data[i]["apy"]["points"]["week_ago"])*100
+        }
+        setYfiMap(newYfiMap);
+      });
+
       for (let i = 1; i < poolLength; ++i) {
         aprPromises.push(aprFeed.yvApr(i));
         tvlPromises.push(aprFeed.lpValueDollarChef(i));
@@ -129,7 +143,7 @@ function FarmList(props) {
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newAprMap[index] = percentNumberFormat.format(v && v > 0 ? v / 10000 : v)
+              newAprMap[index] = Number(v)/100
             }
           })
           setAprMap(newAprMap);
@@ -248,10 +262,10 @@ function FarmList(props) {
                 </div>
 
                 <div className="mt-1 md:ml-[80px] grid grid-cols-[1fr_2fr_1fr] gap-2 w-full max-w-sm">
-                  <div className="">
+                <div className="">
                     <div className="text-sm">Farm APR</div>
                     <div className="md:text-lg font-bold md:font-normal">
-                      {aprMap[index]}
+                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) }
                     </div>
                   </div>
                   <div>
