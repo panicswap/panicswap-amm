@@ -19,6 +19,11 @@ const FANTOMCoins = [
     address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
   },
   {
+    name: "renBTC",
+    abbr: "renBTC",
+    address: "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501",
+  },
+  {
     name: "DAI",
     abbr: "DAI",
     address: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
@@ -27,6 +32,11 @@ const FANTOMCoins = [
     name: "USDC",
     abbr: "USDC",
     address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
+  },
+  {
+    name: "XFTM",
+    abbr: "XFTM",
+    address: "0xfBD2945D3601f21540DDD85c29C5C3CaF108B96F",
   },
   {
     name: "YFI",
@@ -47,11 +57,6 @@ const FANTOMCoins = [
     name: "yvWBTC",
     abbr: "yvWBTC",
     address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
-  },
-  {
-    name: "renBTC",
-    abbr: "renBTC",
-    address: "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501",
   },
   {
     name: "yvDAI",
