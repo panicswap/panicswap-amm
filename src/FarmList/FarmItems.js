@@ -53,7 +53,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "ETH",
-    boost: "0.7",
+    boost: "0.4",
   },
   {
     title: "WFTM-BTC Panic Variable LP",
@@ -61,7 +61,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "BTC",
-    boost: "0.7",
+    boost: "0.4",
   },
   {
     title: "WFTM-USDC Panic Variable LP",
@@ -69,16 +69,14 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "USDC",
-    boost: "0.7",
+    boost: "0.4",
   },
-  /*
   {
     title: "WFTM-XFTM Panic Variable LP",
-    url: "/farms/9",
+    url: "/farms/10",
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "XFTM",
-    boost: "0",
+    boost: "2",
   },
-  */
 ];
