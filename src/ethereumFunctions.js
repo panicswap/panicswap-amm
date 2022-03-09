@@ -13,7 +13,7 @@ const APRFEED = require("./build/AprFeed.json");
 const APRFEEDSTAKING = require("./build/AprFeedStaking.json");
 const EPSSTAKING = require("./build/EpsStaking.json");
 const epsStakingAddress = "0x536b88CC4Aa42450aaB021738bf22D63DDC7303e";
-const chefAddress = "0xC02563f20Ba3e91E459299C3AC1f70724272D618";
+const chefAddress = "0xC0Aa8181407270bC9Bd9A0262e0000E3429c1a12";
 export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
 }
