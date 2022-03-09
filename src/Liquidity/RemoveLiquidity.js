@@ -213,7 +213,7 @@ function LiquidityRemover(props) {
         address,
         provider,
         signer,
-        weth.address,
+        false,
         coins
       ).then((data) => {
         setCoin1({
@@ -243,7 +243,7 @@ function LiquidityRemover(props) {
         address,
         provider,
         signer,
-        weth.address,
+        false,
         coins
       ).then((data) => {
         setCoin2({
