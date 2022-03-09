@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract, BigNumber, ethers } from "ethers";
 import * as chains from "./constants/chains";
 import COINS from "./constants/coins";
 import { checkStable, checkVault } from "./checkstable";
@@ -86,7 +86,7 @@ export async function getDecimals(token) {
   const decimals = await token.decimals().then((result) => {
       return result;
     }).catch((error) => {
-      console.log('No tokenDecimals function for this token, set to 0');
+      console.log(token);
       return 0;
     });
     return decimals;
@@ -103,17 +103,21 @@ export async function getBalanceAndSymbol(
   address,
   provider,
   signer,
-  weth_address,
+  isNative,
   coins
 ) {
+  console.log("REACHEEED0");
+  console.log("IS NATIVE: ", isNative);
+  console.log("TOKEN", address);
+  console.log("...");
   try {
-    const token = new Contract(address, ERC20.abi, signer);
-    const tokenDecimals = await getDecimals(token);
-    const balanceRaw = await token.balanceOf(accountAddress);
-    const symbol = await token.symbol();
-
+    const token = isNative ? null : new Contract(address, ERC20.abi, signer);
+    const tokenDecimals = isNative ? 18 : await getDecimals(token);
+    const balanceRaw = isNative ? await provider.getBalance(accountAddress) : await token.balanceOf(accountAddress);
+    const symbol = isNative ? "FTM" : await token.symbol();
+    console.log("REACHEEED");
     return {
-      balance: ethers.BigNumber.from(balanceRaw)/10**(tokenDecimals),
+      balance: BigNumber.from(balanceRaw)/10**(tokenDecimals),
       symbol: symbol,
       wei: balanceRaw,
       decimals: tokenDecimals,
@@ -140,12 +144,14 @@ export async function swapTokens(
   amount,
   routerContract,
   accountAddress,
+  isNative,
+  isNativeOut,
   signer
 ) {
   const vtokens = [[address1, address2, false]];
   const stokens = [[address1, address2, true]];
   const time = Math.floor(Date.now() / 1000) + 200000;
-  const deadline = ethers.BigNumber.from(time);
+  const deadline = BigNumber.from(time);
 
   const token1 = new Contract(address1, ERC20.abi, signer);
   const tokenDecimals = await getDecimals(token1);
@@ -176,20 +182,37 @@ export async function swapTokens(
   const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
   const allowance = await token1.allowance(accountAddress, routerContract.address);
-  if(Number(allowance)<amountIn){
+  if(Number(allowance)<amountIn & !isNative){
     await token1.approve(routerContract.address, ethers.constants.MaxUint256);
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
   }
 
-
-  await routerContract.swapExactTokensForTokens(
-    amountIn,
-    actualAmountOut[1],
-    actualTokens,
-    accountAddress,
-    deadline
-  );
+  if(isNative){
+    await routerContract.swapExactETHForTokens(
+      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      actualTokens,
+      accountAddress,
+      deadline,
+      { value: amountIn }
+    );
+  } else if(!isNative && isNativeOut){
+    await routerContract.swapExactTokensForETH(
+      amountIn,
+      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      actualTokens,
+      accountAddress,
+      deadline
+    );
+  } else{
+    await routerContract.swapExactTokensForTokens(
+      amountIn,
+      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      actualTokens,
+      accountAddress,
+      deadline
+    );
+  }
 }
 
 //This function returns the conversion rate between two token addresses

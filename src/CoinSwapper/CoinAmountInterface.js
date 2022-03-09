@@ -32,8 +32,8 @@ export default function CoinAmountInterface(props) {
       if (maxValue < 1) {
         amount = 0;
       } else {
-        const weiAm = maxWeiValue.sub(1e18).mul(percentage).div(100);
-        amount = ethers.utils.formatUnits(String(weiAm), decimals);
+        const weiAm = maxWeiValue.mul(percentage).div(100);
+        amount = ethers.utils.formatUnits(weiAm, decimals)-2;
       }
     } else if (maxValue) {
       console.log("decimals ==", decimals);

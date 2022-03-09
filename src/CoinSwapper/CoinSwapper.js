@@ -178,7 +178,7 @@ function CoinSwapper(props) {
   };
 
   // Called when the dialog window for coin1 exits
-  const onToken1Selected = (address) => {
+  const onToken1Selected = ([address, abbr]) => {
     // Close the dialog window
     setDialog1Open(false);
 
@@ -194,12 +194,12 @@ function CoinSwapper(props) {
         address,
         provider,
         signer,
-        weth.address,
+        abbr == "FTM" ? true : false,
         coins
       ).then((data) => {
         setCoin1({
           address: address,
-          symbol: data.symbol,
+          symbol: abbr,
           balance: data.balance,
           decimals: data.decimals,
           wei: data.wei,
@@ -221,7 +221,7 @@ function CoinSwapper(props) {
     else return priceImpact.toFixed(2);
   }
   // Called when the dialog window for coin2 exits
-  const onToken2Selected = (address) => {
+  const onToken2Selected = ([address, abbr]) => {
     // Close the dialog window
     setDialog2Open(false);
 
@@ -237,12 +237,12 @@ function CoinSwapper(props) {
         address,
         provider,
         signer,
-        weth.address,
+        abbr == "FTM" ? true : false,
         coins
       ).then((data) => {
         setCoin2({
           address: address,
-          symbol: data.symbol,
+          symbol: abbr,
           balance: data.balance,
           decimals: data.decimals,
           wei: data.wei,
@@ -256,12 +256,16 @@ function CoinSwapper(props) {
     console.log("Attempting to swap tokens...");
     setLoading(true);
 
+    console.log("COIN1", coin1);
+
     swapTokens(
       coin1.address,
       coin2.address,
       field1Value,
       router,
       account,
+      coin1.symbol == "FTM" ? true : false,
+      coin2.symbol == "FTM" ? true : false,
       signer
     )
       .then(() => {
@@ -351,7 +355,7 @@ function CoinSwapper(props) {
           coin1.address,
           provider,
           signer,
-          weth.address,
+          coin1.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
           setCoin1({
@@ -368,7 +372,7 @@ function CoinSwapper(props) {
           coin2.address,
           provider,
           signer,
-          weth.address,
+          coin2.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
           setCoin2({
@@ -427,12 +431,12 @@ function CoinSwapper(props) {
           "0x321162Cd933E2Be498Cd2267a90534A804051b11", //wbtc
           provider,
           signer,
-          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          false,
           coins
         ).then((data) => {
           setCoin1({
             address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
-            symbol: "WBTC",
+            symbol: "BTC",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,
@@ -444,12 +448,12 @@ function CoinSwapper(props) {
           "0x74b23882a30290451A17c44f4F05243b6b58C76d", //weth
           provider,
           signer,
-          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          false,
           coins
         ).then((data) => {
           setCoin2({
             address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
-            symbol: "WETH",
+            symbol: "ETH",
             balance: data.balance,
             decimals: data.decimals,
             wei: data.wei,

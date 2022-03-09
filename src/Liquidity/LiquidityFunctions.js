@@ -24,6 +24,8 @@ export async function addLiquidity(
   amount2,
   amount1min,
   amount2min,
+  isNative1,
+  isNative2,
   routerContract,
   account,
   signer
@@ -66,12 +68,12 @@ export async function addLiquidity(
   console.log("amountsin", amountIn1, amountIn2);
 
   // todo add liquidity eth
-  if(Number(allowance1) < Number(amountIn1)){
+  if(Number(allowance1) < Number(amountIn1) && !isNative1){
     await token1.approve(routerContract.address, ethers.constants.MaxUint256);
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
   }
-  if(Number(allowance2) < Number(amountIn2)){
+  if(Number(allowance2) < Number(amountIn2) && !isNative2){
     await token2.approve(routerContract.address, ethers.constants.MaxUint256);
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
@@ -91,17 +93,43 @@ export async function addLiquidity(
   ]);
   console.log("adding liquidity", address1, address2, stable, amountIn1, amountIn2, amount1Min, amount2Min, account,deadline);
   // Token + Token
-  await routerContract.addLiquidity(
-    address1,
-    address2,
-    stable,
-    amountIn1,
-    amountIn2,
-    BigNumber.from(amount1Min).mul(99).div(100),
-    BigNumber.from(amount2Min).mul(99).div(100),
-    account,
-    deadline
-  );
+  if(!isNative1 && !isNative2)
+    await routerContract.addLiquidity(
+      address1,
+      address2,
+      stable,
+      amountIn1,
+      amountIn2,
+      BigNumber.from(amount1Min).mul(99).div(100),
+      BigNumber.from(amount2Min).mul(99).div(100),
+      account,
+      deadline
+    );
+    
+    if(isNative1 && !isNative2)
+      await routerContract.addLiquidityETH(
+        address2,
+        stable,
+        amountIn2,
+        BigNumber.from(amount2Min).mul(99).div(100),
+        BigNumber.from(amount1Min).mul(99).div(100),
+        account,
+        deadline,
+        { value: amountIn1 }
+      );
+
+    if(!isNative1 && isNative2)
+      await routerContract.addLiquidityETH(
+        address1,
+        stable,
+        amountIn1,
+        BigNumber.from(amount1Min).mul(99).div(100),
+        BigNumber.from(amount2Min).mul(99).div(100),
+        account,
+        deadline,
+        { value: amountIn2 }
+      );
+  
 }
 
 // Function used to remove Liquidity from any pair of tokens or token-AUT

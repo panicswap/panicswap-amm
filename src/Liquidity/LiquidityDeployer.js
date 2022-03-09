@@ -21,7 +21,6 @@ import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import CoinDialog from "../CoinSwapper/CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
-import ToggleStable from "../Components/ToggleStable";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import { BigNumber, Contract } from "ethers";
@@ -184,7 +183,7 @@ function LiquidityDeployer(props) {
     console.log("Attempting to deploy liquidity...");
     setLoading(true);
 
-    // TODO frontrunning
+    // TODO frontrunning exteranl instead of internal
     addLiquidity(
       coin1.address,
       coin2.address,
@@ -192,6 +191,8 @@ function LiquidityDeployer(props) {
       field2Value,
       "0",
       "0",
+      coin1.symbol == "FTM" ? true : false,
+      coin2.symbol == "FTM" ? true : false,
       router,
       account,
       signer
@@ -214,9 +215,11 @@ function LiquidityDeployer(props) {
   };
 
   // Called when the dialog window for coin1 exits
-  const onToken1Selected = (address) => {
+  const onToken1Selected = ([address, abbr]) => {
     // Close the dialog window
     setDialog1Open(false);
+
+    const isNative = abbr == "FTM" ? true : false;
 
     // If the user inputs the same token, we want to switch the data in the fields
     if (address === coin2.address) {
@@ -230,7 +233,7 @@ function LiquidityDeployer(props) {
         address,
         provider,
         signer,
-        weth.address,
+        isNative,
         coins
       ).then((data) => {
         setCoin1({
@@ -245,9 +248,11 @@ function LiquidityDeployer(props) {
   };
 
   // Called when the dialog window for coin2 exits
-  const onToken2Selected = (address) => {
+  const onToken2Selected = ([address, abbr]) => {
     // Close the dialog window
     setDialog2Open(false);
+
+    const isNative = abbr == "FTM" ? true : false;
 
     // If the user inputs the same token, we want to switch the data in the fields
     if (address === coin1.address) {
@@ -261,7 +266,7 @@ function LiquidityDeployer(props) {
         address,
         provider,
         signer,
-        weth.address,
+        isNative,
         coins
       ).then((data) => {
         setCoin2({
@@ -348,7 +353,7 @@ function LiquidityDeployer(props) {
           coin1.address,
           provider,
           signer,
-          weth.address,
+          coin1.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
           setCoin1({
@@ -365,7 +370,7 @@ function LiquidityDeployer(props) {
           coin2.address,
           provider,
           signer,
-          weth.address,
+          coin2.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
           setCoin2({
@@ -424,7 +429,7 @@ function LiquidityDeployer(props) {
           "0x321162Cd933E2Be498Cd2267a90534A804051b11", //wbtc
           provider,
           signer,
-          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          false,
           coins
         ).then((data) => {
           setCoin1({
@@ -441,7 +446,7 @@ function LiquidityDeployer(props) {
           "0x74b23882a30290451A17c44f4F05243b6b58C76d", //weth
           provider,
           signer,
-          "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
+          false,
           coins
         ).then((data) => {
           setCoin2({
