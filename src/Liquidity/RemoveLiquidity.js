@@ -197,7 +197,7 @@ function LiquidityRemover(props) {
   };
 
   // Called when the dialog window for coin1 exits
-  const onToken1Selected = (address) => {
+  const onToken1Selected = ([address, tokenSymbol]) => {
     // Close the dialog window
     setDialog1Open(false);
 
@@ -227,7 +227,7 @@ function LiquidityRemover(props) {
   };
 
   // Called when the dialog window for coin2 exits
-  const onToken2Selected = (address) => {
+  const onToken2Selected = (address, tokenSymbol) => {
     // Close the dialog window
     setDialog2Open(false);
 
