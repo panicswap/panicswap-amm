@@ -78,7 +78,6 @@ export async function addLiquidity(
     const delay = ms => new Promise(res => setTimeout(res, ms));
     await delay(5000);
   }
-  console.log("reached");
 
   console.log([
     address1,
@@ -200,7 +199,6 @@ export async function removeLiquidity(
       const delay = ms => new Promise(res => setTimeout(res, ms));
       await delay(5000);
     }
-  console.log("passed");
   console.log([
     address1,
     address2,

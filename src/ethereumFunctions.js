@@ -106,16 +106,11 @@ export async function getBalanceAndSymbol(
   isNative,
   coins
 ) {
-  console.log("REACHEEED0");
-  console.log("IS NATIVE: ", isNative);
-  console.log("TOKEN", address);
-  console.log("...");
   try {
     const token = isNative ? null : new Contract(address, ERC20.abi, signer);
     const tokenDecimals = isNative ? 18 : await getDecimals(token);
     const balanceRaw = isNative ? await provider.getBalance(accountAddress) : await token.balanceOf(accountAddress);
     const symbol = isNative ? "FTM" : await token.symbol();
-    console.log("REACHEEED");
     return {
       balance: BigNumber.from(balanceRaw)/10**(tokenDecimals),
       symbol: symbol,
