@@ -29,7 +29,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "YFI",
     symbol2: "ETH",
-    boost: "1",
+    boost: "0.5",
   },
   {
     title: "BTC-renBTC Panic Stable LP",
@@ -77,6 +77,6 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "XFTM",
-    boost: "2",
+    boost: "Farm disabled",
   },
 ];
