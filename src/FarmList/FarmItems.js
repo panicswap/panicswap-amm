@@ -71,12 +71,4 @@ export const FarmItems = [
     symbol2: "USDC",
     boost: "0.4",
   },
-  {
-    title: "WFTM-XFTM Panic Variable LP",
-    url: "/farms/10",
-    cName: "farm-links",
-    symbol1: "WFTM",
-    symbol2: "XFTM",
-    boost: "Farm disabled",
-  },
 ];
