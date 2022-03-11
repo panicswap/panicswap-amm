@@ -3,7 +3,7 @@ import { MenuItems } from "./MenuItems";
 
 const NavBar = () => {
   return (
-    <nav className="grid grid-cols-4 gap-1 max-w-md mx-auto mt-2 md:mt-0">
+    <nav className="grid grid-cols-6 gap-1 max-w-md mx-auto mt-2 md:mt-0">
       {MenuItems.map((item, index) => (
         <NavLink
           key={index}

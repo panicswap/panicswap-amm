@@ -39,9 +39,9 @@ const FANTOMCoins = [
     address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
   },
   {
-    name: "XFTM",
-    abbr: "XFTM",
-    address: "0xfBD2945D3601f21540DDD85c29C5C3CaF108B96F",
+    name: "beFTM",
+    abbr: "beFTM",
+    address: "0x7381eD41F6dE418DdE5e84B55590422a57917886",
   },
   {
     name: "YFI",

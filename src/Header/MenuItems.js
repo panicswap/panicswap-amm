@@ -15,10 +15,14 @@ export const MenuItems = [
     url: "/farms",
     cName: "nav-links",
   },
-  ,
   {
     title: "Stake",
     url: "/stake",
+    cName: "nav-links",
+  },
+  {
+    title: "Docs",
+    url: "https://panic-swap.gitbook.io/panicswap/",
     cName: "nav-links",
   },
 ];
