@@ -8,7 +8,7 @@ const NavBar = () => {
         <NavLink
           key={index}
           className="text-sm p-2 px-2 rounded-xl text-center md:px-3 text-white bg-blue-400 hover:bg-blue-500 transition-colors  hover:no-underline hover:text-white"
-          to={item.url}
+          to={item.title == "Docs" ? {pathname : item.url} : item.url}
         >
           {item.title}
         </NavLink>
