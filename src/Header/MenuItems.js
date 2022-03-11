@@ -22,7 +22,7 @@ export const MenuItems = [
   },
   {
     title: "Docs",
-    url: "https://panic-swap.gitbook.io/panicswap/",
+    url: "/docs",
     cName: "nav-links",
   },
 ];

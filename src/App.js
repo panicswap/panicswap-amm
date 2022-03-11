@@ -55,6 +55,10 @@ function App() {
               <Route exact path="/farms/:farmId" component={FarmDetails} />
               <Route exact path="/stake" component={TokenPage} />
               <Route exact path="/migration" component={Migration} />
+              <Route path='/docs' component={() => { 
+                window.location.href = 'https://panic-swap.gitbook.io/panicswap/'; 
+                return null;
+              }}/>
             </div>
             <Footer />
           </ThemeProvider>
