@@ -49,6 +49,11 @@ const FANTOMCoins = [
     address: "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1",
   },
   {
+    name: "SpookyToken",
+    abbr: "BOO",
+    address: "0x841FAD6EAe12c286d1Fd18d1d525DFfA75C7EFFE",
+  },
+  {
     name: "YFI",
     abbr: "YFI",
     address: "0x29b0Da86e484E1C0029B56e817912d778aC0EC69",
