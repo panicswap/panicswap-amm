@@ -59,6 +59,10 @@ function App() {
                 window.location.href = 'https://panic-swap.gitbook.io/panicswap/'; 
                 return null;
               }}/>
+              <Route path='/gov' component={() => { 
+                window.location.href = 'https://snapshot.org/#/panicswap.eth/'; 
+                return null;
+              }}/>
             </div>
             <Footer />
           </ThemeProvider>

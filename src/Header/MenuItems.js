@@ -25,4 +25,9 @@ export const MenuItems = [
     url: "/docs",
     cName: "nav-links",
   },
+  {
+    title: "Gov",
+    url: "/gov",
+    cName: "nav-links",
+  },
 ];
