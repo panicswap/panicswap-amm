@@ -21,16 +21,6 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 
-const usdNumberFormat = new Intl.NumberFormat("us-EN", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-const percentNumberFormat = new Intl.NumberFormat("us-EN", {
-  style: "percent",
-  maximumFractionDigits: 2,
-  minimumFractionDigits: 2,
-});
 
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
@@ -47,7 +37,11 @@ function FarmList(props) {
   const [chef, setChef] = React.useState(getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer));
   const [aprFeed, setAprFeed] = React.useState(getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer));
   const [aprMap, setAprMap] = React.useState([]);
+  const [lpAddressMap, setLpAddressMap] = React.useState([]);
+  const [userStakedLPs, setUserStakedLPs] = React.useState([]);
+  const [userHeldLPs, setUserHeldLPs] = React.useState([]);
   const [tvlMap, setTvlMap] = React.useState([]);
+  const [totalSupplyMap, setTotalSupplyMap] = React.useState([]);
   const [yfiMap, setYfiMap] = React.useState([]);
   const [poolLength, setPoolLength] = React.useState(0);
 
@@ -120,6 +114,8 @@ function FarmList(props) {
     const updateFarmStats = async () => {
       const aprPromises = [];
       const tvlPromises = [];
+      const tokenInfoPromises = [];
+      const userInfoPromises = [];
 
       fetch('https://api.yearn.finance/v1/chains/250/vaults/all')
       .then(response => response.json())
@@ -128,6 +124,7 @@ function FarmList(props) {
         newYfiMap["renBTC"] = 0;
         newYfiMap["XFTM"] = 0;
         newYfiMap["PANIC"] = 0;
+        //TODO fBEETS
         for(let i = 0; i < data.length; i++){
           newYfiMap[data[i]["display_name"]] = Number(data[i]["apy"]["points"]["week_ago"])*100
         }
@@ -135,10 +132,57 @@ function FarmList(props) {
       });
 
       for (let i = 1; i < poolLength; ++i) {
+        tokenInfoPromises.push(chef.poolInfo(i));
         aprPromises.push(aprFeed.yvApr(i));
         tvlPromises.push(aprFeed.lpValueDollarChef(i));
+        userInfoPromises.push(chef.userInfo(i, account));
       }
       await Promise.all([
+        Promise.allSettled(tokenInfoPromises).then((results) => {
+          const newTokenInfoMap = []
+          const tokenHeldPromises = [];
+          const totalSupplyPromises = [];
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newTokenInfoMap[index] = v["lpToken"];
+              const LpToken = getWeth(ethers.utils.getAddress(v["lpToken"]), signer);
+              tokenHeldPromises[index] = LpToken.balanceOf(account);
+              totalSupplyPromises[index] = LpToken.totalSupply();
+            }
+          })
+          setLpAddressMap(newTokenInfoMap);
+          Promise.allSettled(tokenHeldPromises).then((results) => {
+            const newTokenHeldMap = [];
+            results.forEach((result, index) => {
+              const { value: v, status } = result;
+              if (status === "fulfilled") {
+                newTokenHeldMap[index] = (Number(v)/1e18).toFixed(8);
+              }
+            })
+            setUserHeldLPs(newTokenHeldMap);
+          })
+          Promise.allSettled(totalSupplyPromises).then((results) => {
+            const newTotalSupplyMap = [];
+            results.forEach((result, index) => {
+              const { value: v, status } = result;
+              if (status === "fulfilled") {
+                newTotalSupplyMap[index] = (Number(v)/1e18).toFixed(8);
+              }
+            })
+            setTotalSupplyMap(newTotalSupplyMap);
+          })
+        }),
+        Promise.allSettled(userInfoPromises).then((results) => {
+          const newStakedAmountMap = []
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newStakedAmountMap[index] = (Number(v["amount"])/1e18).toFixed(8);
+            }
+          })
+          setUserStakedLPs(newStakedAmountMap);
+        }),
         Promise.allSettled(aprPromises).then((results) => {
           const newAprMap = []
           results.forEach((result, index) => {
@@ -154,7 +198,7 @@ function FarmList(props) {
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newTvlMap[index] = usdNumberFormat.format(v && v > 0 ? v / 1e18 : v)
+              newTvlMap[index] = (Number(v)/1e18).toFixed(0);
             }
           })
           setTvlMap(newTvlMap);
@@ -182,7 +226,7 @@ function FarmList(props) {
       <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Rewards */}
-      <section className="border-2 border-blue-200 m-2 mx-auto max-w-2xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
+      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
         <div className="flex justify-between">
           <div>
             <h3 className="text-3xl font-bold">Rewards</h3>
@@ -226,10 +270,10 @@ function FarmList(props) {
       </section>
 
       {/* Farms */}
-      <section className="border-2 border-blue-200 m-3 mx-auto max-w-2xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
+      <section className="border-2 border-blue-200 m-3 mx-auto max-w-4xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
         <div className="mb-4">
           <h3 className="text-3xl font-bold">Farms</h3>
-          <p>Stake your liquidity provider tokens (LPs) and earn $PANIC</p>
+          <p>Stake LP tokens to earn</p>
         </div>
 
         <div>
@@ -240,11 +284,11 @@ function FarmList(props) {
                   {/* Logos */}
                   <div className="flex items-center w-3/4">
                     <img
-                      className="max-w-[30px] sm:max-w-[40px]"
+                      className="max-w-[25px] sm:max-w-[33px]"
                       src={"/assets/token/" + item.symbol1 + ".svg"}
                     ></img>
                     <img
-                      className="max-w-[30px] sm:max-w-[40px] relative left-[-8px]"
+                      className="max-w-[25px] sm:max-w-[33px] relative left-[-9px]"
                       src={"/assets/token/" + item.symbol2 + ".svg"}
                     ></img>
 
@@ -262,22 +306,40 @@ function FarmList(props) {
                   </div>
                 </div>
 
-                <div className="mt-1 md:ml-[80px] grid grid-cols-[1fr_2fr_1fr] gap-2 w-full max-w-sm">
+                <div className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
                 <div className="">
                     <div className="text-sm">APR</div>
-                    <div className="md:text-lg font-bold md:font-normal">
-                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + " %" }
+                    <div className="md:text-md">
+                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="text-sm">Balance</div>
+                    <div className="md:text-md">
+                      { userHeldLPs[index] }
+                      <span className="md:text-xs">
+                        (${(tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                      </span>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div className="text-sm">Staked</div>
+                    <div className="md:text-md">
+                      { userStakedLPs[index] }
+                      <span className="md:text-xs">
+                        (${(tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                      </span>
                     </div>
                   </div>
                   <div>
-                    <div className="text-sm">Total Value Staked</div>
-                    <div className="md:text-lg font-bold md:font-normal">
-                      {tvlMap[index]}
+                    <div className="text-sm">TVL</div>
+                    <div className="md:text-md">
+                      {"$"+tvlMap[index]}
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Multiplier</div>
-                    <div className="md:text-lg font-bold md:font-normal">
+                    <div className="md:text-md">
                       {"x" + item.boost}
                     </div>
                   </div>
