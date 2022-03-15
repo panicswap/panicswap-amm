@@ -318,7 +318,7 @@ function FarmList(props) {
                     <div className="md:text-md">
                       { userHeldLPs[index] }
                       <span className="md:text-xs">
-                        (${isNaN((tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index]).toFixed(2)})
                       </span>
                     </div>
                   </div>
@@ -327,7 +327,7 @@ function FarmList(props) {
                     <div className="md:text-md">
                       { userStakedLPs[index] }
                       <span className="md:text-xs">
-                        (${isNaN((tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index]).toFixed(2)})
                       </span>
                     </div>
                   </div>
