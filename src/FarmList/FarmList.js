@@ -311,31 +311,31 @@ function FarmList(props) {
                 <div className="">
                     <div className="text-sm">APR</div>
                     <div className="md:text-md">
-                      {(aprMap[index] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
+                      {(aprMap[item.poolid] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Balance</div>
                     <div className="md:text-md">
-                      { userHeldLPs[index] }
+                      { userHeldLPs[item.poolid] }
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userHeldLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[item.poolid]*userHeldLPs[item.poolid]/totalSupplyMap[item.poolid])) ? 0 : (tvlMap[item.poolid]*userHeldLPs[item.poolid]/totalSupplyMap[item.poolid]).toFixed(2)})
                       </span>
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Staked</div>
                     <div className="md:text-md">
-                      { userStakedLPs[index] }
+                      { userStakedLPs[item.poolid] }
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index])) ? 0 : (tvlMap[index]*userStakedLPs[index]/totalSupplyMap[index]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[item.poolid]*userStakedLPs[item.poolid]/totalSupplyMap[item.poolid])) ? 0 : (tvlMap[item.poolid]*userStakedLPs[item.poolid]/totalSupplyMap[item.poolid]).toFixed(2)})
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-sm">TVL</div>
                     <div className="md:text-md">
-                      {"$"+tvlMap[index]}
+                      {"$"+tvlMap[item.poolid]}
                     </div>
                   </div>
                   <div className="">
