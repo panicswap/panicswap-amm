@@ -311,31 +311,31 @@ function FarmList(props) {
                 <div className="">
                     <div className="text-sm">APR</div>
                     <div className="md:text-md">
-                      {(aprMap[item.poolid] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
+                      {(aprMap[item.poolid-1] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Balance</div>
                     <div className="md:text-md">
-                      { userHeldLPs[item.poolid] }
+                      { userHeldLPs[item.poolid-1] }
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[item.poolid]*userHeldLPs[item.poolid]/totalSupplyMap[item.poolid])) ? 0 : (tvlMap[item.poolid]*userHeldLPs[item.poolid]/totalSupplyMap[item.poolid]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[item.poolid-1]*userHeldLPs[item.poolid-1]/totalSupplyMap[item.poolid-1])) ? 0 : (tvlMap[item.poolid-1]*userHeldLPs[item.poolid-1]/totalSupplyMap[item.poolid-1]).toFixed(2)})
                       </span>
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Staked</div>
                     <div className="md:text-md">
-                      { userStakedLPs[item.poolid] }
+                      { userStakedLPs[item.poolid-1] }
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[item.poolid]*userStakedLPs[item.poolid]/totalSupplyMap[item.poolid])) ? 0 : (tvlMap[item.poolid]*userStakedLPs[item.poolid]/totalSupplyMap[item.poolid]).toFixed(2)})
+                        &nbsp;(${isNaN((tvlMap[item.poolid-1]*userStakedLPs[item.poolid-1]/totalSupplyMap[item.poolid-1])) ? 0 : (tvlMap[item.poolid-1]*userStakedLPs[item.poolid-1]/totalSupplyMap[item.poolid-1]).toFixed(2)})
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-sm">TVL</div>
                     <div className="md:text-md">
-                      {"$"+tvlMap[item.poolid]}
+                      {"$"+tvlMap[item.poolid-1]}
                     </div>
                   </div>
                   <div className="">
