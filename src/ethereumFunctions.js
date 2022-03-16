@@ -311,8 +311,8 @@ export async function fetchReserves(address1, address2, pair, signer) {
 
     // Put the results in the right order
     const results =  [
-      pairToken0 === vAddress1 ? reservesRaw[0] : reservesRaw[1],
-      pairToken1 === vAddress2 ? reservesRaw[1] : reservesRaw[0],
+      ethers.utils.getAddress(pairToken0) === ethers.utils.getAddress(vAddress1) ? reservesRaw[0] : reservesRaw[1],
+      ethers.utils.getAddress(pairToken1) === ethers.utils.getAddress(vAddress2) ? reservesRaw[1] : reservesRaw[0],
     ];
     // Scale each to the right decimal place
     return [
