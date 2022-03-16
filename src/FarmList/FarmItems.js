@@ -71,4 +71,20 @@ export const FarmItems = [
     symbol2: "USDC",
     boost: "0.4",
   },
+  {
+    title: "fBEETS-USDC Panic Variable LP",
+    url: "/farms/10",
+    cName: "farm-links",
+    symbol1: "fBEETS",
+    symbol2: "USDC",
+    boost: "Soon",
+  },
+  {
+    title: "BOO-FTM Panic Variable LP",
+    url: "/farms/11",
+    cName: "farm-links",
+    symbol1: "BOO",
+    symbol2: "FTM",
+    boost: "Soon",
+  },
 ];
