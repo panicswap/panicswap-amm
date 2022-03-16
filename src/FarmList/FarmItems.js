@@ -95,7 +95,7 @@ export const FarmItems = [
     poolid: 12,
     cName: "farm-links",
     symbol1: "BOO",
-    symbol2: "FTM",
+    symbol2: "WFTM",
     boost: "2.31",
   },
 ];
