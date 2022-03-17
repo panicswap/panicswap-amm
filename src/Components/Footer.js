@@ -10,15 +10,6 @@ export default function Footer() {
   return (
     <footer className="mt-5 p-3">
       <h5 className="text-lg text-center">PanicSwap 💙</h5>
-      <div className="grid grid-cols-3 gap-3 max-w-3xl mx-auto mt-3">
-        <a
-          className="text-center rounded-md border border-gray-300 p-2 hover:no-underline"
-          href="https://ftmscan.com/address/0xC02563f20Ba3e91E459299C3AC1f70724272D618"
-        >
-          MasterChef Contract
-        </a>
-      </div>
-
       <div className="mt-3 flex flex-wrap gap-2 justify-between mx-auto max-w-2xl">
         <SocialItem
           name="Medium"
