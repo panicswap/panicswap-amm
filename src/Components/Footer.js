@@ -13,21 +13,9 @@ export default function Footer() {
       <div className="grid grid-cols-3 gap-3 max-w-3xl mx-auto mt-3">
         <a
           className="text-center rounded-md border border-gray-300 p-2 hover:no-underline"
-          href="https://ftmscan.com/address/0x41abb76d39c4dcd885340f9b98c26b51250644cc"
+          href="https://ftmscan.com/address/0xC02563f20Ba3e91E459299C3AC1f70724272D618"
         >
           MasterChef Contract
-        </a>
-        <a
-          className="text-center rounded-md border border-gray-300 p-2 hover:no-underline"
-          href="https://ftmscan.com/address/0xa341d77315e5e130ad386e034b4c9714cb149f4a"
-        >
-          Spookyswap PANIC-WFTM
-        </a>
-        <a
-          className="text-center rounded-md border border-gray-300 p-2 hover:no-underline"
-          href="https://classic.panicswap.com/"
-        >
-          Pre-Farm
         </a>
       </div>
 
