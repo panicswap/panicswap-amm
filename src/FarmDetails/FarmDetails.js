@@ -253,9 +253,9 @@ function FarmDetails(props) {
       <Container maxWidth="md">
         <Paper className={classes.paperContainer}>
           <Typography variant="h5" className={classes.title}>
-            <img src={'/assets/token/'+ FarmItems[farmId == 11 || farmId == 12 ? farmId-2 : farmId-1].symbol1 + ".svg"} class={classes.tokenLogo}></img>
-            <img src={'/assets/token/'+ FarmItems[farmId == 11 || farmId == 12 ? farmId-2 : farmId-1].symbol2 + ".svg"} class={classes.tokenLogo}></img>
-            {FarmItems[farmId == 11 || farmId == 12 ? farmId-2 : farmId-1].title}
+            <img src={'/assets/token/'+ FarmItems[farmId >= 11? farmId-2 : farmId-1].symbol1 + ".svg"} class={classes.tokenLogo}></img>
+            <img src={'/assets/token/'+ FarmItems[farmId >= 11? farmId-2 : farmId-1].symbol2 + ".svg"} class={classes.tokenLogo}></img>
+            {FarmItems[farmId >= 11? farmId-2 : farmId-1].title}
           </Typography>
 
           {/* Deposit */}
