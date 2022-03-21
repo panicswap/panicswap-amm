@@ -6,7 +6,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "PANIC",
     symbol2: "WFTM",
-    boost: "12",
+    boost: "11",
   },
   {
     title: "WFTM-DAI Panic Variable LP",
@@ -87,7 +87,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "fBEETS",
     symbol2: "USDC",
-    boost: "5.36",
+    boost: "4.36",
   },
   {
     title: "BOO-FTM Panic Variable LP",
