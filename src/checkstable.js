@@ -60,7 +60,8 @@ export function checkVault(address){
   const yfi  = "0x29b0Da86e484E1C0029B56e817912d778aC0EC69";
   const fbeets  = "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1";
   const boo  = "0x841fad6eae12c286d1fd18d1d525dffa75c7effe";
-  
+  const bePANIC = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
+
   const yvdai = "0x637ec617c86d24e421328e6caea1d92114892439";
   const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0";
   const yvwbtc = "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9";
@@ -69,6 +70,7 @@ export function checkVault(address){
   const yvyfi  = "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db";
   const pvfbeets  = "0x4BA7C0F6b44451C105368b2581B31e6Bc794D3dB";
   const yvboo  = "0x0fbbf9848d969776a5eb842edafaf29ef4467698";
+  const wbePANIC = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
 
   vault[dai.toLowerCase()] = yvdai;
   vault[wftm.toLowerCase()] = yvwftm;
@@ -78,6 +80,7 @@ export function checkVault(address){
   vault[yfi.toLowerCase()] = yvyfi;
   vault[fbeets.toLowerCase()] = pvfbeets;
   vault[boo.toLowerCase()] = yvboo;
+  vault[bePANIC.toLowerCase()] = wbePANIC;
 
   try{
     if(vault[String(address).toLowerCase()])

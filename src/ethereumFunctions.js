@@ -343,6 +343,7 @@ export async function getReserves(
     const [vAddress1, vAddress2] = [checkVault(address1), checkVault(address2)];
     const stable = checkStable(vAddress1, vAddress2);
     const pairAddress = await factory.getPair(vAddress1, vAddress2, stable);
+    console.log("pairAddress",pairAddress);
     const pair = new Contract(pairAddress, PAIR.abi, signer);
     if (pairAddress !== '0x0000000000000000000000000000000000000000'){
   
