@@ -14,6 +14,16 @@ const FANTOMCoins = [
     address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   },
   {
+    name: "PANIC",
+    abbr: "PANIC",
+    address: "0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",
+  },
+  {
+    name: "bePANIC",
+    abbr: "bePANIC",
+    address: "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6",
+  },
+  {
     name: "ETH",
     abbr: "ETH",
     address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",

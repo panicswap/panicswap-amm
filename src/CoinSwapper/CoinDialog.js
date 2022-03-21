@@ -138,6 +138,7 @@ export default function CoinDialog(props) {
       <div className={classes.coinContainer}>
         <Grid container direction="column" spacing={1} alignContent="center">
           <TextField
+            disabled
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             variant="outlined"
@@ -147,8 +148,6 @@ export default function CoinDialog(props) {
             fullWidth
             className={classes.address}
           />
-
-          <hr className={classes.hr} />
 
           <Grid item className={classes.coinList}>
             <Grid container direction="column">

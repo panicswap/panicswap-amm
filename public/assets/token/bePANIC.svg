@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Vectornator (http://vectornator.io/) --><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 161 161" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<metadata>
+<vectornator:setting key="IsTimeLapseWatermarkDisabled" value="false"/>
+<vectornator:setting key="UndoHistoryDisabled" value="true"/>
+<vectornator:setting key="VNDimensionsVisible" value="true"/>
+<vectornator:setting key="VNSnapToGuides" value="true"/>
+<vectornator:setting key="WDCMYKEnabledKey" value="false"/>
+<vectornator:setting key="WDDisplayWhiteBackground" value="false"/>
+<vectornator:setting key="WDDynamicGuides" value="false"/>
+<vectornator:setting key="WDGuidesVisible" value="true"/>
+<vectornator:setting key="WDIsolateActiveLayer" value="false"/>
+<vectornator:setting key="WDOutlineMode" value="false"/>
+<vectornator:setting key="WDRulersVisible" value="true"/>
+<vectornator:setting key="WDSnapToEdges" value="false"/>
+<vectornator:setting key="WDSnapToGrid" value="false"/>
+<vectornator:setting key="WDSnapToPoints" value="false"/>
+<vectornator:setting key="WDUnits" value="Points"/>
+</metadata>
+<defs/>
+<g id="Layer-1" vectornator:layerName="Layer 1">
+<g opacity="1">
+<path d="M0 80.4904C0 36.0371 36.0198 0.000498945 80.4524 0.000498945C124.885 0.000498945 160.905 36.0371 160.905 80.4904C160.905 124.944 124.885 160.98 80.4524 160.98C36.0198 160.98 0 124.944 0 80.4904Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M82.9565 20.123L82.9565 64.7446L120.653 81.5972L82.9565 20.123Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M82.9565 20.123L45.2545 81.5972L82.9565 64.7446L82.9565 20.123Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M82.9565 110.513L82.9565 140.833L120.679 88.6199L82.9565 110.513Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M82.9565 140.833L82.9565 110.508L45.2545 88.6199L82.9565 140.833Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M82.9565 103.495L120.653 81.5972L82.9565 64.7546L82.9565 103.495Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M45.2545 81.5972L82.9565 103.495L82.9565 64.7546L45.2545 81.5972Z" fill="#3dc6f5" fill-rule="evenodd" opacity="1" stroke="none"/>
+</g>
+</g>
+</g>
+<g id="Untitled" vectornator:layerName="Untitled">
+<path d="M57.4009 101.78L46.2409 124.78C45.8982 125.495 45.4461 126.153 44.9009 126.73C43.6389 127.996 41.9188 128.7 40.1309 128.68C38.3311 128.71 36.6009 127.985 35.3609 126.68C34.0911 125.432 33.3866 123.72 33.4109 121.94C33.3896 120.7 33.7377 119.481 34.4109 118.44L74.2609 36.3098C74.6021 35.5611 75.0804 34.8827 75.6709 34.3098C76.9073 32.9996 78.6399 32.2731 80.4409 32.3098C82.2384 32.2915 83.964 33.015 85.2109 34.3098C85.7294 34.8201 86.1616 35.4111 86.4909 36.0598L126.341 118.19C127.109 119.291 127.509 120.607 127.481 121.95C127.467 124.665 125.827 127.107 123.319 128.148C120.811 129.189 117.924 128.627 115.991 126.72C115.445 126.144 114.993 125.486 114.651 124.77L114.581 124.77L103.421 101.77L96.9009 88.3298L80.4309 54.3898L63.9009 88.3298L57.4009 101.78Z" fill="#ffffff" fill-rule="evenodd" opacity="1" stroke="none"/>
+</g>
+</svg>

@@ -1,17 +1,22 @@
 export function checkStable(address1, address2){
     let isBtc = {};
     let isUsd = {};
+    let isPanic = {};
+
     const renbtc = "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501";
     const yvwbtc = "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9";
     const yvdai = "0x637eC617c86D24E421328e6CAEa1d92114892439";
     const yvusdc = "0xEF0210eB96c7EB36AF8ed1c20306462764935607";
-  
+    const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
+    const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
+
     const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e";
     const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83";
     const wbtc = "0x321162Cd933E2Be498Cd2267a90534A804051b11";
     const weth = "0x74b23882a30290451A17c44f4F05243b6b58C76d";
     const usdc = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75";
     const yfi  = "0x29b0Da86e484E1C0029B56e817912d778aC0EC69";
+    const panic = "0xa882ceac81b22fc2bef8e1a82e823e3e9603310b";
 
     isBtc[yvwbtc.toLowerCase()] = true;
     isBtc[wbtc.toLowerCase()] = true;
@@ -20,14 +25,25 @@ export function checkStable(address1, address2){
     isUsd[yvusdc.toLowerCase()] = true;
     isUsd[dai.toLowerCase()] = true;
     isUsd[usdc.toLowerCase()] = true;
+    isPanic[panic.toLowerCase()] = true;
+    isPanic[bepanic.toLowerCase()] = true;
+    isPanic[wbepanic.toLowerCase()] = true;
   
     let result = false;
     try {
       if(isBtc[address1.toLowerCase()] && isBtc[address2.toLowerCase()]) result = true
     }catch{
       
-    }  try {
+    }
+    
+    try {
       if(isUsd[address1.toLowerCase()] && isUsd[address2.toLowerCase()]) result = true
+    }catch{
+      
+    }
+    
+    try {
+      if(isPanic[address1.toLowerCase()] && isPanic[address2.toLowerCase()]) result = true
     }catch{
       
     }
@@ -62,7 +78,7 @@ export function checkVault(address){
   vault[yfi.toLowerCase()] = yvyfi;
   vault[fbeets.toLowerCase()] = pvfbeets;
   vault[boo.toLowerCase()] = yvboo;
-  
+
   try{
     if(vault[String(address).toLowerCase()])
       return vault[String(address).toLowerCase()];
