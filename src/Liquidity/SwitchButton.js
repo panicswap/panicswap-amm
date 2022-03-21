@@ -1,7 +1,6 @@
 import React from "react";
-import { useTheme } from '@material-ui/styles';
+import { useTheme } from "@material-ui/styles";
 import { makeStyles, ButtonGroup, Button } from "@material-ui/core";
-
 
 const styles = (theme) => ({
   btnGroup: {
@@ -11,7 +10,6 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
-
 export default function SwitchButton(props) {
   const { setDeploy } = props;
   const theme = useTheme();
@@ -19,53 +17,41 @@ export default function SwitchButton(props) {
 
   const changeStyles = (K) => {
     if (K === true) {
-      let add_button = document.getElementById("add-button");
-      add_button.style.backgroundColor = theme.palette.primary.main;
-      add_button.style.color = theme.palette.primary.contrastText;
-
-      let remove_button = document.getElementById("remove-button");
-      remove_button.style.backgroundColor = theme.palette.secondary.main;
-      remove_button.style.color = theme.palette.secondary.contrastText;
+      document.getElementById("add-button").className =
+        "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-l-md";
+      document.getElementById("remove-button").className =
+        "bg-white text-slate-600 font-bold py-2 px-4 rounded-r-md";
     } else {
-      let remove_button = document.getElementById("remove-button");
-      remove_button.style.backgroundColor = theme.palette.primary.main;
-      remove_button.style.color = theme.palette.primary.contrastText;
-
-      let add_button = document.getElementById("add-button");
-      add_button.style.backgroundColor = theme.palette.secondary.main;
-      add_button.style.color = theme.palette.secondary.contrastText;
+      document.getElementById("add-button").className =
+        "bg-white text-slate-600 font-bold py-2 px-4 rounded-l-md";
+      document.getElementById("remove-button").className =
+        "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-r-md";
     }
   };
 
   return (
     <div>
-      <ButtonGroup size="large" variant="contained">
-        <Button
-          id="add-button"
-          className={classes.btnGroup}
-          color="primary"
-          text="white"
-          onClick={() => {
-            setDeploy(true);
-            changeStyles(true);
-          }}
-        >
-          Deploy Liquidity
-        </Button>
+      <button
+        id="add-button"
+        className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-l-md"
+        onClick={() => {
+          setDeploy(true);
+          changeStyles(true);
+        }}
+      >
+        Deploy
+      </button>
 
-        <Button
-          id="remove-button"
-          className={classes.btnGroup}
-          color="secondary"
-          text="white"
-          onClick={() => {
-            setDeploy(false);
-            changeStyles(false);
-          }}
-        >
-          Remove Liquidity
-        </Button>
-      </ButtonGroup>
+      <button
+        id="remove-button"
+        className="bg-white text-grey font-bold py-2 px-4 rounded-r-md"
+        onClick={() => {
+          setDeploy(false);
+          changeStyles(false);
+        }}
+      >
+        Remove
+      </button>
     </div>
   );
 }

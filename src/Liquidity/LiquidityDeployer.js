@@ -304,28 +304,27 @@ function LiquidityDeployer(props) {
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
   useEffect(() => {
-      if ( coin1.address && coin2.address && field1Value)
-      {
-        console.log("fill other field");
-        const oneTrillion = String(BigNumber.from(1e12));
-        const [amount1, amount2] = [field1Value, oneTrillion]
-        quoteAddLiquidity(
-          coin1.address,
-          coin2.address,
-          amount1,
-          amount2,
-          factory,
-          signer
-        ).then((data) => {
-          // console.log(data);
-          console.log("TokenA in: ", data[0]);
-          console.log("TokenB in: ", data[1]);
-          setField2Value(String(data[1]));
-          console.log("Liquidity out: ", data[2]);
-          setLiquidityOut([data[0], data[1], data[2]]);
-          console.log("fill Finished");
-        });
-      }
+    if (coin1.address && coin2.address && field1Value) {
+      console.log("fill other field");
+      const oneTrillion = String(BigNumber.from(1e12));
+      const [amount1, amount2] = [field1Value, oneTrillion];
+      quoteAddLiquidity(
+        coin1.address,
+        coin2.address,
+        amount1,
+        amount2,
+        factory,
+        signer
+      ).then((data) => {
+        // console.log(data);
+        console.log("TokenA in: ", data[0]);
+        console.log("TokenB in: ", data[1]);
+        setField2Value(String(data[1]));
+        console.log("Liquidity out: ", data[2]);
+        setLiquidityOut([data[0], data[1], data[2]]);
+        console.log("fill Finished");
+      });
+    }
   }, [coin1.address, coin2.address, field1Value, factory, signer]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
@@ -492,7 +491,7 @@ function LiquidityDeployer(props) {
         decimals={coin1.decimals}
         maxWeiValue={coin1.wei}
       />
-
+      <div className="mb-2"></div>
       <CoinField
         activeField={false}
         value={field2Value}

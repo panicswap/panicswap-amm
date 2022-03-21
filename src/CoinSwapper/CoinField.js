@@ -3,7 +3,7 @@ import { Fab, Grid, InputBase, makeStyles } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import CoinAmountInterface from "./CoinAmountInterface";
 
 const useStyles = makeStyles((theme) => ({
@@ -122,42 +122,47 @@ export function RemoveLiquidityField1(props) {
   //      activeField - boolean - Whether text can be entered into this field or not
 
   const classes = useStyles();
-  const { onClick, symbol, value, onChange, activeField, maxValue, maxWeiValue } = props;
+  const {
+    onClick,
+    symbol,
+    value,
+    onChange,
+    activeField,
+    maxValue,
+    maxWeiValue,
+  } = props;
   return (
-    <div className={classes.container_blank}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.grid}
+    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
+      {/* Button */}
+      <div
+        onClick={onClick}
+        className="cursor-pointer min-w-[50px] min-h-[50px]"
       >
-        {/* Button */}
-        <Grid item xs={3}>
-          <Fab
-            size="small"
-            variant="extended"
-            onClick={onClick}
-            className={classes.fab}
-          >
-            {symbol}
-            <ExpandMoreIcon />
-          </Fab>
-        </Grid>
-        {/* Text Field */}
-        <Grid item xs={9}>
-          <CoinAmountInterface
-            activeField={true}
-            value={value}
-            onChange={onChange}
-            maxValue={maxValue}//TODO
-            symbol={"PANIC"}
-            decimals={18}
-            maxWeiValue={maxWeiValue}//TODO
-          />
-        </Grid>
-        {/* </div> */}
-      </Grid>
+        <img
+          src={"/assets/token/" + symbol + ".svg"}
+          className="shadow-lg rounded-full max-w-[50px]"
+        />
+      </div>
+
+      <div className="flex flex-col items-end">
+        {/* Balance */}
+        {/* TODO */}
+        <div className=""></div>
+        {/* Input */}
+        <input
+          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-white w-full"
+          min="0"
+          type="number"
+          value={value}
+          onChange={onChange}
+          placeholder="0.0"
+          disabled={!activeField}
+        />
+        {/* Symbol */}
+        <div className="px-1 text-xs rounded-md bg-blue-200">
+          {symbol !== "Select" && <>{symbol}</>}
+        </div>
+      </div>
     </div>
   );
 }
@@ -174,27 +179,29 @@ export function RemoveLiquidityField2(props) {
   const { onClick, symbol } = props;
 
   return (
-    <div className={classes.container_blank}>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.grid}
+    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
+      {/* Button */}
+      <div
+        onClick={onClick}
+        className="cursor-pointer min-w-[50px] min-h-[50px]"
       >
-        {/* Button */}
-        <Grid item xs={3}>
-          <Fab
-            size="small"
-            variant="extended"
-            onClick={onClick}
-            className={classes.fab}
-          >
-            {symbol}
-            <ExpandMoreIcon className={classes.fab} />
-          </Fab>
-        </Grid>
-      </Grid>
+        <img
+          src={"/assets/token/" + symbol + ".svg"}
+          className="shadow-lg rounded-full max-w-[50px]"
+        />
+      </div>
+
+      <div className="flex flex-col items-end">
+        {/* Balance */}
+        {/* TODO */}
+        <div className=""></div>
+        {/* Input */}
+        {/* TODO */}
+        {/* Symbol */}
+        <div className="px-1 text-xs rounded-md bg-blue-200">
+          {symbol !== "Select" && <>{symbol}</>}
+        </div>
+      </div>
     </div>
   );
 }

@@ -397,7 +397,6 @@ function LiquidityRemover(props) {
   return (
     <div>
       {/* Coin Swapper */}
-      <Typography variant="h5" className={classes.title}></Typography>
 
       {/* Dialog Windows */}
       <CoinDialog
@@ -414,114 +413,82 @@ function LiquidityRemover(props) {
       />
       <WrongNetwork open={wrongNetworkOpen} />
 
-      <Grid container direction="column" alignItems="center" spacing={2}>
-        <Grid item xs={12} className={classes.fullWidth}>
-          <RemoveLiquidityField1
-            activeField={true}
-            value={field1Value}
-            maxValue={liquidityTokens}
-            maxWeiValue={liquidityTokensWei}
-            onClick={() => setDialog1Open(true)}
-            onChange={handleChange.field1}
-            symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
-          />
-        </Grid>
+      <RemoveLiquidityField1
+        activeField={true}
+        value={field1Value}
+        maxValue={liquidityTokens}
+        maxWeiValue={liquidityTokensWei}
+        onClick={() => setDialog1Open(true)}
+        onChange={handleChange.field1}
+        symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+      />
+      <div className="mb-2"></div>
+      <RemoveLiquidityField2
+        activeField={true}
+        onClick={() => setDialog2Open(true)}
+        symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+      />
 
-        <Grid item xs={12} className={classes.fullWidth}>
-          <RemoveLiquidityField2
-            activeField={true}
-            onClick={() => setDialog2Open(true)}
-            symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
-          />
-        </Grid>
-      </Grid>
+      {/* Tokens out */}
+      {coin1.symbol && coin2.symbol && (
+        <section className="mt-3">
+          {/* Reserves Display */}
+          <div className="mt-3">
+            <h3 className="font-bold">LP Tokens Owned</h3>
+            {formatReserve(liquidityTokens, "UNI-V2") +
+              " " +
+              coin1.symbol +
+              "-" +
+              coin2.symbol +
+              " LP"}
+          </div>
+          <div className="mt-3">
+            <h3 className="font-bold">LP Tokens To Be Removed</h3>
+            {formatBalance(tokensOut[0], "UNI-V2") +
+              " " +
+              coin1.symbol +
+              "-" +
+              coin2.symbol +
+              " LP"}
+          </div>
 
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        spacing={12}
-        className={classes.balance}
-        xs={12}
-      >
-        <Grid
-          container
-          item
-          direction="column"
-          alignItems="center"
-          className={classes.fullWidth}
+          <h4 className="font-bold">You Will Receive</h4>
+          <div className="grid grid-cols-2">
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin1.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(tokensOut[1], coin1.symbol)}
+              </div>
+            </div>
+            <div className="flex items-center">
+              <img
+                className="w-[30px]"
+                src={"/assets/token/" + coin2.symbol + ".svg"}
+              />
+              <div className="ml-2">
+                {formatBalance(tokensOut[2], coin2.symbol)}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Button */}
+      <div className="mt-3">
+        <LoadingButton
+          loading={loading}
+          valid={isButtonEnabled()}
+          success={false}
+          fail={false}
+          onClick={remove}
         >
-          {coin1.symbol && coin2.symbol && (
-            <>
-              <hr className={classes.hr} />
-              <Grid container direction="row" alignItems="center" xs={12}>
-                {/* LP tokens */}
-                <Grid xs={1}></Grid>
-                <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>LP Tokens Owned</Typography>
-                </Grid>
-                <Grid item xs={6} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {formatReserve(liquidityTokens, "UNI-V2")}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}></Grid>
-              </Grid>
-              <hr className={classes.hr} />
-              <Grid container direction="row" alignItems="center" xs={12}>
-                {/* LP tokens */}
-                <Grid xs={1}></Grid>
-                <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>LP Tokens To Be Removed</Typography>
-                </Grid>
-                <Grid item xs={6} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {formatBalance(tokensOut[0], "UNI-V2")}
-                  </Typography>
-                </Grid>
-                <Grid xs={1}></Grid>
-              </Grid>
-              <Grid container direction="row" alignItems="center" xs={12}>
-                {/* User's Unstaked Liquidity Tokens Display */}
-                <Grid xs={1}></Grid>
-                <Grid item xs={4} className={classes.leftSideBottomText}>
-                  <Typography>You Will Receive</Typography>
-                </Grid>
-                <Grid item xs={6} className={classes.rightSideBottomText}>
-                  <Typography>
-                    {formatBalance(tokensOut[1], coin1.symbol)}
-                    <img
-                      src={"/assets/token/" + coin1.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                  <Typography>
-                    {formatBalance(tokensOut[2], coin2.symbol)}
-                    <img
-                      src={"/assets/token/" + coin2.symbol + ".svg"}
-                      className={classes.liquidityIcon}
-                    ></img>
-                  </Typography>
-                </Grid>
-                <Grid xs={1}></Grid>
-              </Grid>
-              <hr className={classes.hr} />
-            </>
-          )}
-        </Grid>
-      </Grid>
-
-      <LoadingButton
-        loading={loading}
-        valid={isButtonEnabled()}
-        success={false}
-        fail={false}
-        onClick={remove}
-      >
-        <ArrowDownwardIcon className={classes.buttonIcon} />
-        Remove
-      </LoadingButton>
+          <ArrowDownwardIcon className={classes.buttonIcon} />
+          Remove
+        </LoadingButton>
+      </div>
     </div>
   );
 }
