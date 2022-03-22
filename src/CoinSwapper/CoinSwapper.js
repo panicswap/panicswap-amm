@@ -32,6 +32,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinField from "./CoinField";
+import {ethers} from 'ethers';
 
 const styles = (theme) => ({
   paperContainer: {
@@ -173,10 +174,10 @@ function CoinSwapper(props) {
       !isNaN(parsedInput1) &&
       !isNaN(parsedInput2) &&
       0 < parsedInput1 &&
-      parsedInput1 <= coin1.balance
+      ethers.utils.parseUnits(field1Value, coin1.decimals) <= coin1.wei
     );
   };
-
+  
   // Called when the dialog window for coin1 exits
   const onToken1Selected = ([address, abbr]) => {
     // Close the dialog window
