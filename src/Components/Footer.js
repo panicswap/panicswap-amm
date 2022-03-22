@@ -1,20 +1,23 @@
 import { SiMedium } from "react-icons/si";
+import { RiGovernmentFill } from "react-icons/ri";
+import { GoBook } from "react-icons/go";
 import {
   FaTelegramPlane,
   FaDiscord,
   FaTwitter,
   FaGithub,
+  FaBookOpen,
+  FaVoteYea,
 } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="mt-5 p-3">
-      <h5 className="text-lg text-center">PanicSwap 💙</h5>
-      <div className="mt-3 flex flex-wrap gap-2 justify-between mx-auto max-w-2xl">
+    <footer className="mt-5 p-3 flex justify-center">
+      <div className="mt-3 flex flex-none justify-center mx-2 max-w-xl">
         <SocialItem
           name="Medium"
           link="https://medium.com/@thepanicswap/"
-          icon={<SiMedium />}
+          icon={<SiMedium className="scale-500" />}
           color="#000"
         />
         <SocialItem
@@ -41,6 +44,9 @@ export default function Footer() {
           link="https://github.com/panicswap"
           icon={<FaGithub />}
         />
+        <SocialItem name="Documentation" link="/docs" icon={<GoBook />} />
+
+        <SocialItem name="Governance" link="/gov" icon={<RiGovernmentFill />} />
       </div>
     </footer>
   );
@@ -48,12 +54,16 @@ export default function Footer() {
 
 const SocialItem = ({ name, link, icon, color }) => {
   return (
-    <a
-      className="flex items-center border-2 p-2 px-3 rounded-md hover:border-blue-300 focus:border-blue-300 hover:no-underline"
-      href={link}
-    >
-      <div style={{ color: color }}>{icon}</div>
-      <div className="ml-2">{name}</div>
-    </a>
+    {
+      /* TODO - resize icons */
+    },
+    (
+      <a
+        className="flex items-center border-0 px-3 hover:no-underline"
+        href={link}
+      >
+        <div style={{ color: color }}>{icon}</div>
+      </a>
+    )
   );
 };
