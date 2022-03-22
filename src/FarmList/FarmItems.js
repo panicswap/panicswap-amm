@@ -22,8 +22,8 @@ export const FarmItems = [
     url: "/farms/3",
     poolid: 3,
     cName: "farm-links",
-    symbol1:"BTC",
-    symbol2:"ETH",
+    symbol1: "BTC",
+    symbol2: "ETH",
     boost: "9.92",
   },
   {
@@ -104,7 +104,7 @@ export const FarmItems = [
     poolid: 13,
     cName: "farm-links",
     symbol1: "PANIC",
-    symbol2: "PANIC",
+    symbol2: "bePANIC",
     boost: "0.7",
   },
   {
