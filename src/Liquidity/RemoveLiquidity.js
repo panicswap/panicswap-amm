@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import { useSnackbar } from "notistack";
 import {
@@ -14,16 +14,12 @@ import {
   getNetwork,
 } from "../ethereumFunctions";
 import { removeLiquidity, quoteRemoveLiquidity } from "./LiquidityFunctions";
-import {
-  RemoveLiquidityField1,
-  RemoveLiquidityField2,
-} from "../CoinSwapper/CoinField";
 import CoinDialog from "../CoinSwapper/CoinDialog";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
-import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
+import CoinAmountInterface from "./CoinAmountInterface";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -419,59 +415,37 @@ function LiquidityRemover(props) {
         value={field1Value}
         maxValue={liquidityTokens}
         maxWeiValue={liquidityTokensWei}
-        onClick={() => setDialog1Open(true)}
         onChange={handleChange.field1}
         decimals={18}
-        symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
-      />
-      <div className="mb-2"></div>
-      <RemoveLiquidityField2
-        activeField={true}
-        onClick={() => setDialog2Open(true)}
-        symbol={coin2.symbol !== undefined ? coin2.symbol : "Select"}
+        onClick1={() => setDialog1Open(true)}
+        onClick2={() => setDialog2Open(true)}
+        symbol1={coin1.symbol !== undefined ? coin1.symbol : "Select"}
+        symbol2={coin2.symbol !== undefined ? coin2.symbol : "Select"}
       />
 
       {/* Tokens out */}
       {coin1.symbol && coin2.symbol && (
         <section className="mt-3">
-          {/* Reserves Display */}
           <div className="mt-3">
-            <h3 className="font-bold">LP Tokens Owned</h3>
-            {formatReserve(liquidityTokens, "Panic") +
-              " " +
-              coin1.symbol +
-              "-" +
-              coin2.symbol +
-              " LP"}
-          </div>
-          <div className="mt-3">
-            <h3 className="font-bold">LP Tokens To Be Removed</h3>
-            {formatBalance(tokensOut[0], "Panic") +
-              " " +
-              coin1.symbol +
-              "-" +
-              coin2.symbol +
-              " LP"}
-          </div>
-
-          <h4 className="font-bold">You Will Receive</h4>
-          <div className="grid grid-cols-2">
-            <div className="flex items-center">
-              <img
-                className="w-[30px]"
-                src={"/assets/token/" + coin1.symbol + ".svg"}
-              />
-              <div className="ml-2">
-                {formatBalance(tokensOut[1], coin1.symbol)}
+            <h3 className="font-bold">You Will Receive</h3>
+            <div className="grid grid-cols-2">
+              <div className="flex items-center">
+                <img
+                  className="w-[30px]"
+                  src={"/assets/token/" + coin1.symbol + ".svg"}
+                />
+                <div className="ml-2">
+                  {formatBalance(tokensOut[1], coin1.symbol)}
+                </div>
               </div>
-            </div>
-            <div className="flex items-center">
-              <img
-                className="w-[30px]"
-                src={"/assets/token/" + coin2.symbol + ".svg"}
-              />
-              <div className="ml-2">
-                {formatBalance(tokensOut[2], coin2.symbol)}
+              <div className="flex items-center">
+                <img
+                  className="w-[30px]"
+                  src={"/assets/token/" + coin2.symbol + ".svg"}
+                />
+                <div className="ml-2">
+                  {formatBalance(tokensOut[2], coin2.symbol)}
+                </div>
               </div>
             </div>
           </div>
