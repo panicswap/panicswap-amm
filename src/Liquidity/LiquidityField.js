@@ -172,7 +172,7 @@ export default function LiquidityField(props) {
         {/* Symbol */}
         <div className="px-1 text-xs rounded-md bg-blue-200">
           {symbol1 !== "Select" && symbol2 !== "Select" && (
-            <>{symbol1 + "-" + symbol2}</>
+            <>{symbol1 + "-" + symbol2 + " LP"}</>
           )}
         </div>
       </div>
