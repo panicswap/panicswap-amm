@@ -151,7 +151,7 @@ export default function LiquidityField(props) {
       >
         <img
           src={"/assets/token/" + symbol2 + ".svg"}
-          className="shadow-lg rounded-full max-w-[50px]"
+          className="shadow-lg rounded-full max-w-[50px]  relative left-[-9px]"
         />
       </div>
       <div className="flex flex-col items-end">

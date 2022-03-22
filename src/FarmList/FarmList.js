@@ -21,7 +21,6 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 
-
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -34,8 +33,12 @@ function FarmList(props) {
   const [router, setRouter] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
-  const [chef, setChef] = React.useState(getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer));
-  const [aprFeed, setAprFeed] = React.useState(getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer));
+  const [chef, setChef] = React.useState(
+    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
+  );
+  const [aprFeed, setAprFeed] = React.useState(
+    getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer)
+  );
   const [aprMap, setAprMap] = React.useState([]);
   const [lpAddressMap, setLpAddressMap] = React.useState([]);
   const [userStakedLPs, setUserStakedLPs] = React.useState([]);
@@ -63,7 +66,7 @@ function FarmList(props) {
   // This hook will run when the component first mounts, it can be useful to put logic to populate variables here
   useEffect(() => {
     async function Network() {
-      chef.poolLength().then(setPoolLength)
+      chef.poolLength().then(setPoolLength);
       const chainId = await getNetwork(provider).then((chainId) => {
         setChainId(chainId);
         return chainId;
@@ -94,22 +97,21 @@ function FarmList(props) {
 
     Network();
   }, [chef, provider, signer]);
-  
 
   useEffect(() => {
     const updatePanicRewards = async () => {
       try {
         const reward = await chef.totalClaimableReward(account);
         setPendingPanic(ethers.utils.formatUnits(reward));
-      } catch(error) {
-        console.error("error getting chef.totalClaimableReward", {error});
+      } catch (error) {
+        console.error("error getting chef.totalClaimableReward", { error });
       }
-    }
+    };
     updatePanicRewards();
     const updateIntervalHandle = setInterval(() => updatePanicRewards(), 15000);
     return () => clearInterval(updateIntervalHandle);
   }, [setPendingPanic, account, chef]);
-  
+
   useEffect(() => {
     const updateFarmStats = async () => {
       const aprPromises = [];
@@ -117,21 +119,22 @@ function FarmList(props) {
       const tokenInfoPromises = [];
       const userInfoPromises = [];
 
-      fetch('https://api.yearn.finance/v1/chains/250/vaults/all')
-      .then(response => response.json())
-      .then((data) =>{
-        let newYfiMap = {};
-        newYfiMap["renBTC"] = 0;
-        newYfiMap["XFTM"] = 0;
-        newYfiMap["PANIC"] = 0;
-        newYfiMap["fBEETS"] = 60;
-        newYfiMap["BELUGA"] = 0;
-        //TODO fBEETS
-        for(let i = 0; i < data.length; i++){
-          newYfiMap[data[i]["display_name"]] = Number(data[i]["apy"]["points"]["week_ago"])*100
-        }
-        setYfiMap(newYfiMap);
-      });
+      fetch("https://api.yearn.finance/v1/chains/250/vaults/all")
+        .then((response) => response.json())
+        .then((data) => {
+          let newYfiMap = {};
+          newYfiMap["renBTC"] = 0;
+          newYfiMap["XFTM"] = 0;
+          newYfiMap["PANIC"] = 0;
+          newYfiMap["fBEETS"] = 60;
+          newYfiMap["BELUGA"] = 0;
+          //TODO fBEETS
+          for (let i = 0; i < data.length; i++) {
+            newYfiMap[data[i]["display_name"]] =
+              Number(data[i]["apy"]["points"]["week_ago"]) * 100;
+          }
+          setYfiMap(newYfiMap);
+        });
 
       for (let i = 1; i < poolLength; ++i) {
         tokenInfoPromises.push(chef.poolInfo(i));
@@ -141,76 +144,81 @@ function FarmList(props) {
       }
       await Promise.all([
         Promise.allSettled(tokenInfoPromises).then((results) => {
-          const newTokenInfoMap = []
+          const newTokenInfoMap = [];
           const tokenHeldPromises = [];
           const totalSupplyPromises = [];
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
               newTokenInfoMap[index] = v["lpToken"];
-              const LpToken = getWeth(ethers.utils.getAddress(v["lpToken"]), signer);
+              const LpToken = getWeth(
+                ethers.utils.getAddress(v["lpToken"]),
+                signer
+              );
               tokenHeldPromises[index] = LpToken.balanceOf(account);
               totalSupplyPromises[index] = LpToken.totalSupply();
             }
-          })
+          });
           setLpAddressMap(newTokenInfoMap);
           Promise.allSettled(tokenHeldPromises).then((results) => {
             const newTokenHeldMap = [];
             results.forEach((result, index) => {
               const { value: v, status } = result;
               if (status === "fulfilled") {
-                newTokenHeldMap[index] = (Number(v)/1e18).toFixed(8);
+                newTokenHeldMap[index] = (Number(v) / 1e18).toFixed(8);
               }
-            })
+            });
             setUserHeldLPs(newTokenHeldMap);
-          })
+          });
           Promise.allSettled(totalSupplyPromises).then((results) => {
             const newTotalSupplyMap = [];
             results.forEach((result, index) => {
               const { value: v, status } = result;
               if (status === "fulfilled") {
-                newTotalSupplyMap[index] = (Number(v)/1e18).toFixed(8);
+                newTotalSupplyMap[index] = (Number(v) / 1e18).toFixed(8);
               }
-            })
+            });
             setTotalSupplyMap(newTotalSupplyMap);
-          })
+          });
         }),
         Promise.allSettled(userInfoPromises).then((results) => {
-          const newStakedAmountMap = []
+          const newStakedAmountMap = [];
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newStakedAmountMap[index] = (Number(v["amount"])/1e18).toFixed(8);
+              newStakedAmountMap[index] = (Number(v["amount"]) / 1e18).toFixed(
+                8
+              );
             }
-          })
+          });
           setUserStakedLPs(newStakedAmountMap);
         }),
         Promise.allSettled(aprPromises).then((results) => {
-          const newAprMap = []
+          const newAprMap = [];
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newAprMap[index] = Number(v)/100
+              newAprMap[index] = Number(v) / 100;
             }
-          })
+          });
           setAprMap(newAprMap);
         }),
         Promise.allSettled(tvlPromises).then((results) => {
-          const newTvlMap = []
+          const newTvlMap = [];
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newTvlMap[index] = (Number(v)/1e18).toFixed(0);
+              newTvlMap[index] = (Number(v) / 1e18).toFixed(0);
             }
-          })
+          });
           setTvlMap(newTvlMap);
-        })
+        }),
       ]);
-    }
+    };
     updateFarmStats();
     const updateFarmInterval = setInterval(() => updateFarmStats(), 60000);
     return () => clearInterval(updateFarmInterval);
-  }, [chef, aprFeed, setAprMap, setTvlMap, poolLength])
+  }, [chef, aprFeed, setAprMap, setTvlMap, poolLength]);
 
   async function claimAllRewards() {
     await chef;
@@ -281,7 +289,10 @@ function FarmList(props) {
         <div>
           {FarmItems.map((item, index) => {
             return (
-              <div className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl" key={item.title}>
+              <div
+                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl"
+                key={item.title}
+              >
                 <div className="flex justify-between">
                   {/* Logos */}
                   <div className="flex items-center w-3/4">
@@ -309,41 +320,66 @@ function FarmList(props) {
                 </div>
 
                 <div className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
-                <div className="">
+                  <div className="">
                     <div className="text-sm">APR</div>
                     <div className="md:text-md">
-                      {(aprMap[item.poolid-1] + ( yfiMap[item.symbol1] + yfiMap[item.symbol2])/2).toFixed(2) + "%" }
+                      {(
+                        aprMap[item.poolid - 1] +
+                        (yfiMap[item.symbol1] + yfiMap[item.symbol2]) / 2
+                      ).toFixed(2) + "%"}
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Balance</div>
                     <div className="md:text-md">
-                      { userHeldLPs[item.poolid-1] }
+                      {userHeldLPs[item.poolid - 1]}
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[item.poolid-1]*userHeldLPs[item.poolid-1]/totalSupplyMap[item.poolid-1])) ? 0 : (tvlMap[item.poolid-1]*userHeldLPs[item.poolid-1]/totalSupplyMap[item.poolid-1]).toFixed(2)})
+                        &nbsp;($
+                        {isNaN(
+                          (tvlMap[item.poolid - 1] *
+                            userHeldLPs[item.poolid - 1]) /
+                            totalSupplyMap[item.poolid - 1]
+                        )
+                          ? 0
+                          : (
+                              (tvlMap[item.poolid - 1] *
+                                userHeldLPs[item.poolid - 1]) /
+                              totalSupplyMap[item.poolid - 1]
+                            ).toFixed(2)}
+                        )
                       </span>
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Staked</div>
                     <div className="md:text-md">
-                      { userStakedLPs[item.poolid-1] }
+                      {userStakedLPs[item.poolid - 1]}
                       <span className="md:text-xs">
-                        &nbsp;(${isNaN((tvlMap[item.poolid-1]*userStakedLPs[item.poolid-1]/totalSupplyMap[item.poolid-1])) ? 0 : (tvlMap[item.poolid-1]*userStakedLPs[item.poolid-1]/totalSupplyMap[item.poolid-1]).toFixed(2)})
+                        &nbsp;($
+                        {isNaN(
+                          (tvlMap[item.poolid - 1] *
+                            userStakedLPs[item.poolid - 1]) /
+                            totalSupplyMap[item.poolid - 1]
+                        )
+                          ? 0
+                          : (
+                              (tvlMap[item.poolid - 1] *
+                                userStakedLPs[item.poolid - 1]) /
+                              totalSupplyMap[item.poolid - 1]
+                            ).toFixed(2)}
+                        )
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-sm">TVL</div>
                     <div className="md:text-md">
-                      {"$"+tvlMap[item.poolid-1]}
+                      {"$" + formatNumber(tvlMap[item.poolid - 1], 2)}
                     </div>
                   </div>
                   <div className="">
                     <div className="text-sm">Multiplier</div>
-                    <div className="md:text-md">
-                      {"x" + item.boost}
-                    </div>
+                    <div className="md:text-md">{"x" + item.boost}</div>
                   </div>
                 </div>
               </div>
