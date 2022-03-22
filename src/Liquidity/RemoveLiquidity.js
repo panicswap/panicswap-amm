@@ -23,6 +23,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
+import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -413,13 +414,14 @@ function LiquidityRemover(props) {
       />
       <WrongNetwork open={wrongNetworkOpen} />
 
-      <RemoveLiquidityField1
+      <CoinAmountInterface
         activeField={true}
         value={field1Value}
         maxValue={liquidityTokens}
         maxWeiValue={liquidityTokensWei}
         onClick={() => setDialog1Open(true)}
         onChange={handleChange.field1}
+        decimals={18}
         symbol={coin1.symbol !== undefined ? coin1.symbol : "Select"}
       />
       <div className="mb-2"></div>
@@ -435,7 +437,7 @@ function LiquidityRemover(props) {
           {/* Reserves Display */}
           <div className="mt-3">
             <h3 className="font-bold">LP Tokens Owned</h3>
-            {formatReserve(liquidityTokens, "UNI-V2") +
+            {formatReserve(liquidityTokens, "Panic") +
               " " +
               coin1.symbol +
               "-" +
@@ -444,7 +446,7 @@ function LiquidityRemover(props) {
           </div>
           <div className="mt-3">
             <h3 className="font-bold">LP Tokens To Be Removed</h3>
-            {formatBalance(tokensOut[0], "UNI-V2") +
+            {formatBalance(tokensOut[0], "Panic") +
               " " +
               coin1.symbol +
               "-" +
