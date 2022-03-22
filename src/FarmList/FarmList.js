@@ -126,6 +126,7 @@ function FarmList(props) {
           newYfiMap["renBTC"] = 0;
           newYfiMap["XFTM"] = 0;
           newYfiMap["PANIC"] = 0;
+          newYfiMap["bePANIC"] = 0;
           newYfiMap["fBEETS"] = 60;
           newYfiMap["BELUGA"] = 0;
           //TODO fBEETS
