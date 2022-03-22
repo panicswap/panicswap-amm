@@ -1,5 +1,5 @@
 import React from "react";
-import { Fab, Grid, InputBase, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import * as COLORS from "@material-ui/core/colors";
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-CoinField.propTypes = {
+LiquidityField.propTypes = {
   onClick: PropTypes.func.isRequired,
   symbol: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -111,38 +111,49 @@ function checkIfSelect(str) {
   }
 }
 
-export default function CoinField(props) {
-  // This component is used to selecting a token and entering a value, the props are explained below:
+export default function LiquidityField(props) {
+  // This component is used to selecting a coin and entering a value, the props are explained below:
   //      onClick - (string) => void - Called when the button is clicked
   //      symbol - string - The text displayed on the button
   //      value - string - The value of the text field
   //      onChange - (e) => void - Called when the text field changes
   //      activeField - boolean - Whether text can be entered into this field or not
-  //      userCanChoose - boolean - Whether user can select coin or not
 
+  const classes = useStyles();
   const {
-    onClick,
-    symbol,
     value,
-    onChange,
-    activeField,
-    userCanChoose,
     maxValue,
+    maxWeiValue,
+    onChange,
+    decimals,
+    onClick1,
+    onClick2,
+    symbol1,
+    symbol2,
   } = props;
 
   return (
     <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
-      {/* Button */}
+      {/* Token1 */}
       <div
-        onClick={onClick}
+        onClick={onClick1}
         className="cursor-pointer min-w-[50px] min-h-[50px]"
       >
         <img
-          src={"/assets/token/" + symbol + ".svg"}
+          src={"/assets/token/" + symbol1 + ".svg"}
           className="shadow-lg rounded-full max-w-[50px]"
         />
       </div>
-
+      {/* Token2 */}
+      <div
+        onClick={onClick2}
+        className="cursor-pointer min-w-[50px] min-h-[50px]"
+      >
+        <img
+          src={"/assets/token/" + symbol2 + ".svg"}
+          className="shadow-lg rounded-full max-w-[50px]"
+        />
+      </div>
       <div className="flex flex-col items-end">
         {/* Balance */}
         <div className="">
@@ -157,12 +168,12 @@ export default function CoinField(props) {
           value={value}
           onChange={onChange}
           placeholder="0.0"
-          disabled={!activeField}
         />
-
         {/* Symbol */}
         <div className="px-1 text-xs rounded-md bg-blue-200">
-          {symbol !== "Select" && <>{symbol}</>}
+          {symbol1 !== "Select" && symbol2 !== "Select" && (
+            <>{symbol1 + "-" + symbol2 + " LP"}</>
+          )}
         </div>
       </div>
     </div>
