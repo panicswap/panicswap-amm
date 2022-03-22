@@ -1,4 +1,4 @@
-import { SiMedium } from "react-icons/si";
+import { SiGitbook, SiMedium } from "react-icons/si";
 import { RiGovernmentFill } from "react-icons/ri";
 import { GoBook } from "react-icons/go";
 import {
@@ -13,11 +13,11 @@ import {
 export default function Footer() {
   return (
     <footer className="mt-5 p-3 flex justify-center">
-      <div className="mt-3 flex flex-none justify-center mx-2 max-w-xl">
+      <div className="mt-3 flex flex-none justify-center mx-2 max-w-xl text-xl mb-2">
         <SocialItem
           name="Medium"
           link="https://medium.com/@thepanicswap/"
-          icon={<SiMedium className="scale-500" />}
+          icon={<SiMedium />}
           color="#000"
         />
         <SocialItem
@@ -44,7 +44,12 @@ export default function Footer() {
           link="https://github.com/panicswap"
           icon={<FaGithub />}
         />
-        <SocialItem name="Documentation" link="/docs" icon={<GoBook />} />
+        <SocialItem
+          name="Documentation"
+          link="/docs"
+          icon={<SiGitbook />}
+          color="#4285fd"
+        />
 
         <SocialItem name="Governance" link="/gov" icon={<RiGovernmentFill />} />
       </div>
