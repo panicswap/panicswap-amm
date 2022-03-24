@@ -117,7 +117,7 @@ export const FarmItems = [
     boost: "0.3",
   },
   {
-    title: "PANIC-FTM Panic Stable  LP",
+    title: "PANIC-FTM Panic Variable LP",
     url: "/farms/15",
     poolid: 15,
     cName: "farm-links",
