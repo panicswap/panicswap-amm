@@ -74,6 +74,16 @@ const FANTOMCoins = [
     address: "0x29b0Da86e484E1C0029B56e817912d778aC0EC69",
   },
   {
+    name: "Solidly",
+    abbr: "SOLID",
+    address: "0x888EF71766ca594DED1F0FA3AE64eD2941740A20",
+  },
+  {
+    name: "oxSOLID",
+    abbr: "oxSOLID",
+    address: "0xDA0053F0bEfCbcaC208A3f867BB243716734D809",
+  },
+  {
     name: "yvWFTM",
     abbr: "yvWFTM",
     address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",

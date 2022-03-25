@@ -105,7 +105,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "PANIC",
     symbol2: "bePANIC",
-    boost: "0.7",
+    boost: "0.3",
   },
   {
     title: "BELUGA-FTM Panic Variable LP",
@@ -114,7 +114,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BELUGA",
     symbol2: "WFTM",
-    boost: "0.3",
+    boost: "0.6",
   },
   {
     title: "PANIC-FTM Panic Variable LP",
@@ -124,5 +124,14 @@ export const FarmItems = [
     symbol1: "PANIC",
     symbol2: "WFTM",
     boost: "1",
+  },
+  {
+    title: "oxSOLID-SOLID Panic Stable LP",
+    url: "/farms/16",
+    poolid: 16,
+    cName: "farm-links",
+    symbol1: "SOLID",
+    symbol2: "oxSOLID",
+    boost: "0.1",
   },
 ];

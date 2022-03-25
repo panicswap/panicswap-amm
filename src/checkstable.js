@@ -2,6 +2,7 @@ export function checkStable(address1, address2){
     let isBtc = {};
     let isUsd = {};
     let isPanic = {};
+    let isSolid = {};
 
     const renbtc = "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501";
     const yvwbtc = "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9";
@@ -9,6 +10,7 @@ export function checkStable(address1, address2){
     const yvusdc = "0xEF0210eB96c7EB36AF8ed1c20306462764935607";
     const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
     const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
+    const wbesolid = "0xe20423DD1D1E05c439266Dc815Ac06C3C1f70ee1";
 
     const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e";
     const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83";
@@ -17,7 +19,9 @@ export function checkStable(address1, address2){
     const usdc = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75";
     const yfi  = "0x29b0Da86e484E1C0029B56e817912d778aC0EC69";
     const panic = "0xa882ceac81b22fc2bef8e1a82e823e3e9603310b";
-
+    const oxsolid = "0xDA0053F0bEfCbcaC208A3f867BB243716734D809";
+    const solid = "0x888EF71766ca594DED1F0FA3AE64eD2941740A20";
+    
     isBtc[yvwbtc.toLowerCase()] = true;
     isBtc[wbtc.toLowerCase()] = true;
     isBtc[renbtc.toLowerCase()] = true;
@@ -27,7 +31,9 @@ export function checkStable(address1, address2){
     isUsd[usdc.toLowerCase()] = true;
     isPanic[panic.toLowerCase()] = true;
     isPanic[bepanic.toLowerCase()] = true;
-    isPanic[wbepanic.toLowerCase()] = true;
+    isSolid[wbesolid.toLowerCase()] = true;
+    isSolid[oxsolid.toLowerCase()] = true;
+    isSolid[solid.toLowerCase()] = true;
   
     let result = false;
     try {
@@ -44,6 +50,13 @@ export function checkStable(address1, address2){
     
     try {
       if(isPanic[address1.toLowerCase()] && isPanic[address2.toLowerCase()]) result = true
+    }catch{
+      
+    }
+
+
+    try {
+      if(isSolid[address1.toLowerCase()] && isSolid[address2.toLowerCase()]) result = true
     }catch{
       
     }
