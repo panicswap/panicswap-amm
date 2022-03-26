@@ -127,7 +127,9 @@ function FarmList(props) {
           newYfiMap["XFTM"] = 0;
           newYfiMap["PANIC"] = 0;
           newYfiMap["bePANIC"] = 0;
-          newYfiMap["fBEETS"] = 60;
+          newYfiMap["oxSOLID"] = 0;
+          newYfiMap["SOLID"] = 0;
+          newYfiMap["fBEETS"] = 55;
           newYfiMap["BELUGA"] = 0;
           //TODO fBEETS
           for (let i = 0; i < data.length; i++) {
