@@ -31,6 +31,7 @@ export function checkStable(address1, address2){
     isUsd[usdc.toLowerCase()] = true;
     isPanic[panic.toLowerCase()] = true;
     isPanic[bepanic.toLowerCase()] = true;
+    isPanic[wbepanic.toLowerCase()] = true;
     isSolid[wbesolid.toLowerCase()] = true;
     isSolid[oxsolid.toLowerCase()] = true;
     isSolid[solid.toLowerCase()] = true;
