@@ -20,6 +20,7 @@ import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinAmountInterface from "./CoinAmountInterface";
+import {ethers} from 'ethers';
 
 const styles = (theme) => ({
   paperContainer: {
@@ -158,7 +159,7 @@ function LiquidityRemover(props) {
       coin2.address &&
       Number.isFinite(parsedInput) &&
       0 < parsedInput &&
-      parsedInput <= liquidityTokens
+      ethers.utils.parseUnits(field1Value, coin1.decimals) <= liquidityTokensWei
     );
   };
 
