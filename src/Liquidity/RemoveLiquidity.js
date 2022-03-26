@@ -159,7 +159,7 @@ function LiquidityRemover(props) {
       coin2.address &&
       Number.isFinite(parsedInput) &&
       0 < parsedInput &&
-      ethers.utils.parseUnits(field1Value, coin1.decimals) <= liquidityTokensWei
+      Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(liquidityTokensWei)
     );
   };
 

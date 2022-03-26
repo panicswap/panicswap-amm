@@ -174,7 +174,7 @@ function CoinSwapper(props) {
       !isNaN(parsedInput1) &&
       !isNaN(parsedInput2) &&
       0 < parsedInput1 &&
-      ethers.utils.parseUnits(field1Value, coin1.decimals) <= coin1.wei
+      Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(coin1.wei)
     );
   };
   
