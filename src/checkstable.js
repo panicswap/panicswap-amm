@@ -10,7 +10,7 @@ export function checkStable(address1, address2){
     const yvusdc = "0xEF0210eB96c7EB36AF8ed1c20306462764935607";
     const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
     const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
-    const wbesolid = "0xe20423DD1D1E05c439266Dc815Ac06C3C1f70ee1";
+    const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF";
 
     const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e";
     const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83";
@@ -85,7 +85,7 @@ export function checkVault(address){
   const pvfbeets  = "0x4BA7C0F6b44451C105368b2581B31e6Bc794D3dB";
   const yvboo  = "0x0fbbf9848d969776a5eb842edafaf29ef4467698";
   const wbePANIC = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
-  const wbesolid = "0xe20423DD1D1E05c439266Dc815Ac06C3C1f70ee1";
+  const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF";
 
   vault[dai.toLowerCase()] = yvdai;
   vault[wftm.toLowerCase()] = yvwftm;
