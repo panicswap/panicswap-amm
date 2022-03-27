@@ -244,7 +244,7 @@ export async function getAmountOut(
     const variablePair = await routerContract.pairFor(address1,address2,false);
     const stablePair = await routerContract.pairFor(address1,address2,true);    
     console.log("s values", svalues_out, "vvalues", vvalues_out);
-    const [actualValuesOut, actualPair, stable]= Number(vvalues_out[1]) > Number(svalues_out[1]) ? [vvalues_out[1], variablePair, false]: [svalues_out[1], stablePair, true];
+    const [actualValuesOut, actualPair, stable] = Number(vvalues_out[1]) > Number(svalues_out[1]) ? [vvalues_out[1], variablePair, false]: [svalues_out[1], stablePair, true];
 
     const pairContract = new Contract(actualPair, PAIR.abi, signer);
 
@@ -255,8 +255,20 @@ export async function getAmountOut(
     let priceImpact;// = finalPrice/initialPrice;
     const reserves = await fetchReserves(address1, address2, pairContract, signer);
 
-    if(stable)
-      priceImpact = NaN;//TODO
+    if(stable){
+      //Price impact is not perfect
+      const averagePrice = amountIn/actualValuesOut;
+      const stableValuesStart = await routerContract.getAmountsOut(
+        ethers.utils.parseUnits(String(amountIn/1000), token1Decimals),
+        [[address1, address2, true]]
+      );
+      const valuesOutStart = stableValuesStart[1];
+      const startingPrice = (amountIn/1000)/valuesOutStart;
+      const finalPrice = startingPrice + (averagePrice - startingPrice) * 2;
+      
+      console.log("STABLE PRICES: ", startingPrice, finalPrice);
+      priceImpact = 100-(startingPrice*100/finalPrice)+normalizedFee;
+    }
     else{
       const initialPrice = reserves[0]/reserves[1];
 
