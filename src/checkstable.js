@@ -107,3 +107,80 @@ export function checkVault(address){
     return address;
   }
 }
+
+export function checkRoute(tokenFrom, tokenTo){
+  // NOTE: This algorithm will always give a liquid route, but that route might not be optimal. Needs rework.
+  const renbtc = "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501";
+  const yvwbtc = "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9";
+  const yvdai = "0x637eC617c86D24E421328e6CAEa1d92114892439";
+  const yvusdc = "0xEF0210eB96c7EB36AF8ed1c20306462764935607";
+  const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
+  const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
+  const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF";
+
+  const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e";
+  const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83";
+  const wbtc = "0x321162Cd933E2Be498Cd2267a90534A804051b11";
+  const weth = "0x74b23882a30290451A17c44f4F05243b6b58C76d";
+  const usdc = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75";
+  const yfi  = "0x29b0Da86e484E1C0029B56e817912d778aC0EC69";
+  const panic = "0xa882ceac81b22fc2bef8e1a82e823e3e9603310b";
+  const oxsolid = "0xDA0053F0bEfCbcaC208A3f867BB243716734D809";
+  const solid = "0x888EF71766ca594DED1F0FA3AE64eD2941740A20";
+  const beluga = "0x4A13a2cf881f5378DEF61E430139Ed26d843Df9A";
+  const boo = "0x841fad6eae12c286d1fd18d1d525dffa75c7effe";
+  const fbeets  = "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1";
+
+  let routesMap = {};
+  routesMap[renbtc] = [wbtc];
+  routesMap[bepanic] = [panic];
+  routesMap[dai] = [usdc,wftm];
+  routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
+  routesMap[wbtc] = [weth,wftm];
+  routesMap[weth] = [wbtc,wftm];
+  routesMap[usdc] = [wftm,dai,fbeets];
+  routesMap[yfi] = [weth];
+  routesMap[panic] = [wftm,bepanic];
+  routesMap[oxsolid] = [solid];
+  routesMap[solid] = [oxsolid];
+  routesMap[beluga] = [wftm];
+  routesMap[boo] = [wftm];
+  routesMap[fbeets] = [usdc];
+
+  console.log("joined", tokenFrom,tokenTo);
+  const routesToken = routesMap[tokenFrom];
+
+  //TODO support yvtokens
+  if(routesToken.includes(tokenTo))
+    return [tokenFrom, tokenTo];
+
+  if(routesToken.length == 1){
+    let finalRoute = [tokenFrom, routesToken[0]];
+    let secondPart = checkRoute(routesToken[0], tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  if(routesToken.includes(wftm)){
+    let finalRoute = [tokenFrom, wftm];
+    let secondPart = checkRoute(wftm, tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  if(routesToken.includes(panic) && tokenTo == bepanic){
+    let finalRoute = [tokenFrom, panic];
+    let secondPart = checkRoute(panic, tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  if(routesToken.includes(usdc)){
+    let finalRoute = [tokenFrom, usdc];
+    let secondPart = checkRoute(usdc, tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  //TODO dai to fbeets case
+}
