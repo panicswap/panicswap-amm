@@ -20,6 +20,7 @@ import {
   getSigner,
   getNetwork,
   getAmountOut,
+  getAmountsOut,
   getBalanceAndSymbol,
   getWeth,
   swapTokens,
@@ -33,6 +34,7 @@ import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinField from "./CoinField";
 import {ethers} from 'ethers';
+import {checkRoute} from "../checkstable";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -166,16 +168,20 @@ function CoinSwapper(props) {
   // Determines whether the button should be enabled or not
   const isButtonEnabled = () => {
     // If both coins have been selected, and a valid float has been entered which is less than the user's balance, then return true
-    const parsedInput1 = parseFloat(field1Value);
-    const parsedInput2 = parseFloat(field2Value);
-    return (
-      coin1.address &&
-      coin2.address &&
-      !isNaN(parsedInput1) &&
-      !isNaN(parsedInput2) &&
-      0 < parsedInput1 &&
-      Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(coin1.wei)
-    );
+    try{
+      const parsedInput1 = parseFloat(field1Value);
+      const parsedInput2 = parseFloat(field2Value);
+      return (
+        coin1.address &&
+        coin2.address &&
+        !isNaN(parsedInput1) &&
+        !isNaN(parsedInput2) &&
+        0 < parsedInput1 &&
+        Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(coin1.wei)
+      );
+    }catch{
+      return false;
+    }
   };
   
   // Called when the dialog window for coin1 exits
@@ -259,9 +265,10 @@ function CoinSwapper(props) {
 
     console.log("COIN1", coin1);
 
+    const fullRoute = checkRoute(coin1["address"],coin2["address"]);
+
     swapTokens(
-      coin1.address,
-      coin2.address,
+      fullRoute,
       field1Value,
       router,
       account,
@@ -318,17 +325,35 @@ function CoinSwapper(props) {
     if (isNaN(parseFloat(field1Value))) {
       setField2Value("");
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
-      getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
-        .then((data) => {
-          setField2Value(Number(data[0]).toFixed(7));
-          setPriceImpact(Number(data[1]).toFixed(2));
-          setTokenFee(Number(data[2]).toFixed(7));
-          //setPairFee(data[3].toFixed(2));
-        })
-        .catch((e) => {
-          console.log(e);
-          setField2Value("NA");
-        });
+      const fullRoute = checkRoute(coin1["address"],coin2["address"]);
+      console.log(fullRoute);
+      if(fullRoute.length == 2){
+        getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
+          .then((data) => {
+            setField2Value(Number(data[0]).toFixed(7));
+            setPriceImpact(Number(data[1]).toFixed(2));
+            setTokenFee(Number(data[2]).toFixed(7));
+            //setPairFee(data[3].toFixed(2));
+          })
+          .catch((e) => {
+            console.log(e);
+            setField2Value("NA");
+          });
+      } else if (fullRoute.length >2){
+        for(let i = 0; i < fullRoute.length; i++){
+          getAmountsOut(fullRoute, field1Value, router, signer)
+          .then((data) => {
+            setField2Value(Number(data[0]).toFixed(7));
+            setPriceImpact(Number(data[1]).toFixed(2));
+            setTokenFee(Number(data[2]).toFixed(7));
+            //setPairFee(data[3].toFixed(2));
+          })
+          .catch((e) => {
+            console.log(e);
+            setField2Value("NA");
+          });
+        }
+      }
     } else {
       setField2Value("");
     }
@@ -571,26 +596,6 @@ function CoinSwapper(props) {
                   </div>
                 </section>
               )}
-
-              {/* Reserves Display */}
-              <section className="mt-4">
-                <h4 className="text-xl font-bold mb-1">Total Liquidity</h4>
-                <div className="flex items-center gap-2">
-                  <img
-                    src={"/assets/token/" + coin1.symbol + ".svg"}
-                    className="max-w-[30px]"
-                  />
-                  <div>{formatReserve(reserves[0], coin1.symbol)}</div>
-                </div>
-
-                <div className="-mt-2 flex items-center gap-2">
-                  <img
-                    src={"/assets/token/" + coin2.symbol + ".svg"}
-                    className="max-w-[30px]"
-                  />
-                  <div>{formatReserve(reserves[1], coin2.symbol)}</div>
-                </div>
-              </section>
             </>
           )}
 

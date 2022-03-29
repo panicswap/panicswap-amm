@@ -34,7 +34,6 @@ export default function Header() {
   ));
   const [panicPrice, setPanicPrice] = React.useState(0);
   const [totalTvl, setTotalTvl] = React.useState(0);
-  const [totalPairs, setTotalPairs] = React.useState(0);
   const [divApr, setDivApr] = React.useState(0);
 
   // This hook will run when the component first mounts, it can be useful to put logs to populate variables here
@@ -58,8 +57,6 @@ export default function Header() {
             .then(setTotalTvl),
         aprFeed.panicDollarPrice()
             .then(setPanicPrice),
-        chef.poolLength()
-            .then(setTotalPairs),
         aprStaking.getFtmApr()
             .then(setDivApr),
       ];
@@ -102,7 +99,6 @@ export default function Header() {
             label="$PANIC price"
             value={"$" + formatNumber(panicPrice / 1e18, 3)}
           />
-          <HeaderItem label="Total Pairs" value={Number(totalPairs)} />
           <HeaderItem
             label="yvWFTM Dividends"
             value={formatNumber(divApr / 100, 2) + "%"}

@@ -54,11 +54,6 @@ const FANTOMCoins = [
     address: "0x4a13a2cf881f5378def61e430139ed26d843df9a",
   },
   {
-    name: "beFTM",
-    abbr: "beFTM",
-    address: "0x7381eD41F6dE418DdE5e84B55590422a57917886",
-  },
-  {
     name: "Fresh Beets",
     abbr: "fBEETS",
     address: "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1",
