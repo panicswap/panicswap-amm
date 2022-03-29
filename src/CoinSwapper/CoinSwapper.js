@@ -527,7 +527,7 @@ function CoinSwapper(props) {
           </div>
 
           {/* Field switcher */}
-          <div className="flex justify-center -mt-4">
+          <div className="flex justify-center mt-1 mb-6">
             <div
               onClick={switchFields}
               className="rotate-90 p-3 bg-gradient-to-br from-blue-500 to-blue-300 rounded-full transition-all hover:scale-105 text-lg cursor-pointer"
