@@ -18,57 +18,57 @@ export default function Footer() {
           name="Medium"
           link="https://medium.com/@thepanicswap/"
           icon={<SiMedium />}
-          color="#000"
+          className="dark:text-white"
         />
         <SocialItem
           name="Telegram"
           link="https://t.me/panic_swap"
           icon={<FaTelegramPlane />}
-          color="#0088cc"
+          className="dark:text-white"
         />
         <SocialItem
           name="Discord"
           link="https://discord.gg/xNpFVYxQcZ"
           icon={<FaDiscord />}
-          color="#7289da"
+          className="dark:text-white"
         />
-
         <SocialItem
           name="Twitter"
           link="https://twitter.com/panic_swap"
           icon={<FaTwitter />}
-          color="#1da1f2"
+          className="dark:text-white"
         />
         <SocialItem
           name="GitHub"
           link="https://github.com/panicswap"
           icon={<FaGithub />}
+          className="dark:text-white"
         />
         <SocialItem
           name="Documentation"
           link="/docs"
           icon={<SiGitbook />}
-          color="#4285fd"
+          className="dark:text-white"
         />
-
-        <SocialItem name="Governance" link="/gov" icon={<RiGovernmentFill />} />
+        <SocialItem
+          name="Governance"
+          link="/gov"
+          icon={<RiGovernmentFill />}
+          className="dark:text-white"
+        />
       </div>
     </footer>
   );
 }
 
-const SocialItem = ({ name, link, icon, color }) => {
+const SocialItem = ({ name, link, icon, className }) => {
   return (
-    {
-      /* TODO - resize icons */
-    },
-    (
-      <a
-        className="flex items-center border-0 px-3 hover:no-underline"
-        href={link}
-      >
-        <div style={{ color: color }}>{icon}</div>
-      </a>
-    )
+    /* TODO - resize icons */
+    <a
+      className="flex items-center border-0 px-3 hover:no-underline"
+      href={link}
+    >
+      <div className={className}>{icon}</div>
+    </a>
   );
 };
