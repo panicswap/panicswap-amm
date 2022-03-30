@@ -384,7 +384,7 @@ function FarmList(props) {
                 <td>
                   <Link
                     to={item.url}
-                    className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-700 rounded-lg hover:no-underline text-white transition-all"
+                    className="inline-block px-5 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-800 rounded-lg hover:no-underline text-white transition-all"
                   >
                     Select
                   </Link>
