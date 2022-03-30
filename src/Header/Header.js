@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import logo from "../assets/logo/variations/full-logo-01.png";
-import { formatNumber } from "../helpers/numberFormatter";
 import {
   getAccount,
   getProvider,
@@ -13,6 +12,7 @@ import {
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import DarkmodeToggle from "./DarkmodeToggle";
+import HeaderStats from "./HeaderStats";
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -77,20 +77,11 @@ export default function Header() {
         </div>
 
         {/* Stats */}
-        <section className="p-3 flex max-w-3xl">
-          <HeaderItem
-            label="TVL"
-            value={"$" + formatNumber(totalTvl / 1e18, 2)}
-          />
-          <HeaderItem
-            label="$PANIC price"
-            value={"$" + formatNumber(panicPrice / 1e18, 3)}
-          />
-          <HeaderItem
-            label="yvWFTM Dividends"
-            value={formatNumber(divApr / 100, 2) + "%"}
-          />
-        </section>
+        <HeaderStats
+          totalTvl={totalTvl}
+          panicPrice={panicPrice}
+          divApr={divApr}
+        />
 
         {/* Darkmode toggle */}
         <DarkmodeToggle />
@@ -98,12 +89,3 @@ export default function Header() {
     </header>
   );
 }
-
-const HeaderItem = ({ label, value }) => {
-  return (
-    <div className="ml-2 lg:ml-4 rounded-lg">
-      <div className="text-xs text-gray-500 leading-none">{label}</div>
-      <div className="dark:text-blue-200 font-heading">{value}</div>
-    </div>
-  );
-};

@@ -493,7 +493,7 @@ function CoinSwapper(props) {
   }, [account, coin1.address, coin2.address, coins, provider, signer]);
 
   return (
-    <div className="px-2">
+    <div className="px-2 md:mt-14">
       <WrongNetwork open={wrongNetworkOpen} />
       <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 dark:bg-slate-800 dark:bg-gradient-to-tr dark:from-transparent dark:to-transparent rounded-3xl p-3 shadow-lg">
         <h3 className="text-xl font-bold p-3 dark:text-gray-400 font-display text-center">
