@@ -283,46 +283,83 @@ function FarmList(props) {
       </section>
 
       {/* Farms */}
-      <section className="border-2 border-blue-200 m-3 mx-auto max-w-4xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
-        <div className="mb-4">
-          <h3 className="text-3xl font-bold">Farms</h3>
-          <p>Stake LP tokens to earn</p>
+      <section className="mt-5 border-2 border-blue-200 m-3 mx-auto max-w-5xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:border-none dark:text-white">
+        <div className="mb-4 p-2">
+          <h3 className="text-3xl font-bold font-display">Farms</h3>
+          <p className="dark:text-gray-400">Stake LP tokens to earn</p>
         </div>
 
-        <div>
-          {FarmItems.map((item, index) => {
+        <table className="w-full">
+          {FarmItems.map((item) => {
             return (
-              <div
-                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl"
+              <tr
+                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 dark:hover:bg-slate-700 transition-colors rounded-xl"
                 key={item.title}
               >
-                <div className="flex justify-between">
-                  {/* Logos */}
-                  <div className="flex items-center w-3/4">
-                    <img
-                      className="max-w-[25px] sm:max-w-[33px]"
-                      src={"/assets/token/" + item.symbol1 + ".svg"}
-                    ></img>
-                    <img
-                      className="max-w-[25px] sm:max-w-[33px] relative left-[-9px]"
-                      src={"/assets/token/" + item.symbol2 + ".svg"}
-                    ></img>
+                <td>
+                  <div className="flex justify-between mt-2">
+                    {/* Logos */}
+                    <div className="flex items-center w-3/4">
+                      <img
+                        className="max-w-[25px] sm:max-w-[33px]"
+                        src={"/assets/token/" + item.symbol1 + ".svg"}
+                      ></img>
+                      <img
+                        className="max-w-[25px] sm:max-w-[33px] relative left-[-9px]"
+                        src={"/assets/token/" + item.symbol2 + ".svg"}
+                      ></img>
 
-                    {/* Title */}
-                    <div className="md:text-lg font-bold">{item.title}</div>
+                      {/* Title */}
+                      <div className="md:text-lg">
+                        <h5 className="font-bold font-heading">{item.title}</h5>
+                        <div className="flex gap-2">
+                          <div className="">
+                            <div className="text-sm leading-none">Balance</div>
+                            <div className="md:text-md">
+                              {userHeldLPs[item.poolid - 1]}
+                              <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                $
+                                {isNaN(
+                                  (tvlMap[item.poolid - 1] *
+                                    userHeldLPs[item.poolid - 1]) /
+                                    totalSupplyMap[item.poolid - 1]
+                                )
+                                  ? 0
+                                  : (
+                                      (tvlMap[item.poolid - 1] *
+                                        userHeldLPs[item.poolid - 1]) /
+                                      totalSupplyMap[item.poolid - 1]
+                                    ).toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="">
+                            <div className="text-sm leading-none">Staked</div>
+                            <div className="md:text-md">
+                              {userStakedLPs[item.poolid - 1]}
+                              <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                $
+                                {isNaN(
+                                  (tvlMap[item.poolid - 1] *
+                                    userStakedLPs[item.poolid - 1]) /
+                                    totalSupplyMap[item.poolid - 1]
+                                )
+                                  ? 0
+                                  : (
+                                      (tvlMap[item.poolid - 1] *
+                                        userStakedLPs[item.poolid - 1]) /
+                                      totalSupplyMap[item.poolid - 1]
+                                    ).toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </td>
 
-                  <div>
-                    <Link
-                      to={item.url}
-                      className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg hover:no-underline text-white transition-all"
-                    >
-                      Select
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
+                <td className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
                   <div className="">
                     <div className="text-sm">APR</div>
                     <div className="md:text-md">
@@ -330,48 +367,6 @@ function FarmList(props) {
                         aprMap[item.poolid - 1] +
                         (yfiMap[item.symbol1] + yfiMap[item.symbol2]) / 2
                       ).toFixed(2) + "%"}
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="text-sm">Balance</div>
-                    <div className="md:text-md">
-                      {userHeldLPs[item.poolid - 1]}
-                      <span className="md:text-xs">
-                        &nbsp;($
-                        {isNaN(
-                          (tvlMap[item.poolid - 1] *
-                            userHeldLPs[item.poolid - 1]) /
-                            totalSupplyMap[item.poolid - 1]
-                        )
-                          ? 0
-                          : (
-                              (tvlMap[item.poolid - 1] *
-                                userHeldLPs[item.poolid - 1]) /
-                              totalSupplyMap[item.poolid - 1]
-                            ).toFixed(2)}
-                        )
-                      </span>
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="text-sm">Staked</div>
-                    <div className="md:text-md">
-                      {userStakedLPs[item.poolid - 1]}
-                      <span className="md:text-xs">
-                        &nbsp;($
-                        {isNaN(
-                          (tvlMap[item.poolid - 1] *
-                            userStakedLPs[item.poolid - 1]) /
-                            totalSupplyMap[item.poolid - 1]
-                        )
-                          ? 0
-                          : (
-                              (tvlMap[item.poolid - 1] *
-                                userStakedLPs[item.poolid - 1]) /
-                              totalSupplyMap[item.poolid - 1]
-                            ).toFixed(2)}
-                        )
-                      </span>
                     </div>
                   </div>
                   <div>
@@ -384,11 +379,20 @@ function FarmList(props) {
                     <div className="text-sm">Multiplier</div>
                     <div className="md:text-md">{"x" + item.boost}</div>
                   </div>
-                </div>
-              </div>
+                </td>
+
+                <td>
+                  <Link
+                    to={item.url}
+                    className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-700 rounded-lg hover:no-underline text-white transition-all"
+                  >
+                    Select
+                  </Link>
+                </td>
+              </tr>
             );
           })}
-        </div>
+        </table>
       </section>
     </div>
   );
