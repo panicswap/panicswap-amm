@@ -602,7 +602,7 @@ function CoinSwapper(props) {
             </>
           )}
 
-          <div className="mt-3">
+          <div className="mt-5">
             <LoadingButton
               loading={loading}
               valid={isButtonEnabled()}
