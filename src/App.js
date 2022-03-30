@@ -44,7 +44,7 @@ function App() {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     return (
-      <div className="flex flex-col min-h-screen App bg-gradient-to-bl from-blue-300 via-blue-100  to-blue-50">
+      <div className="flex flex-col min-h-screen App bg-gradient-to-bl from-blue-300 via-blue-100  to-blue-50 dark:bg-gray-800 dark:from-transparent dark:to-transparent">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
@@ -55,14 +55,22 @@ function App() {
               <Route exact path="/farms/:farmId" component={FarmDetails} />
               <Route exact path="/stake" component={TokenPage} />
               <Route exact path="/migration" component={Migration} />
-              <Route path='/docs' component={() => { 
-                window.location.href = 'https://panic-swap.gitbook.io/panicswap/'; 
-                return null;
-              }}/>
-              <Route path='/gov' component={() => { 
-                window.location.href = 'https://snapshot.org/#/panicswap.eth/'; 
-                return null;
-              }}/>
+              <Route
+                path="/docs"
+                component={() => {
+                  window.location.href =
+                    "https://panic-swap.gitbook.io/panicswap/";
+                  return null;
+                }}
+              />
+              <Route
+                path="/gov"
+                component={() => {
+                  window.location.href =
+                    "https://snapshot.org/#/panicswap.eth/";
+                  return null;
+                }}
+              />
             </div>
             <Footer />
           </ThemeProvider>

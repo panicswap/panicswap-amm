@@ -20,18 +20,15 @@ export default function Header() {
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
-  const [aprFeed, setAprFeed] = React.useState(getAprFeed(
-      "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
-      signer
-  ));
-  const [chef, setChef] = React.useState(getChef(
-      "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
-      signer
-  ));
-  const [aprStaking, setAprStaking] = React.useState(getAprFeedStaking(
-      "0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",
-      signer
-  ));
+  const [aprFeed, setAprFeed] = React.useState(
+    getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer)
+  );
+  const [chef, setChef] = React.useState(
+    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
+  );
+  const [aprStaking, setAprStaking] = React.useState(
+    getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B", signer)
+  );
   const [panicPrice, setPanicPrice] = React.useState(0);
   const [totalTvl, setTotalTvl] = React.useState(0);
   const [divApr, setDivApr] = React.useState(0);
@@ -53,28 +50,17 @@ export default function Header() {
   useEffect(() => {
     const updateHeaderStats = async () => {
       const promises = [
-        aprFeed.totalTvl()
-            .then(setTotalTvl),
-        aprFeed.panicDollarPrice()
-            .then(setPanicPrice),
-        aprStaking.getFtmApr()
-            .then(setDivApr),
+        aprFeed.totalTvl().then(setTotalTvl),
+        aprFeed.panicDollarPrice().then(setPanicPrice),
+        aprStaking.getFtmApr().then(setDivApr),
       ];
       await Promise.allSettled(promises);
-    }
+    };
     updateHeaderStats();
   }, [aprFeed, aprStaking, chef]);
 
   return (
-    <header
-      style={{
-        background: "rgba(255, 255, 255, 0.1)",
-        borderTop: "1px solid rgba(255, 255, 255, 0.5)",
-        borderLeft: "1px solid rgba(255, 255, 255, 0.5)",
-        backdropFilter: "blur(10px)",
-      }}
-      className="border-b sticky top-0 z-10 mb-10 p-2 md:p-5"
-    >
+    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2">
       <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo */}
