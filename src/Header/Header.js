@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "../assets/logo/variations/full-logo-01.png";
+import logo from "../assets/logo/logo.svg";
 import {
   getAccount,
   getProvider,
@@ -68,7 +68,7 @@ export default function Header() {
           <Link to="/">
             <img
               src={logo}
-              className="max-w-[100px] md:max-w-[130px]"
+              className="w-[44px] md:max-w-[130px] mr-5"
               alt="PanicSwap logo"
             />
           </Link>

@@ -251,7 +251,7 @@ function FarmList(props) {
           <div className="flex items-center">
             <img
               src="assets/token/PANIC.svg"
-              className="max-w-[50px] border-3 border-blue-400 rounded-full"
+              className="max-w-[40px] border-3 border-blue-400 rounded-full"
               alt="PANIC logo"
             />
             <div className="ml-2">
