@@ -239,13 +239,29 @@ function FarmList(props) {
       <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Rewards */}
-      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
-        <div className="flex justify-between">
+      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:border-none dark:bg-slate-800 dark:text-white">
+        <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-3xl font-bold">Rewards</h3>
-            <p className="text-base leading-none">
+            <h3 className="text-3xl font-bold font-display">Rewards</h3>
+            <p className="text-base leading-none dark:text-gray-400">
               Collect <strong>$PANIC</strong> rewards earned by farming
             </p>
+          </div>
+
+          <div className="flex items-center">
+            <img
+              src="assets/token/PANIC.svg"
+              className="max-w-[50px] border-3 border-blue-400 rounded-full"
+              alt="PANIC logo"
+            />
+            <div className="ml-2">
+              <div className="flex">
+                <div className="text-4xl font-bold">
+                  {formatNumber(pendingPanic, 3)}
+                </div>
+                <div className="text-sm self-end ml-1">PANIC</div>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -264,22 +280,6 @@ function FarmList(props) {
           </div>
         </div>
         {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-
-        <div className="mt-2 flex items-center">
-          <img
-            src="assets/token/PANIC.svg"
-            className="max-w-[50px] border-3 border-blue-400 rounded-full"
-            alt="PANIC logo"
-          />
-          <div className="ml-2">
-            <div className="flex">
-              <div className="text-4xl font-bold">
-                {formatNumber(pendingPanic, 3)}
-              </div>
-              <div className="text-sm self-end ml-1">PANIC</div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Farms */}
