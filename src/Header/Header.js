@@ -12,6 +12,7 @@ import {
 } from "../ethereumFunctions";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
+import DarkmodeToggle from "./DarkmodeToggle";
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -90,6 +91,9 @@ export default function Header() {
             value={formatNumber(divApr / 100, 2) + "%"}
           />
         </section>
+
+        {/* Darkmode toggle */}
+        <DarkmodeToggle />
       </div>
     </header>
   );
@@ -99,7 +103,7 @@ const HeaderItem = ({ label, value }) => {
   return (
     <div className="ml-2 lg:ml-4 rounded-lg">
       <div className="text-xs text-gray-500 leading-none">{label}</div>
-      <div className="">{value}</div>
+      <div className="dark:text-blue-200 font-heading">{value}</div>
     </div>
   );
 };
