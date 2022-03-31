@@ -249,107 +249,102 @@ export default function Rewards() {
         </section>
       </div>
 
-      <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell align="center">Amount</TableCell>
-              <TableCell align="center">Claim</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* Unlocked PANIC */}
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Staked PANIC
-              </TableCell>
-              <TableCell align="center">
-                {Number(unlockedBalance).toFixed(6)}
-                <img
-                  src="assets/token/PANIC.svg"
-                  className={classes.smallTokenIcon}
-                ></img>
-              </TableCell>
-              <TableCell align="center">
-                <LoadingButton
-                  loading={false}
-                  valid={true}
-                  success={false}
-                  fail={false}
-                  onClick={() => {
-                    withdrawUnlocked();
-                  }}
-                >
-                  Unstake
-                </LoadingButton>
-              </TableCell>
-            </TableRow>
+      <section className="grid grid-cols-3 gap-2 items-start  dark:text-white">
+        {/* Unlocked PANIC */}
+        <div className="dark:bg-slate-800 p-3 rounded-xl">
+          <h4 className="text-xl font-display mb-3 p-1">Staked PANIC</h4>
+          <div className="dark:bg-slate-900 rounded-lg flex p-2 justify-end text-lg mb-2">
+            <div>{Number(unlockedBalance).toFixed(6)}</div>
 
-            {/* PANIC Stake and Lock Rewards */}
-            <TableRow>
-              <TableCell component="th" scope="row">
-                <TableRow>PANIC Rewards ({panicApr + "%"})</TableRow>
-                <TableRow>yvWFTM APR ({yvwftmApr + "%"})</TableRow>
-              </TableCell>
-              <TableCell align="center">
-                {Number(panicRewards).toFixed(2)}
-                <img
-                  src="assets/token/PANIC.svg"
-                  className={classes.smallTokenIcon}
-                ></img>
-                PANIC
-                <hr />
-                {Number(yvWFTMRewards).toFixed(2)}
-                <img
-                  src="assets/token/yvWFTM.svg"
-                  className={classes.smallTokenIcon}
-                ></img>
-                yvWFTM
-              </TableCell>
-              <TableCell align="center">
-                <LoadingButton
-                  loading={false}
-                  valid={true}
-                  success={false}
-                  fail={false}
-                  onClick={() => {
-                    getReward();
-                  }}
-                >
-                  Claim
-                </LoadingButton>
-              </TableCell>
-            </TableRow>
-            {/* Claim all above */}
-            <TableRow className={classes.rowClaimAll}>
-              <TableCell component="th" scope="row">
-                Exit vesting
-              </TableCell>
-              <TableCell align="center">
-                {Number(vestedBalance / 2).toFixed(6)}
-                <img
-                  src="assets/token/PANIC.svg"
-                  className={classes.smallTokenIcon}
-                ></img>
-              </TableCell>
-              <TableCell align="center">
-                <LoadingButton
-                  loading={false}
-                  valid={true}
-                  success={false}
-                  fail={false}
-                  onClick={() => {
-                    exit();
-                  }}
-                >
-                  Exit
-                </LoadingButton>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+            <img
+              src="assets/token/PANIC.svg"
+              className={classes.smallTokenIcon}
+            />
+          </div>
+          <div>
+            <LoadingButton
+              loading={false}
+              valid={true}
+              success={false}
+              fail={false}
+              onClick={() => {
+                withdrawUnlocked();
+              }}
+            >
+              Unstake
+            </LoadingButton>
+          </div>
+        </div>
+
+        {/* PANIC Stake and Lock Rewards */}
+        <div className="dark:bg-slate-800 p-3 rounded-xl">
+          <div className="flex justify-between mb-2">
+            <div>
+              <h4 className="font-display">PANIC Rewards</h4>
+              <div className="dark:text-gray-300">{panicApr + "%"} APR</div>
+            </div>
+            <div className="flex items-center">
+              <div>{Number(panicRewards).toFixed(2)}</div>
+              <img
+                src="assets/token/PANIC.svg"
+                className={classes.smallTokenIcon}
+              ></img>
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div>
+              <div className="font-display">yvWFTM</div>
+              <div className="dark:text-gray-300">{yvwftmApr + "%"} APR</div>
+            </div>
+            <div className="flex items-center">
+              <div>{Number(yvWFTMRewards).toFixed(2)}</div>
+              <img
+                src="assets/token/yvWFTM.svg"
+                className={classes.smallTokenIcon}
+              />
+            </div>
+          </div>
+          <div className="mt-5">
+            <LoadingButton
+              loading={false}
+              valid={true}
+              success={false}
+              fail={false}
+              onClick={() => {
+                getReward();
+              }}
+            >
+              Claim
+            </LoadingButton>
+          </div>
+        </div>
+
+        {/* Claim all above */}
+        <div className="dark:bg-slate-800 p-3 rounded-xl">
+          <h4 className="text-xl font-display mb-3 p-1">Exit vesting</h4>
+          <div className="dark:bg-slate-900 rounded-lg flex p-2 justify-end text-lg mb-2">
+            <div>{Number(vestedBalance / 2).toFixed(6)}</div>
+
+            <img
+              src="assets/token/PANIC.svg"
+              className={classes.smallTokenIcon}
+            />
+          </div>
+          <div>
+            <LoadingButton
+              loading={false}
+              valid={true}
+              success={false}
+              fail={false}
+              onClick={() => {
+                exit();
+              }}
+            >
+              Exit
+            </LoadingButton>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
