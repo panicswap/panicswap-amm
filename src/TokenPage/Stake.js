@@ -1,19 +1,5 @@
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
-import {
-  Container,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-  Switch,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-} from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import {
   getAccount,
@@ -30,34 +16,7 @@ import COINS from "../constants/coins";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
 import * as chains from "../constants/chains";
 
-const styles = (theme) => ({
-  paperContainer: {
-    borderRadius: theme.spacing(2),
-    marginBottom: theme.spacing(3),
-  },
-  title: {
-    marginBottom: theme.spacing(1),
-  },
-  balance: {},
-  smallTokenIcon: {
-    width: "20px",
-    marginLeft: "5px",
-    marginRight: "5px",
-    marginBottom: "2px",
-  },
-  btnContainer: {
-    padding: theme.spacing(2.5),
-    marginTop: theme.spacing(5),
-  },
-  buttonContainer: {
-    padding: theme.spacing(2),
-  },
-});
-
-const useStyles = makeStyles(styles);
-
 export default function Stake() {
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getProvider());
@@ -227,30 +186,21 @@ export default function Stake() {
             locked
           </div>
           <div className="ml-2">{Number(lockedBalance).toFixed(2)}</div>
-          <img
-            src="assets/token/PANIC.svg"
-            className={classes.smallTokenIcon}
-          />
+          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
         <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
             vested
           </div>
           <div className="ml-2">{Number(vestedBalance).toFixed(2)}</div>
-          <img
-            src="assets/token/PANIC.svg"
-            className={classes.smallTokenIcon}
-          />
+          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
         <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
             unlocked
           </div>
           <div className="ml-2">{Number(unlockedBalance).toFixed(2)}</div>
-          <img
-            src="assets/token/PANIC.svg"
-            className={classes.smallTokenIcon}
-          />
+          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
       </div>
 
