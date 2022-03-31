@@ -134,8 +134,7 @@ export async function getBalanceAndSymbol(
 //    `accountAddress` - An Ethereum address of the current user's account
 //    `signer` - The current signer
 export async function swapTokens(
-  address1,
-  address2,
+  fullRoute,
   amount,
   routerContract,
   accountAddress,
@@ -143,38 +142,30 @@ export async function swapTokens(
   isNativeOut,
   signer
 ) {
-  const vtokens = [[address1, address2, false]];
-  const stokens = [[address1, address2, true]];
+  let actualTokens = [];
+
+  for(let i = 0; i < fullRoute.length - 1; i++){
+    actualTokens[i] = [fullRoute[i],fullRoute[i+1],checkStable(fullRoute[i], fullRoute[i+1])]
+  }
+  
   const time = Math.floor(Date.now() / 1000) + 200000;
   const deadline = BigNumber.from(time);
 
-  const token1 = new Contract(address1, ERC20.abi, signer);
+  const token1 = new Contract(fullRoute[0], ERC20.abi, signer);
   const tokenDecimals = await getDecimals(token1);
 
   const amountIn = ethers.utils.parseUnits(amount, tokenDecimals);
 
-  let vamountOut = 0;
-  let samountOut = 0;
+  var actualAmountOut;
 
   try{
-  vamountOut = await routerContract.callStatic.getAmountsOut(
+    actualAmountOut = await routerContract.callStatic.getAmountsOut(
     amountIn,
-    vtokens
+    actualTokens
   );
   }catch{
     console.log("error, maybe no liq on v pair");
   }
-
-  try{
-    samountOut = await routerContract.callStatic.getAmountsOut(
-      amountIn,
-      stokens
-    );
-  }catch{
-   console.log("error, maybe no liq on s pair");
-  }
-
-  const [actualTokens, actualAmountOut] = Number(vamountOut[1]) > Number(samountOut[1]) ? [vtokens, vamountOut] : [stokens, samountOut];
 
   const allowance = await token1.allowance(accountAddress, routerContract.address);
   if(Number(allowance)<amountIn & !isNative){
@@ -185,7 +176,7 @@ export async function swapTokens(
 
   if(isNative){
     await routerContract.swapExactETHForTokens(
-      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      BigNumber.from(actualAmountOut[actualAmountOut.length-1]).mul(99).div(100),
       actualTokens,
       accountAddress,
       deadline,
@@ -194,7 +185,7 @@ export async function swapTokens(
   } else if(!isNative && isNativeOut){
     await routerContract.swapExactTokensForETH(
       amountIn,
-      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      BigNumber.from(actualAmountOut[actualAmountOut.length-1]).mul(99).div(100),
       actualTokens,
       accountAddress,
       deadline
@@ -202,7 +193,7 @@ export async function swapTokens(
   } else{
     await routerContract.swapExactTokensForTokens(
       amountIn,
-      BigNumber.from(actualAmountOut[1]).mul(99).div(100),
+      BigNumber.from(actualAmountOut[actualAmountOut.length-1]).mul(99).div(100),
       actualTokens,
       accountAddress,
       deadline
@@ -258,15 +249,17 @@ export async function getAmountOut(
     if(stable){
       //Price impact is not perfect
       const averagePrice = amountIn/actualValuesOut;
+      
+      const parsedAmount =   ethers.utils.parseUnits(String(amountIn), token1Decimals);
       const stableValuesStart = await routerContract.getAmountsOut(
-        ethers.utils.parseUnits(String(amountIn/1000), token1Decimals),
+        String(parsedAmount).substring(0, String(parsedAmount).length - 2),//todo recursive
         [[address1, address2, true]]
       );
       const valuesOutStart = stableValuesStart[1];
-      const startingPrice = (amountIn/1000)/valuesOutStart;
+      const startingPrice = (amountIn/100)/valuesOutStart;
       const finalPrice = startingPrice + (averagePrice - startingPrice) * 2;
       
-      console.log("STABLE PRICES: ", startingPrice, finalPrice);
+      console.log("STABLE PRICES: ", startingPrice, averagePrice, finalPrice);
       priceImpact = 100-(startingPrice*100/finalPrice)+normalizedFee;
     }
     else{
@@ -290,7 +283,7 @@ export async function getAmountOut(
       priceImpact = 100-(initialPrice*100/finalPrice)+normalizedFee;
     }
     const amount_out = actualValuesOut*10**(-token2Decimals);
-    console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee);
+    console.log('amount out: ', amount_out, 'price impact:', priceImpact, 'tokenFee', tokenFee, "normalizedFee", normalizedFee);
 
 
     return [Number(amount_out), priceImpact, tokenFee, normalizedFee];
@@ -298,6 +291,62 @@ export async function getAmountOut(
     return false;
   }
 }
+
+
+//This function returns the conversion rate between two token addresses
+//    `address1` - An Ethereum address of the token to swaped from (either a token or AUT)
+//    `address2` - An Ethereum address of the token to swaped to (either a token or AUT)
+//    `amountIn` - Amount of the token at address 1 to be swaped from
+//    `routerContract` - The router contract to carry out this swap
+export async function getAmountsOut(
+  fullRoute,
+  amountIn,
+  routerContract,
+  signer
+) {
+  console.log("trying to fetch amounts out");
+  try {
+    const token1 = new Contract(fullRoute[0], ERC20.abi, signer);
+    const token1Decimals = await getDecimals(token1);
+
+    const token2 = new Contract(fullRoute[fullRoute.length-1], ERC20.abi, signer);
+    const token2Decimals = await getDecimals(token2);
+ 
+    let finalRoute = [];
+    let normalizedFee = 0;
+    for(let i = 0; i < fullRoute.length - 1; i++){
+      finalRoute[i] = [fullRoute[i],fullRoute[i+1],checkStable(fullRoute[i], fullRoute[i+1])]
+      const pair = await routerContract.pairFor(fullRoute[i],fullRoute[i+1],checkStable(fullRoute[i], fullRoute[i+1]));
+      const pairC = new Contract(pair, PAIR.abi, signer);
+      const pairFee = await pairC.fee();
+      normalizedFee += 1/pairFee;
+    }
+    console.log(finalRoute);
+
+    const parsedAmount = ethers.utils.parseUnits(String(amountIn), token1Decimals);
+    const finalAmounts = await routerContract.getAmountsOut(
+      parsedAmount,//todo recursive
+      finalRoute
+    );
+
+    const approxStartingAmounts = await routerContract.getAmountsOut(
+      String(parsedAmount).substring(0, String(parsedAmount).length - 2),//todo recursive
+      finalRoute
+    );
+
+    const averagePrice = amountIn/finalAmounts[finalAmounts.length-1];
+    const startingPrice = amountIn/100/approxStartingAmounts[finalAmounts.length-1];
+    const finalPrice = startingPrice+(averagePrice-startingPrice)*2;
+    const priceImpact = 100-(startingPrice*100/finalPrice)+normalizedFee*100;
+    const amount_out = finalAmounts[finalAmounts.length-1]/10**(token2Decimals);
+    console.log("priceImpact", priceImpact, "normalizedFee", normalizedFee);
+    return [Number(amount_out), priceImpact, Number(amountIn)*normalizedFee, normalizedFee];//TODO add real fees
+  }catch(err){
+    console.log("multihop quote failed",err);
+    return false;
+  }
+}
+
 
 
 // This function calls the pair contract to fetch the reserves stored in a the liquidity pool between the token of address1 and the token
