@@ -221,6 +221,7 @@ export default function Stake() {
         {/* @todo --> need to iterate with myArray.map()  */}
         {/* @todo */}
 
+        {/* Panic staked amount */}
         <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
             locked
@@ -253,75 +254,69 @@ export default function Stake() {
         </div>
       </div>
 
-      <h4>Stake Panic</h4>
-
-      <Typography variant="subtitle1">
-        Stake PANIC and earn platform fees in yvWFTM without lock-up.
-      </Typography>
-
-      <Grid container direction="row" justifyContent="center">
-        <Grid item xs={12}>
-          <CoinAmountInterface
-            activeField={true}
-            value={field1Value}
-            onClick={() => setDialog1Open(true)}
-            onChange={handleChange.field1}
-            symbol={tokenDetails.symbol}
-            userCanChoose={false}
-            maxValue={panicBalance}
-            decimals={tokenDetails.decimals}
-            maxWeiValue={panicWeiBalance}
-          />
-        </Grid>
-
-        <Grid item xs={12} className={classes.buttonContainer}>
-          <LoadingButton
-            loading={loading}
-            valid={true}
-            success={false}
-            fail={false}
-            onClick={() => {
-              stakePan(field1Value, false);
-            }}
-          >
-            Deposit
-          </LoadingButton>
-        </Grid>
-      </Grid>
-
-      {/* Stake & lock */}
-      <Paper className={classes.paperContainer}>
-        <Typography variant="h5" className={classes.title}>
-          Stake & Lock Panic
-        </Typography>
-
-        <Typography variant="subtitle1">
-          <p>
-            Stake and lock PANIC, earn platform fees in yvWFTM + penalty fees in
-            unlocked PANIC.
-          </p>
-
-          <p>
-            PANIC deposited and locked is subject to a 2 year lock. You will
-            continue to earn fees after the locks expire if you do not withdraw.
-          </p>
-        </Typography>
-
-        <Grid container direction="row" justifyContent="center">
-          <Grid item xs={12}>
+      <section className="grid grid-cols-2 gap-3 dark:text-white mt-5">
+        <div className="dark:bg-slate-800 p-4 rounded-xl flex flex-col">
+          <div className="flex-grow">
+            <h4 className="font-display text-lg">Stake Panic</h4>
+            <p className="dark:text-gray-400 mt-2 mb-10">
+              Stake PANIC and earn platform fees in yvWFTM without lock-up.
+            </p>
+          </div>
+          <div className="">
             <CoinAmountInterface
               activeField={true}
-              value={field2Value}
-              onClick={() => setDialog2Open(true)}
-              onChange={handleChange.field2}
+              value={field1Value}
+              onClick={() => setDialog1Open(true)}
+              onChange={handleChange.field1}
               symbol={tokenDetails.symbol}
               userCanChoose={false}
-              decimals={tokenDetails.decimals}
               maxValue={panicBalance}
+              decimals={tokenDetails.decimals}
               maxWeiValue={panicWeiBalance}
             />
-          </Grid>
-          <Grid item xs={12} className={classes.buttonContainer}>
+            <div className="mt-5">
+              <LoadingButton
+                loading={loading}
+                valid={true}
+                success={false}
+                fail={false}
+                onClick={() => {
+                  stakePan(field1Value, false);
+                }}
+              >
+                Deposit
+              </LoadingButton>
+            </div>
+          </div>
+        </div>
+
+        {/* Stake & lock */}
+        <div className="dark:bg-slate-800 p-4 rounded-xl">
+          <h4 className="font-display text-lg">Stake & Lock Panic</h4>
+          <div className="dark:text-gray-400 mt-2 mb-10">
+            <p>
+              Stake and lock PANIC, earn platform fees in yvWFTM + penalty fees
+              in unlocked PANIC.
+            </p>
+            <p>
+              PANIC deposited and locked is subject to a 2 year lock. You will
+              continue to earn fees after the locks expire if you do not
+              withdraw.
+            </p>
+          </div>
+
+          <CoinAmountInterface
+            activeField={true}
+            value={field2Value}
+            onClick={() => setDialog2Open(true)}
+            onChange={handleChange.field2}
+            symbol={tokenDetails.symbol}
+            userCanChoose={false}
+            decimals={tokenDetails.decimals}
+            maxValue={panicBalance}
+            maxWeiValue={panicWeiBalance}
+          />
+          <div className="mt-5">
             <LoadingButton
               loading={loading}
               valid={true}
@@ -333,9 +328,9 @@ export default function Stake() {
             >
               Lock
             </LoadingButton>
-          </Grid>
-        </Grid>
-      </Paper>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
