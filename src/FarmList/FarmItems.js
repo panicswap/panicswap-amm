@@ -135,7 +135,7 @@ export const FarmItems = [
     boost: "0.1",
   },
   {
-    title: "Never PANIC yearn boosted",
+    title: "Never PANIC yearn boosted Beets LP",
     url: "/farms/17",
     poolid: 17,
     cName: "farm-links",
