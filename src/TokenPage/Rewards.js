@@ -202,48 +202,52 @@ export default function Rewards() {
 
   return (
     <div>
-      <section className="dark:text-white">
-        <h4 className="font-display text-lg">
-          Liquidity Providers (earning PANIC from LP + yvWFTM)
-        </h4>
-        <ul className="dark:text-gray-400">
-          <li>
-            PANIC rewards are subject to a 2 year vesting period, but can also
-            be claimed early at a 50% penalty.
-          </li>
-          <li>
-            Vested PANIC earns Dividends in the form of yvWFTM, which is accrued
-            every block, and claimable at any time with no fees.
-          </li>
-          <li>
-            Exiting before the end of the vesting period always incurs a 50%
-            penalty on rewards only no matter how early or late you choose to
-            exit. The penalty is distributed continuously to PANIC lockers
-            rewarding the long-term holders.
-          </li>
-        </ul>
-      </section>
+      <div className="grid grid-cols-2 mt-10 gap-5 p-2">
+        <section className="dark:text-white">
+          <h4 className="font-display text-lg">Liquidity Providers</h4>
+          <div className="dark:text-gray-200">
+            earning PANIC from LP + yvWFTM
+          </div>
+          <ul className="dark:text-gray-400">
+            <li>
+              PANIC rewards are subject to a 2 year vesting period, but can also
+              be claimed early at a 50% penalty.
+            </li>
+            <li>
+              Vested PANIC earns Dividends in the form of yvWFTM, which is
+              accrued every block, and claimable at any time with no fees.
+            </li>
+            <li>
+              Exiting before the end of the vesting period always incurs a 50%
+              penalty on rewards only no matter how early or late you choose to
+              exit. The penalty is distributed continuously to PANIC lockers
+              rewarding the long-term holders.
+            </li>
+          </ul>
+        </section>
 
-      <section className="dark:text-white">
-        <h4 className="font-display text-lg">
-          For Lockers: (earning PANIC from penalties + yvWFTM):
-        </h4>
-        <ul className="dark:text-gray-400">
-          <li>
-            Locked PANIC is subject to a mandatory 2 years lock and cannot be
-            unlocked early.
-          </li>
-          <li>
-            PANIC rewards and Dividends in the form of yvWFTM can be claimed
-            anytime with no penalty.
-          </li>
-          <li>
-            Lock dates are grouped by the week. Any lock between Monday to
-            Sunday is grouped in the same week group, and will release at the
-            same time 2 years later.
-          </li>
-        </ul>
-      </section>
+        <section className="dark:text-white">
+          <h4 className="font-display text-lg">For Lockers</h4>
+          <div className="dark:text-gray-300">
+            earning PANIC from penalties + yvWFTM
+          </div>
+          <ul className="dark:text-gray-400">
+            <li>
+              Locked PANIC is subject to a mandatory 2 years lock and cannot be
+              unlocked early.
+            </li>
+            <li>
+              PANIC rewards and Dividends in the form of yvWFTM can be claimed
+              anytime with no penalty.
+            </li>
+            <li>
+              Lock dates are grouped by the week. Any lock between Monday to
+              Sunday is grouped in the same week group, and will release at the
+              same time 2 years later.
+            </li>
+          </ul>
+        </section>
+      </div>
 
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">

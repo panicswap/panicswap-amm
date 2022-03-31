@@ -77,14 +77,18 @@ export default function Header() {
         </div>
 
         {/* Stats */}
-        <HeaderStats
-          totalTvl={totalTvl}
-          panicPrice={panicPrice}
-          divApr={divApr}
-        />
+        <div className="flex items-center">
+          <HeaderStats
+            totalTvl={totalTvl}
+            panicPrice={panicPrice}
+            divApr={divApr}
+          />
 
-        {/* Darkmode toggle */}
-        <DarkmodeToggle />
+          {/* Darkmode toggle */}
+          <div className="ml-3">
+            <DarkmodeToggle />
+          </div>
+        </div>
       </div>
     </header>
   );

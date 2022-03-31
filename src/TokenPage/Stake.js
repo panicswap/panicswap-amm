@@ -243,7 +243,7 @@ export default function Stake() {
         {/* Stake & lock */}
         <div className="dark:bg-slate-800 p-4 rounded-xl">
           <h4 className="font-display text-lg">Stake & Lock Panic</h4>
-          <div className="dark:text-gray-400 mt-2 mb-10">
+          <div className="dark:text-gray-400 mt-2 mb-5">
             <p>
               Stake and lock PANIC, earn platform fees in yvWFTM + penalty fees
               in unlocked PANIC.
