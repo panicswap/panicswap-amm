@@ -16,13 +16,13 @@ export default function Footer() {
       <div className="mt-3 flex justify-between mx-2 text-xl mb-2">
         <div className="flex dark:text-gray-600 text-sm">
           <a
-            className="flex items-center border-0 px-3 hover:no-underline"
+            className="flex items-center border-0 px-3 hover:no-underline dark:hover:text-white"
             href="/docs"
           >
             Documentation
           </a>
           <a
-            className="flex items-center border-0 px-3 hover:no-underline"
+            className="flex items-center border-0 px-3 hover:no-underline dark:hover:text-white"
             href="/gov"
           >
             Governance
