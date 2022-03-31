@@ -6,7 +6,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "PANIC",
     symbol2: "WFTM",
-    boost: "11",
+    boost: "5.5",
   },
   {
     title: "WFTM-DAI Panic Variable LP",
@@ -133,5 +133,14 @@ export const FarmItems = [
     symbol1: "SOLID",
     symbol2: "oxSOLID",
     boost: "0.1",
+  },
+  {
+    title: "Never PANIC yearn boosted",
+    url: "/farms/17",
+    poolid: 17,
+    cName: "farm-links",
+    symbol1: "PANIC",
+    symbol2: "WFTM",
+    boost: "5.5",
   },
 ];
