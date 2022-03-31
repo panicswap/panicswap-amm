@@ -21,7 +21,7 @@ export default function Header() {
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [aprFeed, setAprFeed] = React.useState(getAprFeed(
-      "0x427dFbF4376aB621586fe0F218F5E28E1389ff7f",
+      "0xAC6F885e2fcb2Fe105C9EC6C048759873142F60E",
       signer
   ));
   const [chef, setChef] = React.useState(getChef(
