@@ -290,6 +290,14 @@ function FarmList(props) {
         </div>
 
         <table className="w-full">
+          <thead>
+            <tr className="text-left">
+              <th className="invisible">Farm name</th>
+              <th>APR</th>
+              <th>TVL</th>
+              <th>Multiplier</th>
+            </tr>
+          </thead>
           {FarmItems.map((item) => {
             return (
               <tr
@@ -301,13 +309,13 @@ function FarmList(props) {
                     {/* Logos */}
                     <div className="flex items-center w-3/4">
                       <img
-                        className="max-w-[25px] sm:max-w-[33px]"
+                        className="max-w-[25px] sm:max-w-[33px] rounded-full"
                         src={"/assets/token/" + item.symbol1 + ".svg"}
-                      ></img>
+                      />
                       <img
-                        className="max-w-[25px] sm:max-w-[33px] relative left-[-9px]"
+                        className="max-w-[25px] sm:max-w-[33px] relative left-[-9px] rounded-full"
                         src={"/assets/token/" + item.symbol2 + ".svg"}
-                      ></img>
+                      />
 
                       {/* Title */}
                       <div className="md:text-lg">
@@ -315,8 +323,10 @@ function FarmList(props) {
                         <div className="flex gap-2">
                           <div className="">
                             <div className="text-sm leading-none">Balance</div>
-                            <div className="md:text-md">
-                              {userHeldLPs[item.poolid - 1]}
+                            <div className="md:text-md flex">
+                              <div className="text-sm mr-1">
+                                {userHeldLPs[item.poolid - 1]}
+                              </div>
                               <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
                                 $
                                 {isNaN(
@@ -335,8 +345,10 @@ function FarmList(props) {
                           </div>
                           <div className="">
                             <div className="text-sm leading-none">Staked</div>
-                            <div className="md:text-md">
-                              {userStakedLPs[item.poolid - 1]}
+                            <div className="md:text-md flex">
+                              <div className="text-sm mr-1">
+                                {userStakedLPs[item.poolid - 1]}
+                              </div>
                               <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
                                 $
                                 {isNaN(
@@ -359,9 +371,8 @@ function FarmList(props) {
                   </div>
                 </td>
 
-                <td className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
+                <td className="mt-1">
                   <div className="">
-                    <div className="text-sm">APR</div>
                     <div className="md:text-md">
                       {(
                         aprMap[item.poolid - 1] +
@@ -369,14 +380,16 @@ function FarmList(props) {
                       ).toFixed(2) + "%"}
                     </div>
                   </div>
+                </td>
+                <td>
                   <div>
-                    <div className="text-sm">TVL</div>
                     <div className="md:text-md">
                       {"$" + formatNumber(tvlMap[item.poolid - 1], 2)}
                     </div>
                   </div>
+                </td>
+                <td>
                   <div className="">
-                    <div className="text-sm">Multiplier</div>
                     <div className="md:text-md">{"x" + item.boost}</div>
                   </div>
                 </td>
