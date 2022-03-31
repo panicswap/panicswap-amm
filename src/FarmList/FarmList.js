@@ -301,11 +301,11 @@ function FarmList(props) {
           {FarmItems.map((item) => {
             return (
               <tr
-                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 dark:hover:bg-slate-700 transition-colors rounded-xl"
+                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl"
                 key={item.title}
               >
                 <td>
-                  <div className="flex justify-between mt-2">
+                  <div className="flex justify-between mt-2 mb-2">
                     {/* Logos */}
                     <div className="flex items-center w-3/4">
                       <img
@@ -397,7 +397,7 @@ function FarmList(props) {
                 <td>
                   <Link
                     to={item.url}
-                    className="inline-block px-5 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-800 rounded-lg hover:no-underline text-white transition-all"
+                    className="inline-block px-5 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-700 rounded-lg hover:no-underline text-white transition-all"
                   >
                     Select
                   </Link>
