@@ -597,7 +597,6 @@ function CoinSwapper(props) {
                         <div>{Number(tokenFee) + " " + coin1.symbol}</div>
                       </div>
                     </div>
-                  </div>
                 </section>
               )}
             </>
