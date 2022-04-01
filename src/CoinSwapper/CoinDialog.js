@@ -43,13 +43,13 @@ const useStyles = makeStyles(styles);
 const DialogTitle = (props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <header className="flex justify-between items-center p-5">
+    <header className="flex justify-between items-center p-4">
       <h3 className="font-display text-lg">{children}</h3>
 
       {onClose ? (
         <div
           onClick={onClose}
-          className="hover:bg-gray-900 p-3 rounded-full transition-colors cursor-pointer"
+          className="hover:bg-gray-900 p-1 rounded-full transition-colors cursor-pointer"
         >
           <CloseIcon />
         </div>
@@ -97,22 +97,26 @@ export default function CoinDialog(props) {
   return (
     open && (
       <div
-        onClick={() => exit([undefined, undefined])}
-        className="fixed top-0 left-0 w-full h-screen flex z-20 justify-center items-center bg-[#00000040]"
+        onClick={(e) => {
+          if (e.target.classList.contains("overlay")) {
+            exit([undefined, undefined]);
+          }
+        }}
+        className="overlay fixed top-0 right-0 bottom-0 left-0 flex z-20 justify-center items-center bg-[#00000040]"
       >
         <motion.div
           initial={{ opacity: 0, y: 20, x: 0 }}
           animate={{ opacity: 1, y: 0, x: 0 }}
-          className="w-[95%] max-w-[500px] h-5/6 dark:bg-[#131b2e] rounded-xl dark:text-white"
+          className="w-[95%] max-w-[500px] h-[85vh] dark:bg-[#131b2e] rounded-xl dark:text-white grid items-center"
         >
-          <DialogTitle onClose={() => exit([undefined, undefined])}>
-            Select a token to swap
-          </DialogTitle>
+          <div>
+            <DialogTitle onClose={() => exit([undefined, undefined])}>
+              Select a token to swap
+            </DialogTitle>
 
-          <div className="grid">
             <div className="m-2">
               <input
-                className="p-3 w-full rounded-lg bg-transparent border-2 border-blue-500"
+                className="p-3 w-full rounded-lg bg-transparent border-2 border-gray-600 focus:border-blue-500"
                 disabled
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -122,27 +126,27 @@ export default function CoinDialog(props) {
                 helperText={error}
               />
             </div>
+          </div>
 
-            {/* Maps all of the tokens in the constants file to buttons */}
-            <div className="overflow-y-scroll h-[60vh] p-3">
-              {coins.map((coin, index) => (
-                <CoinButton
-                  logo={coin.abbr}
-                  coinName={coin.name}
-                  coinAbbr={coin.abbr}
-                  onClick={() => exit([coin.address, coin.abbr])}
-                />
-              ))}
-            </div>
+          {/* Maps all of the tokens in the constants file to buttons */}
+          <div className="overflow-y-scroll self-start h-full p-3">
+            {coins.map((coin, index) => (
+              <CoinButton
+                logo={coin.abbr}
+                coinName={coin.name}
+                coinAbbr={coin.abbr}
+                onClick={() => exit([coin.address, coin.abbr])}
+              />
+            ))}
+          </div>
 
-            <div className="mt-5 p-2">
-              <button
-                onClick={submit}
-                className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
-              >
-                Enter
-              </button>
-            </div>
+          <div className="p-2">
+            <button
+              onClick={submit}
+              className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
+            >
+              Enter
+            </button>
           </div>
         </motion.div>
       </div>
