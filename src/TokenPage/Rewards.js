@@ -278,9 +278,10 @@ export default function Rewards() {
 
         {/* PANIC Stake and Lock Rewards */}
         <div className="dark:bg-slate-800 p-3 rounded-xl">
+          <h4 className="text-xl font-display mb-3 p-1">Rewards</h4>
           <div className="flex justify-between mb-2">
             <div>
-              <h4 className="font-display">PANIC Rewards</h4>
+              <h4 className="font-display">PANIC</h4>
               <div className="dark:text-gray-300">{panicApr + "%"} APR</div>
             </div>
             <div className="flex items-center">
