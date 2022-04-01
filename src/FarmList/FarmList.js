@@ -300,75 +300,78 @@ function FarmList(props) {
           </thead>
           {FarmItems.map((item) => {
             return (
-              <tr
-                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl"
-                key={item.title}
-              >
+              <tr className="hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl">
                 <td>
-                  <div className="flex justify-between mt-2 mb-2">
-                    {/* Logos */}
-                    <div className="flex items-center w-3/4">
-                      <img
-                        className="max-w-[25px] sm:max-w-[33px] rounded-full"
-                        src={"/assets/token/" + item.symbol1 + ".svg"}
-                      />
-                      <img
-                        className="max-w-[25px] sm:max-w-[33px] relative left-[-9px] rounded-full"
-                        src={"/assets/token/" + item.symbol2 + ".svg"}
-                      />
+                  <Link to={item.url} className="">
+                    <div className="flex justify-between mt-2 mb-2">
+                      {/* Logos */}
+                      <div className="flex items-center w-3/4">
+                        <img
+                          className="max-w-[25px] sm:max-w-[33px] rounded-full"
+                          src={"/assets/token/" + item.symbol1 + ".svg"}
+                        />
+                        <img
+                          className="max-w-[25px] sm:max-w-[33px] relative left-[-9px] rounded-full"
+                          src={"/assets/token/" + item.symbol2 + ".svg"}
+                        />
 
-                      {/* Title */}
-                      <div className="md:text-lg">
-                        <h5 className="font-bold font-heading">{item.title}</h5>
-                        <div className="flex gap-2">
-                          <div className="">
-                            <div className="text-sm leading-none">Balance</div>
-                            <div className="md:text-md flex">
-                              <div className="text-sm mr-1">
-                                {userHeldLPs[item.poolid - 1]}
+                        {/* Title */}
+                        <div className="md:text-lg">
+                          <h5 className="font-bold font-heading">
+                            {item.title}
+                          </h5>
+                          <div className="flex gap-2">
+                            <div className="">
+                              <div className="text-sm leading-none">
+                                Balance
                               </div>
-                              <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
-                                $
-                                {isNaN(
-                                  (tvlMap[item.poolid - 1] *
-                                    userHeldLPs[item.poolid - 1]) /
-                                    totalSupplyMap[item.poolid - 1]
-                                )
-                                  ? 0
-                                  : (
-                                      (tvlMap[item.poolid - 1] *
-                                        userHeldLPs[item.poolid - 1]) /
+                              <div className="md:text-md flex">
+                                <div className="text-sm mr-1">
+                                  {userHeldLPs[item.poolid - 1]}
+                                </div>
+                                <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                  $
+                                  {isNaN(
+                                    (tvlMap[item.poolid - 1] *
+                                      userHeldLPs[item.poolid - 1]) /
                                       totalSupplyMap[item.poolid - 1]
-                                    ).toFixed(2)}
-                              </span>
+                                  )
+                                    ? 0
+                                    : (
+                                        (tvlMap[item.poolid - 1] *
+                                          userHeldLPs[item.poolid - 1]) /
+                                        totalSupplyMap[item.poolid - 1]
+                                      ).toFixed(2)}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="">
-                            <div className="text-sm leading-none">Staked</div>
-                            <div className="md:text-md flex">
-                              <div className="text-sm mr-1">
-                                {userStakedLPs[item.poolid - 1]}
-                              </div>
-                              <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
-                                $
-                                {isNaN(
-                                  (tvlMap[item.poolid - 1] *
-                                    userStakedLPs[item.poolid - 1]) /
-                                    totalSupplyMap[item.poolid - 1]
-                                )
-                                  ? 0
-                                  : (
-                                      (tvlMap[item.poolid - 1] *
-                                        userStakedLPs[item.poolid - 1]) /
+                            <div className="">
+                              <div className="text-sm leading-none">Staked</div>
+                              <div className="md:text-md flex">
+                                <div className="text-sm mr-1">
+                                  {userStakedLPs[item.poolid - 1]}
+                                </div>
+                                <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                  $
+                                  {isNaN(
+                                    (tvlMap[item.poolid - 1] *
+                                      userStakedLPs[item.poolid - 1]) /
                                       totalSupplyMap[item.poolid - 1]
-                                    ).toFixed(2)}
-                              </span>
+                                  )
+                                    ? 0
+                                    : (
+                                        (tvlMap[item.poolid - 1] *
+                                          userStakedLPs[item.poolid - 1]) /
+                                        totalSupplyMap[item.poolid - 1]
+                                      ).toFixed(2)}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </td>
 
                 <td className="mt-1">
@@ -392,15 +395,6 @@ function FarmList(props) {
                   <div className="">
                     <div className="md:text-md">{"x" + item.boost}</div>
                   </div>
-                </td>
-
-                <td>
-                  <Link
-                    to={item.url}
-                    className="inline-block px-5 py-2 bg-gradient-to-br from-blue-400 to-blue-500 dark:from-transparent dark:to-transparent dark:bg-blue-700 rounded-lg hover:no-underline text-white transition-all"
-                  >
-                    Select
-                  </Link>
                 </td>
               </tr>
             );
