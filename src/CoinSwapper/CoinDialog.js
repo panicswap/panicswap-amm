@@ -118,7 +118,7 @@ export default function CoinDialog(props) {
     open && (
       <div
         onClose={() => exit([undefined, undefined])}
-        className="absolute top-40 max-w-lg w-full left-[50%] translate-x-[-50%] dark:bg-[#131b2e] rounded-xl z-20 dark:text-white"
+        className="absolute top-[10vh] max-w-lg w-full left-[50%] translate-x-[-50%] dark:bg-[#131b2e] rounded-xl z-20 dark:text-white"
       >
         <DialogTitle onClose={() => exit([undefined, undefined])}>
           Select a token to swap

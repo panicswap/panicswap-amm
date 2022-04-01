@@ -13,12 +13,12 @@ export default function CoinButton(props) {
   return (
     <div
       onClick={onClick}
-      className="flex dark:hover:bg-slate-800 p-3 rounded-md cursor-pointer"
+      className="flex dark:hover:bg-slate-800 p-2 rounded-md cursor-pointer"
     >
-      <img src={"/assets/token/" + props.logo + ".svg"} className="w-[45px]" />
+      <img src={"/assets/token/" + props.logo + ".svg"} className="w-[40px]" />
       <div className="ml-5">
-        <h5 className="text-xl">{coinAbbr}</h5>
-        <div className="dark:text-gray-400">{coinName}</div>
+        <h5 className="text">{coinAbbr}</h5>
+        <div className="dark:text-gray-400 text-sm">{coinName}</div>
       </div>
       {/* TODO: Add user balance of the current token */}
     </div>
