@@ -37,7 +37,7 @@ function FarmList(props) {
     getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
   );
   const [aprFeed, setAprFeed] = React.useState(
-    getAprFeed("0x427dFbF4376aB621586fe0F218F5E28E1389ff7f", signer)
+    getAprFeed("0xAC6F885e2fcb2Fe105C9EC6C048759873142F60E", signer)
   );
   const [aprMap, setAprMap] = React.useState([]);
   const [lpAddressMap, setLpAddressMap] = React.useState([]);

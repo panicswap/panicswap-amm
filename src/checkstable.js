@@ -132,16 +132,26 @@ export function checkRoute(tokenFrom, tokenTo){
   const beluga = "0x4A13a2cf881f5378DEF61E430139Ed26d843Df9A".toLocaleLowerCase();
   const boo = "0x841fad6eae12c286d1fd18d1d525dffa75c7effe".toLocaleLowerCase();
   const fbeets  = "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1".toLocaleLowerCase();
+  const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0".toLowerCase();
+  const yvyfi = "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db".toLowerCase();
+  const yvweth = "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7".toLowerCase();
+
 
   let routesMap = {};
   routesMap[renbtc] = [wbtc];
   routesMap[bepanic] = [panic];
   routesMap[dai] = [usdc,wftm];
+  routesMap[yvdai] = [usdc,wftm];
   routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
+  routesMap[yvwftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
   routesMap[wbtc] = [weth,wftm,renbtc];
+  routesMap[yvwbtc] = [weth,wftm,renbtc];
   routesMap[weth] = [wbtc,wftm,yfi];
+  routesMap[yvweth] = [wbtc,wftm,yfi];
   routesMap[usdc] = [wftm,dai,fbeets];
+  routesMap[yvusdc] = [wftm,dai,fbeets];
   routesMap[yfi] = [weth];
+  routesMap[yvyfi] = [weth];
   routesMap[panic] = [wftm,bepanic];
   routesMap[oxsolid] = [solid];
   routesMap[solid] = [oxsolid];

@@ -552,53 +552,55 @@ function CoinSwapper(props) {
 
           {coin1.symbol && coin2.symbol && (
             <>
-              {field1Value && (
-                <section className="mt-4 dark:text-gray-300">
-                  {/* Price per token */}
-                  <div className="grid grid-cols-2">
-                    <div>
-                      <div className="text-sm">
-                        {coin1.symbol} per 1 {coin2.symbol}
+              {field1Value &&
+                Number(field1Value / field2Value).toPrecision(7) !=
+                  "Infinity" && (
+                  <section className="mt-4">
+                    {/* Price per token */}
+                    <div className="grid grid-cols-2">
+                      <div>
+                        <div className="text-sm">
+                          {coin1.symbol} per 1 {coin2.symbol}
+                        </div>
+                        <div className="font-bold">
+                          {Number(field1Value / field2Value).toPrecision(7)}
+                        </div>
                       </div>
-                      <div className="font-bold">
-                        {Number(field1Value / field2Value).toPrecision(7)}
+
+                      <div>
+                        <div className="text-sm">
+                          {coin2.symbol} per 1 {coin1.symbol}
+                        </div>
+                        <div className="font-bold">
+                          {Number(field2Value / field1Value).toPrecision(7)}
+                        </div>
                       </div>
                     </div>
 
-                    <div>
-                      <div className="text-sm">
-                        {coin2.symbol} per 1 {coin1.symbol}
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <div className="">
+                        <h4 className="font-bold">Price Impact</h4>
+                        <div
+                          className={`${
+                            Number(priceImpact) < 5
+                              ? "text-green-500"
+                              : Number(priceImpact) > 10
+                              ? "text-red-500"
+                              : "text-orange-500"
+                          }`}
+                        >
+                          {FormattedPriceImpact(Number(priceImpact)) + "%"}
+                        </div>
                       </div>
-                      <div className="font-bold">
-                        {Number(field2Value / field1Value).toPrecision(7)}
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <div className="">
-                      <h4 className="font-bold">Price Impact</h4>
-                      <div
-                        className={`${
-                          Number(priceImpact) < 5
-                            ? "text-green-500"
-                            : Number(priceImpact) > 10
-                            ? "text-red-500"
-                            : "text-orange-500"
-                        }`}
-                      >
-                        {FormattedPriceImpact(Number(priceImpact)) + "%"}
+                      <div>
+                        {/* Price per token */}
+                        <h4 className="font-bold">Fee (Paid To Stakers)</h4>
+                        <div>{Number(tokenFee) + " " + coin1.symbol}</div>
                       </div>
                     </div>
-
-                    <div>
-                      {/* Price per token */}
-                      <h4 className="font-bold">Fee (Paid To Stakers)</h4>
-                      <div>{Number(tokenFee) + " " + coin1.symbol}</div>
-                    </div>
-                  </div>
-                </section>
-              )}
+                  </section>
+                )}
             </>
           )}
 
