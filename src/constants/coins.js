@@ -1,40 +1,40 @@
-import * as chains from './chains';
+import * as chains from "./chains";
 
 // If you add coins for a new network, make sure Weth address (for the router you are using) is the first entry
 
 const FANTOMCoins = [
   {
-    name: "FTM",
+    name: "Fantom",
     abbr: "FTM",
     address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   },
   {
-    name: "WFTM",
+    name: "Wrapped Fantom",
     abbr: "WFTM",
     address: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   },
   {
-    name: "PANIC",
+    name: "PanicSwap's Native Token",
     abbr: "PANIC",
     address: "0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B",
   },
   {
-    name: "bePANIC",
+    name: "PANIC locked on Beluga",
     abbr: "bePANIC",
     address: "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6",
   },
   {
-    name: "ETH",
+    name: "Ethereum",
     abbr: "ETH",
     address: "0x74b23882a30290451A17c44f4F05243b6b58C76d",
   },
   {
-    name: "BTC",
+    name: "Bitcoin",
     abbr: "BTC",
     address: "0x321162Cd933E2Be498Cd2267a90534A804051b11",
   },
   {
-    name: "renBTC",
+    name: "renproject.io BTC",
     abbr: "renBTC",
     address: "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501",
   },
@@ -44,12 +44,12 @@ const FANTOMCoins = [
     address: "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E",
   },
   {
-    name: "USDC",
+    name: "Circle USD",
     abbr: "USDC",
     address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
   },
   {
-    name: "beluga",
+    name: "Beluga",
     abbr: "BELUGA",
     address: "0x4a13a2cf881f5378def61e430139ed26d843df9a",
   },
@@ -59,56 +59,56 @@ const FANTOMCoins = [
     address: "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1",
   },
   {
-    name: "SpookyToken",
+    name: "SpookySwap's Native Token",
     abbr: "BOO",
     address: "0x841FAD6EAe12c286d1Fd18d1d525DFfA75C7EFFE",
   },
   {
-    name: "YFI",
+    name: "Yearn Finance's Native Token",
     abbr: "YFI",
     address: "0x29b0Da86e484E1C0029B56e817912d778aC0EC69",
   },
   {
-    name: "Solidly",
+    name: "Solidly's Native Token",
     abbr: "SOLID",
     address: "0x888EF71766ca594DED1F0FA3AE64eD2941740A20",
   },
   {
-    name: "oxSOLID",
+    name: "SOLID locked on oxdao.fi",
     abbr: "oxSOLID",
     address: "0xDA0053F0bEfCbcaC208A3f867BB243716734D809",
   },
   {
-    name: "yvWFTM",
+    name: "WFTM staked on Yearn",
     abbr: "yvWFTM",
     address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",
   },
   {
-    name: "yvWETH",
+    name: "WETH staked on Yearn",
     abbr: "yvWETH",
     address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
   },
   {
-    name: "yvWBTC",
+    name: "WBTC staked on Yearn",
     abbr: "yvWBTC",
     address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
   },
   {
-    name: "yvDAI",
+    name: "DAI staked on Yearn",
     abbr: "yvDAI",
     address: "0x637eC617c86D24E421328e6CAEa1d92114892439",
   },
   {
-    name: "yvUSDC",
+    name: "USDC staked on Yearn",
     abbr: "yvUSDC",
     address: "0xEF0210eB96c7EB36AF8ed1c20306462764935607",
   },
   {
-    name: "yvYFI",
+    name: "YFI staked on Yearn",
     abbr: "yvYFI",
     address: "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db",
   },
-]
+];
 
 const AUTONITYCoins = [
   {
@@ -140,8 +140,8 @@ const AUTONITYCoins = [
     name: "Token D",
     abbr: "TD",
     address: "0x90636A8bb3AD4C2168EE20CF5E6183D827Da2E91",
-  }
-]
+  },
+];
 
 const DEVNETCoins = [
   {
@@ -163,8 +163,8 @@ const DEVNETCoins = [
     name: "Token B",
     abbr: "TB",
     address: "0x908B8e60d149529d757F4aEd9320F246724f2b99",
-  }
-]
+  },
+];
 
 const PARASTATECoins = [
   {
@@ -182,7 +182,7 @@ const PARASTATECoins = [
     abbr: "TB",
     address: "0x4489D87C8440B19f11d63FA2246f943F492F3F5F",
   },
-  
+
   {
     name: "Token C",
     abbr: "TC",
@@ -192,8 +192,8 @@ const PARASTATECoins = [
     name: "Token D",
     abbr: "TD",
     address: "0xc108a13D00371520EbBeCc7DF5C8610C71F4FfbA",
-  }
-]
+  },
+];
 
 const MAINNETCoins = [
   {
@@ -211,7 +211,7 @@ const MAINNETCoins = [
     abbr: "USDT",
     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
   },
-]
+];
 
 const ROPSTENCoins = [
   {
@@ -229,7 +229,7 @@ const ROPSTENCoins = [
     abbr: "USDT",
     address: "0x6ee856ae55b6e1a249f04cd3b947141bc146273c",
   },
-]
+];
 
 const KOVANCoins = [
   {
@@ -247,7 +247,7 @@ const KOVANCoins = [
     abbr: "USDT",
     address: "0xf3e0d7bf58c5d455d31ef1c2d5375904df525105",
   },
-]
+];
 
 const RINKEBYCoins = [
   {
@@ -265,7 +265,7 @@ const RINKEBYCoins = [
     abbr: "USDT",
     address: "0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
   },
-]
+];
 
 const GÖRLICoins = [
   {
@@ -283,7 +283,7 @@ const GÖRLICoins = [
     abbr: "USDT",
     address: "0x509ee0d083ddf8ac028f2a56731412edd63223b9",
   },
-]
+];
 
 const COINS = new Map();
 COINS.set(chains.ChainId.MAINNET, MAINNETCoins);
@@ -295,4 +295,4 @@ COINS.set(chains.ChainId.KOVAN, KOVANCoins);
 COINS.set(chains.ChainId.AUTONITY, AUTONITYCoins);
 COINS.set(chains.ChainId.DEVNET, DEVNETCoins);
 COINS.set(chains.ChainId.PARASTATE, PARASTATECoins);
-export default COINS
+export default COINS;

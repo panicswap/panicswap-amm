@@ -14,16 +14,16 @@ export default function Footer() {
   return (
     <footer className="mt-5 p-3">
       <div className="mt-3 flex justify-between mx-2 text-xl mb-2">
-        <div className="flex dark:text-gray-600 text-sm">
+        <div className="flex dark:text-gray-600 text-sm font-display">
           <a
-            className="flex items-center border-0 px-3 hover:no-underline dark:hover:text-white"
-            href="/docs"
+            className="flex items-center border-0 px-2 text-md hover:no-underline dark:hover:text-white"
+            href="https://panic-swap.gitbook.io/panicswap/"
           >
             Documentation
           </a>
           <a
-            className="flex items-center border-0 px-3 hover:no-underline dark:hover:text-white"
-            href="/gov"
+            className="flex items-center border-0 px-2 text-md hover:no-underline dark:hover:text-white"
+            href="https://snapshot.org/#/panicswap.eth/"
           >
             Governance
           </a>
@@ -33,19 +33,19 @@ export default function Footer() {
             name="Medium"
             link="https://medium.com/@thepanicswap/"
             icon={<SiMedium />}
-            className="dark:text-white"
+            className="text-black dark:text-white"
           />
           <SocialItem
             name="Telegram"
             link="https://t.me/panic_swap"
             icon={<FaTelegramPlane />}
-            className="dark:text-white"
+            className="text-sky-300 dark:text-white"
           />
           <SocialItem
             name="Discord"
             link="https://discord.gg/xNpFVYxQcZ"
             icon={<FaDiscord />}
-            className="dark:text-white"
+            className="text-in dark:text-white"
           />
           <SocialItem
             name="Twitter"
