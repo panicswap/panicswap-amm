@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "bignumber": "^1.1.0",
     "ethers": "^5.4.1",
+    "framer-motion": "^6.2.8",
     "gh-pages": "^3.2.3",
     "notistack": "^1.0.10",
     "prop-types": "^15.7.2",

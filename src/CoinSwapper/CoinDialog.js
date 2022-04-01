@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  Button,
-  Dialog,
-  Grid,
-  IconButton,
-  makeStyles,
-  TextField,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogActions from "@material-ui/core/DialogActions";
+import { motion } from "framer-motion";
+import { makeStyles } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import CoinButton from "./CoinButton";
 import { doesTokenExist } from "../ethereumFunctions";
 import PropTypes from "prop-types";
-import * as COLORS from "@material-ui/core/colors";
 
 const styles = (theme) => ({
   dialogContainer: {
@@ -69,15 +58,6 @@ const DialogTitle = (props) => {
   );
 };
 
-// This is a modified version of MaterialUI's DialogActions component, the color has been changed by modifying the CSS
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-    backgroundColor: COLORS.grey[100],
-  },
-}))(MuiDialogActions);
-
 CoinDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
@@ -117,48 +97,54 @@ export default function CoinDialog(props) {
   return (
     open && (
       <div
-        onClose={() => exit([undefined, undefined])}
-        className="absolute top-[10vh] max-w-lg w-full left-[50%] translate-x-[-50%] dark:bg-[#131b2e] rounded-xl z-20 dark:text-white"
+        onClick={() => exit([undefined, undefined])}
+        className="fixed top-0 left-0 w-full h-screen flex z-20 justify-center items-center bg-[#00000040]"
       >
-        <DialogTitle onClose={() => exit([undefined, undefined])}>
-          Select a token to swap
-        </DialogTitle>
+        <motion.div
+          initial={{ opacity: 0, y: 20, x: 0 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          className="w-[95%] max-w-[500px] h-5/6 dark:bg-[#131b2e] rounded-xl dark:text-white"
+        >
+          <DialogTitle onClose={() => exit([undefined, undefined])}>
+            Select a token to swap
+          </DialogTitle>
 
-        <div>
-          <div className="m-2">
-            <input
-              className="p-3 w-full rounded-lg bg-transparent border-2 border-blue-500"
-              disabled
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              variant="outlined"
-              placeholder="Paste Address"
-              error={error !== ""}
-              helperText={error}
-            />
-          </div>
-
-          {/* Maps all of the tokens in the constants file to buttons */}
-          <div className="max-h-80 overflow-y-scroll p-3">
-            {coins.map((coin, index) => (
-              <CoinButton
-                logo={coin.abbr}
-                coinName={coin.name}
-                coinAbbr={coin.abbr}
-                onClick={() => exit([coin.address, coin.abbr])}
+          <div className="grid">
+            <div className="m-2">
+              <input
+                className="p-3 w-full rounded-lg bg-transparent border-2 border-blue-500"
+                disabled
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                variant="outlined"
+                placeholder="Paste Address"
+                error={error !== ""}
+                helperText={error}
               />
-            ))}
-          </div>
-        </div>
+            </div>
 
-        <div className="mt-5 p-2">
-          <button
-            onClick={submit}
-            className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
-          >
-            Enter
-          </button>
-        </div>
+            {/* Maps all of the tokens in the constants file to buttons */}
+            <div className="overflow-y-scroll h-[60vh] p-3">
+              {coins.map((coin, index) => (
+                <CoinButton
+                  logo={coin.abbr}
+                  coinName={coin.name}
+                  coinAbbr={coin.abbr}
+                  onClick={() => exit([coin.address, coin.abbr])}
+                />
+              ))}
+            </div>
+
+            <div className="mt-5 p-2">
+              <button
+                onClick={submit}
+                className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
+              >
+                Enter
+              </button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     )
   );
