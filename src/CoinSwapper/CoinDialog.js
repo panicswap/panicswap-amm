@@ -54,27 +54,15 @@ const useStyles = makeStyles(styles);
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <MuiDialogTitle
-      disableTypography
-      className={classes.titleSection}
-      {...other}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignContent="center"
-      >
-        <Typography variant="h6" className={classes.titleText}>
-          {children}
-        </Typography>
-        {onClose ? (
-          <IconButton aria-label="close" onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </Grid>
-    </MuiDialogTitle>
+    <div className="flex justify-between items-center">
+      <h3 className="font-display text-lg">{children}</h3>
+
+      {onClose ? (
+        <IconButton aria-label="close" onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </div>
   );
 });
 
@@ -124,56 +112,54 @@ export default function CoinDialog(props) {
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => exit(undefined)}
-      fullWidth
-      maxWidth="sm"
-      classes={{ paper: classes.dialogContainer }}
-    >
-      <DialogTitle onClose={() => exit(undefined)}>Select a token to swap</DialogTitle>
+    open && (
+      <div onClose={() => exit(undefined)} className="absolute top-6">
+        <DialogTitle onClose={() => exit(undefined)}>
+          Select a token to swap
+        </DialogTitle>
 
-      <hr className={classes.hr} />
+        <hr className={classes.hr} />
 
-      <div className={classes.coinContainer}>
-        <Grid container direction="column" spacing={1} alignContent="center">
-          <TextField
-            disabled
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            variant="outlined"
-            placeholder="Paste Address"
-            error={error !== ""}
-            helperText={error}
-            fullWidth
-            className={classes.address}
-          />
+        <div className={classes.coinContainer}>
+          <Grid container direction="column" spacing={1} alignContent="center">
+            <TextField
+              disabled
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              variant="outlined"
+              placeholder="Paste Address"
+              error={error !== ""}
+              helperText={error}
+              fullWidth
+              className={classes.address}
+            />
 
-          <Grid item className={classes.coinList}>
-            <Grid container direction="column">
-              {/* Maps all of the tokens in the constants file to buttons */}
-              {coins.map((coin, index) => (
-                <Grid item key={index} xs={12}>
-                  <CoinButton
-                    logo = {coin.abbr}
-                    coinName={coin.name}
-                    coinAbbr={coin.abbr}
-                    onClick={() => exit([coin.address, coin.abbr])}
-                  />
-                </Grid>
-              ))}
+            <Grid item className={classes.coinList}>
+              <Grid container direction="column">
+                {/* Maps all of the tokens in the constants file to buttons */}
+                {coins.map((coin, index) => (
+                  <Grid item key={index} xs={12}>
+                    <CoinButton
+                      logo={coin.abbr}
+                      coinName={coin.name}
+                      coinAbbr={coin.abbr}
+                      onClick={() => exit([coin.address, coin.abbr])}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
+
+        <hr className={classes.hr} />
+
+        <DialogActions>
+          <Button autoFocus onClick={submit} color="primary">
+            Enter
+          </Button>
+        </DialogActions>
       </div>
-
-      <hr className={classes.hr} />
-
-      <DialogActions>
-        <Button autoFocus onClick={submit} color="primary">
-          Enter
-        </Button>
-      </DialogActions>
-    </Dialog>
+    )
   );
 }
