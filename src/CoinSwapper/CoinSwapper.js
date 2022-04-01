@@ -496,7 +496,7 @@ function CoinSwapper(props) {
     <div className="px-2 md:mt-14">
       <WrongNetwork open={wrongNetworkOpen} />
       <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 dark:bg-slate-800 dark:bg-gradient-to-tr dark:from-transparent dark:to-transparent rounded-3xl p-3 shadow-lg">
-        <h3 className="text-xl font-bold p-3 dark:text-gray-400 font-display text-center">
+        <h3 className="text-xl font-bold p-3 dark:text-gray-300 font-display text-start">
           Swap
         </h3>
 
@@ -530,16 +530,16 @@ function CoinSwapper(props) {
           </div>
 
           {/* Field switcher */}
-          <div className="flex justify-center mt-1 mb-6">
+          <div className="flex justify-center -mt-2 mb-2">
             <div
               onClick={switchFields}
-              className="rotate-90 p-3 bg-gradient-to-br from-blue-500 to-blue-300 rounded-full transition-all hover:scale-105 text-lg cursor-pointer"
+              className="rotate-90 p-3 bg-blue-300 rounded-full dark:bg-slate-900 dark:text-white text-xs cursor-pointer"
             >
               <AiOutlineSwap />
             </div>
           </div>
 
-          <div className="-mt-5">
+          <div className="-mt-4">
             {/* Second coin input */}
             <CoinField
               activeField={false}
@@ -555,7 +555,7 @@ function CoinSwapper(props) {
               {field1Value &&
                 Number(field1Value / field2Value).toPrecision(7) !=
                   "Infinity" && (
-                  <section className="mt-4 dark:text-white">
+                  <section className="mt-4 dark:text-gray-300">
                     {/* Price per token */}
                     <div className="grid grid-cols-2">
                       <div>
@@ -577,11 +577,11 @@ function CoinSwapper(props) {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="grid grid-cols-2 mt-2">
                       <div className="">
-                        <h4 className="font-bold">Price Impact</h4>
+                        <h4 className="">Price Impact</h4>
                         <div
-                          className={`${
+                          className={`font-bold ${
                             Number(priceImpact) < 5
                               ? "text-green-500"
                               : Number(priceImpact) > 10
@@ -595,8 +595,10 @@ function CoinSwapper(props) {
 
                       <div>
                         {/* Price per token */}
-                        <h4 className="font-bold">Fee (Paid To Stakers)</h4>
-                        <div>{Number(tokenFee) + " " + coin1.symbol}</div>
+                        <h4 className="">Fee (Paid To Stakers)</h4>
+                        <div className="font-bold">
+                          {Number(tokenFee) + " " + coin1.symbol}
+                        </div>
                       </div>
                     </div>
                   </section>

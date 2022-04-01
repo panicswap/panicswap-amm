@@ -28,7 +28,7 @@ const DarkmodeToggle = () => {
   return (
     <div
       onClick={handleModeChange}
-      className="dark:bg-gray-800 dark:hover:text-amber-300 hover:text-zinc-800 transition-colors p-2 rounded-full  text-2xl cursor-pointer dark:text-gray-400 text-black"
+      className="bg-darkBlue dark:bg-gray-800 dark:hover:text-amber-300 transition-colors p-2 rounded-full  text-2xl cursor-pointer dark:text-gray-400 text-white"
     >
       {darkMode ? <MdOutlineWbSunny /> : <MdOutlineDarkMode />}
     </div>

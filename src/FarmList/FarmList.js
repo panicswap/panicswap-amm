@@ -373,28 +373,27 @@ function FarmList(props) {
                     </div>
                   </Link>
                 </td>
-
                 <td className="mt-1">
-                  <div className="">
+                  <Link to={item.url} className="">
                     <div className="md:text-md">
                       {(
                         aprMap[item.poolid - 1] +
                         (yfiMap[item.symbol1] + yfiMap[item.symbol2]) / 2
                       ).toFixed(2) + "%"}
                     </div>
-                  </div>
+                  </Link>
                 </td>
                 <td>
-                  <div>
+                  <Link to={item.url} className="">
                     <div className="md:text-md">
                       {"$" + formatNumber(tvlMap[item.poolid - 1], 2)}
                     </div>
-                  </div>
+                  </Link>
                 </td>
                 <td>
-                  <div className="">
+                  <Link to={item.url} className="">
                     <div className="md:text-md">{"x" + item.boost}</div>
-                  </div>
+                  </Link>
                 </td>
               </tr>
             );

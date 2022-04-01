@@ -44,7 +44,7 @@ function App() {
   try {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     return (
-      <div className="flex flex-col min-h-screen App bg-gradient-to-bl from-blue-300 via-blue-100  to-blue-50 dark:bg-slate-900 dark:from-transparent dark:to-transparent">
+      <div className="flex flex-col min-h-screen App bg-blue-500 dark:bg-slate-900 dark:from-transparent dark:to-transparent">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
