@@ -51,20 +51,23 @@ const styles = (theme) => ({
 const useStyles = makeStyles(styles);
 
 // This is a modified version of MaterialUI's DialogTitle component, I've added a close button in the top right corner
-const DialogTitle = withStyles(styles)((props) => {
+const DialogTitle = (props) => {
   const { children, classes, onClose, ...other } = props;
   return (
-    <div className="flex justify-between items-center">
+    <header className="flex justify-between items-center p-5">
       <h3 className="font-display text-lg">{children}</h3>
 
       {onClose ? (
-        <IconButton aria-label="close" onClick={onClose}>
+        <div
+          onClick={onClose}
+          className="hover:bg-gray-900 p-3 rounded-full transition-colors cursor-pointer"
+        >
           <CloseIcon />
-        </IconButton>
+        </div>
       ) : null}
-    </div>
+    </header>
   );
-});
+};
 
 // This is a modified version of MaterialUI's DialogActions component, the color has been changed by modifying the CSS
 const DialogActions = withStyles((theme) => ({
@@ -113,16 +116,18 @@ export default function CoinDialog(props) {
 
   return (
     open && (
-      <div onClose={() => exit(undefined)} className="absolute top-6">
-        <DialogTitle onClose={() => exit(undefined)}>
+      <div
+        onClose={() => exit([undefined, undefined])}
+        className="absolute top-40 max-w-lg w-full left-[50%] translate-x-[-50%] dark:bg-[#131b2e] rounded-xl z-20 dark:text-white"
+      >
+        <DialogTitle onClose={() => exit([undefined, undefined])}>
           Select a token to swap
         </DialogTitle>
 
-        <hr className={classes.hr} />
-
-        <div className={classes.coinContainer}>
-          <Grid container direction="column" spacing={1} alignContent="center">
-            <TextField
+        <div>
+          <div className="m-2">
+            <input
+              className="p-3 w-full rounded-lg bg-transparent border-2 border-blue-500"
               disabled
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -130,35 +135,30 @@ export default function CoinDialog(props) {
               placeholder="Paste Address"
               error={error !== ""}
               helperText={error}
-              fullWidth
-              className={classes.address}
             />
+          </div>
 
-            <Grid item className={classes.coinList}>
-              <Grid container direction="column">
-                {/* Maps all of the tokens in the constants file to buttons */}
-                {coins.map((coin, index) => (
-                  <Grid item key={index} xs={12}>
-                    <CoinButton
-                      logo={coin.abbr}
-                      coinName={coin.name}
-                      coinAbbr={coin.abbr}
-                      onClick={() => exit([coin.address, coin.abbr])}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
+          {/* Maps all of the tokens in the constants file to buttons */}
+          <div className="max-h-80 overflow-y-scroll p-3">
+            {coins.map((coin, index) => (
+              <CoinButton
+                logo={coin.abbr}
+                coinName={coin.name}
+                coinAbbr={coin.abbr}
+                onClick={() => exit([coin.address, coin.abbr])}
+              />
+            ))}
+          </div>
         </div>
 
-        <hr className={classes.hr} />
-
-        <DialogActions>
-          <Button autoFocus onClick={submit} color="primary">
+        <div className="mt-5 p-2">
+          <button
+            onClick={submit}
+            className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
+          >
             Enter
-          </Button>
-        </DialogActions>
+          </button>
+        </div>
       </div>
     )
   );

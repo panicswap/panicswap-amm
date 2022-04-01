@@ -555,7 +555,7 @@ function CoinSwapper(props) {
               {field1Value &&
                 Number(field1Value / field2Value).toPrecision(7) !=
                   "Infinity" && (
-                  <section className="mt-4">
+                  <section className="mt-4 dark:text-white">
                     {/* Price per token */}
                     <div className="grid grid-cols-2">
                       <div>
