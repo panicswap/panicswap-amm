@@ -1,35 +1,12 @@
-import React from "react";
-import {
-  Dialog,
-  Grid,
-  IconButton,
-  makeStyles,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import CloseIcon from "@material-ui/icons/Close";
-
-const styles = (theme) => ({
-  dialogContainer: {
-    borderRadius: theme.spacing(2),
-  },
-});
-
-const useStyles = makeStyles(styles);
-
 export default function WrongNetwork(props) {
-
-  const classes = useStyles();
-  const {open} = props;
+  const { open } = props;
   return (
-    <Dialog
-      open={open}
-      fullWidth
-      maxWidth="sm"
-      classes={{ paper: classes.dialogContainer }}
-    >
-      <MuiDialogTitle>Unsupported Network</MuiDialogTitle>
-    </Dialog>
+    open && (
+      <div className="absolute w-full h-screen top-0 left-0 z-20 flex bg-[#00000055] justify-center items-center pointer-events-none">
+        <div className="dark:bg-gray-800 p-5 px-10 rounded-md dark:text-white font-display">
+          Unsupported Network: Switch to Fantom Opera
+        </div>
+      </div>
+    )
   );
 }
