@@ -61,14 +61,14 @@ export default function Header() {
   }, [aprFeed, aprStaking, chef]);
 
   return (
-    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2">
-      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
+    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2 dark:bg-slate-900">
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between pl-5">
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo */}
           <Link to="/">
             <img
               src={logo}
-              className="w-[44px] md:max-w-[130px] mr-5"
+              className="w-[40px] md:max-w-[130px] mr-5"
               alt="PanicSwap logo"
             />
           </Link>
