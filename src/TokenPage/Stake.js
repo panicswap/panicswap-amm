@@ -221,28 +221,32 @@ export default function Stake() {
             {/* @todo */}
             {/* Panic staked amount */}
             <div className="p-3 bg-white rounded-xl mt-1">
-              <table className="w-full">
-                <tr>
-                  <td>PANIC</td>
-                  <td>TBA</td>
-                </tr>
-                <tr>
-                  <td>Staked PANIC</td>
-                  <td>{Number(unlockedBalance).toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td>Vested PANIC</td>
-                  <td>{Number(vestedBalance).toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td>Locked PANIC</td>
-                  <td>{Number(lockedBalance).toFixed(2)}</td>
-                </tr>
-                <tr>
-                  <td>bePANIC</td>
-                  <td>TBA</td>
-                </tr>
-              </table>
+              <div className="flex flex-none">
+                <div className="w-1/2 text-left">PANIC</div>
+                <div className="w-1/2 text-right">TBA</div>
+              </div>
+              <div className="flex flex-none">
+                <div className="w-1/2 text-left">Staked PANIC</div>
+                <div className="w-1/2 text-right">
+                  {Number(unlockedBalance).toFixed(2)}
+                </div>
+              </div>
+              <div className="flex flex-none">
+                <div className="w-1/2 text-left">Vested PANIC</div>
+                <div className="w-1/2 text-right">
+                  {Number(vestedBalance).toFixed(2)}
+                </div>
+              </div>
+              <div className="flex flex-none">
+                <div className="w-1/2 text-left">Locked PANIC</div>
+                <div className="w-1/2 text-right">
+                  {Number(lockedBalance).toFixed(2)}
+                </div>
+              </div>
+              <div className="flex flex-none">
+                <div className="w-1/2 text-left">bePANIC</div>
+                <div className="w-1/2 text-right">TBA</div>
+              </div>
             </div>
           </div>
           <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl flex flex-col">

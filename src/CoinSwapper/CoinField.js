@@ -131,7 +131,7 @@ export default function CoinField(props) {
   } = props;
 
   return (
-    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 dark:bg-slate-700 rounded-xl">
+    <div className="flex items-center justify-between p-3 py-1 bg-white dark:bg-slate-700 rounded-xl">
       {/* Button */}
       <div onClick={onClick} className="cursor-pointer">
         <img
