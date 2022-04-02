@@ -8,12 +8,17 @@ import {
   getRouter,
   getSigner,
   getNetwork,
+  getAmountOut,
+  getBalanceAndSymbol,
   getWeth,
+  swapTokens,
+  getReserves,
   getEpsStaking,
+  getAprFeedStaking,
 } from "../ethereumFunctions";
-import LoadingButton from "../Components/LoadingButton";
 import COINS from "../constants/coins";
 import CoinAmountInterface from "../CoinSwapper/CoinAmountInterface";
+import LoadingButton from "../Components/LoadingButton";
 import * as chains from "../constants/chains";
 
 export default function Stake() {
@@ -33,11 +38,18 @@ export default function Stake() {
   const [panic, setPanic] = React.useState(
     getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B", signer)
   );
+  const [aprStaking, setAprStaking] = React.useState(
+    getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B", signer)
+  );
   const [factory, setFactory] = React.useState(undefined);
   const [vestedBalance, setVestedBalance] = React.useState(0);
+  const [panicApr, setPanicApr] = React.useState(0);
+  const [yvwftmApr, setYvwftmApr] = React.useState(0);
   const [lockedBalance, setLockedBalance] = React.useState("0");
   const [unlockedBalance, setUnlockedBalance] = React.useState("0");
   const [panicRewards, setPanicRewards] = React.useState("0");
+  const [panicRewards2, setPanicRewards2] = React.useState("0");
+  const [yvWFTMRewards, setYvWFTMRewards] = React.useState("0");
 
   // Stores a record of whether their respective dialog window is open
   const [dialog1Open, setDialog1Open] = React.useState(false);
@@ -133,6 +145,18 @@ export default function Stake() {
             setPanicRewards(ethers.utils.formatUnits(panicEarnedFinal))
           ),
         stakingEps
+          .claimableRewards(account)
+          .then(([{ 1: panicEarned }, { 1: yvWFTMEarned }]) => {
+            setPanicRewards2(ethers.utils.formatUnits(panicEarned));
+            setYvWFTMRewards(ethers.utils.formatUnits(yvWFTMEarned));
+          }),
+        aprStaking
+          .getPanicApr()
+          .then((panicApr) => setPanicApr(panicApr / 100)),
+        aprStaking
+          .getFtmApr()
+          .then((yvWFTMApr) => setYvwftmApr(yvWFTMApr / 100)),
+        stakingEps
           .lockedBalances(account)
           .then(({ 0: panicLockedTotal }) =>
             setLockedBalance(ethers.utils.formatUnits(panicLockedTotal))
@@ -163,6 +187,21 @@ export default function Stake() {
     }
     await stakingEps.stake(amountIn, lockrnt);
   }
+  async function exit() {
+    await stakingEps;
+    await stakingEps.exit();
+  }
+
+  async function getReward() {
+    await stakingEps;
+    await stakingEps.getReward();
+  }
+
+  async function withdrawUnlocked() {
+    await stakingEps;
+    const amount = await stakingEps.unlockedBalance(account);
+    await stakingEps.withdraw(amount);
+  }
 
   const hasBalance = {
     deposit: () => {
@@ -173,53 +212,100 @@ export default function Stake() {
 
   return (
     <div>
-      <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 dark:text-white p-3 rounded-xl flex items-center">
-        <h4 className="font-display text-lg mr-auto">Staked PANIC</h4>
-        {/* @todo */}
-        {/* @todo --> need to iterate with myArray.map()  */}
-        {/* @todo */}
-        {/* Panic staked amount */}
-        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
-          <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            Locked:
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 dark:text-white mt-5">
+        <div>
+          <div className="bg-lightGray mb-3 border-2 border-darkGray dark:border-0 dark:bg-slate-800 dark:text-white p-4 rounded-xl">
+            <h4 className="font-display text-lg mr-auto">Balance</h4>
+            {/* @todo */}
+            {/* @todo --> need to iterate with myArray.map()  */}
+            {/* @todo */}
+            {/* Panic staked amount */}
+            <div className="p-3 bg-white rounded-xl mt-1">
+              <table className="w-full">
+                <tr>
+                  <td>PANIC</td>
+                  <td>TBA</td>
+                </tr>
+                <tr>
+                  <td>Staked PANIC</td>
+                  <td>{Number(unlockedBalance).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td>Vested PANIC</td>
+                  <td>{Number(vestedBalance).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td>Locked PANIC</td>
+                  <td>{Number(lockedBalance).toFixed(2)}</td>
+                </tr>
+                <tr>
+                  <td>bePANIC</td>
+                  <td>TBA</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <div className="ml-2">{Number(lockedBalance).toFixed(2)}</div>
-          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
-        </div>
-        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
-          <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            Vested:
+          <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl flex flex-col">
+            <div className="flex-grow">
+              <h4 className="font-display text-lg">Stake Panic</h4>
+              <p className="dark:text-gray-400 mt-2 mb-10">
+                Stake PANIC and earn platform fees in yvWFTM without lock-up.
+              </p>
+            </div>
+            <div className="">
+              <CoinAmountInterface
+                activeField={true}
+                value={field1Value}
+                onClick={() => setDialog1Open(true)}
+                onChange={handleChange.field1}
+                symbol={tokenDetails.symbol}
+                userCanChoose={false}
+                maxValue={panicBalance}
+                decimals={tokenDetails.decimals}
+                maxWeiValue={panicWeiBalance}
+              />
+              <div className="mt-5">
+                <LoadingButton
+                  loading={loading}
+                  valid={true}
+                  success={false}
+                  fail={false}
+                  onClick={() => {
+                    stakePan(field1Value, false);
+                  }}
+                >
+                  Deposit
+                </LoadingButton>
+              </div>
+            </div>
           </div>
-          <div className="ml-2">{Number(vestedBalance).toFixed(2)}</div>
-          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
-        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
-          <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            Unlocked:
-          </div>
-          <div className="ml-2">{Number(unlockedBalance).toFixed(2)}</div>
-          <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
-        </div>
-      </div>
 
-      <section className="grid grid-cols-2 gap-3 dark:text-white mt-5">
-        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl flex flex-col">
-          <div className="flex-grow">
-            <h4 className="font-display text-lg">Stake Panic</h4>
-            <p className="dark:text-gray-400 mt-2 mb-10">
-              Stake PANIC and earn platform fees in yvWFTM without lock-up.
-            </p>
-          </div>
-          <div className="">
+        {/* Stake & lock */}
+        <div>
+          <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl">
+            <h4 className="font-display text-lg">Stake & Lock Panic</h4>
+            <div className="dark:text-gray-400 mt-2 mb-5">
+              <p>
+                Stake and lock PANIC, earn platform fees in yvWFTM + penalty
+                fees in unlocked PANIC.
+              </p>
+              <p>
+                PANIC deposited and locked is subject to a 2 year lock. You will
+                continue to earn fees after the locks expire if you do not
+                withdraw.
+              </p>
+            </div>
+
             <CoinAmountInterface
               activeField={true}
-              value={field1Value}
-              onClick={() => setDialog1Open(true)}
-              onChange={handleChange.field1}
+              value={field2Value}
+              onClick={() => setDialog2Open(true)}
+              onChange={handleChange.field2}
               symbol={tokenDetails.symbol}
               userCanChoose={false}
-              maxValue={panicBalance}
               decimals={tokenDetails.decimals}
+              maxValue={panicBalance}
               maxWeiValue={panicWeiBalance}
             />
             <div className="mt-5">
@@ -229,53 +315,12 @@ export default function Stake() {
                 success={false}
                 fail={false}
                 onClick={() => {
-                  stakePan(field1Value, false);
+                  stakePan(field2Value, true);
                 }}
               >
-                Deposit
+                Lock
               </LoadingButton>
             </div>
-          </div>
-        </div>
-
-        {/* Stake & lock */}
-        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl">
-          <h4 className="font-display text-lg">Stake & Lock Panic</h4>
-          <div className="dark:text-gray-400 mt-2 mb-5">
-            <p>
-              Stake and lock PANIC, earn platform fees in yvWFTM + penalty fees
-              in unlocked PANIC.
-            </p>
-            <p>
-              PANIC deposited and locked is subject to a 2 year lock. You will
-              continue to earn fees after the locks expire if you do not
-              withdraw.
-            </p>
-          </div>
-
-          <CoinAmountInterface
-            activeField={true}
-            value={field2Value}
-            onClick={() => setDialog2Open(true)}
-            onChange={handleChange.field2}
-            symbol={tokenDetails.symbol}
-            userCanChoose={false}
-            decimals={tokenDetails.decimals}
-            maxValue={panicBalance}
-            maxWeiValue={panicWeiBalance}
-          />
-          <div className="mt-5">
-            <LoadingButton
-              loading={loading}
-              valid={true}
-              success={false}
-              fail={false}
-              onClick={() => {
-                stakePan(field2Value, true);
-              }}
-            >
-              Lock
-            </LoadingButton>
           </div>
         </div>
       </section>
