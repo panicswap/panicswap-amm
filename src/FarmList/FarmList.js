@@ -248,22 +248,6 @@ function FarmList(props) {
             </p>
           </div>
 
-          <div className="flex items-center">
-            <img
-              src="assets/token/PANIC.svg"
-              className="max-w-[40px] border-3 border-blue-400 rounded-full"
-              alt="PANIC logo"
-            />
-            <div className="ml-2">
-              <div className="flex">
-                <div className="text-4xl font-bold">
-                  {formatNumber(pendingPanic, 3)}
-                </div>
-                <div className="text-sm self-end ml-1">PANIC</div>
-              </div>
-            </div>
-          </div>
-
           <div>
             <LoadingButton
               loading={loading}
@@ -277,6 +261,21 @@ function FarmList(props) {
               <AccountBalanceIcon />
               Collect Rewards
             </LoadingButton>
+          </div>
+        </div>
+        <div className="flex mt-2 items-start">
+          <img
+            src="assets/token/PANIC.svg"
+            className="max-w-[40px] border-3 border-blue-400 rounded-full"
+            alt="PANIC logo"
+          />
+          <div className="ml-2">
+            <div className="flex">
+              <div className="text-4xl font-bold">
+                {formatNumber(pendingPanic, 3)}
+              </div>
+              <div className="text-sm self-end ml-1">PANIC</div>
+            </div>
           </div>
         </div>
         {/* {formatBalance(coin1.balance, coin1.symbol)} */}
@@ -300,7 +299,7 @@ function FarmList(props) {
           </thead>
           {FarmItems.map((item) => {
             return (
-              <tr className="hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl">
+              <tr className="hover:bg-white dark:hover:bg-[#192434] transition-colors rounded-full">
                 <td>
                   <Link to={item.url} className="">
                     <div className="flex justify-between mt-2 mb-2">

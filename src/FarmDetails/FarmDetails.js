@@ -200,7 +200,7 @@ function FarmDetails(props) {
   return (
     <div className="px-2">
       <WrongNetwork open={wrongNetworkOpen} />
-      <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:text-white rounded-3xl p-3 shadow-lg">
+      <div className="max-w-md mx-auto bg-lightGray dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:text-white rounded-3xl p-3 shadow-lg">
         <div className="flex p-2 justify-left">
           {/* Title */}
           <div className="md:text-lg font-bold font-display">
