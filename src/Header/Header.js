@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "../assets/logo/variations/full-logo-01.png";
-import { formatNumber } from "../helpers/numberFormatter";
+import logo from "../assets/logo/logo.svg";
 import {
   getAccount,
   getProvider,
@@ -12,6 +11,8 @@ import {
 } from "../ethereumFunctions";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
+import DarkmodeToggle from "./DarkmodeToggle";
+import HeaderStats from "./HeaderStats";
 
 export default function Header() {
   const [provider, setProvider] = React.useState(getProvider());
@@ -20,18 +21,15 @@ export default function Header() {
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
-  const [aprFeed, setAprFeed] = React.useState(getAprFeed(
-      "0xAC6F885e2fcb2Fe105C9EC6C048759873142F60E",
-      signer
-  ));
-  const [chef, setChef] = React.useState(getChef(
-      "0xC02563f20Ba3e91E459299C3AC1f70724272D618",
-      signer
-  ));
-  const [aprStaking, setAprStaking] = React.useState(getAprFeedStaking(
-      "0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B",
-      signer
-  ));
+  const [aprFeed, setAprFeed] = React.useState(
+    getAprFeed("0xAC6F885e2fcb2Fe105C9EC6C048759873142F60E", signer)
+  );
+  const [chef, setChef] = React.useState(
+    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
+  );
+  const [aprStaking, setAprStaking] = React.useState(
+    getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B", signer)
+  );
   const [panicPrice, setPanicPrice] = React.useState(0);
   const [totalTvl, setTotalTvl] = React.useState(0);
   const [divApr, setDivApr] = React.useState(0);
@@ -53,35 +51,24 @@ export default function Header() {
   useEffect(() => {
     const updateHeaderStats = async () => {
       const promises = [
-        aprFeed.totalTvl()
-            .then(setTotalTvl),
-        aprFeed.panicDollarPrice()
-            .then(setPanicPrice),
-        aprStaking.getFtmApr()
-            .then(setDivApr),
+        aprFeed.totalTvl().then(setTotalTvl),
+        aprFeed.panicDollarPrice().then(setPanicPrice),
+        aprStaking.getFtmApr().then(setDivApr),
       ];
       await Promise.allSettled(promises);
-    }
+    };
     updateHeaderStats();
   }, [aprFeed, aprStaking, chef]);
 
   return (
-    <header
-      style={{
-        background: "rgba(255, 255, 255, 0.1)",
-        borderTop: "1px solid rgba(255, 255, 255, 0.5)",
-        borderLeft: "1px solid rgba(255, 255, 255, 0.5)",
-        backdropFilter: "blur(10px)",
-      }}
-      className="border-b sticky top-0 z-10 mb-10 p-2 md:p-5"
-    >
-      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between">
+    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2 dark:bg-slate-900">
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between pl-5">
         <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Logo */}
           <Link to="/">
             <img
               src={logo}
-              className="max-w-[100px] md:max-w-[130px]"
+              className="w-[40px] md:max-w-[130px] mr-5"
               alt="PanicSwap logo"
             />
           </Link>
@@ -90,30 +77,19 @@ export default function Header() {
         </div>
 
         {/* Stats */}
-        <section className="p-3 flex max-w-3xl">
-          <HeaderItem
-            label="TVL"
-            value={"$" + formatNumber(totalTvl / 1e18, 2)}
+        <div className="flex items-center">
+          <HeaderStats
+            totalTvl={totalTvl}
+            panicPrice={panicPrice}
+            divApr={divApr}
           />
-          <HeaderItem
-            label="$PANIC price"
-            value={"$" + formatNumber(panicPrice / 1e18, 3)}
-          />
-          <HeaderItem
-            label="yvWFTM Dividends"
-            value={formatNumber(divApr / 100, 2) + "%"}
-          />
-        </section>
+
+          {/* Darkmode toggle */}
+          <div className="ml-3">
+            <DarkmodeToggle />
+          </div>
+        </div>
       </div>
     </header>
   );
 }
-
-const HeaderItem = ({ label, value }) => {
-  return (
-    <div className="ml-2 lg:ml-4 rounded-lg">
-      <div className="text-xs text-gray-500 leading-none">{label}</div>
-      <div className="">{value}</div>
-    </div>
-  );
-};

@@ -7,7 +7,7 @@ const NavBar = () => {
       {MenuItems.map((item, index) => (
         <NavLink
           key={index}
-          className="text-sm p-2 px-2 rounded-xl text-center md:px-3 text-white bg-blue-400 hover:bg-blue-500 transition-colors  hover:no-underline hover:text-white"
+          className="text-sm p-1 px-1 font-display text-center md:px-2 text-black font-bold dark:text-gray-300 transition-colors dark:hover:text-blue-300  hover:no-underline"
           to={item.url}
         >
           {item.title}

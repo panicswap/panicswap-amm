@@ -239,13 +239,29 @@ function FarmList(props) {
       <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Rewards */}
-      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
-        <div className="flex justify-between">
+      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:border-none dark:bg-slate-800 dark:text-white">
+        <div className="flex justify-between items-center">
           <div>
-            <h3 className="text-3xl font-bold">Rewards</h3>
-            <p className="text-base leading-none">
+            <h3 className="text-3xl font-bold font-display">Rewards</h3>
+            <p className="text-base leading-none dark:text-gray-400">
               Collect <strong>$PANIC</strong> rewards earned by farming
             </p>
+          </div>
+
+          <div className="flex items-center">
+            <img
+              src="assets/token/PANIC.svg"
+              className="max-w-[40px] border-3 border-blue-400 rounded-full"
+              alt="PANIC logo"
+            />
+            <div className="ml-2">
+              <div className="flex">
+                <div className="text-4xl font-bold">
+                  {formatNumber(pendingPanic, 3)}
+                </div>
+                <div className="text-sm self-end ml-1">PANIC</div>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -264,67 +280,102 @@ function FarmList(props) {
           </div>
         </div>
         {/* {formatBalance(coin1.balance, coin1.symbol)} */}
-
-        <div className="mt-2 flex items-center">
-          <img
-            src="assets/token/PANIC.svg"
-            className="max-w-[50px] border-3 border-blue-400 rounded-full"
-            alt="PANIC logo"
-          />
-          <div className="ml-2">
-            <div className="flex">
-              <div className="text-4xl font-bold">
-                {formatNumber(pendingPanic, 3)}
-              </div>
-              <div className="text-sm self-end ml-1">PANIC</div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Farms */}
-      <section className="border-2 border-blue-200 m-3 mx-auto max-w-4xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100">
-        <div className="mb-4">
-          <h3 className="text-3xl font-bold">Farms</h3>
-          <p>Stake LP tokens to earn</p>
+      <section className="mt-5 border-2 border-blue-200 m-3 mx-auto max-w-5xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:border-none dark:text-white">
+        <div className="mb-4 p-2">
+          <h3 className="text-3xl font-bold font-display">Farms</h3>
+          <p className="dark:text-gray-400">Stake LP tokens to earn</p>
         </div>
 
-        <div>
-          {FarmItems.map((item, index) => {
+        <table className="w-full">
+          <thead>
+            <tr className="text-left">
+              <th className="invisible">Farm name</th>
+              <th>APR</th>
+              <th>TVL</th>
+              <th>Multiplier</th>
+            </tr>
+          </thead>
+          {FarmItems.map((item) => {
             return (
-              <div
-                className="p-1 sm:p-2 mt-2 hover:bg-blue-200 transition-colors rounded-xl"
-                key={item.title}
-              >
-                <div className="flex justify-between">
-                  {/* Logos */}
-                  <div className="flex items-center w-3/4">
-                    <img
-                      className="max-w-[25px] sm:max-w-[33px]"
-                      src={"/assets/token/" + item.symbol1 + ".svg"}
-                    ></img>
-                    <img
-                      className="max-w-[25px] sm:max-w-[33px] relative left-[-9px]"
-                      src={"/assets/token/" + item.symbol2 + ".svg"}
-                    ></img>
+              <tr className="hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl">
+                <td>
+                  <Link to={item.url} className="">
+                    <div className="flex justify-between mt-2 mb-2">
+                      {/* Logos */}
+                      <div className="flex items-center w-3/4">
+                        <img
+                          className="max-w-[25px] sm:max-w-[33px] rounded-full"
+                          src={"/assets/token/" + item.symbol1 + ".svg"}
+                        />
+                        <img
+                          className="max-w-[25px] sm:max-w-[33px] relative left-[-9px] rounded-full"
+                          src={"/assets/token/" + item.symbol2 + ".svg"}
+                        />
 
-                    {/* Title */}
-                    <div className="md:text-lg font-bold">{item.title}</div>
-                  </div>
+                        {/* Title */}
+                        <div className="md:text-lg">
+                          <h5 className="font-bold font-heading">
+                            {item.title}
+                          </h5>
+                          <div className="flex gap-2">
+                            <div className="">
+                              <div className="text-sm leading-none">
+                                Balance
+                              </div>
+                              <div className="md:text-md flex">
+                                <div className="text-sm mr-1">
+                                  {userHeldLPs[item.poolid - 1]}
+                                </div>
+                                <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                  $
+                                  {isNaN(
+                                    (tvlMap[item.poolid - 1] *
+                                      userHeldLPs[item.poolid - 1]) /
+                                      totalSupplyMap[item.poolid - 1]
+                                  )
+                                    ? 0
+                                    : (
+                                        (tvlMap[item.poolid - 1] *
+                                          userHeldLPs[item.poolid - 1]) /
+                                        totalSupplyMap[item.poolid - 1]
+                                      ).toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="">
+                              <div className="text-sm leading-none">Staked</div>
+                              <div className="md:text-md flex">
+                                <div className="text-sm mr-1">
+                                  {userStakedLPs[item.poolid - 1]}
+                                </div>
+                                <span className="md:text-xs dark:bg-gray-700 p-1 rounded-sm">
+                                  $
+                                  {isNaN(
+                                    (tvlMap[item.poolid - 1] *
+                                      userStakedLPs[item.poolid - 1]) /
+                                      totalSupplyMap[item.poolid - 1]
+                                  )
+                                    ? 0
+                                    : (
+                                        (tvlMap[item.poolid - 1] *
+                                          userStakedLPs[item.poolid - 1]) /
+                                        totalSupplyMap[item.poolid - 1]
+                                      ).toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </td>
 
-                  <div>
-                    <Link
-                      to={item.url}
-                      className="inline-block px-4 py-2 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg hover:no-underline text-white transition-all"
-                    >
-                      Select
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="mt-1 md:ml-[7px] grid grid-cols-[1fr_2fr_2fr_1fr_1fr] gap-2 w-full max-w-sm">
+                <td className="mt-1">
                   <div className="">
-                    <div className="text-sm">APR</div>
                     <div className="md:text-md">
                       {(
                         aprMap[item.poolid - 1] +
@@ -332,63 +383,23 @@ function FarmList(props) {
                       ).toFixed(2) + "%"}
                     </div>
                   </div>
-                  <div className="">
-                    <div className="text-sm">Balance</div>
-                    <div className="md:text-md">
-                      {userHeldLPs[item.poolid - 1]}
-                      <span className="md:text-xs">
-                        &nbsp;($
-                        {isNaN(
-                          (tvlMap[item.poolid - 1] *
-                            userHeldLPs[item.poolid - 1]) /
-                            totalSupplyMap[item.poolid - 1]
-                        )
-                          ? 0
-                          : (
-                              (tvlMap[item.poolid - 1] *
-                                userHeldLPs[item.poolid - 1]) /
-                              totalSupplyMap[item.poolid - 1]
-                            ).toFixed(2)}
-                        )
-                      </span>
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="text-sm">Staked</div>
-                    <div className="md:text-md">
-                      {userStakedLPs[item.poolid - 1]}
-                      <span className="md:text-xs">
-                        &nbsp;($
-                        {isNaN(
-                          (tvlMap[item.poolid - 1] *
-                            userStakedLPs[item.poolid - 1]) /
-                            totalSupplyMap[item.poolid - 1]
-                        )
-                          ? 0
-                          : (
-                              (tvlMap[item.poolid - 1] *
-                                userStakedLPs[item.poolid - 1]) /
-                              totalSupplyMap[item.poolid - 1]
-                            ).toFixed(2)}
-                        )
-                      </span>
-                    </div>
-                  </div>
+                </td>
+                <td>
                   <div>
-                    <div className="text-sm">TVL</div>
                     <div className="md:text-md">
                       {"$" + formatNumber(tvlMap[item.poolid - 1], 2)}
                     </div>
                   </div>
+                </td>
+                <td>
                   <div className="">
-                    <div className="text-sm">Multiplier</div>
                     <div className="md:text-md">{"x" + item.boost}</div>
                   </div>
-                </div>
-              </div>
+                </td>
+              </tr>
             );
           })}
-        </div>
+        </table>
       </section>
     </div>
   );

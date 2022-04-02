@@ -131,7 +131,7 @@ export default function CoinField(props) {
   } = props;
 
   return (
-    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 rounded-2xl">
+    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 dark:bg-slate-700 rounded-2xl">
       {/* Button */}
       <div
         onClick={onClick}
@@ -145,13 +145,13 @@ export default function CoinField(props) {
 
       <div className="flex flex-col items-end">
         {/* Balance */}
-        <div className="">
+        <div className="dark:text-gray-400">
           {"Balance: " + checkIfSelect(maxValue !== undefined ? maxValue : 0.0)}
         </div>
 
         {/* Input */}
         <input
-          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-white w-full"
+          className="bg-transparent font-mono text-right text-3xl outline-none placeholder:text-gray-300 w-full dark:text-white"
           min="0"
           type="number"
           value={value}
@@ -161,7 +161,7 @@ export default function CoinField(props) {
         />
 
         {/* Symbol */}
-        <div className="px-1 text-xs rounded-md bg-blue-200">
+        <div className="px-1 text-xs rounded-md bg-blue-200 dark:bg-gray-800 dark:text-gray-400">
           {symbol !== "Select" && <>{symbol}</>}
         </div>
       </div>

@@ -18,14 +18,14 @@ export default function SwitchButton(props) {
   const changeStyles = (K) => {
     if (K === true) {
       document.getElementById("add-button").className =
-        "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-l-md";
+        "bg-blue-500 text-white dark:bg-slate-900 font-bold py-2 px-4 rounded-l-md";
       document.getElementById("remove-button").className =
-        "bg-white text-slate-600 font-bold py-2 px-4 rounded-r-md";
+        "bg-white hover:bg-blue-500 dark:hover:bg-slate-900 hover:text-white dark:text-slate-900 dark:hover:text-white text-slate-600 dark:bg-grey-800 font-bold py-2 px-4 rounded-r-md";
     } else {
       document.getElementById("add-button").className =
-        "bg-white text-slate-600 font-bold py-2 px-4 rounded-l-md";
+        "bg-white hover:bg-blue-500 hover:text-white dark:hover:bg-slate-900 dark:text-slate-900 dark:hover:text-white text-slate-600 dark:bg-grey-800 font-bold py-2 px-4 rounded-l-md";
       document.getElementById("remove-button").className =
-        "bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-r-md";
+        "bg-blue-500 text-white dark:bg-slate-900 font-bold py-2 px-4 rounded-r-md";
     }
   };
 
@@ -33,7 +33,7 @@ export default function SwitchButton(props) {
     <div>
       <button
         id="add-button"
-        className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-l-md"
+        className="bg-blue-500 ext-white font-bold dark:bg-slate-900 text-white py-2 px-4 rounded-l-md"
         onClick={() => {
           setDeploy(true);
           changeStyles(true);
@@ -44,7 +44,7 @@ export default function SwitchButton(props) {
 
       <button
         id="remove-button"
-        className="bg-white text-grey font-bold py-2 px-4 rounded-r-md"
+        className="bg-white hover:bg-blue-500 dark:hover:bg-slate-900 dark:text-slate-900 dark:hover:text-white hover:text-white text-black dark:bg-grey-800 font-bold py-2 px-4 rounded-r-md"
         onClick={() => {
           setDeploy(false);
           changeStyles(false);

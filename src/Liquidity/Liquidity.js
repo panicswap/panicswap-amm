@@ -1,35 +1,9 @@
 import React from "react";
-import {
-  Container,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-  Switch,
-} from "@material-ui/core";
-
 import SwitchButton from "./SwitchButton";
 import LiquidityDeployer from "./LiquidityDeployer";
 import LiquidityRemover from "./RemoveLiquidity";
 
-const styles = (theme) => ({
-  paperContainer: {
-    borderRadius: theme.spacing(2),
-    maxWidth: 700,
-    margin: "auto",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: theme.spacing(1),
-    fontSize: 20,
-  },
-});
-
-const useStyles = makeStyles(styles);
-
 function Liquidity() {
-  const classes = useStyles();
-
   const [deploy, setDeploy] = React.useState(true);
 
   const deploy_or_remove = (deploy) => {
@@ -41,10 +15,10 @@ function Liquidity() {
 
   return (
     <div className="px-2">
-      <div className="max-w-lg mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 p-3 rounded-3xl">
+      <div className="max-w-lg mx-auto bg-blue-100 bg-gradient-to-bl dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:text-white  from-blue-300 to-blue-100 p-3 rounded-3xl">
         <div className="flex mb-2 items-center">
           <>
-            <h3 className="text-xl font-bold p-3">Liquidity</h3>
+            <h3 className="text-xl font-bold font-display p-3">Liquidity</h3>
           </>
           <div className="flex ml-auto">
             <SwitchButton setDeploy={setDeploy} />

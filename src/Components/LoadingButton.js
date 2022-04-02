@@ -5,7 +5,7 @@ export default function LoadingButton(props) {
   return (
     <div>
       <button
-        className="p-3 bg-blue-500 w-full rounded-xl hover:bg-blue-400 cursor-pointer  text-white font-bold transition-colors"
+        className="p-3 bg-blue-500 w-full rounded-xl hover:bg-blue-400 dark:bg- cursor-pointer  text-white font-bold transition-colors"
         disabled={loading || !valid}
         type="submit"
         onClick={onClick}

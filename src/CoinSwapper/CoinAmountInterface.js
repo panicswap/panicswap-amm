@@ -33,7 +33,7 @@ export default function CoinAmountInterface(props) {
         amount = 0;
       } else {
         const weiAm = maxWeiValue.mul(percentage).div(100);
-        amount = ethers.utils.formatUnits(weiAm, decimals)-2;
+        amount = ethers.utils.formatUnits(weiAm, decimals) - 2;
       }
     } else if (maxValue) {
       console.log("decimals ==", decimals);
@@ -50,7 +50,7 @@ export default function CoinAmountInterface(props) {
   return (
     <>
       {/* Controls */}
-      <div className="flex justify-end pr-2">
+      <div className="flex justify-end pr-2 dark:text-gray-400">
         <div>
           <button
             className="leading-tight ml-2"

@@ -34,7 +34,7 @@ import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
 import CoinField from "./CoinField";
 import { ethers } from "ethers";
-import {checkRoute} from "../checkstable";
+import { checkRoute } from "../checkstable";
 
 const styles = (theme) => ({
   paperContainer: {
@@ -168,8 +168,7 @@ function CoinSwapper(props) {
   // Determines whether the button should be enabled or not
   const isButtonEnabled = () => {
     // If both coins have been selected, and a valid float has been entered which is less than the user's balance, then return true
-
-    try{
+    try {
       const parsedInput1 = parseFloat(field1Value);
       const parsedInput2 = parseFloat(field2Value);
       return (
@@ -178,9 +177,10 @@ function CoinSwapper(props) {
         !isNaN(parsedInput1) &&
         !isNaN(parsedInput2) &&
         0 < parsedInput1 &&
-        Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(coin1.wei)
+        Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <=
+          Number(coin1.wei)
       );
-    }catch{
+    } catch {
       return false;
     }
   };
@@ -266,7 +266,7 @@ function CoinSwapper(props) {
 
     console.log("COIN1", coin1);
 
-    const fullRoute = checkRoute(coin1["address"],coin2["address"]);
+    const fullRoute = checkRoute(coin1["address"], coin2["address"]);
 
     swapTokens(
       fullRoute,
@@ -326,9 +326,9 @@ function CoinSwapper(props) {
     if (isNaN(parseFloat(field1Value))) {
       setField2Value("");
     } else if (parseFloat(field1Value) && coin1.address && coin2.address) {
-      const fullRoute = checkRoute(coin1["address"],coin2["address"]);
+      const fullRoute = checkRoute(coin1["address"], coin2["address"]);
       console.log(fullRoute);
-      if(fullRoute.length == 2){
+      if (fullRoute.length == 2) {
         getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
           .then((data) => {
             setField2Value(Number(data[0]).toFixed(7));
@@ -340,19 +340,19 @@ function CoinSwapper(props) {
             console.log(e);
             setField2Value("NA");
           });
-      } else if (fullRoute.length >2){
-        for(let i = 0; i < fullRoute.length; i++){
+      } else if (fullRoute.length > 2) {
+        for (let i = 0; i < fullRoute.length; i++) {
           getAmountsOut(fullRoute, field1Value, router, signer)
-          .then((data) => {
-            setField2Value(Number(data[0]).toFixed(7));
-            setPriceImpact(Number(data[1]).toFixed(2));
-            setTokenFee(Number(data[2]).toFixed(7));
-            //setPairFee(data[3].toFixed(2));
-          })
-          .catch((e) => {
-            console.log(e);
-            setField2Value("NA");
-          });
+            .then((data) => {
+              setField2Value(Number(data[0]).toFixed(7));
+              setPriceImpact(Number(data[1]).toFixed(2));
+              setTokenFee(Number(data[2]).toFixed(7));
+              //setPairFee(data[3].toFixed(2));
+            })
+            .catch((e) => {
+              console.log(e);
+              setField2Value("NA");
+            });
         }
       }
     } else {
@@ -493,10 +493,12 @@ function CoinSwapper(props) {
   }, [account, coin1.address, coin2.address, coins, provider, signer]);
 
   return (
-    <div className="px-2">
+    <div className="px-2 md:mt-14">
       <WrongNetwork open={wrongNetworkOpen} />
-      <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 rounded-3xl p-3 shadow-lg">
-        <h3 className="text-xl font-bold p-3">Swap</h3>
+      <div className="max-w-md mx-auto bg-blue-100 bg-gradient-to-bl from-blue-300 to-blue-100 dark:bg-slate-800 dark:bg-gradient-to-tr dark:from-transparent dark:to-transparent rounded-3xl p-3 shadow-lg">
+        <h3 className="text-xl font-bold p-3 dark:text-gray-400 font-display text-center">
+          Swap
+        </h3>
 
         {/* Dialog Windows */}
         <CoinDialog
@@ -553,7 +555,7 @@ function CoinSwapper(props) {
               {field1Value &&
                 Number(field1Value / field2Value).toPrecision(7) !=
                   "Infinity" && (
-                  <section className="mt-4">
+                  <section className="mt-4 dark:text-white">
                     {/* Price per token */}
                     <div className="grid grid-cols-2">
                       <div>
@@ -597,12 +599,12 @@ function CoinSwapper(props) {
                         <div>{Number(tokenFee) + " " + coin1.symbol}</div>
                       </div>
                     </div>
-                </section>
-              )}
+                  </section>
+                )}
             </>
           )}
 
-          <div className="mt-3">
+          <div className="mt-5">
             <LoadingButton
               loading={loading}
               valid={isButtonEnabled()}
