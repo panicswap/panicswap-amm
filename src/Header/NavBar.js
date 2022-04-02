@@ -5,7 +5,7 @@ import DarkmodeToggle from "./DarkmodeToggle";
 const NavBar = ({ menuOpen, setMenuOpen }) => {
   return (
     <nav
-      className={`fixed md:static top-0 left-0 right-0 bottom-0 flex-col md:flex-row gap-1 md:max-w-md mx-auto md:mt-0 dark:bg-slate-900 pt-[10vh] md:pt-0 ${
+      className={`fixed md:static top-0 left-0 right-0 bottom-0 flex-col md:flex-row gap-1 md:max-w-md mx-auto md:mt-0 bg-lightGray dark:bg-slate-900 pt-[10vh] md:pt-0 ${
         (menuOpen && "flex") || "hidden"
       } md:flex`}
     >
