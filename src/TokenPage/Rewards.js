@@ -251,7 +251,7 @@ export default function Rewards() {
 
       <section className="grid grid-cols-3 gap-2 items-start  dark:text-white">
         {/* Unlocked PANIC */}
-        <div className="bg-lightGray border-2 border-darkGray dark:bg-slate-800 p-3 rounded-xl">
+        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-3 rounded-xl">
           <h4 className="text-xl font-display mb-3 p-1">Staked PANIC</h4>
           <div className="dark:bg-slate-900 rounded-lg flex p-2 justify-end text-lg mb-2">
             <div>{Number(unlockedBalance).toFixed(6)}</div>
@@ -277,7 +277,7 @@ export default function Rewards() {
         </div>
 
         {/* PANIC Stake and Lock Rewards */}
-        <div className="bg-lightGray border-2 border-darkGray dark:bg-slate-800 p-3 rounded-xl">
+        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-3 rounded-xl">
           <h4 className="text-xl font-display mb-3 p-1">Rewards</h4>
           <div className="flex justify-between mb-2">
             <div>
@@ -321,7 +321,7 @@ export default function Rewards() {
         </div>
 
         {/* Claim all above */}
-        <div className="bg-lightGray border-2 border-darkGray dark:bg-slate-800 p-3 rounded-xl">
+        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-3 rounded-xl">
           <h4 className="text-xl font-display mb-3 p-1">Exit vesting</h4>
           <div className="dark:bg-slate-900 rounded-lg flex p-2 justify-end text-lg mb-2">
             <div>{Number(vestedBalance / 2).toFixed(6)}</div>
