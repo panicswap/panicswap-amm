@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import { useSnackbar } from "notistack";
+import { CircularProgress } from "@material-ui/core";
 import {
   getAccount,
   getFactory,
@@ -212,44 +213,98 @@ export default function Stake() {
 
   return (
     <div>
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 dark:text-white mt-5">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 dark:text-white">
         <div>
-          <div className="bg-lightGray mb-3 border-2 border-darkGray dark:border-0 dark:bg-slate-800 dark:text-white p-4 rounded-xl">
-            <h4 className="font-display text-lg mr-auto">Balance</h4>
+          <div className="bg-lightGray mb-3 dark:bg-slate-800 dark:text-white rounded-xl">
             {/* @todo */}
             {/* @todo --> need to iterate with myArray.map()  */}
             {/* @todo */}
             {/* Panic staked amount */}
-            <div className="p-3 bg-white rounded-xl mt-1">
-              <div className="flex flex-none">
-                <div className="w-1/2 text-left">PANIC</div>
-                <div className="w-1/2 text-right">TBA</div>
+            <div className="flex justify-between px-3 pb-2 pt-4 bg-lightGray dark:bg-slate-800 rounded-t-xl">
+              <h2 className="text text-lg ml-2 font-display">Asset</h2>
+              <h2 className="text text-lg font-display">Balance</h2>
+            </div>
+            <div className="flex justify-between -my-1 px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                />
+                <h5 className="text ml-2">PANIC</h5>
               </div>
-              <div className="flex flex-none">
-                <div className="w-1/2 text-left">Staked PANIC</div>
-                <div className="w-1/2 text-right">
+              <h5 className="text flex justify-end text-right">
+                {Number(panicBalance).toFixed(2)}
+              </h5>
+            </div>
+            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                />
+                <h5 className="text ml-2">Locked PANIC</h5>
+              </div>
+              <h5 className="text flex justify-end text-right">
+                {Number(lockedBalance).toFixed(2)}
+              </h5>
+            </div>
+            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                />
+                <h5 className="text ml-2">Staked PANIC</h5>
+              </div>
+              <div className="flex flex-row">
+                <div>
+                  <button
+                    className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                    disabled={false || !true}
+                    type="submit"
+                    onClick={() => {
+                      withdrawUnlocked();
+                    }}
+                  >
+                    Unstake
+                  </button>
+                  {false && <CircularProgress size={24} />}
+                </div>
+                <h5 className="text flex justify-end text-right">
                   {Number(unlockedBalance).toFixed(2)}
-                </div>
+                </h5>
               </div>
-              <div className="flex flex-none">
-                <div className="w-1/2 text-left">Vested PANIC</div>
-                <div className="w-1/2 text-right">
+            </div>
+            <div className="flex justify-between px-3 pt-2 pb-4 bg-lightGray dark:bg-slate-800 dark:text-gray-400 rounded-b-xl">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                />
+                <h5 className="text ml-2">Vested PANIC</h5>
+              </div>
+              <div className="flex flex-row">
+                <div>
+                  <button
+                    className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                    disabled={false || !true}
+                    type="submit"
+                    onClick={() => {
+                      exit();
+                    }}
+                  >
+                    Exit
+                  </button>
+                  {false && <CircularProgress size={24} />}
+                </div>
+                <h5 className="text flex justify-end text-right">
                   {Number(vestedBalance).toFixed(2)}
-                </div>
-              </div>
-              <div className="flex flex-none">
-                <div className="w-1/2 text-left">Locked PANIC</div>
-                <div className="w-1/2 text-right">
-                  {Number(lockedBalance).toFixed(2)}
-                </div>
-              </div>
-              <div className="flex flex-none">
-                <div className="w-1/2 text-left">bePANIC</div>
-                <div className="w-1/2 text-right">TBA</div>
+                </h5>
               </div>
             </div>
           </div>
-          <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl flex flex-col">
+
+          <div className="bg-lightGray dark:bg-slate-800 p-4 rounded-xl flex flex-col">
             <div className="flex-grow">
               <h4 className="font-display text-lg">Stake Panic</h4>
               <p className="dark:text-gray-400 mt-2 mb-10">
@@ -287,12 +342,13 @@ export default function Stake() {
 
         {/* Stake & lock */}
         <div>
-          <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl">
+          <div className="bg-lightGray dark:bg-slate-800 p-4 rounded-xl">
             <h4 className="font-display text-lg">Stake & Lock Panic</h4>
             <div className="dark:text-gray-400 mt-2 mb-5">
               <p>
-                Stake and lock PANIC, earn platform fees in yvWFTM + penalty
-                fees in unlocked PANIC.
+                Users who stake & lock their $PANIC earn platform fees in yvWFTM
+                from people swapping and penalty fees in unlocked PANIC from
+                people exiting their vested positions early.
               </p>
               <p>
                 PANIC deposited and locked is subject to a 2 year lock. You will
