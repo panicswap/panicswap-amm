@@ -13,7 +13,7 @@ const NavBar = ({ menuOpen, setMenuOpen }) => {
         <NavLink
           key={index}
           onClick={() => setMenuOpen(false)}
-          className="text-sm p-5 px-1 font-display text-center md:px-2 text-white font-bold dark:text-gray-300 transition-colors dark:hover:text-blue-300  hover:no-underline"
+          className="text-sm p-5 px-1 font-display text-center md:px-2 text-gray-500 hover:text-blue-500 font-bold dark:text-gray-300 transition-colors dark:hover:text-blue-300  hover:no-underline"
           to={item.url}
         >
           {item.title}

@@ -49,7 +49,7 @@ const DialogTitle = (props) => {
       {onClose ? (
         <div
           onClick={onClose}
-          className="hover:bg-gray-900 p-1 rounded-full transition-colors cursor-pointer"
+          className="dark:hover:bg-gray-900 p-1 rounded-full transition-colors cursor-pointer"
         >
           <CloseIcon />
         </div>
@@ -107,7 +107,7 @@ export default function CoinDialog(props) {
         <motion.div
           initial={{ opacity: 0, y: 20, x: 0 }}
           animate={{ opacity: 1, y: 0, x: 0 }}
-          className="w-[95%] max-w-[500px] h-[85vh] dark:bg-[#131b2e] rounded-xl dark:text-white grid items-center"
+          className="w-[95%] max-w-[500px] h-[85vh] bg-lightGray dark:bg-[#131b2e] rounded-xl dark:text-white grid items-center"
         >
           <div>
             <DialogTitle onClose={() => exit([undefined, undefined])}>
@@ -116,7 +116,7 @@ export default function CoinDialog(props) {
 
             <div className="m-2">
               <input
-                className="p-3 w-full rounded-lg bg-transparent border-2 border-gray-600 focus:border-blue-500"
+                className="p-3 w-full rounded-lg bg-transparent border-2 border-darkGray dark:border-gray-600 focus:border-blue-500"
                 disabled
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
@@ -143,7 +143,7 @@ export default function CoinDialog(props) {
           <div className="p-2">
             <button
               onClick={submit}
-              className="mt-3 dark:bg-blue-600 w-full rounded-md p-3 font-bold "
+              className="mt-3 text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover-bg-blue-700 w-full rounded-md p-3 font-bold"
             >
               Enter
             </button>

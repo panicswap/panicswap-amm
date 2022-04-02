@@ -13,7 +13,7 @@ export default function CoinButton(props) {
   return (
     <div
       onClick={onClick}
-      className="flex dark:hover:bg-slate-800 p-2 rounded-md cursor-pointer"
+      className="flex hover:bg-white dark:hover:bg-slate-800 p-2 rounded-md cursor-pointer"
     >
       <img
         src={"/assets/token/" + props.logo + ".svg"}

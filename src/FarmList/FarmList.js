@@ -239,29 +239,13 @@ function FarmList(props) {
       <WrongNetwork open={wrongNetworkOpen} />
 
       {/* Rewards */}
-      <section className="border-2 border-blue-200 m-2 mx-auto max-w-4xl p-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:border-none dark:bg-slate-800 dark:text-white">
+      <section className="bg-lightGray border-2 border-darkGray m-2 mx-auto max-w-4xl p-3 rounded-2xl dark:from-transparent dark:to-transparent dark:border-none dark:bg-slate-800 dark:text-white">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-3xl font-bold font-display">Rewards</h3>
             <p className="text-base leading-none dark:text-gray-400">
               Collect <strong>$PANIC</strong> rewards earned by farming
             </p>
-          </div>
-
-          <div className="flex items-center">
-            <img
-              src="assets/token/PANIC.svg"
-              className="max-w-[40px] border-3 border-blue-400 rounded-full"
-              alt="PANIC logo"
-            />
-            <div className="ml-2">
-              <div className="flex">
-                <div className="text-4xl font-bold">
-                  {formatNumber(pendingPanic, 3)}
-                </div>
-                <div className="text-sm self-end ml-1">PANIC</div>
-              </div>
-            </div>
           </div>
 
           <div>
@@ -279,11 +263,26 @@ function FarmList(props) {
             </LoadingButton>
           </div>
         </div>
+        <div className="flex mt-2 items-start">
+          <img
+            src="assets/token/PANIC.svg"
+            className="max-w-[40px] border-3 border-blue-400 rounded-full"
+            alt="PANIC logo"
+          />
+          <div className="ml-2">
+            <div className="flex">
+              <div className="text-4xl font-bold">
+                {formatNumber(pendingPanic, 3)}
+              </div>
+              <div className="text-sm self-end ml-1">PANIC</div>
+            </div>
+          </div>
+        </div>
         {/* {formatBalance(coin1.balance, coin1.symbol)} */}
       </section>
 
       {/* Farms */}
-      <section className="mt-5 border-2 border-blue-200 m-3 mx-auto max-w-5xl py-3 px-3 rounded-2xl bg-gradient-to-bl from-blue-300 to-blue-100 dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:border-none dark:text-white">
+      <section className="mt-5 bg-lightGray border-2 border-darkGray m-3 mx-auto max-w-5xl py-3 px-3 rounded-2xl dark:from-transparent dark:to-transparent dark:bg-slate-800 dark:border-none dark:text-white">
         <div className="mb-4 p-2">
           <h3 className="text-3xl font-bold font-display">Farms</h3>
           <p className="dark:text-gray-400">Stake LP tokens to earn</p>
@@ -300,7 +299,7 @@ function FarmList(props) {
           </thead>
           {FarmItems.map((item) => {
             return (
-              <tr className="hover:bg-blue-200 dark:hover:bg-[#192434] transition-colors rounded-xl">
+              <tr className="hover:bg-white dark:hover:bg-[#192434] transition-colors rounded-full">
                 <td>
                   <Link to={item.url} className="">
                     <div className="flex justify-between mt-2 mb-2">

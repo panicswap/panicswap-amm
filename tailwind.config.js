@@ -8,11 +8,11 @@ module.exports = {
         heading: ['"Sora"', "sans-serif"],
       },
       colors: {
-        darkBlue: {
-          DEFAULT: "#1E293B",
+        lightGray: {
+          DEFAULT: "#eff3fb",
         },
-        panic: {
-          DEFAULT: "#3cc6f4",
+        darkGray: {
+          DEFAULT: "#b7becb",
         },
       },
     },

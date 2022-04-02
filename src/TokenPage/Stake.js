@@ -173,31 +173,29 @@ export default function Stake() {
 
   return (
     <div>
-      <div className="dark:bg-slate-800 dark:text-white p-3 rounded-xl flex items-center">
+      <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 dark:text-white p-3 rounded-xl flex items-center">
         <h4 className="font-display text-lg mr-auto">Staked PANIC</h4>
-
         {/* @todo */}
         {/* @todo --> need to iterate with myArray.map()  */}
         {/* @todo */}
-
         {/* Panic staked amount */}
-        <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
+        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            locked
+            Locked:
           </div>
           <div className="ml-2">{Number(lockedBalance).toFixed(2)}</div>
           <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
-        <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
+        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            vested
+            Vested:
           </div>
           <div className="ml-2">{Number(vestedBalance).toFixed(2)}</div>
           <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
         </div>
-        <div className="flex dark:bg-gray-900 p-1 rounded-md items-center ml-2">
+        <div className="flex text-white bg-blue-500 dark:bg-gray-900 p-1 rounded-md items-center ml-2">
           <div className="p-1 dark:bg-gray-700 rounded-md dark:text-gray-400">
-            unlocked
+            Unlocked:
           </div>
           <div className="ml-2">{Number(unlockedBalance).toFixed(2)}</div>
           <img src="assets/token/PANIC.svg" className="w-[23px] ml-2 mr-1" />
@@ -205,7 +203,7 @@ export default function Stake() {
       </div>
 
       <section className="grid grid-cols-2 gap-3 dark:text-white mt-5">
-        <div className="dark:bg-slate-800 p-4 rounded-xl flex flex-col">
+        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl flex flex-col">
           <div className="flex-grow">
             <h4 className="font-display text-lg">Stake Panic</h4>
             <p className="dark:text-gray-400 mt-2 mb-10">
@@ -241,7 +239,7 @@ export default function Stake() {
         </div>
 
         {/* Stake & lock */}
-        <div className="dark:bg-slate-800 p-4 rounded-xl">
+        <div className="bg-lightGray border-2 border-darkGray dark:border-0 dark:bg-slate-800 p-4 rounded-xl">
           <h4 className="font-display text-lg">Stake & Lock Panic</h4>
           <div className="dark:text-gray-400 mt-2 mb-5">
             <p>
