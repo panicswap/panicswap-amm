@@ -52,7 +52,7 @@ export default function CoinAmountInterface(props) {
   return (
     <>
       {/* Controls */}
-      <div className="flex justify-end pr-2">
+      <div className="flex justify-end pr-2 dark:text-gray-400">
         <div>
           <button
             className="leading-tight ml-2"
