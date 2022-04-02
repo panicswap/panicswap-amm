@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 import logo from "../assets/logo/logo.svg";
 import {
   getAccount,
@@ -60,20 +62,30 @@ export default function Header() {
     updateHeaderStats();
   }, [aprFeed, aprStaking, chef]);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-10 mb-10 p-1 md:p-2 dark:bg-slate-900">
-      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between pl-5">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+      <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between md:pl-5">
+        <div className="flex md:flex-row items-center justify-between p-2">
           {/* Logo */}
           <Link to="/">
             <img
               src={logo}
-              className="w-[40px] md:max-w-[130px] mr-5"
+              className="w-[35px] md:w-[40px] mr-5"
               alt="PanicSwap logo"
             />
           </Link>
+
           {/* Navigation */}
-          <NavBar />
+          <div
+            className="text-3xl dark:text-white cursor-pointer md:hidden relative z-30"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <IoClose /> : <AiOutlineMenu />}
+          </div>
+
+          <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         </div>
 
         {/* Stats */}
@@ -85,7 +97,7 @@ export default function Header() {
           />
 
           {/* Darkmode toggle */}
-          <div className="ml-3">
+          <div className="ml-3 hidden md:block">
             <DarkmodeToggle />
           </div>
         </div>
