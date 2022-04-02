@@ -20,7 +20,7 @@ const NavBar = ({ menuOpen, setMenuOpen }) => {
         </NavLink>
       ))}
 
-      <div className="md:hidden">
+      <div className="md:hidden md:mt-0 mt-5 self-center">
         <DarkmodeToggle />
       </div>
     </nav>

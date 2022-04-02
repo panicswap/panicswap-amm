@@ -89,7 +89,7 @@ export default function Header() {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center">
+        <div className="items-center hidden md:flex">
           <HeaderStats
             totalTvl={totalTvl}
             panicPrice={panicPrice}

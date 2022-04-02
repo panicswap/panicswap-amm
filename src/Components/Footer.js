@@ -13,13 +13,13 @@ import {
 export default function Footer() {
   return (
     <footer className="mt-5 p-3">
-      <div className="mt-3 flex justify-between mx-2 text-xl mb-2">
+      <div className="mt-3 flex justify-between mx-2 text-xl mb-2 flex-col items-center md:flex-row">
         <div className="flex dark:text-gray-600 text-sm">
           <a
             className="flex items-center border-0 px-2 text-md hover:no-underline text-white dark:text-gray-300 dark:hover:text-blue-300"
             href="https://panic-swap.gitbook.io/panicswap/"
           >
-            Documentation
+            Docs
           </a>
           <a
             className="flex items-center border-0 px-2 text-md hover:no-underline text-white dark:text-gray-300 dark:hover:text-blue-300"
@@ -28,7 +28,7 @@ export default function Footer() {
             Governance
           </a>
         </div>
-        <div className="flex text-white dark:text-gray-300">
+        <div className="flex text-white dark:text-gray-300 mt-5">
           <SocialItem
             name="Medium"
             link="https://medium.com/@thepanicswap/"
