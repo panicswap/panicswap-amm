@@ -31,7 +31,6 @@ export default function StakePage() {
   return (
     <div className="max-w-screen-lg p-2 mx-auto">
       <Stake />
-      <Rewards />
     </div>
   );
 }
