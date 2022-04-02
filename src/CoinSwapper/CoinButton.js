@@ -15,7 +15,10 @@ export default function CoinButton(props) {
       onClick={onClick}
       className="flex dark:hover:bg-slate-800 p-2 rounded-md cursor-pointer"
     >
-      <img src={"/assets/token/" + props.logo + ".svg"} className="w-[40px]" />
+      <img
+        src={"/assets/token/" + props.logo + ".svg"}
+        className="w-[40px] h-[40px] rounded-full"
+      />
       <div className="ml-5">
         <h5 className="text">{coinAbbr}</h5>
         <div className="dark:text-gray-400 text-sm">{coinName}</div>
