@@ -18,12 +18,14 @@ export default function Footer() {
           <a
             className="flex items-center border-0 px-2 text-md hover:no-underline text-white dark:text-gray-300 dark:hover:text-blue-300"
             href="https://panic-swap.gitbook.io/panicswap/"
+            target="_blank"
           >
             Docs
           </a>
           <a
             className="flex items-center border-0 px-2 text-md hover:no-underline text-white dark:text-gray-300 dark:hover:text-blue-300"
             href="https://snapshot.org/#/panicswap.eth/"
+            target="_blank"
           >
             Governance
           </a>
@@ -70,6 +72,7 @@ const SocialItem = ({ name, link, icon, className }) => {
     <a
       className="flex items-center border-0 px-3 hover:no-underline"
       href={link}
+      target="_blank"
     >
       <div className={className}>{icon}</div>
     </a>
