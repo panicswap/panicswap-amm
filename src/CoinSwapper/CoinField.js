@@ -131,16 +131,20 @@ export default function CoinField(props) {
   } = props;
 
   return (
-    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 dark:bg-slate-700 rounded-2xl">
+    <div className="flex items-center justify-between p-3 py-1 bg-blue-300 dark:bg-slate-700 rounded-xl">
       {/* Button */}
       <div
         onClick={onClick}
-        className="cursor-pointer min-w-[50px] min-h-[50px]"
+        className="cursor-pointer flex items-center justify-between bg-blue-200 dark:bg-gray-800 dark:text-gray-400 rounded p-1 gap-5"
       >
         <img
           src={"/assets/token/" + symbol + ".svg"}
-          className="shadow-lg rounded-full max-w-[50px]"
+          className="shadow-lg rounded-full w-[40px] block"
         />
+        {/* Symbol */}
+        <div className="px-1 text-xs self-center">
+          {symbol !== "Select" && <>{symbol}</>}
+        </div>
       </div>
 
       <div className="flex flex-col items-end">
@@ -159,11 +163,6 @@ export default function CoinField(props) {
           placeholder="0.0"
           disabled={!activeField}
         />
-
-        {/* Symbol */}
-        <div className="px-1 text-xs rounded-md bg-blue-200 dark:bg-gray-800 dark:text-gray-400">
-          {symbol !== "Select" && <>{symbol}</>}
-        </div>
       </div>
     </div>
   );
