@@ -371,7 +371,7 @@ export default function Stake() {
           <div className="bg-lightGray dark:bg-slate-800 p-3 rounded-xl mb-3">
             <h4 className="text-xl font-display mb-3 p-1">Rewards</h4>
             <div className="flex justify-between mb-2">
-              <div>
+              <div className="ml-1">
                 <h4 className="font-display">PANIC</h4>
                 <div className="dark:text-gray-300">{panicApr + "%"} APR</div>
               </div>
@@ -384,7 +384,7 @@ export default function Stake() {
               </div>
             </div>
             <div className="flex justify-between">
-              <div>
+              <div className="ml-1">
                 <div className="font-display">yvWFTM</div>
                 <div className="dark:text-gray-300">{yvwftmApr + "%"} APR</div>
               </div>
