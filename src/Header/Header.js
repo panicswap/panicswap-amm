@@ -65,7 +65,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2 dark:bg-slate-900">
+    <header className="sticky top-0 z-10 mb-10 p-1 md:p-2 bg-white dark:bg-slate-900">
       <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between md:pl-5">
         <div className="flex md:flex-row items-center justify-between p-2">
           {/* Logo */}

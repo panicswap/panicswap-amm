@@ -214,102 +214,210 @@ export default function Stake() {
   return (
     <div>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-3 dark:text-white">
-        <div>
-          <div className="bg-lightGray mb-3 dark:bg-slate-800 dark:text-white rounded-xl">
+        <div className="w-full">
+          {/* Wallet Balance */}
+          <div className="bg-lightGray mb-3 w-full md: dark:bg-slate-800 dark:text-white rounded-xl">
             {/* @todo */}
             {/* @todo --> need to iterate with myArray.map()  */}
             {/* @todo */}
             {/* Panic staked amount */}
             <div className="flex justify-between px-3 pb-2 pt-4 bg-lightGray dark:bg-slate-800 rounded-t-xl">
-              <h2 className="text text-lg ml-2 font-display">Asset</h2>
-              <h2 className="text text-lg font-display">Balance</h2>
+              <h2 className="text text-lg ml-1 font-display">Asset</h2>
+              <h2 className="text text-lg ml-auto font-display">Balance</h2>
+              <h2 className="text text-lg ml-8 mr-1 font-display">APR</h2>
             </div>
             <div className="flex justify-between -my-1 px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
               <div className="flex flex-row">
                 <img
                   src="assets/token/PANIC.svg"
-                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                  className="flex w-[35px] ml-1 mr-1 rounded-full"
                 />
-                <h5 className="text ml-2">PANIC</h5>
-              </div>
-              <h5 className="text flex justify-end text-right">
-                {Number(panicBalance).toFixed(2)}
-              </h5>
-            </div>
-            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
-              <div className="flex flex-row">
-                <img
-                  src="assets/token/PANIC.svg"
-                  className="flex w-[23px] ml-2 mr-1 rounded-full"
-                />
-                <h5 className="text ml-2">Locked PANIC</h5>
-              </div>
-              <h5 className="text flex justify-end text-right">
-                {Number(lockedBalance).toFixed(2)}
-              </h5>
-            </div>
-            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
-              <div className="flex flex-row">
-                <img
-                  src="assets/token/PANIC.svg"
-                  className="flex w-[23px] ml-2 mr-1 rounded-full"
-                />
-                <h5 className="text ml-2">Staked PANIC</h5>
-              </div>
-              <div className="flex flex-row">
                 <div>
-                  <button
-                    className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
-                    disabled={false || !true}
-                    type="submit"
-                    onClick={() => {
-                      withdrawUnlocked();
-                    }}
-                  >
-                    Unstake
-                  </button>
-                  {false && <CircularProgress size={24} />}
+                  <h5 className="text ml-1">PANIC</h5>
+                  <div className="flex flex-row ml-1">
+                    <div>
+                      <button
+                        className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                        disabled={false || !true}
+                        type="submit"
+                        onClick={() => {
+                          stakePan(panicBalance, false);
+                        }}
+                      >
+                        Stake All
+                      </button>
+                      {false && <CircularProgress size={24} />}
+                    </div>
+                    <div>
+                      <button
+                        className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                        disabled={false || !true}
+                        type="submit"
+                        onClick={() => {
+                          stakePan(panicBalance, true);
+                        }}
+                      >
+                        Lock All
+                      </button>
+                      {false && <CircularProgress size={24} />}
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              <div className="flex flex-row items-center">
+                <h5 className="text flex justify-end text-right">
+                  {Number(panicBalance).toFixed(2)}
+                </h5>
+                <div className="w-20">
+                  <h5 className="text flex mr-1 justify-end text-right">0%</h5>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[35px] ml-1 mr-1 rounded-full"
+                />
+                <div>
+                  <h5 className="text ml-1">Staked PANIC</h5>
+                  <div className="flex flex-row ml-1">
+                    <div>
+                      <button
+                        className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                        disabled={false || !true}
+                        type="submit"
+                        onClick={() => {
+                          withdrawUnlocked();
+                        }}
+                      >
+                        Unstake All
+                      </button>
+                      {false && <CircularProgress size={24} />}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row items-center">
                 <h5 className="text flex justify-end text-right">
                   {Number(unlockedBalance).toFixed(2)}
                 </h5>
+                <div className="w-20">
+                  <h5 className="text flex justify-end mr-1 text-right">
+                    {yvwftmApr.toFixed(2) + "%"}
+                  </h5>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-between px-3 py-2 bg-lightGray dark:bg-slate-800 dark:text-gray-400">
+              <div className="flex flex-row">
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[35px] ml-1 mr-1 rounded-full"
+                />
+                <div>
+                  <h5 className="text ml-1">Vested PANIC</h5>
+                  <div className="flex flex-row ml-1">
+                    <div>
+                      <button
+                        className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
+                        disabled={false || !true}
+                        type="submit"
+                        onClick={() => {
+                          exit();
+                        }}
+                      >
+                        Exit Vesting (-50%)
+                      </button>
+                      {false && <CircularProgress size={24} />}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row items-center">
+                <h5 className="text flex justify-end text-right">
+                  {Number(vestedBalance).toFixed(2)}
+                </h5>
+                <div className="w-20">
+                  <h5 className="text flex justify-end mr-1 text-right">
+                    {yvwftmApr.toFixed(2) + "%"}
+                  </h5>
+                </div>
               </div>
             </div>
             <div className="flex justify-between px-3 pt-2 pb-4 bg-lightGray dark:bg-slate-800 dark:text-gray-400 rounded-b-xl">
               <div className="flex flex-row">
                 <img
                   src="assets/token/PANIC.svg"
-                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                  className="flex w-[35px] ml-1 mr-1 rounded-full"
                 />
-                <h5 className="text ml-2">Vested PANIC</h5>
+                <h5 className="text ml-1">Locked PANIC</h5>
               </div>
-              <div className="flex flex-row">
-                <div>
-                  <button
-                    className="py-1 px-2 text-xs bg-blue-500 hover:bg-blue-600 rounded-md mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold"
-                    disabled={false || !true}
-                    type="submit"
-                    onClick={() => {
-                      exit();
-                    }}
-                  >
-                    Exit
-                  </button>
-                  {false && <CircularProgress size={24} />}
-                </div>
+              <div className="flex flex-row items-center">
                 <h5 className="text flex justify-end text-right">
-                  {Number(vestedBalance).toFixed(2)}
+                  {Number(lockedBalance).toFixed(2)}
                 </h5>
+                <div className="w-20">
+                  <h5 className="text flex justify-end mr-1 text-right">
+                    {(yvwftmApr + panicApr).toFixed(2) + "%"}
+                  </h5>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-lightGray dark:bg-slate-800 p-4 rounded-xl flex flex-col">
+          {/* Rewards */}
+          <div className="w-full md: bg-lightGray dark:bg-slate-800 p-3 rounded-xl mb-3">
+            <div className="flex flex-row">
+              <h4 className="text-xl font-display mb-3 p-1 w-8/12">Rewards</h4>
+              <div className="ml-auto p-1">
+                <button
+                  className="px-2 py-1 text-md bg-blue-500 hover:bg-blue-600 w-28 rounded-md dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold transition-colors"
+                  disabled={false || !true}
+                  type="submit"
+                  onClick={() => {
+                    getReward();
+                  }}
+                >
+                  Claim
+                </button>
+                {false && <CircularProgress size={24} />}
+              </div>
+            </div>
+            <div className="flex justify-between mb-2">
+              <div className="ml-1">
+                <h4 className="font-display">PANIC</h4>
+                <div className="dark:text-gray-300">{panicApr + "%"} APR</div>
+              </div>
+              <div className="flex items-center">
+                <div>{Number(panicRewards2).toFixed(2)}</div>
+                <img
+                  src="assets/token/PANIC.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                ></img>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="ml-1">
+                <div className="font-display">yvWFTM</div>
+                <div className="dark:text-gray-300">{yvwftmApr + "%"} APR</div>
+              </div>
+              <div className="flex items-center">
+                <div>{Number(yvWFTMRewards).toFixed(2)}</div>
+                <img
+                  src="assets/token/yvWFTM.svg"
+                  className="flex w-[23px] ml-2 mr-1 rounded-full"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Stake */}
+          <div className="w-full md: bg-lightGray dark:bg-slate-800 p-4 rounded-xl flex flex-col">
             <div className="flex-grow">
               <h4 className="font-display text-lg">Stake Panic</h4>
-              <p className="dark:text-gray-400 mt-2 mb-10">
-                Stake PANIC and earn platform fees in yvWFTM without lock-up.
-              </p>
             </div>
             <div className="">
               <CoinAmountInterface
@@ -340,46 +448,82 @@ export default function Stake() {
           </div>
         </div>
 
-        {/* Stake & lock */}
-        <div>
-          <div className="bg-lightGray dark:bg-slate-800 p-4 rounded-xl">
-            <h4 className="font-display text-lg">Stake & Lock Panic</h4>
-            <div className="dark:text-gray-400 mt-2 mb-5">
-              <p>
-                Users who stake & lock their $PANIC earn platform fees in yvWFTM
-                from people swapping and penalty fees in unlocked PANIC from
-                people exiting their vested positions early.
+        {/*Tokenomics Explanation */}
+        <div className="w-full col-start-1 md:col-start-auto">
+          <div className="w-full bg-lightGray dark:bg-slate-800 p-4 rounded-xl flex flex-col mb-3">
+            <div className="flex-grow">
+              <h4 className="font-display text-lg">Tokenomics</h4>
+              <h5 className="text-md font-display mt-3 mb-1 dark:text-blue-300">
+                Staked PANIC
+              </h5>
+              <p className="dark:text-gray-400">
+                Earns fees generated by the PanicSwap protocol.
               </p>
-              <p>
-                PANIC deposited and locked is subject to a 2 year lock. You will
-                continue to earn fees after the locks expire if you do not
-                withdraw.
+              <p className="dark:text-gray-400">
+                Fees are collected from users paying fees to make a swap and
+                converted to yvWFTM, a yield-bearing version of wrapped FTM.
+              </p>
+              <p className="dark:text-gray-400">
+                Earned yvWFTM is available to stakers without any lock-up.
+              </p>
+              <h5 className="text-md font-display mt-3 mb-1 dark:text-blue-300">
+                Vested PANIC
+              </h5>
+              <p className="dark:text-gray-400">
+                Earned by{" "}
+                <a href="/farms" className="text-blue-300">
+                  farming
+                </a>{" "}
+                PANIC. Earns staking rewards.
+              </p>
+              <p className="dark:text-gray-400">
+                PANIC is vested for 2 years. A user can choose to cancel this
+                vesting period and claim tokens immediately for a 50% fee that
+                is paid to users who lock PANIC.
+              </p>
+              <h5 className="text-md font-display mt-3 mb-1 dark:text-blue-300">
+                Staked & Locked PANIC
+              </h5>
+              <p className="dark:text-gray-400">
+                Earns staking rewards and aforementioned penalty fees caused by
+                farmers exiting their vested positions early.
+              </p>
+              <p className="dark:text-gray-400">
+                Locked PANIC is subject to a mandatory 2 years lock and cannot
+                be unlocked early. You will continue to earn fees after the
+                locks expire if you do not withdraw.
               </p>
             </div>
+          </div>
 
-            <CoinAmountInterface
-              activeField={true}
-              value={field2Value}
-              onClick={() => setDialog2Open(true)}
-              onChange={handleChange.field2}
-              symbol={tokenDetails.symbol}
-              userCanChoose={false}
-              decimals={tokenDetails.decimals}
-              maxValue={panicBalance}
-              maxWeiValue={panicWeiBalance}
-            />
-            <div className="mt-5">
-              <LoadingButton
-                loading={loading}
-                valid={true}
-                success={false}
-                fail={false}
-                onClick={() => {
-                  stakePan(field2Value, true);
-                }}
-              >
-                Lock
-              </LoadingButton>
+          {/* Stake & lock */}
+          <div>
+            <div className="w-full md: bg-lightGray dark:bg-slate-800 p-4 rounded-xl">
+              <h4 className="font-display text-lg">Stake & Lock Panic</h4>
+              <CoinAmountInterface
+                activeField={true}
+                value={field2Value}
+                onClick={() => setDialog2Open(true)}
+                onChange={handleChange.field2}
+                symbol={tokenDetails.symbol}
+                userCanChoose={false}
+                decimals={tokenDetails.decimals}
+                maxValue={panicBalance}
+                maxWeiValue={panicWeiBalance}
+              />
+              <div className="mt-5">
+                <LoadingButton
+                  loading={loading}
+                  valid={true}
+                  success={false}
+                  fail={false}
+                  onClick={() => {
+                    stakePan(field2Value, true);
+                  }}
+                >
+                  Lock
+                </LoadingButton>
+              </div>
             </div>
           </div>
         </div>
