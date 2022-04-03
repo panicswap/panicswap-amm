@@ -370,7 +370,22 @@ export default function Stake() {
 
           {/* Rewards */}
           <div className="w-full md: bg-lightGray dark:bg-slate-800 p-3 rounded-xl mb-3">
-            <h4 className="text-xl font-display mb-3 p-1">Rewards</h4>
+            <div className="flex flex-row">
+              <h4 className="text-xl font-display mb-3 p-1 w-8/12">Rewards</h4>
+              <div className="ml-auto p-1">
+                <button
+                  className="px-2 py-1 text-md bg-blue-500 hover:bg-blue-600 w-28 rounded-md dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white cursor-pointer text-white font-bold transition-colors"
+                  disabled={false || !true}
+                  type="submit"
+                  onClick={() => {
+                    getReward();
+                  }}
+                >
+                  Claim
+                </button>
+                {false && <CircularProgress size={24} />}
+              </div>
+            </div>
             <div className="flex justify-between mb-2">
               <div className="ml-1">
                 <h4 className="font-display">PANIC</h4>
@@ -396,19 +411,6 @@ export default function Stake() {
                   className="flex w-[23px] ml-2 mr-1 rounded-full"
                 />
               </div>
-            </div>
-            <div className="mt-5">
-              <LoadingButton
-                loading={false}
-                valid={true}
-                success={false}
-                fail={false}
-                onClick={() => {
-                  getReward();
-                }}
-              >
-                Claim
-              </LoadingButton>
             </div>
           </div>
 
@@ -480,7 +482,7 @@ export default function Stake() {
                 is paid to users who lock PANIC.
               </p>
               <h5 className="text-md font-display mt-3 mb-1 dark:text-blue-300">
-                Locked (& Staked) PANIC
+                Staked & Locked PANIC
               </h5>
               <p className="dark:text-gray-400">
                 Earns staking rewards and aforementioned penalty fees caused by
