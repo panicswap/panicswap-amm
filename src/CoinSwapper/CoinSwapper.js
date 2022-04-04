@@ -135,6 +135,7 @@ function CoinSwapper(props) {
   const [priceImpact, setPriceImpact] = React.useState([]);
   const [tokenFee, setTokenFee] = React.useState([]);
   const [pairFee, setPairFee] = React.useState([]);
+  const [balanceMap, setBalanceMap] = React.useState({});
 
   // Switches the top and bottom coins, this is called when users hit the swap button or select the opposite
   // token in the dialog (e.g. if coin1 is TokenA and the user selects TokenB when choosing coin2)
@@ -443,6 +444,27 @@ function CoinSwapper(props) {
           const coins = COINS.get(chainId);
           setCoins(coins);
         });
+
+        const balancePromises = [];
+
+        for(let i = 0; i < coins.length; i++){
+          if(i==0){
+            balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,true,coins);
+            continue;
+          }
+          balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,false,coins);
+        }
+        Promise.allSettled(balancePromises).then((results) => {
+          const newBalanceMap = [];
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newBalanceMap[v["symbol"] == "FTM" ? "FTM" :v["address"]] = v["balance"];//(Number(v) / 1e18).toFixed(0);
+            }
+          });
+          setBalanceMap(newBalanceMap);
+        })
+
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
           setFactory(getFactory(factory_address, signer));

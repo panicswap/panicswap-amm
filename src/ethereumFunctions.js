@@ -116,6 +116,7 @@ export async function getBalanceAndSymbol(
       symbol: symbol,
       wei: balanceRaw,
       decimals: tokenDecimals,
+      address: address,
     }
   } catch (error) {
     console.log ('The getBalanceAndSymbol function had an error!');
