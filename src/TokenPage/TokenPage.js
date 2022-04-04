@@ -7,7 +7,6 @@ import {
   Typography,
   Switch,
 } from "@material-ui/core";
-import Rewards from "./Rewards";
 import Stake from "./Stake";
 
 const styles = (theme) => ({

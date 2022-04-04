@@ -13,7 +13,7 @@ export default function CoinButton(props) {
   return (
     <div
       onClick={onClick}
-      className="flex hover:bg-white dark:hover:bg-slate-800 p-2 rounded-md cursor-pointer"
+      className="flex hover:bg-white dark:hover:bg-slate-800 p-2 rounded-md items-center cursor-pointer"
     >
       <img
         src={"/assets/token/" + props.logo + ".svg"}
@@ -23,7 +23,10 @@ export default function CoinButton(props) {
         <h5 className="text">{coinAbbr}</h5>
         <div className="dark:text-gray-400 text-sm">{coinName}</div>
       </div>
-      {/* TODO: Add user balance of the current token */}
+      <div className="ml-auto">
+        {/* TODO: Add user balance of the current token */}
+        <h5>0.00000</h5>
+      </div>
     </div>
   );
 }
