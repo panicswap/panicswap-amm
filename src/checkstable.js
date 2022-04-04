@@ -161,7 +161,7 @@ export function checkRoute(tokenFrom, tokenTo){
   routesMap[solid] = [oxsolid];
   routesMap[beluga] = [wftm];
   routesMap[boo] = [wftm];
-  routesMap[fbeets] = [usdc];
+  routesMap[fbeets] = [usdc,bebeets];
   routesMap[bebeets] = [fbeets];
 
   console.log("joined", tokenFrom,tokenTo);
@@ -174,6 +174,13 @@ export function checkRoute(tokenFrom, tokenTo){
   if(routesToken.length == 1){
     let finalRoute = [tokenFrom, routesToken[0]];
     let secondPart = checkRoute(routesToken[0], tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  if(routesToken.includes(fbeets) && tokenTo == bebeets){
+    let finalRoute = [tokenFrom, fbeets];
+    let secondPart = checkRoute(fbeets, tokenTo);
     for(let i = 1; i<secondPart.length; i++)
       finalRoute.push(secondPart[i]);
     return finalRoute;
