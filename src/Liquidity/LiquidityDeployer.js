@@ -117,6 +117,8 @@ function LiquidityDeployer(props) {
   const [field1Value, setField1Value] = React.useState("");
   const [field2Value, setField2Value] = React.useState("");
 
+  const [balanceMap, setBalanceMap] = React.useState("");
+
   // Controls the loading button
   const [loading, setLoading] = React.useState(false);
 
@@ -413,6 +415,27 @@ function LiquidityDeployer(props) {
           const coins = COINS.get(chainId);
           setCoins(coins);
         });
+
+        const balancePromises = [];
+
+        for(let i = 0; i < coins.length; i++){
+          if(i==0){
+            balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,true,coins);
+            continue;
+          }
+          balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,false,coins);
+        }
+        Promise.allSettled(balancePromises).then((results) => {
+          const newBalanceMap = [];
+          results.forEach((result, index) => {
+            const { value: v, status } = result;
+            if (status === "fulfilled") {
+              newBalanceMap[v["symbol"] == "FTM" ? "FTM" :v["address"]] = v["balance"];//(Number(v) / 1e18).toFixed(0);
+            }
+          });
+          setBalanceMap(newBalanceMap);
+        })
+
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
           setFactory(getFactory(factory_address, signer));
@@ -472,12 +495,14 @@ function LiquidityDeployer(props) {
         onClose={onToken1Selected}
         coins={coins}
         signer={signer}
+        balanceMap={balanceMap}
       />
       <CoinDialog
         open={dialog2Open}
         onClose={onToken2Selected}
         coins={coins}
         signer={signer}
+        balanceMap={balanceMap}
       />
       <WrongNetwork open={wrongNetworkOpen} />
 
