@@ -122,6 +122,7 @@ export function checkRoute(tokenFrom, tokenTo){
   const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6".toLocaleLowerCase();
   const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6".toLocaleLowerCase();
   const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF".toLocaleLowerCase();
+  const bebeets = "0xd46a5acf776a84fFe7fA7815d62D203638052fF4".toLowerCase();
 
   const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e".toLocaleLowerCase();
   const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83".toLocaleLowerCase();
@@ -161,6 +162,7 @@ export function checkRoute(tokenFrom, tokenTo){
   routesMap[beluga] = [wftm];
   routesMap[boo] = [wftm];
   routesMap[fbeets] = [usdc];
+  routesMap[bebeets] = [fbeets];
 
   console.log("joined", tokenFrom,tokenTo);
   const routesToken = routesMap[tokenFrom];
