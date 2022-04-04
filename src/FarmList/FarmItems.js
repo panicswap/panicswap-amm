@@ -15,7 +15,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "DAI",
-    boost: "5.81",
+    boost: "3.23",
   },
   {
     title: "BTC-ETH Panic Variable LP",
@@ -24,7 +24,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BTC",
     symbol2: "ETH",
-    boost: "9.92",
+    boost: "7.67",
   },
   {
     title: "YFI-ETH Panic Variable LP",
@@ -33,7 +33,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "YFI",
     symbol2: "ETH",
-    boost: "0.63",
+    boost: "0.5",
   },
   {
     title: "BTC-renBTC Panic Stable LP",
@@ -60,7 +60,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "ETH",
-    boost: "0.68",
+    boost: "0.6",
   },
   {
     title: "WFTM-BTC Panic Variable LP",
@@ -69,7 +69,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "BTC",
-    boost: "0.62",
+    boost: "0.73",
   },
   {
     title: "WFTM-USDC Panic Variable LP",
@@ -78,7 +78,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "USDC",
-    boost: "2.37",
+    boost: "2.78",
   },
   {
     title: "fBEETS-USDC Panic Variable LP",
@@ -87,7 +87,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "fBEETS",
     symbol2: "USDC",
-    boost: "4.36",
+    boost: "1.9",
   },
   {
     title: "BOO-FTM Panic Variable LP",
@@ -96,7 +96,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BOO",
     symbol2: "WFTM",
-    boost: "2.31",
+    boost: "1",
   },
   {
     title: "PANIC-bePANIC Panic Stable LP",
@@ -105,7 +105,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "PANIC",
     symbol2: "bePANIC",
-    boost: "0.3",
+    boost: "2.64",
   },
   {
     title: "BELUGA-FTM Panic Variable LP",
@@ -114,7 +114,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BELUGA",
     symbol2: "WFTM",
-    boost: "0.6",
+    boost: "2.33",
   },
   {
     title: "PANIC-FTM Panic Variable LP",
@@ -132,7 +132,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "SOLID",
     symbol2: "oxSOLID",
-    boost: "0.1",
+    boost: "2.32",
   },
   {
     title: "Never PANIC yearn boosted Beets LP",
@@ -142,5 +142,14 @@ export const FarmItems = [
     symbol1: "PANIC",
     symbol2: "WFTM",
     boost: "5.5",
+  },
+  {
+    title: "fBEETS-beBEETS Panic Variable LP",
+    url: "/farms/18",
+    poolid: 18,
+    cName: "farm-links",
+    symbol1: "fBEETS",
+    symbol2: "beBEETS",
+    boost: "2",
   },
 ];
