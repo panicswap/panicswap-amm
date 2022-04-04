@@ -8,7 +8,7 @@ CoinButton.propTypes = {
 };
 
 export default function CoinButton(props) {
-  const { coinName, coinAbbr, coinAddress, onClick, ...other } = props;
+  const { coinName, coinAbbr, coinAddress, onClick, balance, ...other } = props;
 
   return (
     <div
@@ -25,7 +25,7 @@ export default function CoinButton(props) {
       </div>
       <div className="ml-auto">
         {/* TODO: Add user balance of the current token */}
-        <h5>0.00000</h5>
+        <h5>{Number(balance).toFixed(7)}</h5>
       </div>
     </div>
   );

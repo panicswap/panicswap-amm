@@ -528,12 +528,14 @@ function CoinSwapper(props) {
           onClose={onToken1Selected}
           coins={coins}
           signer={signer}
+          balanceMap={balanceMap}
         />
         <CoinDialog
           open={dialog2Open}
           onClose={onToken2Selected}
           coins={coins}
           signer={signer}
+          balanceMap={balanceMap}
         />
 
         {/* Coin Swapper */}
