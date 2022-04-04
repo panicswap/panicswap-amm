@@ -59,6 +59,11 @@ const FANTOMCoins = [
     address: "0xfcef8a994209d6916EB2C86cDD2AFD60Aa6F54b1",
   },
   {
+    name: "Beluga locked Fresh Beets",
+    abbr: "beBEETS",
+    address: "0xd46a5acf776a84fFe7fA7815d62D203638052fF4",
+  },
+  {
     name: "SpookySwap's Native Token",
     abbr: "BOO",
     address: "0x841FAD6EAe12c286d1Fd18d1d525DFfA75C7EFFE",
