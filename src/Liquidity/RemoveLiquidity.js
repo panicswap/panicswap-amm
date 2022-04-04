@@ -396,7 +396,7 @@ function LiquidityRemover(props) {
           results.forEach((result, index) => {
             const { value: v, status } = result;
             if (status === "fulfilled") {
-              newBalanceMap[v["symbol"] == "FTM" ? "FTM" :v["address"]] = v["balance"];//(Number(v) / 1e18).toFixed(0);
+              newBalanceMap[v["symbol"] == "FTM" ? "FTM" :v["address"]] = v["balance"];
             }
           });
           setBalanceMap(newBalanceMap);
