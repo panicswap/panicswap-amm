@@ -76,6 +76,7 @@ export function checkVault(address){
   const boo  = "0x841fad6eae12c286d1fd18d1d525dffa75c7effe";
   const bePANIC = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
   const oxsolid = "0xDA0053F0bEfCbcaC208A3f867BB243716734D809";
+  const bebeets = "0xd46a5acf776a84fFe7fA7815d62D203638052fF4";
 
   const yvdai = "0x637ec617c86d24e421328e6caea1d92114892439";
   const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0";
@@ -87,6 +88,7 @@ export function checkVault(address){
   const yvboo  = "0x0fbbf9848d969776a5eb842edafaf29ef4467698";
   const wbePANIC = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
   const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF";
+  const wbebeets = "0xF533ceA30Fc3E2eE164D233f44B8CC329D121347";
 
   vault[dai.toLowerCase()] = yvdai;
   vault[wftm.toLowerCase()] = yvwftm;
@@ -98,6 +100,7 @@ export function checkVault(address){
   vault[boo.toLowerCase()] = yvboo;
   vault[bePANIC.toLowerCase()] = wbePANIC;
   vault[oxsolid.toLowerCase()] = wbesolid;
+  vault[bebeets.toLowerCase()] = wbebeets;
 
   try{
     if(vault[String(address).toLowerCase()])
