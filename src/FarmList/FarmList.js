@@ -129,7 +129,6 @@ function FarmList(props) {
           newYfiMap["bePANIC"] = 0;
           newYfiMap["oxSOLID"] = 0;
           newYfiMap["SOLID"] = 0;
-          newYfiMap["fBEETS"] = 40;
           newYfiMap["beBEETS"] = 0;
           newYfiMap["BELUGA"] = 0;
           //TODO fBEETS
@@ -137,6 +136,7 @@ function FarmList(props) {
             newYfiMap[data[i]["display_name"]] =
               Number(data[i]["apy"]["points"]["week_ago"]) * 100;
           }
+          newYfiMap["fBEETS"] += 2;
           setYfiMap(newYfiMap);
         });
 
