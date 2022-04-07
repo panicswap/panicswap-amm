@@ -83,36 +83,6 @@ const FANTOMCoins = [
     abbr: "oxSOLID",
     address: "0xDA0053F0bEfCbcaC208A3f867BB243716734D809",
   },
-  {
-    name: "WFTM staked on Yearn",
-    abbr: "yvWFTM",
-    address: "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0",
-  },
-  {
-    name: "WETH staked on Yearn",
-    abbr: "yvWETH",
-    address: "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7",
-  },
-  {
-    name: "WBTC staked on Yearn",
-    abbr: "yvWBTC",
-    address: "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9",
-  },
-  {
-    name: "DAI staked on Yearn",
-    abbr: "yvDAI",
-    address: "0x637eC617c86D24E421328e6CAEa1d92114892439",
-  },
-  {
-    name: "USDC staked on Yearn",
-    abbr: "yvUSDC",
-    address: "0xEF0210eB96c7EB36AF8ed1c20306462764935607",
-  },
-  {
-    name: "YFI staked on Yearn",
-    abbr: "yvYFI",
-    address: "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db",
-  },
 ];
 
 const AUTONITYCoins = [
