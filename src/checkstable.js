@@ -3,6 +3,7 @@ export function checkStable(address1, address2){
     let isUsd = {};
     let isPanic = {};
     let isSolid = {};
+    let isHnd = {};
 
     const renbtc = "0xDBf31dF14B66535aF65AaC99C32e9eA844e14501";
     const yvwbtc = "0xd817A100AB8A29fE3DBd925c2EB489D67F758DA9";
@@ -11,6 +12,9 @@ export function checkStable(address1, address2){
     const bepanic = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
     const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6";
     const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF";
+    const behnd = "0x35b9b18db4a712655d796e058c6241f015b308b2";
+    const wbehnd = "0x7186233803111b1a715091d73880a899110e667b";
+    const hnd = "0x10010078a54396f62c96df8532dc2b4847d47ed3";
 
     const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e";
     const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83";
@@ -35,6 +39,9 @@ export function checkStable(address1, address2){
     isSolid[wbesolid.toLowerCase()] = true;
     isSolid[oxsolid.toLowerCase()] = true;
     isSolid[solid.toLowerCase()] = true;
+    isHnd[hnd.toLowerCase()] = true;
+    isHnd[behnd.toLowerCase()] = true;
+    isHnd[wbehnd.toLowerCase()] = true;
   
     let result = false;
     try {
@@ -61,6 +68,12 @@ export function checkStable(address1, address2){
     }catch{
       
     }
+
+    try {
+      if(isHnd[address1.toLowerCase()] && isHnd[address2.toLowerCase()]) result = true
+    }catch{
+      
+    }
     return result;
   }
 
@@ -77,6 +90,9 @@ export function checkVault(address){
   const bePANIC = "0x263C3A87e7a3201e23bC9B3BC20cc48326F453F6";
   const oxsolid = "0xDA0053F0bEfCbcaC208A3f867BB243716734D809";
   const bebeets = "0xd46a5acf776a84fFe7fA7815d62D203638052fF4";
+  const behnd = "0x35b9b18db4a712655d796e058c6241f015b308b2";
+  const wbehnd = "0x7186233803111b1a715091d73880a899110e667b";
+  const hnd = "0x10010078a54396f62c96df8532dc2b4847d47ed3";
 
   const yvdai = "0x637ec617c86d24e421328e6caea1d92114892439";
   const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0";
@@ -101,6 +117,7 @@ export function checkVault(address){
   vault[bePANIC.toLowerCase()] = wbePANIC;
   vault[oxsolid.toLowerCase()] = wbesolid;
   vault[bebeets.toLowerCase()] = wbebeets;
+  vault[behnd.toLowerCase()] = wbehnd;
 
   try{
     if(vault[String(address).toLowerCase()])
@@ -139,10 +156,15 @@ export function checkRoute(tokenFrom, tokenTo){
   const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0".toLowerCase();
   const yvyfi = "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db".toLowerCase();
   const yvweth = "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7".toLowerCase();
+  const behnd = "0x35b9b18db4a712655d796e058c6241f015b308b2";
+  const wbehnd = "0x7186233803111b1a715091d73880a899110e667b";
+  const hnd = "0x10010078a54396f62c96df8532dc2b4847d47ed3";
 
 
   let routesMap = {};
   routesMap[renbtc] = [wbtc];
+  routesMap[hnd] = [wftm,behnd];
+  routesMap[behnd] = [hnd];
   routesMap[bepanic] = [panic];
   routesMap[dai] = [usdc,wftm];
   routesMap[yvdai] = [usdc,wftm];
@@ -181,6 +203,13 @@ export function checkRoute(tokenFrom, tokenTo){
   if(routesToken.includes(fbeets) && tokenTo == bebeets){
     let finalRoute = [tokenFrom, fbeets];
     let secondPart = checkRoute(fbeets, tokenTo);
+    for(let i = 1; i<secondPart.length; i++)
+      finalRoute.push(secondPart[i]);
+    return finalRoute;
+  }
+  if(routesToken.includes(hnd) && tokenTo == behnd){
+    let finalRoute = [tokenFrom, hnd];
+    let secondPart = checkRoute(hnd, tokenTo);
     for(let i = 1; i<secondPart.length; i++)
       finalRoute.push(secondPart[i]);
     return finalRoute;

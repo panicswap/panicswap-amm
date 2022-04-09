@@ -49,9 +49,24 @@ const FANTOMCoins = [
     address: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
   },
   {
+    name: "Binance Coin",
+    abbr: "BNB",
+    address: "0xD67de0e0a0Fd7b15dC8348Bb9BE742F3c5850454",
+  },
+  {
     name: "Beluga",
     abbr: "BELUGA",
     address: "0x4a13a2cf881f5378def61e430139ed26d843df9a",
+  },
+  {
+    name: "Hundred.finance native token",
+    abbr: "HND",
+    address: "0x10010078a54396F62c96dF8532dc2B4847d47ED3",
+  },
+  {
+    name: "Hundred.finance locked on beluga.fi",
+    abbr: "beHND",
+    address: "0x35b9b18db4a712655d796e058c6241f015b308b2",
   },
   {
     name: "Fresh Beets",
