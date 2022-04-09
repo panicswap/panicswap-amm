@@ -140,6 +140,7 @@ export function checkRoute(tokenFrom, tokenTo){
   const wbepanic = "0xd313d1263AaFE777bEb1A01106E15d80382a04a6".toLocaleLowerCase();
   const wbesolid = "0xeD0402b929Bc76a355B66706e73F09b9481d4cFF".toLocaleLowerCase();
   const bebeets = "0xd46a5acf776a84fFe7fA7815d62D203638052fF4".toLowerCase();
+  const bnb = "0xD67de0e0a0Fd7b15dC8348Bb9BE742F3c5850454".toLowerCase();
 
   const dai = "0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e".toLocaleLowerCase();
   const wftm = "0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83".toLocaleLowerCase();
@@ -163,12 +164,13 @@ export function checkRoute(tokenFrom, tokenTo){
 
   let routesMap = {};
   routesMap[renbtc] = [wbtc];
+  routesMap[bnb] = [wftm];
   routesMap[hnd] = [wftm,behnd];
   routesMap[behnd] = [hnd];
   routesMap[bepanic] = [panic];
   routesMap[dai] = [usdc,wftm];
   routesMap[yvdai] = [usdc,wftm];
-  routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
+  routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo,bnb];
   routesMap[yvwftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
   routesMap[wbtc] = [weth,wftm,renbtc];
   routesMap[yvwbtc] = [weth,wftm,renbtc];
