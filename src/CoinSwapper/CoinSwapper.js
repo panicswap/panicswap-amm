@@ -25,6 +25,7 @@ import {
   getWeth,
   swapTokens,
   getReserves,
+  getGeneralProvider,
 } from "../ethereumFunctions";
 import CoinAmountInterface from "./CoinAmountInterface";
 import CoinDialog from "./CoinDialog";
@@ -90,12 +91,14 @@ function CoinSwapper(props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getProvider());
+  const [generalProvider, setGeneralProvider] = React.useState(getGeneralProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
 
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(undefined);
   const [chainId, setChainId] = React.useState(undefined);
   const [router, setRouter] = React.useState(undefined);
+  const [routerGeneral, setRouterGeneral] = React.useState(undefined);
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
 
@@ -427,17 +430,24 @@ function CoinSwapper(props) {
         setChainId(chainId);
         return chainId;
       });
-      if (chains.networks.includes(chainId)) {
+      if (chains.networks.includes(chainId)){
         setwrongNetworkOpen(false);
         console.log("chainID: ", chainId);
         // Get the router using the chainID
-        const router = await getRouter(
+        let router;
+        if(signer)
+          router = await getRouter(
+            chains.routerAddress.get(chainId),
+            signer
+          )
+        const generalRouter = await getRouter(
           chains.routerAddress.get(chainId),
-          signer
-        );
+          generalProvider
+        )
         setRouter(router);
+        setRouterGeneral(generalRouter);
         // Get Weth address from router
-        await router.weth().then((wethAddress) => {
+        await generalRouter.weth().then((wethAddress) => {
           console.log("Weth: ", wethAddress);
           setWeth(getWeth(wethAddress, signer));
           // Set the value of the weth address in the default coins array
@@ -447,6 +457,7 @@ function CoinSwapper(props) {
 
         const balancePromises = [];
 
+        
         for(let i = 0; i < coins.length; i++){
           if(i==0){
             balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,true,coins);

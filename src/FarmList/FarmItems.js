@@ -15,7 +15,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "DAI",
-    boost: "3.23",
+    boost: "3.03",
   },
   {
     title: "BTC-ETH Panic Variable LP",
@@ -42,7 +42,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BTC",
     symbol2: "renBTC",
-    boost: "0.2",
+    boost: "0.1",
   },
   {
     title: "USDC-DAI Panic Stable LP",
@@ -60,7 +60,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "ETH",
-    boost: "0.6",
+    boost: "0.5",
   },
   {
     title: "WFTM-BTC Panic Variable LP",
@@ -69,7 +69,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "WFTM",
     symbol2: "BTC",
-    boost: "0.73",
+    boost: "0.63",
   },
   {
     title: "WFTM-USDC Panic Variable LP",
@@ -96,7 +96,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BOO",
     symbol2: "WFTM",
-    boost: "1",
+    boost: "0.6",
   },
   {
     title: "PANIC-bePANIC Panic Stable LP",
@@ -105,7 +105,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "PANIC",
     symbol2: "bePANIC",
-    boost: "2.64",
+    boost: "2.59",
   },
   {
     title: "BELUGA-FTM Panic Variable LP",
@@ -114,7 +114,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "BELUGA",
     symbol2: "WFTM",
-    boost: "2.33",
+    boost: "2.23",
   },
   {
     title: "PANIC-FTM Panic Variable LP",
@@ -132,7 +132,7 @@ export const FarmItems = [
     cName: "farm-links",
     symbol1: "SOLID",
     symbol2: "oxSOLID",
-    boost: "2.32",
+    boost: "2.27",
   },
   {
     title: "Never PANIC yearn boosted Beets LP",
@@ -151,5 +151,32 @@ export const FarmItems = [
     symbol1: "fBEETS",
     symbol2: "beBEETS",
     boost: "2",
+  },
+  {
+    title: "BNB-FTM Panic Variable LP",
+    url: "/farms/19",
+    poolid: 19,
+    cName: "farm-links",
+    symbol1: "BNB",
+    symbol2: "WFTM",
+    boost: "0.5",
+  },
+  {
+    title: "beHND-HND Panic Stable LP",
+    url: "/farms/20",
+    poolid: 20,
+    cName: "farm-links",
+    symbol1: "beHND",
+    symbol2: "HND",
+    boost: "0.1",
+  },
+  {
+    title: "HND-FTM Panic Variable LP",
+    url: "/farms/21",
+    poolid: 21,
+    cName: "farm-links",
+    symbol1: "HND",
+    symbol2: "WFTM",
+    boost: "0.5",
   },
 ];
