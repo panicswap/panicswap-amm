@@ -170,8 +170,7 @@ export function checkRoute(tokenFrom, tokenTo){
   routesMap[bepanic] = [panic];
   routesMap[dai] = [usdc,wftm];
   routesMap[yvdai] = [usdc,wftm];
-  routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo,bnb];
-  routesMap[yvwftm] = [panic,wbtc,weth,usdc,dai,beluga,boo];
+  routesMap[wftm] = [panic,wbtc,weth,usdc,dai,beluga,boo,bnb,hnd];
   routesMap[wbtc] = [weth,wftm,renbtc];
   routesMap[yvwbtc] = [weth,wftm,renbtc];
   routesMap[weth] = [wbtc,wftm,yfi];
