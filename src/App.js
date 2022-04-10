@@ -83,25 +83,7 @@ function App() {
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
-            <div className="flex-1">
-              <Route exact path="/" component={CoinSwapper} />
-              <Route
-                path="/docs"
-                component={() => {
-                  window.location.href =
-                    "https://panic-swap.gitbook.io/panicswap/";
-                  return null;
-                }}
-              />
-              <Route
-                path="/gov"
-                component={() => {
-                  window.location.href =
-                    "https://snapshot.org/#/panicswap.eth/";
-                  return null;
-                }}
-              />
-            </div>
+            <ConnectWalletPage />
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>
