@@ -79,11 +79,29 @@ function App() {
     );
   } catch (err) {
     return (
-      <div className="App">
+      <div className="flex flex-col min-h-screen App bg-white dark:bg-slate-900 dark:from-transparent dark:to-transparent">
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
-            <ConnectWalletPage />
+            <div className="flex-1">
+              <Route exact path="/" component={CoinSwapper} />
+              <Route
+                path="/docs"
+                component={() => {
+                  window.location.href =
+                    "https://panic-swap.gitbook.io/panicswap/";
+                  return null;
+                }}
+              />
+              <Route
+                path="/gov"
+                component={() => {
+                  window.location.href =
+                    "https://snapshot.org/#/panicswap.eth/";
+                  return null;
+                }}
+              />
+            </div>
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>
