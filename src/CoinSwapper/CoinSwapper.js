@@ -25,6 +25,7 @@ import {
   getWeth,
   swapTokens,
   getReserves,
+  getGeneralProvider
 } from "../ethereumFunctions";
 import CoinAmountInterface from "./CoinAmountInterface";
 import CoinDialog from "./CoinDialog";
@@ -90,6 +91,7 @@ function CoinSwapper(props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getProvider());
+  const [generalProvider, setGeneralProvider] = React.useState(getGeneralProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
 
   // The following are populated in a react hook
@@ -201,8 +203,8 @@ function CoinSwapper(props) {
       getBalanceAndSymbol(
         account,
         address,
-        provider,
-        signer,
+        generalProvider,
+        generalProvider,
         abbr == "FTM" ? true : false,
         coins
       ).then((data) => {
@@ -244,8 +246,8 @@ function CoinSwapper(props) {
       getBalanceAndSymbol(
         account,
         address,
-        provider,
-        signer,
+        generalProvider,
+        generalProvider,
         abbr == "FTM" ? true : false,
         coins
       ).then((data) => {
@@ -312,12 +314,12 @@ function CoinSwapper(props) {
     );
     // ToDo reserves
     if (coin1.address && coin2.address) {
-      getReserves(coin1.address, coin2.address, factory, signer, account).then(
+      getReserves(coin1.address, coin2.address, factory, generalProvider, account).then(
         (data) => setReserves(data)
       );
       console.log("fetched");
     }
-  }, [coin1.address, coin2.address, account, factory, router, signer]);
+  }, [coin1.address, coin2.address, account, factory, router, generalProvider]);
 
   // This hook is called when either of the state variables `field1Value` `coin1.address` or `coin2.address` change.
   // It attempts to calculate and set the state variable `field2Value`
@@ -330,7 +332,7 @@ function CoinSwapper(props) {
       const fullRoute = checkRoute(coin1["address"], coin2["address"]);
       console.log(fullRoute);
       if (fullRoute.length == 2) {
-        getAmountOut(coin1.address, coin2.address, field1Value, router, signer)
+        getAmountOut(coin1.address, coin2.address, field1Value, router, generalProvider)
           .then((data) => {
             setField2Value(Number(data[0]).toFixed(7));
             setPriceImpact(Number(data[1]).toFixed(2));
@@ -343,7 +345,7 @@ function CoinSwapper(props) {
           });
       } else if (fullRoute.length > 2) {
         for (let i = 0; i < fullRoute.length; i++) {
-          getAmountsOut(fullRoute, field1Value, router, signer)
+          getAmountsOut(fullRoute, field1Value, router, generalProvider)
             .then((data) => {
               setField2Value(Number(data[0]).toFixed(7));
               setPriceImpact(Number(data[1]).toFixed(2));
@@ -359,7 +361,7 @@ function CoinSwapper(props) {
     } else {
       setField2Value("");
     }
-  }, [field1Value, coin1.address, coin2.address, router, signer]);
+  }, [field1Value, coin1.address, coin2.address, router, generalProvider]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -372,7 +374,7 @@ function CoinSwapper(props) {
           coin1.address,
           coin2.address,
           factory,
-          signer,
+          generalProvider,
           account
         ).then((data) => setReserves(data));
       }
@@ -381,8 +383,8 @@ function CoinSwapper(props) {
         getBalanceAndSymbol(
           account,
           coin1.address,
-          provider,
-          signer,
+          generalProvider,
+          generalProvider,
           coin1.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
@@ -398,8 +400,8 @@ function CoinSwapper(props) {
         getBalanceAndSymbol(
           account,
           coin2.address,
-          provider,
-          signer,
+          generalProvider,
+          generalProvider,
           coin2.symbol == "FTM" ? true : false,
           coins
         ).then((data) => {
@@ -423,7 +425,7 @@ function CoinSwapper(props) {
     });
 
     async function Network() {
-      const chainId = await getNetwork(provider).then((chainId) => {
+      const chainId = await getNetwork(generalProvider).then((chainId) => {//TODO Should actually use provider
         setChainId(chainId);
         return chainId;
       });
@@ -433,13 +435,13 @@ function CoinSwapper(props) {
         // Get the router using the chainID
         const router = await getRouter(
           chains.routerAddress.get(chainId),
-          signer
+          generalProvider
         );
         setRouter(router);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
           console.log("Weth: ", wethAddress);
-          setWeth(getWeth(wethAddress, signer));
+          setWeth(getWeth(wethAddress, generalProvider));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
           setCoins(coins);
@@ -449,10 +451,10 @@ function CoinSwapper(props) {
 
         for(let i = 0; i < coins.length; i++){
           if(i==0){
-            balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,true,coins);
+            balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],generalProvider,generalProvider,true,coins);
             continue;
           }
-          balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],provider,signer,false,coins);
+          balancePromises[i] = getBalanceAndSymbol(account,coins[i]["address"],generalProvider,generalProvider,false,coins);
         }
         Promise.allSettled(balancePromises).then((results) => {
           const newBalanceMap = [];
@@ -467,7 +469,7 @@ function CoinSwapper(props) {
 
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
-          setFactory(getFactory(factory_address, signer));
+          setFactory(getFactory(factory_address, generalProvider));
         });
       } else {
         console.log("Wrong network mate.");
@@ -478,8 +480,8 @@ function CoinSwapper(props) {
         getBalanceAndSymbol(
           account,
           "0x321162Cd933E2Be498Cd2267a90534A804051b11", //wbtc
-          provider,
-          signer,
+          generalProvider,
+          generalProvider,
           false,
           coins
         ).then((data) => {
@@ -495,8 +497,8 @@ function CoinSwapper(props) {
         getBalanceAndSymbol(
           account,
           "0x74b23882a30290451A17c44f4F05243b6b58C76d", //weth
-          provider,
-          signer,
+          generalProvider,
+          generalProvider,
           false,
           coins
         ).then((data) => {
@@ -512,7 +514,7 @@ function CoinSwapper(props) {
     }
 
     Network();
-  }, [account, coin1.address, coin2.address, coins, provider, signer]);
+  }, [account, coin1.address, coin2.address, coins, generalProvider]);
 
   return (
     <div className="px-2">
@@ -527,14 +529,14 @@ function CoinSwapper(props) {
           open={dialog1Open}
           onClose={onToken1Selected}
           coins={coins}
-          signer={signer}
+          signer={generalProvider}
           balanceMap={balanceMap}
         />
         <CoinDialog
           open={dialog2Open}
           onClose={onToken2Selected}
           coins={coins}
-          signer={signer}
+          signer={generalProvider}
           balanceMap={balanceMap}
         />
 

@@ -18,6 +18,11 @@ export function getProvider() {
   return new ethers.providers.Web3Provider(window.ethereum);
 }
 
+export function getGeneralProvider() {
+  const url = "https://rpc.ftm.tools/"
+  return new ethers.providers.JsonRpcProvider(url);
+}
+
 export function getSigner(provider) {
   return provider.getSigner();
 }

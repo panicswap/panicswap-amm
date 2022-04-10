@@ -157,9 +157,9 @@ export function checkRoute(tokenFrom, tokenTo){
   const yvwftm = "0x0DEC85e74A92c52b7F708c4B10207D9560CEFaf0".toLowerCase();
   const yvyfi = "0x2C850cceD00ce2b14AA9D658b7Cad5dF659493Db".toLowerCase();
   const yvweth = "0xCe2Fc0bDc18BD6a4d9A725791A3DEe33F3a23BB7".toLowerCase();
-  const behnd = "0x35b9b18db4a712655d796e058c6241f015b308b2";
-  const wbehnd = "0x7186233803111b1a715091d73880a899110e667b";
-  const hnd = "0x10010078a54396f62c96df8532dc2b4847d47ed3";
+  const behnd = "0x35b9b18db4a712655d796e058c6241f015b308b2".toLowerCase();
+  const wbehnd = "0x7186233803111b1a715091d73880a899110e667b".toLowerCase();
+  const hnd = "0x10010078a54396f62c96df8532dc2b4847d47ed3".toLowerCase();
 
 
   let routesMap = {};
