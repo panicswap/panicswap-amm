@@ -129,6 +129,9 @@ function FarmList(props) {
           newYfiMap["bePANIC"] = 0;
           newYfiMap["oxSOLID"] = 0;
           newYfiMap["SOLID"] = 0;
+          newYfiMap["BNB"] = 0;
+          newYfiMap["beHND"] = 0;
+          newYfiMap["HND"] = 0;
           newYfiMap["beBEETS"] = 0;
           newYfiMap["BELUGA"] = 0;
           //TODO fBEETS
