@@ -134,7 +134,6 @@ function FarmList(props) {
           newYfiMap["HND"] = 0;
           newYfiMap["beBEETS"] = 0;
           newYfiMap["BELUGA"] = 0;
-          //TODO fBEETS
           for (let i = 0; i < data.length; i++) {
             newYfiMap[data[i]["display_name"]] =
               Number(data[i]["apy"]["points"]["week_ago"]) * 100;
