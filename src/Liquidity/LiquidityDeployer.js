@@ -172,12 +172,12 @@ function LiquidityDeployer(props) {
     return (
       coin1.address &&
       coin2.address &&
-      parsedInput1 !== NaN &&
+      !isNaN(parsedInput1) &&
+      !isNaN(parsedInput2) &&
       0 < parsedInput1 &&
-      parsedInput2 !== NaN &&
       0 < parsedInput2 &&
-      parsedInput1 <= coin1.balance &&
-      parsedInput2 <= coin2.balance
+      Number(ethers.utils.parseUnits(field1Value, coin1.decimals)) <= Number(coin1.wei) &&
+      Number(ethers.utils.parseUnits(field2Value, coin2.decimals)) <= Number(coin2.wei)
     );
   };
 
