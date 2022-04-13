@@ -15,6 +15,7 @@ import {
   getWeth,
   getChef,
   getAprFeed,
+  getGeneralProvider
 } from "../ethereumFunctions";
 import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
@@ -24,8 +25,7 @@ import * as chains from "../constants/chains";
 function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const [provider, setProvider] = React.useState(getProvider());
-  const [signer, setSigner] = React.useState(getSigner(provider));
+  const [provider, setProvider] = React.useState(getGeneralProvider());
 
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(getAccount());
@@ -34,10 +34,10 @@ function FarmList(props) {
   const [weth, setWeth] = React.useState(undefined);
   const [factory, setFactory] = React.useState(undefined);
   const [chef, setChef] = React.useState(
-    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
+    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", provider)
   );
   const [aprFeed, setAprFeed] = React.useState(
-    getAprFeed("0x47239AC8f2BD8c79535cF119a8D4551B57e3033c", signer)
+    getAprFeed("0x47239AC8f2BD8c79535cF119a8D4551B57e3033c", provider)
   );
   const [aprMap, setAprMap] = React.useState([]);
   const [lpAddressMap, setLpAddressMap] = React.useState([]);
@@ -76,19 +76,19 @@ function FarmList(props) {
         // Get the router using the chainID
         const router = await getRouter(
           chains.routerAddress.get(chainId),
-          signer
+          provider
         );
         setRouter(router);
         // Get Weth address from router
         await router.weth().then((wethAddress) => {
-          setWeth(getWeth(wethAddress, signer));
+          setWeth(getWeth(wethAddress, provider));
           // Set the value of the weth address in the default coins array
           const coins = COINS.get(chainId);
           setCoins(coins);
         });
         // Get the factory address from the router
         await router.factory().then((factory_address) => {
-          setFactory(getFactory(factory_address, signer));
+          setFactory(getFactory(factory_address, provider));
         });
       } else {
         setwrongNetworkOpen(true);
@@ -96,7 +96,7 @@ function FarmList(props) {
     }
 
     Network();
-  }, [chef, provider, signer]);
+  }, [chef, provider]);
 
   useEffect(() => {
     const updatePanicRewards = async () => {
@@ -159,7 +159,7 @@ function FarmList(props) {
               newTokenInfoMap[index] = v["lpToken"];
               const LpToken = getWeth(
                 ethers.utils.getAddress(v["lpToken"]),
-                signer
+                provider
               );
               tokenHeldPromises[index] = LpToken.balanceOf(account);
               totalSupplyPromises[index] = LpToken.totalSupply();
