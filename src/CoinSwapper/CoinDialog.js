@@ -89,7 +89,6 @@ export default function CoinDialog(props) {
 
   // Resets any fields in the dialog (in case it's opened in the future) and calls the `onClose` prop
   const exit = (value) => {
-    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH", value);
     setError("");
     setAddress("");
     onClose(value);
