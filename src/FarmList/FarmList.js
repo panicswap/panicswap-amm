@@ -382,7 +382,7 @@ function FarmList(props) {
                         aprMap[item.poolid - 1] / 2 +
                         (yfiMap[item.symbol1] + yfiMap[item.symbol2]) / 2
                       ).toFixed(2) + "%"}
-                      <img src={"/assets/tooltip.png"} width="20px" data-bs-toggle="tooltip" title={"Farm APR including 2yr vesting: " + aprMap[item.poolid - 1] + "\nFarm APR excluding 2yr vesting: " + Number(aprMap[item.poolid - 1] / 2).toFixed(2) + "%\nAutocompounding APR on " + item.symbol1 + ": " + Number(yfiMap[item.symbol1]).toFixed(2) + "%\nAutocompounding APR on " + item.symbol2 + ": " + Number(yfiMap[item.symbol2]).toFixed(2) + "%"}></img>
+                      <img src={"/assets/tooltip.png"} width="20px" data-bs-toggle="tooltip" title={"Farm APR including 2yr vesting: " + aprMap[item.poolid - 1] + "%\nFarm APR excluding 2yr vesting: " + Number(aprMap[item.poolid - 1] / 2).toFixed(2) + "%\nAutocompounding APR on " + item.symbol1 + ": " + Number(yfiMap[item.symbol1]).toFixed(2) + "%\nAutocompounding APR on " + item.symbol2 + ": " + Number(yfiMap[item.symbol2]).toFixed(2) + "%"}></img>
                     </div>
                   </Link>
                 </td>
