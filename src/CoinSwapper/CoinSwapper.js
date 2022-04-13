@@ -218,6 +218,23 @@ function CoinSwapper(props) {
           wei: data.wei,
         });
       });
+      else
+      getBalanceAndSymbol(
+        "0x4B767185FB3C8C1C276CC6DD280E542633C947F6",
+        address,
+        generalProvider,
+        generalProvider,
+        abbr == "FTM" ? true : false,
+        coins
+      ).then((data) => {
+        setCoin1({
+          address: address,
+          symbol: abbr,
+          balance: data.balance,
+          decimals: data.decimals,
+          wei: data.wei,
+        });
+      });
     }
   };
 
@@ -251,6 +268,23 @@ function CoinSwapper(props) {
         address,
         provider,
         signer,
+        abbr == "FTM" ? true : false,
+        coins
+      ).then((data) => {
+        setCoin2({
+          address: address,
+          symbol: abbr,
+          balance: data.balance,
+          decimals: data.decimals,
+          wei: data.wei,
+        });
+      });
+      else
+      getBalanceAndSymbol(
+        "0x4B767185FB3C8C1C276CC6DD280E542633C947F6",
+        address,
+        generalProvider,
+        generalProvider,
         abbr == "FTM" ? true : false,
         coins
       ).then((data) => {
@@ -336,7 +370,7 @@ function CoinSwapper(props) {
       const fullRoute = checkRoute(coin1["address"], coin2["address"]);
       console.log(fullRoute);
       if (fullRoute.length == 2) {
-        getAmountOut(coin1.address, coin2.address, field1Value, router, generalProvider)
+        getAmountOut(coin1.address, coin2.address, field1Value, routerGeneral, generalProvider)
           .then((data) => {
             setField2Value(Number(data[0]).toFixed(7));
             setPriceImpact(Number(data[1]).toFixed(2));
@@ -349,7 +383,7 @@ function CoinSwapper(props) {
           });
       } else if (fullRoute.length > 2) {
         for (let i = 0; i < fullRoute.length; i++) {
-          getAmountsOut(fullRoute, field1Value, router, generalProvider)
+          getAmountsOut(fullRoute, field1Value, routerGeneral, generalProvider)
             .then((data) => {
               setField2Value(Number(data[0]).toFixed(7));
               setPriceImpact(Number(data[1]).toFixed(2));
@@ -430,6 +464,8 @@ function CoinSwapper(props) {
 
 
     async function Network() {
+      if(!generalProvider)
+        return;
       if(!signer)
         setChainId(250);
       else{
@@ -439,7 +475,7 @@ function CoinSwapper(props) {
         });
       }
       const generalRouter = await getRouter(
-        chains.routerAddress.get(chainId),
+        "0xc99988da4D962eB0f59324858908a4eAeD33FA2E",//no multichain yet
         generalProvider
       )
 
@@ -538,7 +574,7 @@ function CoinSwapper(props) {
     }
 
     Network();
-  }, [account, coin1.address, coin2.address, coins, provider, signer]);
+  }, [account, coin1.address, coin2.address, coins, provider, signer, generalProvider]);
 
   return (
     <div className="px-2">

@@ -89,6 +89,7 @@ export default function CoinDialog(props) {
 
   // Resets any fields in the dialog (in case it's opened in the future) and calls the `onClose` prop
   const exit = (value) => {
+    console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH", value);
     setError("");
     setAddress("");
     onClose(value);
@@ -113,7 +114,7 @@ export default function CoinDialog(props) {
             <DialogTitle onClose={() => exit([undefined, undefined])}>
               Select a token to swap
             </DialogTitle>
-
+            {/*
             <div className="m-2">
               <input
                 className="p-3 w-full rounded-lg bg-transparent border-2 border-darkGray dark:border-gray-600 focus:border-blue-500"
@@ -126,6 +127,7 @@ export default function CoinDialog(props) {
                 helperText={error}
               />
             </div>
+            */}
           </div>
 
           {/* Maps all of the tokens in the constants file to buttons */}
@@ -136,11 +138,11 @@ export default function CoinDialog(props) {
                 coinName={coin.name}
                 coinAbbr={coin.abbr}
                 onClick={() => exit([coin.address, coin.abbr])}
-                balance={coin.symbol == "FTM" ? balanceMap["FTM"] : balanceMap[coin.address]}
+                balance={!balanceMap || Object.keys(balanceMap).length === 0? 0 : coin.symbol == "FTM" ? balanceMap["FTM"] : balanceMap[coin.address]}
               />
             ))}
           </div>
-
+          {/* 
           <div className="p-2">
             <button
               onClick={submit}
@@ -149,6 +151,7 @@ export default function CoinDialog(props) {
               Enter
             </button>
           </div>
+          */}
         </motion.div>
       </div>
     )
