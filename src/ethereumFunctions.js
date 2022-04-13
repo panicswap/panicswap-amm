@@ -73,6 +73,7 @@ export function getFactory(address, signer) {
 }
 
 export async function getAccount() {
+  if(!window.ethereum) return false;
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
