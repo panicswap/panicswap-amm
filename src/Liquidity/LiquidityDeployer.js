@@ -23,7 +23,7 @@ import LoadingButton from "../Components/LoadingButton";
 import WrongNetwork from "../Components/wrongNetwork";
 import COINS from "../constants/coins";
 import * as chains from "../constants/chains";
-import { BigNumber, Contract } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 
 const styles = (theme) => ({
   paperContainer: {
