@@ -12,6 +12,7 @@ import {
   getAmountOut,
   getBalanceAndSymbol,
   getWeth,
+  getGeneralProvider,
   swapTokens,
   getReserves,
   getEpsStaking,
@@ -26,23 +27,22 @@ export default function Stake() {
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getProvider());
+  const [generalProvider, setGeneralProvider] = React.useState(getGeneralProvider());
   const [signer, setSigner] = React.useState(getSigner(provider));
 
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(undefined);
-  const [chainId, setChainId] = React.useState(undefined);
-  const [router, setRouter] = React.useState(undefined);
+  const [chainId, setChainId] = React.useState(250);
   const [stakingEps, setStakingEps] = React.useState(
-    getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e", signer)
+    signer ? getEpsStaking("0x536b88CC4Aa42450aaB021738bf22D63DDC7303e", signer) : false
   );
   const [weth, setWeth] = React.useState(undefined);
   const [panic, setPanic] = React.useState(
-    getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B", signer)
+    signer ? getWeth("0xA882CeAC81B22FC2bEF8E1A82e823e3E9603310B", signer) : false
   );
   const [aprStaking, setAprStaking] = React.useState(
-    getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B", signer)
+    getAprFeedStaking("0x69701Bf555bfB3D8b65aD57C78Ebeca7F732002B", generalProvider)
   );
-  const [factory, setFactory] = React.useState(undefined);
   const [vestedBalance, setVestedBalance] = React.useState(0);
   const [panicApr, setPanicApr] = React.useState(0);
   const [yvwftmApr, setYvwftmApr] = React.useState(0);
@@ -66,8 +66,6 @@ export default function Stake() {
 
   const [panicBalance, setPanicBalance] = React.useState("0");
   const [panicWeiBalance, setPanicWeiBalance] = React.useState("0");
-
-  const [coins, setCoins] = React.useState([]);
 
   // Stores the current value of their respective text box
   const [field1Value, setField1Value] = React.useState("");
@@ -93,6 +91,7 @@ export default function Stake() {
     });
 
     async function Network() {
+      if(signer){
       const chainId = await getNetwork(provider).then((chainId) => {
         setChainId(chainId);
         return chainId;
@@ -100,28 +99,11 @@ export default function Stake() {
       if (chains.networks.includes(chainId)) {
         setwrongNetworkOpen(false);
         console.log("chainID: ", chainId);
-        // Get the router using the chainID
-        const router = await getRouter(
-          chains.routerAddress.get(chainId),
-          signer
-        );
-        setRouter(router);
-        // Get Weth address from router
-        await router.weth().then((wethAddress) => {
-          console.log("Weth: ", wethAddress);
-          setWeth(getWeth(wethAddress, signer));
-          // Set the value of the weth address in the default coins array
-          const coins = COINS.get(chainId);
-          setCoins(coins);
-        });
-        // Get the factory address from the router
-        await router.factory().then((factory_address) => {
-          setFactory(getFactory(factory_address, signer));
-        });
       } else {
         console.log("Wrong network mate.");
         setwrongNetworkOpen(true);
       }
+    }
     }
 
     Network();
@@ -129,7 +111,7 @@ export default function Stake() {
 
   useEffect(() => {
     const updateStakingStats = async () => {
-      const promises = [
+      const promises = signer ? [
         stakingEps
           .unlockedBalance(account)
           .then((unlockedBal) =>
@@ -166,6 +148,14 @@ export default function Stake() {
           setPanicWeiBalance(bal);
           setPanicBalance(ethers.utils.formatUnits(bal));
         }),
+      ] : 
+      [
+        aprStaking
+          .getPanicApr()
+          .then((panicApr) => setPanicApr(panicApr / 100)),
+        aprStaking
+          .getFtmApr()
+          .then((yvWFTMApr) => setYvwftmApr(yvWFTMApr / 100)),
       ];
       await Promise.allSettled(promises);
     };

@@ -86,10 +86,8 @@ function App() {
             <Route exact path="/" component={CoinSwapper} />
             <Route exact path="/liquidity" component={Liquidity} />
               <Route exact path="/farms" component={FarmList} />
-              <Route exact path="/farms/:farmId" component={FarmDetails} />
               <Route exact path="/stake" component={TokenPage} />
               <Route exact path="/migration" component={Migration} />
-
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>
