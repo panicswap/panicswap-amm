@@ -432,8 +432,14 @@ function CoinSwapper(props) {
     async function Network() {
       if(!signer)
         setChainId(250);
+      else{
+        const chainId = await getNetwork(provider).then((chainId) => {
+          setChainId(chainId);
+          return chainId;
+        });
+      }
       const generalRouter = await getRouter(
-        chains.routerAddress.get(250),
+        chains.routerAddress.get(chainId),
         generalProvider
       )
 
@@ -454,8 +460,6 @@ function CoinSwapper(props) {
       });
       
       if(signer){
-        
-
         const chainId = await getNetwork(provider).then((chainId) => {
           setChainId(chainId);
           return chainId;
