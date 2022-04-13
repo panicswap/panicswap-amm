@@ -15,7 +15,9 @@ const EPSSTAKING = require("./build/EpsStaking.json");
 const epsStakingAddress = "0x536b88CC4Aa42450aaB021738bf22D63DDC7303e";
 const chefAddress = "0xC02563f20Ba3e91E459299C3AC1f70724272D618";
 export function getProvider() {
-  return new ethers.providers.Web3Provider(window.ethereum);
+  if(window.ethereum)
+    return new ethers.providers.Web3Provider(window.ethereum);
+  return false;
 }
 
 export function getGeneralProvider() {
@@ -24,6 +26,8 @@ export function getGeneralProvider() {
 }
 
 export function getSigner(provider) {
+  if(!provider)
+    return false;
   return provider.getSigner();
 }
 

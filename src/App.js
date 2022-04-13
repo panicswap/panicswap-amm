@@ -83,7 +83,7 @@ function App() {
         <SnackbarProvider maxSnack={3}>
           <ThemeProvider theme={theme}>
             <Header />
-            <ConnectWalletPage />
+            <Route exact path="/" component={CoinSwapper} />
             <Footer />
           </ThemeProvider>
         </SnackbarProvider>
