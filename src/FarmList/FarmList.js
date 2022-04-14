@@ -26,6 +26,8 @@ function FarmList(props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [provider, setProvider] = React.useState(getGeneralProvider());
+  const [userProvider, setUserProvider] = React.useState(getProvider());
+  const [signer, setSigner] = React.useState(getSigner(userProvider));
 
   // The following are populated in a react hook
   const [account, setAccount] = React.useState(getAccount());
@@ -35,6 +37,9 @@ function FarmList(props) {
   const [factory, setFactory] = React.useState(undefined);
   const [chef, setChef] = React.useState(
     getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", provider)
+  );
+  const [claimChef, setClaimChef] = React.useState(
+    getChef("0xC02563f20Ba3e91E459299C3AC1f70724272D618", signer)
   );
   const [aprFeed, setAprFeed] = React.useState(
     getAprFeed("0x47239AC8f2BD8c79535cF119a8D4551B57e3033c", provider)
@@ -227,8 +232,8 @@ function FarmList(props) {
   }, [chef, aprFeed, setAprMap, setTvlMap, poolLength]);
 
   async function claimAllRewards() {
-    await chef;
-    chef.claimAll();
+    await claimChef;
+    claimChef.claimAll();
   }
 
   const hasPendingRewards = () => {
