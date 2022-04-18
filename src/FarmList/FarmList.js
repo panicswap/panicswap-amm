@@ -144,6 +144,7 @@ function FarmList(props) {
               Number(data[i]["apy"]["points"]["week_ago"]) * 100;
           }
           newYfiMap["fBEETS"] += 2;
+          newYfiMap["ELITE"] = 0;
           setYfiMap(newYfiMap);
         });
 

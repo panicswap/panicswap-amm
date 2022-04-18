@@ -98,6 +98,11 @@ const FANTOMCoins = [
     abbr: "oxSOLID",
     address: "0xDA0053F0bEfCbcaC208A3f867BB243716734D809",
   },
+  {
+    name: "Elite",
+    abbr: "ELITE",
+    address: "0xf43Cc235E686d7BC513F53Fbffb61F760c3a1882",
+  },
 ];
 
 const AUTONITYCoins = [
